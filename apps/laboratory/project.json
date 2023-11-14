@@ -1,7 +1,7 @@
 {
-  "name": "marketing-site",
+  "name": "laboratory",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/marketing-site",
+  "sourceRoot": "apps/laboratory",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/marketing-site"
+        "outputPath": "dist/apps/laboratory"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/marketing-site"
+          "outputPath": "apps/laboratory"
         },
         "production": {}
       }
@@ -22,16 +22,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "marketing-site:build",
+        "buildTarget": "laboratory:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "marketing-site:build:development",
+          "buildTarget": "laboratory:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "marketing-site:build:production",
+          "buildTarget": "laboratory:build:production",
           "dev": false
         }
       }
@@ -39,21 +39,21 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "marketing-site:build:production"
+        "buildTarget": "laboratory:build:production"
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/marketing-site/jest.config.ts"
+        "jestConfig": "apps/laboratory/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/marketing-site/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/laboratory/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
