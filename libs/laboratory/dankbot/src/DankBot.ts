@@ -4,12 +4,12 @@ import { RedisService } from "@danklabs/integrations/redis";
 export const dankbotConfig: ChatBotConfig = {
   llm: {
     model: "openai",
-    apiKey: "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",
+    apiKey: process.env.OPENAPI_API_KEY!,
   },
   persistence: {
     connector: "redis",
     keyspace: "chats",
-    redis: new RedisService({ url: "redis://localhost:6379" }),
+    redis: new RedisService({ url: process.env.REDIS_URL! }),
   },
 };
 
