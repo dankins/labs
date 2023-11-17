@@ -15,8 +15,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@021software/pattern-library/core": [
+      "@danklabs/integrations/langchain": [
+        "libs/integrations/langchain/src/index.ts"
+      ],
+      "@danklabs/integrations/redis": ["libs/integrations/redis/src/index.ts"],
+      "@danklabs/laboratory/dankbot": ["libs/laboratory/dankbot/src/index.ts"],
+      "@danklabs/pattern-library/core": [
         "libs/pattern-library/core/src/index.ts"
+      ],
+      "@danklabs/pattern-library/motion": [
+        "libs/pattern-library/motion/src/index.ts"
       ]
     }
   },

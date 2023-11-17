@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  cache:
+    image: redis/redis-stack:7.2.0-v6
+    restart: always
+    ports:
+      - "6379:6379"

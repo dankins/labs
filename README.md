@@ -5,6 +5,15 @@ npx nx generate @nx/react:library pattern-library/core --directory libs/pattern-
 npx nx g @nx/react:storybook-configuration pattern-library/core
 ```
 
+app library
+
+```
+npx nx generate @nx/react:library laboratory/dankbot --directory libs/laboratory/dankbot
+```
+
+pure js library
+`npx nx generate @nx/js:library`
+
 ## Create an App
 
 ```
