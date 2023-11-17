@@ -9,6 +9,7 @@
   "dependencies": {
     "@nx/next": "17.1.2",
     "@types/uuid": "^9.0.7",
+    "@vercel/kv": "^0.2.4",
     "boring-avatars": "^1.10.1",
     "classnames": "^2.3.2",
     "easing-coordinates": "^2.0.2",
