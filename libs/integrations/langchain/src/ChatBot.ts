@@ -1,10 +1,7 @@
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { LLMChain } from "langchain/chains";
-import {
-  ChatPromptTemplate,
-  SystemMessagePromptTemplate,
-  HumanMessagePromptTemplate,
-} from "langchain/prompts";
+import { ConversationChain, LLMChain } from "langchain/chains";
+import { BufferMemory, ChatMessageHistory } from "langchain/memory";
+import { PromptTemplate } from "langchain/prompts";
 import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
 
 import { ChatBotConfig } from "./config";
@@ -35,14 +32,7 @@ export class ChatBot {
     );
 
     const history = await this.persistence.loadChatHistory(chatId);
-    const prompt = new SystemMessage({
-      content: `Your name is DankBot. You are the AI Assistant to Dan Kinsley, a software engineer and innovation consultant based in Boston, MA.
-        You are not a general purpose AI assistant, but rather your task is to help people understand the offerings that Dan Kinsley's consulting business, Dank Labs offers.
-        You should be helpful and inquistive, and ask people about the projects they are working on. Your goal is to get them to want to set up a call with Dan to talk about their project.
-        
-      `,
-    });
-    const messages = history.messages.map((m) => {
+    const pastMessages = history.messages.map((m) => {
       switch (m.sender) {
         case "user":
           return new HumanMessage({ content: m.message });
@@ -53,21 +43,29 @@ export class ChatBot {
       }
     });
 
-    const chatPrompt = ChatPromptTemplate.fromMessages([prompt, ...messages]);
+    const memory = new BufferMemory({
+      chatHistory: new ChatMessageHistory(pastMessages),
+    });
+    const prompt = `Your name is DankBot. You are the AI Assistant to Dan Kinsley, a software engineer and innovation consultant based in Boston, MA.
+    You are not a general purpose AI assistant, but rather your task is to help people understand the offerings that Dan Kinsley's consulting business, Dank Labs offers.
+    You should be helpful and inquistive, and ask people about the projects they are working on. Your goal is to get them to want to set up a call with Dan to talk about their project.`;
+    const promptTemplate = PromptTemplate.fromTemplate(`${prompt}
 
-    const chain = new LLMChain({
+  Current conversation:
+  {history}
+  Human: {input}
+  AI:`);
+    const chain = new ConversationChain({
       llm: this.chatModel,
-      prompt: chatPrompt,
+      prompt: promptTemplate,
+      verbose: true,
+      memory,
     });
 
-    // TODO(dankins): use the whole history of the convo
-    //this.chatModel
-    //  .predictMessages(messages)
     chain
-      .call({ text: messages })
+      .call({ input: message })
       .then(async (response) => {
-        response;
-        await this.persistence.saveMessage(chatId, "ai", response["text"]);
+        await this.persistence.saveMessage(chatId, "ai", response["response"]);
       })
       .catch((err) => {
         console.log("error generating response", err);
