@@ -21,7 +21,10 @@ export function ChatInput({ chatId }: { chatId: string }) {
   }
 
   return (
-    <form action={sendMessage} className="flex flex-row gap-3 p-5">
+    <form
+      action={sendMessage}
+      className="flex flex-row gap-3 p-5 bg-white mb-10 border-top"
+    >
       <input
         type="text"
         name="message"

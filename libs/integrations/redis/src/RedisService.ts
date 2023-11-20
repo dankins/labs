@@ -7,6 +7,7 @@ let connect: Promise<unknown>;
 
 export class RedisService {
   constructor(clientOptions: { url: string }) {
+    console.log("RedisService redis");
     if (process.env["KV_REST_API_URL"] && process.env["KV_REST_API_TOKEN"]) {
       client = createVercelClient({
         url: process.env["KV_REST_API_URL"],
@@ -18,6 +19,10 @@ export class RedisService {
     if (!client) {
       client = createClient(clientOptions);
       connect = client.connect();
+
+      connect
+        .then((x) => console.log("connected"))
+        .catch((err) => console.error("unable to connect to redis", err));
     }
   }
 

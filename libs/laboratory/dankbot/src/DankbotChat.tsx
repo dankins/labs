@@ -38,7 +38,7 @@ async function Component() {
   return (
     <div className="h-full flex flex-col">
       <ChatHeader />
-      <div className="flex-grow overflow-y-scroll max-h-[70vh] p-5 flex flex-col gap-5">
+      <div className="flex-grow overflow-y-scroll max-h-[70vh] p-5 flex flex-col gap-5 bg-white">
         {history.messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
