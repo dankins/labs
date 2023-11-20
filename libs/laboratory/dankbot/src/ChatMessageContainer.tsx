@@ -18,6 +18,7 @@ export function ChatMessageContainer({
 
   return (
     <>
+      {!latestMessage && <div>Go on, say something!</div>}
       {children}
       <div ref={bottom} />
     </>

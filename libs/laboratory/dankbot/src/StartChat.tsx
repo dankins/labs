@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-import { Centered } from "@danklabs/pattern-library/core";
+import { Button, Centered } from "@danklabs/pattern-library/core";
 import { CHATID_COOKIE_NAME } from "./constants";
 
 export function StartChat() {
@@ -26,13 +26,16 @@ export function StartChat() {
     console.log("set chat id", chatId);
   }
   return (
-    <form className="h-full flex flex-col p-5" action={startChat}>
-      <div>
-        <span>{welcomeMessage}</span>
-      </div>
-      <Centered>
-        <button type="submit">Get Jiggy With It</button>
-      </Centered>
-    </form>
+    <Centered>
+      <form
+        className="flex flex-col p-5 bg-white gap-5 container max-w-[600px] justify-center"
+        action={startChat}
+      >
+        <div>
+          <span>{welcomeMessage}</span>
+        </div>
+        <Button type="submit">Get Jiggy With It</Button>
+      </form>
+    </Centered>
   );
 }

@@ -8,11 +8,11 @@ export function ChatHeader() {
         <label>
           <AiFillSetting />
         </label>
-        <ul>
+        {/* <ul>
           <li>Foo</li>
           <li>Bar</li>
           <li>Baz</li>
-        </ul>
+        </ul> */}
       </DropdownMenu>
     </div>
   );
