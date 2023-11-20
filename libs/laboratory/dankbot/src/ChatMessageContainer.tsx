@@ -12,7 +12,6 @@ export function ChatMessageContainer({
   const bottom = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (bottom) {
-      console.log("scrollin down the river");
       bottom.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [bottom, latestMessage]);

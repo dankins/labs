@@ -4,8 +4,6 @@ import { revalidatePath } from "next/cache";
 import { DankBot } from "./DankBot";
 
 export async function refreshAction(chatId: string, latestId: string) {
-  "use server";
-  console.log("refresh me timbers", latestId);
   const latestHistory = await DankBot.loadChatHistory(chatId);
   if (
     latestHistory.messages.length > 1 &&
@@ -16,8 +14,6 @@ export async function refreshAction(chatId: string, latestId: string) {
 }
 
 export async function sendMessageAction(chatId: string, formData: FormData) {
-  "use server";
-
   const message = formData.get("message");
   if (message === null) {
     console.error("no message sent");
