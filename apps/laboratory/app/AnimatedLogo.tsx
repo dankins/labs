@@ -19,9 +19,20 @@ export function AnimatedLogo({
   )
     .fill(-1)
     .map((_, idx) => ({
-      initial: { opacity: 0 },
-      animate: { opacity: [0, 0, 1, 1] },
+      initial: {
+        opacity: 0,
+        scale: 0,
+        x: -33.642,
+        y: -20.937,
+      },
+      animate: {
+        opacity: [0, 0, 1, 1],
+        x: -33.642,
+        y: -20.937,
+        scale: [0, 0, 1, 1],
+      },
       transition: {
+        ease: "easeInOut",
         duration,
         repeat: repeat ? Infinity : undefined,
         repeatType: "loop",
