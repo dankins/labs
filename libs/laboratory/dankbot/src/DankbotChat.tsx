@@ -7,8 +7,9 @@ import { CHATID_COOKIE_NAME } from "./constants";
 import { DankBot } from "./DankBot";
 import { ChatMessage } from "./ChatMessage";
 import { ResponseLoader } from "./ResponseLoader";
-import { refreshAction } from "./actions";
+import { refreshAction, sendMessageAction } from "./actions";
 import { ChatHeader } from "./ChatHeader";
+import { ChatMessageContainer } from "./ChatMessageContainer";
 
 export async function DankbotChat() {
   return (
@@ -34,14 +35,23 @@ async function Component() {
 
   const history = await DankBot.loadChatHistory(chatId);
   const boundRefreshAction = refreshAction.bind(null, chatId);
+  const boundSendMessageAction = sendMessageAction.bind(null, chatId);
 
   return (
     <div className="h-full flex flex-col">
       <ChatHeader />
       <div className="flex-grow overflow-y-scroll max-h-[70vh] p-5 flex flex-col gap-5 bg-white">
-        {history.messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
-        ))}
+        <ChatMessageContainer
+          latestMessage={
+            history.messages.length > 0
+              ? history.messages[history.messages.length - 1]
+              : undefined
+          }
+        >
+          {history.messages.map((message) => (
+            <ChatMessage key={message.id} message={message} />
+          ))}
+        </ChatMessageContainer>
         <ResponseLoader
           refreshAction={boundRefreshAction}
           lastMessage={
@@ -51,7 +61,7 @@ async function Component() {
           }
         />
       </div>
-      <ChatInput chatId={chatId} />
+      <ChatInput chatId={chatId} sendMessageAction={boundSendMessageAction} />
     </div>
   );
 }
