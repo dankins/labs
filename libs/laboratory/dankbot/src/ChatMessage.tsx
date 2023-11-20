@@ -7,9 +7,9 @@ export function ChatMessage({ message }: { message: ChatMessageType }) {
   return (
     <div
       className={classNames(
-        "flex flex-row gap-3 align-top p-2 rounded",
+        "flex flex-row gap-3 align-top p-2 rounded text-sm",
         message.sender === "user" && "flex-row-reverse",
-        message.sender === "user" ? "bg-red-100" : "bg-blue-100"
+        message.sender === "user" ? "bg-accent/20" : "bg-primary/20"
       )}
     >
       <div>

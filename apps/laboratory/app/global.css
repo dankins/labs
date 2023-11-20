@@ -4,4 +4,19 @@
 
 body {
   background-color: #001220;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@layer base {
+  :root {
+    /* 146, 220, 126 */
+    /* 250, 250, 110 */
+    /* 57, 180, 142 */
+    --color-primary: 57 180 142;
+    --color-primary-content: 255 255 255;
+    --color-secondary: 111 114 185;
+    --color-accent: 250 250 110;
+  }
 }
