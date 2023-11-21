@@ -15,10 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
       "@danklabs/integrations/langchain": [
         "libs/integrations/langchain/src/index.ts"
       ],
       "@danklabs/integrations/redis": ["libs/integrations/redis/src/index.ts"],
+      "@danklabs/integrations/sanitycms": [
+        "libs/integrations/sanitycms/src/index.ts"
+      ],
       "@danklabs/laboratory/dankbot": ["libs/laboratory/dankbot/src/index.ts"],
       "@danklabs/pattern-library/core": [
         "libs/pattern-library/core/src/index.ts"

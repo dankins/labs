@@ -1,8 +1,8 @@
-import { AppContainer } from '@021software/pattern-library/core';
-import './global.css';
+import { AppContainer } from "@danklabs/pattern-library/core";
+import "./global.css";
 
 export const metadata = {
-  title: 'Cake',
+  title: "Cake",
 };
 
 export default function RootLayout({
@@ -12,9 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <AppContainer>{children}</AppContainer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

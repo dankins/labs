@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "storybook:pattern-library": "npx nx run pattern-library/core:storybook"
+    "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
+    "dev:cake": "npx nx serve --project cake --port 4300"
   },
   "private": true,
   "dependencies": {
     "@nx/next": "17.1.2",
+    "@sanity/vision": "^3.20.1",
     "@types/uuid": "^9.0.7",
     "@vercel/kv": "^0.2.4",
     "boring-avatars": "^1.10.1",
@@ -15,8 +17,10 @@
     "easing-coordinates": "^2.0.2",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
+    "groqd": "^0.15.10",
     "langchain": "^0.0.189",
     "next": "14.0.3",
+    "next-sanity": "^6.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.12.0",
