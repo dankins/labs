@@ -14,8 +14,8 @@ async function Component() {
   const site = await getSite();
   return (
     <Centered>
-      <h1>Cake is an invite-only club for fashion lovers.</h1>
       <h2>{site.name}</h2>
+      <p>{site.membersOnlyText}</p>
     </Centered>
   );
 }

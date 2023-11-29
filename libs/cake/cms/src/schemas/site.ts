@@ -21,32 +21,9 @@ export default defineType({
       },
     }),
     defineField({
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        {
-          name: "alt",
-          type: "string",
-          title: "Alternative Text",
-        },
-      ],
-    }),
-    defineField({
-      name: "bio",
-      title: "Bio",
-      type: "array",
-      of: [
-        {
-          title: "Block",
-          type: "block",
-          styles: [{ title: "Normal", value: "normal" }],
-          lists: [],
-        },
-      ],
+      name: "membersOnlyText",
+      title: "Members Only Text",
+      type: "string",
     }),
   ],
   preview: {
