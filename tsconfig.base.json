@@ -10,12 +10,14 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["es2020", "dom", "dom.iterable"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@danklabs/cake/admin/brands": ["libs/cake/admin/brands/src/index.ts"],
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
+      "@danklabs/cake/db": ["libs/cake/db/src/index.ts"],
       "@danklabs/integrations/langchain": [
         "libs/integrations/langchain/src/index.ts"
       ],

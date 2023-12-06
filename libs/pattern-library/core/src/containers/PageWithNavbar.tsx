@@ -1,14 +1,25 @@
+import { SideNav } from "../menu";
+import { PageContent } from "./PageContent";
+
 export function PageWithNavbar({
   navbar,
+  sidenav,
   children,
 }: {
-  navbar: React.ReactNode;
+  navbar?: React.ReactNode;
+  sidenav?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
       {navbar}
-      <section>{children}</section>
+      {sidenav ? (
+        <SideNav nav={sidenav}>
+          <PageContent>{children}</PageContent>
+        </SideNav>
+      ) : (
+        <PageContent>{children}</PageContent>
+      )}
     </>
   );
 }
