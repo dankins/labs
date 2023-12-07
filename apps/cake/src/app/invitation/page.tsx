@@ -1,8 +1,7 @@
 import { Centered, PageWithNavbar } from "@danklabs/pattern-library/core";
-
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { Invitation, db, invitations } from "@danklabs/cake/db";
+import { eq } from "drizzle-orm";
+import { faker } from "@faker-js/faker";
 
 export default function Page({
   params,
@@ -26,22 +25,43 @@ function NoInviteCode() {
 }
 
 async function HasInviteCode({ code }: { code: string }) {
-  const allInvitations = await prisma.invitation.findMany();
-  console.log(allInvitations);
+  const result = await db.query.invitations.findFirst({
+    where: eq(invitations.code, code),
+  });
 
+  if (!result) {
+    return <InvalidInviteCode />;
+  }
+
+  console.log(result);
+
+  return <ValidInviteCode invitation={result} />;
+}
+
+function InvalidInviteCode() {
   return (
     <PageWithNavbar>
       <Centered>
-        <h1>{code}</h1>
+        <h1>Invalid Code!</h1>
       </Centered>
     </PageWithNavbar>
   );
 }
 
-function InvalidInviteCode() {
-  return <div>invalid code</div>;
-}
-
-async function ValidInviteCode() {
-  return <div>valid code</div>;
+async function ValidInviteCode({ invitation }: { invitation: Invitation }) {
+  const random = `${faker.word.adverb({
+    length: { min: 5, max: 10 },
+  })}_${faker.word.adjective({
+    length: { min: 5, max: 10 },
+  })}_${faker.word.noun({
+    length: { min: 5, max: 10 },
+  })}`;
+  return (
+    <PageWithNavbar>
+      <Centered>
+        <h1>{invitation.id}</h1>
+        <h2>{random}</h2>
+      </Centered>
+    </PageWithNavbar>
+  );
 }

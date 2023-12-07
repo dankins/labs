@@ -1,5 +1,5 @@
 import type { Config } from "drizzle-kit";
 export default {
-  schema: "./src/schema",
-  out: "./drizzle",
+  schema: "./libs/cake/db/src/schema",
+  out: "./libs/cake/db/drizzle",
 } satisfies Config;

@@ -3,7 +3,6 @@ import { PageContent, PageWithNavbar } from "@danklabs/pattern-library/core";
 import { Shh } from "./Shh";
 import { Nav } from "./Nav";
 import { Suspense } from "react";
-import { AdminHomepage } from "./AdminHomepage";
 import { redirect } from "next/navigation";
 import { LoggedOutPage } from "./LoggedOutPage";
 

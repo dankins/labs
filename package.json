@@ -5,11 +5,12 @@
   "scripts": {
     "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
     "dev:cake": "npx nx serve --project cake --port 4300",
-    "generate-db:cake": "drizzle-kit generate:pg"
+    "generate-db:cake": "drizzle-kit generate:pg --config ./libs/cake/db/drizzle.config.ts"
   },
   "private": true,
   "dependencies": {
     "@clerk/nextjs": "^4.27.2",
+    "@faker-js/faker": "^8.3.1",
     "@neondatabase/serverless": "^0.6.0",
     "@nx/next": "17.1.2",
     "@sanity/image-url": "^1.0.2",
@@ -31,6 +32,7 @@
     "next": "14.0.3",
     "next-sanity": "^6.0.5",
     "pg": "^8.11.3",
+    "postgres": "^3.4.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.12.0",
