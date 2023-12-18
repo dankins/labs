@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./global.css";
 import { PWAProvider } from "./PWAProvider";
@@ -25,7 +26,10 @@ export default function RootLayout({
                 content="width=device-width, initial-scale=1"
               />
             </head>
-            <body>{children}</body>
+            <body>
+              {children}
+              <SpeedInsights />
+            </body>
           </html>
         </PWAProvider>
       </ClerkProvider>

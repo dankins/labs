@@ -20,6 +20,7 @@
     "@types/uuid": "^9.0.7",
     "@vercel/kv": "^0.2.4",
     "@vercel/postgres": "^0.5.1",
+    "@vercel/speed-insights": "^1.0.2",
     "boring-avatars": "^1.10.1",
     "classnames": "^2.3.2",
     "drizzle-orm": "^0.29.1",
