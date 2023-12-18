@@ -1,0 +1,36 @@
+{
+  "name": "cake/payments",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cake/payments/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/cake/payments",
+        "main": "libs/cake/payments/src/index.ts",
+        "tsConfig": "libs/cake/payments/tsconfig.lib.json",
+        "assets": ["libs/cake/payments/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/cake/payments/**/*.ts",
+          "libs/cake/payments/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/cake/payments/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

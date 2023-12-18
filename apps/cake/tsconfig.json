@@ -25,7 +25,11 @@
     "**/*.jsx",
     "../../apps/cake/.next/types/**/*.ts",
     "../../dist/apps/cake/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "../../libs/cake/lobby/src/Lobby.tsx",
+    "../../libs/cake/lobby/src/LobbyBrands.tsx",
+    "../../libs/cake/lobby/src/LobbyProvider.tsx",
+    "../../libs/cake/lobby/src/LobbyViewHandler.tsx"
   ],
   "exclude": [
     "node_modules",

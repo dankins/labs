@@ -11,6 +11,7 @@ import postgres from "postgres";
 
 import * as schema from "./schema";
 
+console.log("initializing database");
 export let db:
   | PostgresJsDatabase<typeof schema>
   | VercelPgDatabase<typeof schema>;

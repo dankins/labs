@@ -25,7 +25,6 @@ export async function getBrand(slug: string) {
       .slice(0, 1),
     { slug }
   ).then((x) => {
-    console.log("hey", slug, x);
     return x[0];
   });
 }

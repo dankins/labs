@@ -157,8 +157,6 @@ type BrandRowProps = {
   brand: BrandListSelectionProps;
 };
 function BrandRow({ brand }: BrandRowProps) {
-  console.log({ brand });
-
   const logoUrl = brand.logoSquare
     ? sanityImageUrlBuilder.image(brand.logoSquare).width(200).url()
     : "/images/missing-brand-logo.webp";
