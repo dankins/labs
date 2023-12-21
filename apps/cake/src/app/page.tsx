@@ -1,5 +1,5 @@
 import { auth, currentUser, clerkClient } from "@clerk/nextjs";
-import { PageContent, PageWithNavbar } from "@danklabs/pattern-library/core";
+import { MemberDashboard } from "@danklabs/cake/members/dashboard";
 import { Shh } from "./Shh";
 import { Nav } from "./Nav";
 import { Suspense } from "react";
@@ -22,10 +22,15 @@ async function getUserType(): Promise<UserType> {
   if (!userId) {
     return "LOGGED_OUT";
   }
+  const user = await currentUser();
 
   const orgMembers = await clerkClient.users.getOrganizationMembershipList({
     userId,
   });
+
+  if (user?.privateMetadata["membershipStatus"] === "active") {
+    return "MEMBER";
+  }
 
   // if no orgMembers they must be a normal user
   if (orgMembers.length === 0) {
@@ -61,7 +66,7 @@ async function Loaded() {
     case "LOGGED_OUT":
       return <LoggedOutPage />;
     case "MEMBER":
-      return <div>MEMBER</div>;
+      return <MemberDashboard />;
     case "MEMBER_EXPIRED":
       return <div>MEMBER_EXPIRED</div>;
     case "MEMBER_INVITED":

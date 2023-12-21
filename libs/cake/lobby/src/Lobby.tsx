@@ -1,20 +1,21 @@
-import z, { custom } from "zod";
+import z from "zod";
 import { Invitation, db, invitations } from "@danklabs/cake/db";
 
 import { BrandSelection } from "./brand-selection/BrandSelection";
-import { Address } from "./address/Address";
-import { Payment } from "./payment/Payment";
 import { ErrorScreen } from "./error/ErrorScreen";
 import { eq } from "drizzle-orm";
-import { StripeProvider } from "@danklabs/cake/payments";
 import { Centered } from "@danklabs/pattern-library/core";
+import { Account } from "./account/Account";
+import { Welcome } from "./welcome/Welcome";
+import { MembershipCheckout } from "./checkout/MembershipCheckout";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
-const Step = z.enum(["error", "brand_selection", "address", "payment"]);
+const Step = z.enum(["welcome", "brand_selection", "checkout", "error"]);
 type Step = z.infer<typeof Step>;
 
 type LobbyState = {
+  invitation?: Invitation;
   step: Step;
   brandSelection: string[];
   customerId?: string;
@@ -37,12 +38,12 @@ export async function LobbyView({
   const state = await determineState(searchParams);
   const { step, error } = state;
   switch (step) {
+    case "welcome":
+      return <Welcome />;
     case "brand_selection":
       return <BrandSelection selection={state.brandSelection} />;
-    case "address":
-      return <Address />;
-    case "payment":
-      return <Payment customerId={state.customerId} />;
+    case "checkout":
+      return <MembershipCheckout invitation={state.invitation!} />;
     case "error":
       return <ErrorScreen error={error} />;
   }
@@ -65,7 +66,12 @@ async function determineState(
   });
 
   if (!invitation) {
-    return { step: "error", brandSelection: [], error: "INVALID_INVITE_CODE" };
+    return {
+      step: "error",
+      invitation,
+      brandSelection: [],
+      error: "INVALID_INVITE_CODE",
+    };
   }
 
   let brandSelection: string[] = [];
@@ -80,9 +86,9 @@ async function determineState(
 
     const customerId = normalize(searchParams["customerId"]);
 
-    return { step, brandSelection, customerId };
+    return { step, brandSelection, invitation, customerId };
   } catch (err) {
-    return { step: "brand_selection", brandSelection };
+    return { step: "welcome", invitation, brandSelection };
   }
 }
 

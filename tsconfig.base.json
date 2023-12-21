@@ -19,6 +19,9 @@
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
       "@danklabs/cake/db": ["libs/cake/db/src/index.ts"],
       "@danklabs/cake/lobby": ["libs/cake/lobby/src/index.ts"],
+      "@danklabs/cake/members/dashboard": [
+        "libs/cake/members/dashboard/src/index.ts"
+      ],
       "@danklabs/cake/payments": ["libs/cake/payments/src/index.ts"],
       "@danklabs/integrations/langchain": [
         "libs/integrations/langchain/src/index.ts"

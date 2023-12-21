@@ -10,7 +10,7 @@ export function ContinueButton({ selection }: { selection: string[] }) {
   const disabled = selection.length !== 2;
 
   function handleClick() {
-    updateQueryString("step", "address");
+    updateQueryString("step", "checkout");
   }
   return (
     <Button disabled={disabled} onClick={handleClick}>
