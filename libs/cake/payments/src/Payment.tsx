@@ -76,6 +76,7 @@ export function Payment({
 }
 
 export function PaymentForm() {
+  const [loading, setLoading] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
@@ -99,14 +100,14 @@ export function PaymentForm() {
       return;
     }
 
-    // setIsLoading(true);
-
+    setLoading(true);
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: successURL.href,
       },
     });
+    setLoading(false);
   }
 
   function handlePaymentChange(e: StripePaymentElementChangeEvent) {
@@ -125,7 +126,7 @@ export function PaymentForm() {
       <div className="my-5">
         <Button
           onClick={handleSubmit}
-          disabled={!formComplete || !stripe || !elements}
+          disabled={!formComplete || !stripe || !elements || loading}
         >
           Purchase Membership
         </Button>

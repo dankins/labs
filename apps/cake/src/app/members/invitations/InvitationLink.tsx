@@ -9,7 +9,7 @@ export function InvitationLink({ code }: { code: string }) {
     let rtn;
     if (typeof window !== "undefined" && window.location.href) {
       rtn = new URL(window.location.href);
-      setURL(`${rtn.host}/invitation?code=${code}`);
+      setURL(`${rtn.protocol}//${rtn.host}/invitation?code=${code}`);
     }
   }, [code]);
 
