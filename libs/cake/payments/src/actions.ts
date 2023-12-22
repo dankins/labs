@@ -147,7 +147,6 @@ export async function createAccount(
   | { error?: undefined; userId: string; ticket: string }
   | { error: "ACCOUNT_EXISTS" }
 > {
-  "use server";
   const form = Object.fromEntries(formData.entries());
   const createAccountSchema = z.object({
     email: z.string(),
@@ -160,24 +159,14 @@ export async function createAccount(
   };
 
   // clerkClient.users.getUser()
+  const users = await clerkClient.users.getUserList({
+    emailAddress: [data.email],
+  });
 
+  if (users.length > 0) {
+    return { error: "ACCOUNT_EXISTS" };
+  }
   const result = await clerkClient.users.createUser(request);
-
-  // TODO(dankins): fix this hack
-  // this is definitely pretty hacky, but it is a result of the Clerk API
-  // it appears to let allow "createUser" with the same email, and it just returns the existing user
-  const createdAtDiff = new Date().getTime() - result.createdAt;
-  console.log("created at diff", result.createdAt, createdAtDiff);
-  console.log(
-    "FIX THIS DAN - need to make sure the account doesn't already exist"
-  );
-  // if (createdAtDiff > 200) {
-  //   console.error(
-  //     "account created more than 30 seconds ago, so it must be an existing account"
-  //   );
-  //   return { error: "ACCOUNT_EXISTS" };
-  // }
-
   const ticket = await clerkClient.signInTokens.createSignInToken({
     userId: result.id,
     expiresInSeconds: 60 * 60,
