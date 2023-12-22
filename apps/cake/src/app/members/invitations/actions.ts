@@ -15,7 +15,7 @@ export async function activateInvitationAction(id: string): Promise<void> {
     throw new Error("not found");
   }
 
-  const adverb = faker.word.noun({
+  const adverb = faker.word.adverb({
     length: { min: 5, max: 10 },
     strategy: "longest",
   });
