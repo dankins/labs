@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const result = handleEvent(event);
+  await handleEvent(event);
 
   return new Response("handled event", {
     status: 200,

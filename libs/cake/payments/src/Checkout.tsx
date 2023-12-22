@@ -4,6 +4,7 @@ import {
   checkSubscriptionStatus,
   createStripeCustomer,
   createSubscription,
+  createAccount,
 } from "./actions";
 
 export type CheckoutProps = {
@@ -34,6 +35,7 @@ export function Checkout({
         metadata
       )}
       checkSubscriptionStatus={checkSubscriptionStatus}
+      createAccount={createAccount}
     />
   );
 }

@@ -24,6 +24,12 @@ export type CheckoutProps = {
   checkSubscriptionStatus(subscriptionId: string): Promise<{
     status: "incomplete" | "pending" | "complete";
   }>;
+  createAccount(
+    formData: FormData
+  ): Promise<
+    | { error?: undefined; userId: string; ticket: string }
+    | { error: "ACCOUNT_EXISTS" }
+  >;
 };
 
 export type StripeCustomer = {
@@ -37,6 +43,7 @@ export function CheckoutClient({
   createStripeCustomerAction,
   createSubscriptionAction,
   checkSubscriptionStatus,
+  createAccount,
 }: CheckoutProps) {
   const sp = useSearchParams();
   const [stripeCustomer, setStripeCustomer] = useState<StripeCustomer>();
@@ -73,6 +80,7 @@ export function CheckoutClient({
           active={active === "account"}
           userId={userId}
           userEmailAddress={userEmailAddress}
+          createAccount={createAccount}
         />
       </CheckoutSection>
       <CheckoutSection>

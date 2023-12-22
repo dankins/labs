@@ -15,6 +15,10 @@ export async function MembershipCheckout({
     throw new Error("no invitation");
   }
 
+  if (user?.privateMetadata["membershipStatus"] === "active") {
+    return <div>You already have an active membership!</div>;
+  }
+
   const subscriptionMetadata = {
     invitationId: invitation.id,
     userId: user?.id,

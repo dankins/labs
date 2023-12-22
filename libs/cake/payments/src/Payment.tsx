@@ -44,7 +44,8 @@ export function Payment({
       setClientSecret(data.clientSecret);
       const current = new URLSearchParams(Array.from(sp.entries()));
       current.set("subscriptionId", data.subscriptionId);
-      const search = current.toString();
+      let search = current.toString();
+      search = search ? `?${search}` : "";
       router.push(`${pathname}${search}`);
     });
   }, [stripeCustomerId]);

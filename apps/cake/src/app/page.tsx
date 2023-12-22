@@ -1,7 +1,5 @@
 import { auth, currentUser, clerkClient } from "@clerk/nextjs";
 import { MemberDashboard } from "@danklabs/cake/members/dashboard";
-import { Shh } from "./Shh";
-import { Nav } from "./Nav";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { LoggedOutPage } from "./LoggedOutPage";
@@ -24,24 +22,13 @@ async function getUserType(): Promise<UserType> {
   }
   const user = await currentUser();
 
-  const orgMembers = await clerkClient.users.getOrganizationMembershipList({
-    userId,
-  });
-
-  if (user?.privateMetadata["membershipStatus"] === "active") {
+  if (user?.privateMetadata["role"] === "admin") {
+    return "ADMIN";
+  } else if (user?.privateMetadata["membershipStatus"] === "active") {
     return "MEMBER";
   }
 
-  // if no orgMembers they must be a normal user
-  if (orgMembers.length === 0) {
-    return "NON_MEMBER";
-  }
-
-  if (orgMembers.findIndex((om) => om.organization.slug === "cake") >= 0) {
-    return "ADMIN";
-  }
-
-  return "BRAND_ADMIN";
+  return "NON_MEMBER";
 }
 
 export default async function Page() {
@@ -66,7 +53,7 @@ async function Loaded() {
     case "LOGGED_OUT":
       return <LoggedOutPage />;
     case "MEMBER":
-      return <MemberDashboard />;
+      return redirect("/members");
     case "MEMBER_EXPIRED":
       return <div>MEMBER_EXPIRED</div>;
     case "MEMBER_INVITED":

@@ -1,4 +1,5 @@
 "use server";
+import z from "zod";
 import { auth, clerkClient } from "@clerk/nextjs";
 import {
   AddressParam,
@@ -138,4 +139,42 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   // console.log("invoice", result);
 
   return { status: "pending" };
+}
+
+export async function createAccount(
+  formData: FormData
+): Promise<
+  | { error?: undefined; userId: string; ticket: string }
+  | { error: "ACCOUNT_EXISTS" }
+> {
+  "use server";
+  const form = Object.fromEntries(formData.entries());
+  const createAccountSchema = z.object({
+    email: z.string(),
+  });
+  const data = createAccountSchema.parse(form);
+
+  const request: Parameters<typeof clerkClient.users.createUser>[0] = {
+    emailAddress: [data.email],
+  };
+
+  const result = await clerkClient.users.createUser(request);
+
+  // this is definitely pretty hacky, but it is a result of the Clerk API
+  // it appears to let allow "createUser" with the same email, and it just returns the existing user
+  const createdAtDiff = new Date().getTime() - result.createdAt;
+  console.log("created at diff", result.createdAt, createdAtDiff);
+  if (createdAtDiff > 30) {
+    console.error(
+      "account created more than 30 seconds ago, so it must be an existing account"
+    );
+    return { error: "ACCOUNT_EXISTS" };
+  }
+
+  const ticket = await clerkClient.signInTokens.createSignInToken({
+    userId: result.id,
+    expiresInSeconds: 60 * 60,
+  });
+
+  return { userId: result.id, ticket: ticket.token };
 }
