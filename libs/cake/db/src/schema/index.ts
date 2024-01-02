@@ -129,8 +129,12 @@ export const passesRelations = relations(passes, ({ one }) => ({
   }),
 }));
 
-export const passportRelations = relations(passports, ({ many }) => ({
+export const passportRelations = relations(passports, ({ one, many }) => ({
   passes: many(passes),
+  member: one(members, {
+    fields: [passports.memberId],
+    references: [members.id],
+  }),
 }));
 
 export const invitationRelations = relations(invitations, ({ one }) => ({
