@@ -23,6 +23,9 @@
         "libs/cake/members/dashboard/src/index.ts"
       ],
       "@danklabs/cake/payments": ["libs/cake/payments/src/index.ts"],
+      "@danklabs/cake/services/admin-service": [
+        "libs/cake/services/admin-service/src/index.ts"
+      ],
       "@danklabs/integrations/langchain": [
         "libs/integrations/langchain/src/index.ts"
       ],
