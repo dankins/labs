@@ -43,7 +43,12 @@ export async function LobbyView({
     case "brand_selection":
       return <BrandSelection selection={state.brandSelection} />;
     case "checkout":
-      return <MembershipCheckout invitation={state.invitation!} />;
+      return (
+        <MembershipCheckout
+          invitation={state.invitation!}
+          brandSelection={state.brandSelection}
+        />
+      );
     case "error":
       return <ErrorScreen error={error} />;
   }

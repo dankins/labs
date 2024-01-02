@@ -28,7 +28,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     // get the invitation from the database
     const invitationId = subscriptionMetadata["invitationId"];
     const clerkUserId = subscriptionMetadata["userId"];
-    const selectedBrandsString = subscriptionMetadata["selectedBrands"];
+    const brandSelectionString = subscriptionMetadata["brandSelection"];
 
     const invitation = await tx.query.invitations.findFirst({
       where: eq(invitations.id, invitationId),
@@ -77,7 +77,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     )[0];
 
     // create passes based selected brands
-    const selectedBrands = validateSelectedBrands(selectedBrandsString);
+    const selectedBrands = validateSelectedBrands(brandSelectionString);
     const createBrandPromises = selectedBrands.map((selectedBrand) =>
       createBrandPass(tx, passport.id, selectedBrand)
     );

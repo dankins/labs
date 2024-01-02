@@ -50,6 +50,13 @@
       "when": 1704215539854,
       "tag": "0006_faithful_sheva_callister",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1704220639427,
+      "tag": "0007_wise_maginty",
+      "breakpoints": true
     }
   ]
 }

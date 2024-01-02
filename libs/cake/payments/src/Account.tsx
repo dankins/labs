@@ -1,7 +1,8 @@
 "use client";
 import { useAuth, useSignIn } from "@clerk/nextjs";
 import { Button } from "@danklabs/pattern-library/core";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
+import { useFormState } from "react-dom";
 
 export function Account({
   active,
@@ -19,7 +20,7 @@ export function Account({
     | { error: "ACCOUNT_EXISTS" }
   >;
 }) {
-  const { isLoaded: authIsLoaded, isSignedIn } = useAuth();
+  const [valid, setValid] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
   const [error, setError] = useState<"ACCOUNT_EXISTS">();
 
@@ -57,12 +58,34 @@ export function Account({
     console.log("result", result);
   }
 
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    const isValid = value.length > 0;
+    if (isValid !== valid) {
+      setValid(isValid);
+    }
+  }
+
   return (
     <form action={handleFormSubmit} className="flex flex-col gap-3">
       <div>
-        <input name="email" placeholder="Email Address" />
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email Address"
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
-      <Button type="submit">Continue</Button>
+      <Button type="submit" disabled={!valid}>
+        Continue
+      </Button>
       {error && <ErrorDisplay error={error} />}
     </form>
   );

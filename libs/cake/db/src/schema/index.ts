@@ -14,6 +14,8 @@ export const members = pgTable("members", {
   iam: text("iam").unique().notNull(),
   invitationId: uuid("invitation_id"),
   invitedBy: uuid("invited_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const invitations = pgTable("invitations", {
@@ -24,11 +26,15 @@ export const invitations = pgTable("invitations", {
   code: text("code").unique(),
   expiration: timestamp("expiration"),
   coupon: text("coupon"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const brands = pgTable("brands", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const offerType = pgEnum("offer_types", ["voucher"]);
@@ -40,6 +46,8 @@ export const brandOfferTemplates = pgTable("brand_offer_templates", {
     .notNull(),
   applyOnPassCreation: boolean("apply_on_pass_creation"),
   offerType: offerType("offer_type"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const passports = pgTable("passports", {
@@ -47,6 +55,8 @@ export const passports = pgTable("passports", {
   memberId: uuid("member_id")
     .references(() => members.id)
     .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const passes = pgTable("passes", {
@@ -57,6 +67,8 @@ export const passes = pgTable("passes", {
   brandId: uuid("brand_id")
     .references(() => brands.id)
     .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const offerStatus = pgEnum("offer_statuses", [
@@ -74,6 +86,8 @@ export const offers = pgTable("offers", {
     .references(() => brandOfferTemplates.id)
     .notNull(),
   status: offerStatus("status").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // TYPES

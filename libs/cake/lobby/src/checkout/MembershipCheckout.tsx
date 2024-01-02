@@ -6,8 +6,10 @@ const CAKE_MEMBERSHIP_PRICE_ID = "price_1OMByvFp1nXP3WhKTbP8y1CW";
 
 export async function MembershipCheckout({
   invitation,
+  brandSelection,
 }: {
   invitation: Invitation;
+  brandSelection: string[];
 }) {
   const user = await currentUser();
 
@@ -22,6 +24,7 @@ export async function MembershipCheckout({
   const subscriptionMetadata = {
     invitationId: invitation.id,
     userId: user?.id,
+    brandSelection: brandSelection.join(","),
   };
 
   return (
