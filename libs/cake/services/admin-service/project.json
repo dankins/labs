@@ -4,16 +4,6 @@
   "sourceRoot": "libs/cake/services/admin-service/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/cake/services/admin-service",
-        "main": "libs/cake/services/admin-service/src/index.ts",
-        "tsConfig": "libs/cake/services/admin-service/tsconfig.lib.json",
-        "assets": ["libs/cake/services/admin-service/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],

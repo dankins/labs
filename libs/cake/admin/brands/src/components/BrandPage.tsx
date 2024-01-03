@@ -1,6 +1,8 @@
 import { Suspense } from "react";
-import { getBrand } from "../cms/queries/getBrand";
-import { BrandOverview } from "./BrandOverview";
+import {
+  getBrandAdminData,
+  AdminBrandData,
+} from "@danklabs/cake/services/admin-service";
 
 export function BrandPage({ slug }: { slug: string }) {
   return (
@@ -15,8 +17,29 @@ function Loading() {
 }
 
 async function Loaded({ slug }: { slug: string }) {
-  const brand = await getBrand(slug);
-  console.log({ brand, slug });
+  const brand = await getBrandAdminData(slug);
 
-  return <BrandOverview {...brand} />;
+  return (
+    <div>
+      <h1>{brand.cmsData.name}</h1>
+      <OfferTemplates offerTemplates={brand.offerTemplates} />
+    </div>
+  );
+}
+
+async function OfferTemplates({
+  offerTemplates,
+}: {
+  offerTemplates: AdminBrandData["offerTemplates"];
+}) {
+  return (
+    <div>
+      <h1>Offers</h1>
+      <div>
+        {offerTemplates.map((ot) => (
+          <div key={ot.id}>{ot.offerType}</div>
+        ))}
+      </div>
+    </div>
+  );
 }
