@@ -44,8 +44,8 @@ export const brandOfferTemplates = pgTable("brand_offer_templates", {
   brandId: uuid("brand_id")
     .references(() => brands.id)
     .notNull(),
-  applyOnPassCreation: boolean("apply_on_pass_creation"),
-  offerType: offerType("offer_type"),
+  applyOnPassCreation: boolean("apply_on_pass_creation").notNull(),
+  offerType: offerType("offer_type").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -86,6 +86,17 @@ export const offers = pgTable("offers", {
     .references(() => brandOfferTemplates.id)
     .notNull(),
   status: offerStatus("status").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const offerCodes = pgTable("offer_codes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  templateId: uuid("template_id")
+    .references(() => brandOfferTemplates.id)
+    .notNull(),
+  offerId: uuid("offer_id").references(() => offers.id),
+  code: text("code").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
