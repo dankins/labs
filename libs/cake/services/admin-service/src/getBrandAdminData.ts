@@ -1,5 +1,5 @@
 import { getBrandAdmin } from "@danklabs/cake/cms";
-import { db } from "@danklabs/cake/db";
+import { brands, db } from "@danklabs/cake/db";
 
 export async function getBrandAdminData(slug: string) {
   const [dbData, cmsData] = await Promise.all([
@@ -10,8 +10,17 @@ export async function getBrandAdminData(slug: string) {
           offerTemplates: true,
         },
       })
-      .then((b) => {
+      .then(async (b) => {
         if (!b) {
+          // brand doesn't exist in the database, but maybe it exists in the CMS
+          const cmsBrand = await getBrandAdmin(slug);
+          if (cmsBrand) {
+            await db.insert(brands).values([
+              {
+                slug,
+              },
+            ]);
+          }
           throw new Error("unable to find brand");
         }
         return b;
