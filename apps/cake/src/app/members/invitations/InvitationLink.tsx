@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 export function InvitationLink({ code }: { code: string }) {
   const [url, setURL] = useState<string>();
   useEffect(() => {
-    console.log("look at me");
     let rtn;
     if (typeof window !== "undefined" && window.location.href) {
       rtn = new URL(window.location.href);

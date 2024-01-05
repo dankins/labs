@@ -30,6 +30,11 @@ const BrandType = defineType({
       title: "Logo ",
       type: "image",
     }),
+    defineField({
+      name: "website",
+      title: "Website ",
+      type: "string",
+    }),
   ],
   preview: {
     select: {

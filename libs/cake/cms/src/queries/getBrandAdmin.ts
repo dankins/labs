@@ -5,6 +5,7 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 export const brandSelection = {
   name: q.string(),
   slug: q.slug("slug"),
+  website: q.string(),
 } satisfies Selection;
 
 const runQuery = makeSafeQueryRunner(
