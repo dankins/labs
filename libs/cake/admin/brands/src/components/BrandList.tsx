@@ -159,7 +159,7 @@ type BrandRowProps = {
 function BrandRow({ brand }: BrandRowProps) {
   const logoUrl = brand.logoSquare
     ? sanityImageUrlBuilder.image(brand.logoSquare).width(200).url()
-    : "/images/missing-brand-logo.webp";
+    : "/images/missing-brand-logo.png";
   return (
     <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
       {/* <td className="w-4 px-4 py-3">
