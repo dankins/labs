@@ -22,6 +22,9 @@
       "@danklabs/cake/members/dashboard": [
         "libs/cake/members/dashboard/src/index.ts"
       ],
+      "@danklabs/cake/pattern-library/core": [
+        "libs/cake/pattern-library/core/src/index.ts"
+      ],
       "@danklabs/cake/payments": ["libs/cake/payments/src/index.ts"],
       "@danklabs/cake/services/admin-service": [
         "libs/cake/services/admin-service/src/index.ts"

@@ -1,9 +1,8 @@
 // containers.stories.ts|tsx
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { FullPage } from './FullPage';
-import { PageWithNavbar } from './PageWithNavbar';
+import { PageWithNavbar } from "./PageWithNavbar";
 
 const meta: Meta<typeof PageWithNavbar> = {
   component: PageWithNavbar,
@@ -26,8 +25,4 @@ export const PageWithNavbarStory: Story = {
   render: () => (
     <PageWithNavbar navbar={<NavBar />}>ahoy mateys</PageWithNavbar>
   ),
-};
-
-export const FullPageStory: Story = {
-  render: () => <FullPage>ahoy mateys</FullPage>,
 };

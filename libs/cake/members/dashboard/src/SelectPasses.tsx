@@ -1,16 +1,18 @@
 import { getBrands } from "@danklabs/cake/cms";
 import { SelectPassButton } from "./SelectPassButton";
 import { revalidatePath } from "next/cache";
-import { createBrandPass } from "@danklabs/cake/services/admin-service";
+import {
+  createBrandPass,
+  getMemberByIAM,
+} from "@danklabs/cake/services/admin-service";
 import { Passport, db } from "@danklabs/cake/db";
 
 export async function SelectPasses({
-  ownedPassBrandSlugs,
   passport,
 }: {
-  ownedPassBrandSlugs: string[];
-  passport: Passport;
+  passport: NonNullable<Awaited<ReturnType<typeof getMemberByIAM>>>["passport"];
 }) {
+  const ownedPassBrandSlugs = passport.passes.map((p) => p.brand.slug);
   const brands = await getBrands();
 
   async function claimPassAction(slug: string) {

@@ -1,0 +1,82 @@
+{
+  "name": "cake/pattern-library/core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cake/pattern-library/core/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/cake/pattern-library/core/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/cake/pattern-library/core",
+        "tsConfig": "libs/cake/pattern-library/core/tsconfig.lib.json",
+        "project": "libs/cake/pattern-library/core/package.json",
+        "entryFile": "libs/cake/pattern-library/core/src/index.ts",
+        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/cake/pattern-library/core/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/cake/pattern-library/core/jest.config.ts"
+      }
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/cake/pattern-library/core/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/pattern-library/core",
+        "configDir": "libs/cake/pattern-library/core/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "cake/pattern-library/core:build-storybook",
+        "staticFilePath": "dist/storybook/pattern-library/core"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "cake/pattern-library/core:build-storybook:ci"
+        }
+      }
+    }
+  }
+}

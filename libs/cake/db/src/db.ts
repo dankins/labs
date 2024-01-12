@@ -17,8 +17,18 @@ export let db:
   | VercelPgDatabase<typeof schema>;
 
 if (process.env["POSTGRES_URL"]?.includes("localhost")) {
-  const queryClient = postgres(process.env["POSTGRES_URL"]);
+  let queryClient: postgres.Sql<{}>;
+  if (!global.queryClient) {
+    global.queryClient = postgres(process.env["POSTGRES_URL"]);
+  }
+
+  queryClient = global.queryClient;
+
   db = PostgresDrizzle(queryClient, { schema });
 } else {
   db = VercelDrizzle(sql, { schema });
+}
+
+declare global {
+  var queryClient: postgres.Sql<{}>;
 }
