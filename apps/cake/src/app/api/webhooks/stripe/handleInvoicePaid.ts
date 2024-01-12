@@ -1,11 +1,4 @@
-import {
-  db,
-  invitations,
-  members,
-  passports,
-  brands,
-  passes,
-} from "@danklabs/cake/db";
+import { db, invitations, members, passports } from "@danklabs/cake/db";
 import { createBrandPass } from "@danklabs/cake/services/admin-service";
 import { Stripe } from "stripe";
 import { eq } from "drizzle-orm";
@@ -24,65 +17,76 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     return;
   }
 
-  await db.transaction(async (tx) => {
-    // get the invitation from the database
-    const invitationId = subscriptionMetadata["invitationId"];
-    const clerkUserId = subscriptionMetadata["userId"];
-    const brandSelectionString = subscriptionMetadata["brandSelection"];
+  const tx = db;
 
-    const invitation = await tx.query.invitations.findFirst({
-      where: eq(invitations.id, invitationId),
-    });
+  // const result = await db.transaction(async (tx) => {
+  // get the invitation from the database
+  const invitationId = subscriptionMetadata["invitationId"];
+  const clerkUserId = subscriptionMetadata["userId"];
+  const brandSelectionString = subscriptionMetadata["brandSelection"];
 
-    // something went wrong if we couldn't find the invitation
-    if (!invitation) {
-      console.error("could not find invitation for subscription", invitationId);
-      return;
-    }
-
-    // increment the number of redemptions on the invite
-    await tx
-      .update(invitations)
-      .set({ redemptions: (invitation.redemptions || 0) + 1 })
-      .where(eq(invitations.id, invitationId));
-
-    // create the member
-    type NewMember = typeof members.$inferInsert;
-    const newMember: NewMember = {
-      iam: clerkUserId,
-    };
-    const insertedMember = (
-      await tx.insert(members).values(newMember).returning()
-    )[0];
-
-    // create invitations for the member
-    type NewInvitation = typeof invitations.$inferInsert;
-    const newInvitatations: NewInvitation[] = new Array(NEW_MEMBER_INVITATIONS)
-      .fill(undefined)
-      .map((_) => ({
-        memberId: insertedMember.id,
-        redemptions: 0,
-        maxRedemptions: NEW_MEMBER_MAX_REDEMPTIONS,
-      }));
-    await tx.insert(invitations).values(newInvitatations);
-
-    // create the passport
-    const passport = (
-      await tx
-        .insert(passports)
-        .values({
-          memberId: insertedMember.id,
-        })
-        .returning()
-    )[0];
-
-    // create passes based selected brands
-    const selectedBrands = validateSelectedBrands(brandSelectionString);
-    const createBrandPromises = selectedBrands.map((selectedBrand) =>
-      createBrandPass(tx, passport.id, selectedBrand)
-    );
-    await Promise.all(createBrandPromises);
+  const invitation = await tx.query.invitations.findFirst({
+    where: eq(invitations.id, invitationId),
   });
+
+  // something went wrong if we couldn't find the invitation
+  if (!invitation) {
+    console.error("could not find invitation for subscription", invitationId);
+    return;
+  }
+
+  // increment the number of redemptions on the invite
+  await tx
+    .update(invitations)
+    .set({ redemptions: (invitation.redemptions || 0) + 1 })
+    .where(eq(invitations.id, invitationId));
+
+  // create the member
+  type NewMember = typeof members.$inferInsert;
+  const newMember: NewMember = {
+    iam: clerkUserId,
+    invitationId,
+  };
+  const insertedMember = (
+    await tx.insert(members).values(newMember).returning()
+  )[0];
+
+  // create invitations for the member
+  type NewInvitation = typeof invitations.$inferInsert;
+  const newInvitatations: NewInvitation[] = new Array(NEW_MEMBER_INVITATIONS)
+    .fill(undefined)
+    .map((_) => ({
+      memberId: insertedMember.id,
+      redemptions: 0,
+      maxRedemptions: NEW_MEMBER_MAX_REDEMPTIONS,
+    }));
+  await tx.insert(invitations).values(newInvitatations);
+
+  // create the passport
+  const passport = (
+    await tx
+      .insert(passports)
+      .values({
+        memberId: insertedMember.id,
+      })
+      .returning()
+  )[0];
+
+  console.log("created passport", {
+    passportId: passport.id,
+    memberId: insertedMember.id,
+  });
+
+  // create passes based selected brands
+  const selectedBrands = validateSelectedBrands(brandSelectionString);
+  const createBrandPromises = selectedBrands.map((selectedBrand) =>
+    createBrandPass(tx, passport.id, selectedBrand)
+  );
+  await Promise.all(createBrandPromises);
+  console.log("handleInvoicePaid complete", { passportId: passport.id });
+  return { passportId: passport.id };
+  // });
+  // console.log("handleInvoicePaid complete", result);
 }
 
 function validateSelectedBrands(selectedBrandsString: string): string[] {

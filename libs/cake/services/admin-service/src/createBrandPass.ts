@@ -20,6 +20,10 @@ export async function createBrandPass(
     throw new Error("could not find brand with slug");
   }
 
+  console.log("creating pass", {
+    passportId,
+    brandId: brand.id,
+  });
   // create create pass
   const pass = (
     await tx
@@ -31,6 +35,7 @@ export async function createBrandPass(
       .returning()
   )[0];
 
+  console.log("created pass", pass);
   // create offers
   const offerValues: Array<typeof offers.$inferInsert> = brand.offerTemplates
     .filter((ot) => ot.applyOnPassCreation)
@@ -41,11 +46,11 @@ export async function createBrandPass(
     }));
 
   if (offerValues.length > 0) {
-    const createdOffers = await tx
-      .insert(offers)
-      .values(offerValues)
-      .returning();
-
-    await Promise.all(createdOffers.map((offer) => assignOfferCode(tx, offer)));
+    // console.log("creating offers", offerValues.length);
+    // const createdOffers = await tx
+    //   .insert(offers)
+    //   .values(offerValues)
+    //   .returning();
+    // await Promise.all(createdOffers.map((offer) => assignOfferCode(tx, offer)));
   }
 }
