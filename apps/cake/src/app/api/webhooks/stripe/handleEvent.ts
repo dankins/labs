@@ -11,7 +11,7 @@ export async function handleEvent(event: Stripe.Event) {
     case "charge.succeeded":
       return handleChargeSucceeded(event);
     case "invoice.paid":
-      return handleInvoicePaid(event);
+      return await handleInvoicePaid(event);
     default:
       console.log(
         "Unhandled event:",

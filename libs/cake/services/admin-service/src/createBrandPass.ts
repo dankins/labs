@@ -2,10 +2,8 @@ import { db, brands, passes, offers } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import { assignOfferCode } from "./assignOfferCode";
 
-type DbTransactiontype = Parameters<Parameters<typeof db.transaction>[0]>[0];
-
 export async function createBrandPass(
-  tx: DbTransactiontype,
+  tx: typeof db,
   passportId: string,
   brandSlug: string
 ): Promise<void> {
@@ -46,11 +44,11 @@ export async function createBrandPass(
     }));
 
   if (offerValues.length > 0) {
-    // console.log("creating offers", offerValues.length);
-    // const createdOffers = await tx
-    //   .insert(offers)
-    //   .values(offerValues)
-    //   .returning();
-    // await Promise.all(createdOffers.map((offer) => assignOfferCode(tx, offer)));
+    console.log("creating offers", offerValues.length);
+    const createdOffers = await tx
+      .insert(offers)
+      .values(offerValues)
+      .returning();
+    await Promise.all(createdOffers.map((offer) => assignOfferCode(tx, offer)));
   }
 }

@@ -17,15 +17,13 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     return;
   }
 
-  const tx = db;
-
   // const result = await db.transaction(async (tx) => {
   // get the invitation from the database
   const invitationId = subscriptionMetadata["invitationId"];
   const clerkUserId = subscriptionMetadata["userId"];
   const brandSelectionString = subscriptionMetadata["brandSelection"];
 
-  const invitation = await tx.query.invitations.findFirst({
+  const invitation = await db.query.invitations.findFirst({
     where: eq(invitations.id, invitationId),
   });
 
@@ -36,7 +34,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   }
 
   // increment the number of redemptions on the invite
-  await tx
+  await db
     .update(invitations)
     .set({ redemptions: (invitation.redemptions || 0) + 1 })
     .where(eq(invitations.id, invitationId));
@@ -48,7 +46,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     invitationId,
   };
   const insertedMember = (
-    await tx.insert(members).values(newMember).returning()
+    await db.insert(members).values(newMember).returning()
   )[0];
 
   // create invitations for the member
@@ -60,11 +58,11 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
       redemptions: 0,
       maxRedemptions: NEW_MEMBER_MAX_REDEMPTIONS,
     }));
-  await tx.insert(invitations).values(newInvitatations);
+  await db.insert(invitations).values(newInvitatations);
 
   // create the passport
   const passport = (
-    await tx
+    await db
       .insert(passports)
       .values({
         memberId: insertedMember.id,
@@ -80,13 +78,10 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   // create passes based selected brands
   const selectedBrands = validateSelectedBrands(brandSelectionString);
   const createBrandPromises = selectedBrands.map((selectedBrand) =>
-    createBrandPass(tx, passport.id, selectedBrand)
+    createBrandPass(db, passport.id, selectedBrand)
   );
   await Promise.all(createBrandPromises);
-  console.log("handleInvoicePaid complete", { passportId: passport.id });
   return { passportId: passport.id };
-  // });
-  // console.log("handleInvoicePaid complete", result);
 }
 
 function validateSelectedBrands(selectedBrandsString: string): string[] {
