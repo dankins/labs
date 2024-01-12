@@ -24,8 +24,8 @@ export function BrandCardHeroImage({
         loader={imageProps?.loader}
         sizes="(max-width: 800px) 100vw, 800px"
         fill
-        placeholder="blur"
-        blurDataURL={sanityImage.asset.metadata.lqip}
+        placeholder={sanityImage ? "blur" : undefined}
+        blurDataURL={sanityImage ? sanityImage.asset.metadata.lqip : undefined}
       />
     </motion.figure>
   );

@@ -18,11 +18,13 @@ export function BrandPassCard({
       // style={{ boxShadow: "0px 2px 24px 0px rgba(0, 0, 0, 0.24)" }}
     >
       <div className="w-full h-full relative max-w-[600px] aspect-wallet">
-        <BrandCardHeroImage
-          alt={`${brand.name} Image`}
-          sanityImage={brand.passBackground}
-          layoutId="card-image"
-        />
+        {brand.passBackground && (
+          <BrandCardHeroImage
+            alt={`${brand.name} Image`}
+            sanityImage={brand.passBackground}
+            layoutId="card-image"
+          />
+        )}
         <MotionDiv
           layoutId="card-gradient"
           className="w-full h-full absolute top-0"

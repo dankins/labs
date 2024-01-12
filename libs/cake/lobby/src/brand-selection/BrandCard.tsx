@@ -1,7 +1,6 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BrandListSelection } from "../queries/getBrands";
-import { updateQueryString, useQueryStringUpdater } from "../util/searchParams";
+import { useQueryStringUpdater } from "../util/searchParams";
 import classNames from "classnames";
 
 export type BrandCardProps = {
