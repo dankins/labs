@@ -18,10 +18,22 @@ export async function BrandPassFullscreen({
     throw new Error("not authenticated");
   }
 
+  const topColor = `rgba(0,0,0,0.5)`;
+  const middleColor = brand.pass_color
+    ? `rgba(${brand.pass_color?.rgb.r},${brand.pass_color.rgb.g},${brand.pass_color.rgb.b}, 0.50)`
+    : `rgba(0,0,0,0.5)`;
+  const bottomColor = brand.pass_color
+    ? `rgba(${brand.pass_color?.rgb.r},${brand.pass_color.rgb.g},${brand.pass_color.rgb.b}, 1)`
+    : `rgba(0,0,0,1)`;
+  const gradient = `linear-gradient(0deg, ${bottomColor} 0%, ${middleColor} 15%, ${topColor} 100%)`;
+
   return (
     <div className="h-full flex flex-col items-center">
       <MotionDiv
-        className="w-full h-full max-w-[600px] rounded-lg shadow-2xl bg-amber-900 relative"
+        className="w-full h-full max-w-[600px] rounded-lg shadow-2xl relative"
+        style={{
+          backgroundColor: brand.pass_color ? brand.pass_color.hex : "#000",
+        }}
         layoutId="card-container"
       >
         <div className="w-full aspect-wallet relative">
@@ -34,8 +46,9 @@ export async function BrandPassFullscreen({
             layoutId="card-gradient"
             className="w-full h-full absolute top-0 margin-top-auto"
             style={{
-              background:
-                "linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)",
+              // background:
+              //   "linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)",
+              background: gradient,
             }}
           ></MotionDiv>
           <MotionDiv
@@ -48,18 +61,14 @@ export async function BrandPassFullscreen({
                 image={brand.passLogo}
                 height={0}
                 width={0}
-                style={{ height: "3.5rem", width: "auto" }}
+                style={{ height: "2.5rem", width: "auto" }}
               />
             ) : (
               <h1 className="text-white text-5xl">{brand.name}</h1>
             )}
           </MotionDiv>
-          {/* <div className="bg-gradient-to-t from-red-500 to-transparent h-32 w-full -mt-10 absolute bottom-0"></div> */}
         </div>
-        <MotionDiv
-          layoutId="card-below"
-          className="relative -mt-44 h-44 bg-gradient-to-t from-amber-900 from-90% to-90%"
-        ></MotionDiv>
+
         <div className="flex flex-col m-10 text-white">
           {/* BRAND OVERVIEW */}
           <div>
@@ -68,6 +77,7 @@ export async function BrandPassFullscreen({
             <div></div>
           </div>
           {/* OFFERS */}
+          {JSON.stringify(brand.pass_color)}
           <div className="mt-5">
             <OfferOverview brand={brand} />
           </div>

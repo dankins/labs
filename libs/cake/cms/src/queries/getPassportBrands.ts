@@ -1,7 +1,9 @@
 import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
 
 import { sanityClient } from "@danklabs/integrations/sanitycms";
+import { RawCreateParams } from "zod";
 
+const fuck: RawCreateParams = {};
 export const passportBrandsSelection = {
   name: q.string(),
   slug: q.slug("slug"),
@@ -10,6 +12,17 @@ export const passportBrandsSelection = {
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
   }).nullable(),
+  // https://www.sanity.io/plugins/color-input
+  pass_color: q
+    .object({
+      hex: q.string(),
+      rgb: q.object({
+        r: q.number(),
+        g: q.number(),
+        b: q.number(),
+      }),
+    })
+    .nullable(),
 };
 
 export type PassportBrandsSelection = TypeFromSelection<

@@ -26,19 +26,20 @@ function AppContent({ children }: { children: React.ReactNode }) {
 }
 
 function AppFooter() {
-  return (
-    <footer className="fixed bottom-0 z-40 px-10 py-5">
-      <div className="bg-white rounded-3xl border border-radius flex flex-row gap-4 justify-center items-center">
-        <Link href="/members" className="px-10 py-5">
-          <WalletIcon />
-        </Link>
-        <Link href="/" className="px-10 py-5">
-          <BrandsIcon />
-        </Link>
-        <Link href="/" className="px-10 py-5">
-          <MembersIcon />
-        </Link>
-      </div>
-    </footer>
-  );
+  return <footer></footer>;
+  // return (
+  //   <footer className="fixed bottom-0 z-40 px-10 py-5">
+  //     <div className="bg-white rounded-3xl border border-radius flex flex-row gap-4 justify-center items-center">
+  //       <Link href="/members" className="px-10 py-5">
+  //         <WalletIcon />
+  //       </Link>
+  //       <Link href="/" className="px-10 py-5">
+  //         <BrandsIcon />
+  //       </Link>
+  //       <Link href="/" className="px-10 py-5">
+  //         <MembersIcon />
+  //       </Link>
+  //     </div>
+  //   </footer>
+  // );
 }

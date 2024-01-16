@@ -60,6 +60,11 @@ const BrandType = defineType({
         ],
       },
     }),
+    defineField({
+      name: "pass_color",
+      title: "Pass Color",
+      type: "color",
+    }),
   ],
   preview: {
     select: {

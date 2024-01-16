@@ -12,11 +12,18 @@ export function BrandPassCard({
   pass: PassportType["passes"][0];
   brand: PassportBrandsSelection;
 }) {
+  const style = {
+    backgroundColor: brand.pass_color ? brand.pass_color.hex : "#000",
+  };
+  const cardGradient = brand.pass_color
+    ? `linear-gradient(0deg, rgba(${brand.pass_color?.rgb.r},${brand.pass_color?.rgb.g},${brand.pass_color?.rgb.b}, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)`
+    : `rgba(0,0,0,0.5)`;
   return (
     <MotionDiv
       layoutId="card-container"
       className="bg-amber-900 aspect-wallet min-w-[200px] w-full rounded-lg shadow-2xl  justify-start items-start inline-flex cursor-pointer overflow-hidden"
       // style={{ boxShadow: "0px 2px 24px 0px rgba(0, 0, 0, 0.24)" }}
+      style={style}
     >
       <div className="w-full h-full relative max-w-[600px] aspect-wallet">
         {brand.passBackground && (
@@ -30,8 +37,7 @@ export function BrandPassCard({
           layoutId="card-gradient"
           className="w-full h-full absolute top-0"
           style={{
-            background:
-              "linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)",
+            background: cardGradient,
           }}
         ></MotionDiv>
         <MotionDiv
