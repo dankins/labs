@@ -1,7 +1,6 @@
 import { PassportBrandsSelection } from "@danklabs/cake/cms";
 import type { PassportType } from "./PassportStack";
 import { BrandCardHeroImage } from "./BrandCardHeroImage";
-import { motion } from "framer-motion";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
 import { SanityImage } from "./SanityImage";
 
