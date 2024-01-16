@@ -3,6 +3,7 @@ import type { PassportType } from "./PassportStack";
 import { BrandCardHeroImage } from "./BrandCardHeroImage";
 import { motion } from "framer-motion";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
+import { SanityImage } from "./SanityImage";
 
 export function BrandPassCard({
   pass,
@@ -33,8 +34,23 @@ export function BrandPassCard({
               "linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)",
           }}
         ></MotionDiv>
-        <MotionDiv className="p-3 absolute top-0" layoutId="card-content">
-          <h1 className="text-white">{brand.name}</h1>
+        <MotionDiv
+          className="p-3 absolute top-0 left-0 w-full"
+          layoutId="card-content"
+        >
+          <div>
+            {brand.passLogo ? (
+              <SanityImage
+                alt={`${brand.name} Logo`}
+                image={brand.passLogo}
+                height={0}
+                width={0}
+                style={{ height: "1.25rem", width: "auto" }}
+              />
+            ) : (
+              <h1 className="text-white">{brand.name}</h1>
+            )}
+          </div>
         </MotionDiv>
         <MotionDiv
           className="p-3 absolute bottom-0"

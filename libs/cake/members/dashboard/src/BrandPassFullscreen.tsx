@@ -4,6 +4,7 @@ import { BrandCardHeroImage } from "./BrandCardHeroImage";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
 import { auth } from "@clerk/nextjs";
 import { OfferOverview } from "./OfferOverview";
+import { SanityImage } from "./SanityImage";
 
 export async function BrandPassFullscreen({
   pass,
@@ -41,7 +42,17 @@ export async function BrandPassFullscreen({
             className="w-full h-full absolute top-0 flex flex-col items-center justify-center"
             layoutId="card-content"
           >
-            <h1 className="text-white text-5xl">{brand.name}</h1>
+            {brand.passLogo ? (
+              <SanityImage
+                alt={`${brand.name} Logo`}
+                image={brand.passLogo}
+                height={0}
+                width={0}
+                style={{ height: "3.5rem", width: "auto" }}
+              />
+            ) : (
+              <h1 className="text-white text-5xl">{brand.name}</h1>
+            )}
           </MotionDiv>
           {/* <div className="bg-gradient-to-t from-red-500 to-transparent h-32 w-full -mt-10 absolute bottom-0"></div> */}
         </div>

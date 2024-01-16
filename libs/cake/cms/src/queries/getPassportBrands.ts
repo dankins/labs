@@ -6,6 +6,7 @@ export const passportBrandsSelection = {
   name: q.string(),
   slug: q.slug("slug"),
   logoSquare: sanityImage("logo_square").nullable(),
+  passLogo: sanityImage("pass_logo").nullable(),
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
   }).nullable(),

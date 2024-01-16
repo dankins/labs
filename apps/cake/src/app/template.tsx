@@ -2,7 +2,7 @@
 import { initFlowbite } from "flowbite";
 import { useEffect } from "react";
 
-export function Flowbite({ children }: { children: React.ReactNode }) {
+export default function Template({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     initFlowbite();
   }, []);

@@ -1,23 +1,23 @@
 import Link from "next/link";
 import { BrandsIcon, MembersIcon, WalletIcon } from "../icons";
 import { LogoIcon } from "../logos";
+import { AppHeader } from "./AppHeader";
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  authComponent,
+  children,
+}: {
+  children: React.ReactNode;
+  authComponent?: React.ReactNode;
+}) {
   return (
-    <div className="h-screen overflow-hidden flex flex-col">
-      <AppHeader />
-      <AppContent>{children}</AppContent>
-      <AppFooter />
+    <div className="h-screen overflow-hidden flex flex-row justify-center">
+      <div className="container">
+        <AppHeader authComponent={authComponent} />
+        <AppContent>{children}</AppContent>
+        <AppFooter />
+      </div>
     </div>
-  );
-}
-
-function AppHeader() {
-  return (
-    <header className="sticky z-40 h-[84px] px-3 flex flex-row items-center gap-3">
-      <LogoIcon />
-      <Link href="/">Cake</Link>
-    </header>
   );
 }
 
