@@ -11,6 +11,8 @@ export const passportBrandsSelection = {
   passLogo: sanityImage("pass_logo").nullable(),
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
   }).nullable(),
   // https://www.sanity.io/plugins/color-input
   pass_color: q
