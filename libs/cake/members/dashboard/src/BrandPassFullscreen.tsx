@@ -36,7 +36,7 @@ export async function BrandPassFullscreen({
         }}
         layoutId="card-container"
       >
-        <div className="w-full aspect-wallet relative">
+        <div className="w-full aspect-[2/3] relative">
           <BrandCardHeroImage
             alt={`${brand.name} Image`}
             sanityImage={brand.passBackground}

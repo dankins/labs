@@ -21,6 +21,19 @@ export function ContentPlaceholder() {
         title={faker.lorem.lines(1)}
         excerpt={faker.lorem.lines(2)}
       />
+      <ContentItem
+        title={faker.lorem.lines(1)}
+        excerpt={faker.lorem.lines(2)}
+      />
+      <ContentItem
+        title={faker.lorem.lines(1)}
+        excerpt={faker.lorem.lines(2)}
+        featured
+      />
+      <ContentItem
+        title={faker.lorem.lines(1)}
+        excerpt={faker.lorem.lines(2)}
+      />
     </div>
   );
 }
