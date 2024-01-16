@@ -1,6 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import { Suspense } from "react";
-import { SignOutLink } from "./SignOutLink";
+import { SignOutLink } from "../SignOutLink";
+import Link from "next/link";
 
 export async function HeaderAuth() {
   return (
@@ -45,6 +46,14 @@ async function Component() {
           </span>
         </div>
         <ul className="py-2" aria-labelledby="user-menu-button">
+          <li>
+            <Link
+              href="/account"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+            >
+              Account
+            </Link>
+          </li>
           <li>
             <SignOutLink className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
               Sign out

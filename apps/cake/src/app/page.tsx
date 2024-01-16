@@ -53,7 +53,7 @@ async function Loaded() {
     case "LOGGED_OUT":
       return <LoggedOutPage />;
     case "MEMBER":
-      return redirect("/members");
+      return redirect("/passport");
     case "MEMBER_EXPIRED":
       return <div>MEMBER_EXPIRED</div>;
     case "MEMBER_INVITED":

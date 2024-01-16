@@ -12,7 +12,7 @@ export function AppHeader({
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center gap-8 mx-auto p-4">
         <Link
-          href="/members"
+          href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <LogoIcon />
@@ -53,9 +53,9 @@ export function AppHeader({
           id="navbar-user"
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <NavLink href={"/"}>Members</NavLink>
-            <NavLink href={"/"}>Stories</NavLink>
-            <NavLink href={"/"}>Brands</NavLink>
+            <NavLink href={"/passport"}>Passport</NavLink>
+            <NavLink href={"/stories"}>Stories</NavLink>
+            <NavLink href={"/brands"}>Brands</NavLink>
           </ul>
         </div>
       </div>

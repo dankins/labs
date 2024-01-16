@@ -1,7 +1,4 @@
-import { eq } from "drizzle-orm";
-
-import { Centered, PageWithNavbar } from "@danklabs/pattern-library/core";
-import { Invitation, db, invitations } from "@danklabs/cake/db";
+import { PageWithNavbar } from "@danklabs/pattern-library/core";
 import { Lobby } from "@danklabs/cake/lobby";
 
 export default async function Page({
