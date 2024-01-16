@@ -30,6 +30,7 @@ export function BrandPassCard({
             alt={`${brand.name} Image`}
             sanityImage={brand.passBackground}
             layoutId="card-image"
+            type="card"
           />
         )}
         <MotionDiv

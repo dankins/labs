@@ -40,6 +40,7 @@ export async function BrandPassFullscreen({
           <BrandCardHeroImage
             alt={`${brand.name} Image`}
             sanityImage={brand.passBackground}
+            type="portrait"
             layoutId="card-image"
           />
           <MotionDiv
