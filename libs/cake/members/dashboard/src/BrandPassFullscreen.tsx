@@ -28,9 +28,9 @@ export async function BrandPassFullscreen({
   const gradient = `linear-gradient(0deg, ${bottomColor} 0%, ${middleColor} 15%, ${topColor} 100%)`;
 
   return (
-    <div className="h-full flex flex-col items-center">
+    <div className="h-full flex flex-col items-end">
       <MotionDiv
-        className="w-full h-full max-w-[600px] rounded-lg shadow-2xl relative"
+        className="w-full h-full max-w-[465px] rounded-lg shadow-2xl relative"
         style={{
           backgroundColor: brand.pass_color ? brand.pass_color.hex : "#000",
         }}

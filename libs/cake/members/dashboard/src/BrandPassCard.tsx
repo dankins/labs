@@ -21,7 +21,7 @@ export function BrandPassCard({
   return (
     <MotionDiv
       layoutId="card-container"
-      className="bg-amber-900 aspect-wallet min-w-[200px] w-full rounded-lg shadow-2xl  justify-start items-start inline-flex cursor-pointer overflow-hidden"
+      className="bg-amber-900 aspect-wallet min-w-[200px] w-full rounded-lg shadow-lg  justify-start items-start inline-flex cursor-pointer overflow-hidden"
       // style={{ boxShadow: "0px 2px 24px 0px rgba(0, 0, 0, 0.24)" }}
       style={style}
     >

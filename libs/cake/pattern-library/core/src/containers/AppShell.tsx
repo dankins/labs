@@ -11,7 +11,7 @@ export function AppShell({
   authComponent?: React.ReactNode;
 }) {
   return (
-    <div className="h-screen overflow-hidden flex flex-row justify-center">
+    <div className="min-h-screen flex flex-row justify-center">
       <div className="container">
         <AppHeader authComponent={authComponent} />
         <AppContent>{children}</AppContent>
