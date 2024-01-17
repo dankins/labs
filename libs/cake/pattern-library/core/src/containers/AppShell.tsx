@@ -22,7 +22,7 @@ export function AppShell({
 }
 
 function AppContent({ children }: { children: React.ReactNode }) {
-  return <main className="px-5 grow overflow-y-scroll">{children}</main>;
+  return <main className="px-5 grow">{children}</main>;
 }
 
 function AppFooter() {

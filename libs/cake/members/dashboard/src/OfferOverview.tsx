@@ -21,7 +21,7 @@ export async function OfferOverview({
   ]);
   return (
     <div>
-      <h1>My Offers</h1>
+      <h1 className="uppercase text-xs">My Benefits</h1>
       <div>
         <Carousel>
           {offers.map((o, idx) => (
@@ -36,10 +36,10 @@ export async function OfferOverview({
 export function OfferCard({ offer }: { offer: Offer }) {
   const code = offer.offer_codes?.code || "";
   return (
-    <div className="p-3 h-24 w-64 bg-white rounded text-black">
-      <h1 className="text-2xl">Cake Pass</h1>
-      <div className="flex flex-row text-xl gap-2 items-center">
-        <span className="">{code}</span>
+    <div className="p-3 h-24 w-64 bg-white rounded-md text-black">
+      <h1 className="text-md font-semibold">Cake Card</h1>
+      <div className="flex flex-row text-xs gap-2 items-center">
+        <span>{code}</span>
         <CopyIcon text={code} />
       </div>
     </div>

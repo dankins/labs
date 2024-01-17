@@ -1,6 +1,7 @@
 export * from "./createBrandOfferCodes";
 export * from "./createBrandPass";
 export * from "./createBrandPassOffer";
+export * from "./createMemberPassport";
 
 export * from "./getBrandAdminData";
 export * from "./getBrandPassOffer";

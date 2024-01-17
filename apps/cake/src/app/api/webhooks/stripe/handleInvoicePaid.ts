@@ -1,5 +1,8 @@
 import { db, invitations, members, passports } from "@danklabs/cake/db";
-import { createBrandPass } from "@danklabs/cake/services/admin-service";
+import {
+  createBrandPass,
+  createMemberPassport,
+} from "@danklabs/cake/services/admin-service";
 import { Stripe } from "stripe";
 import { eq } from "drizzle-orm";
 
@@ -60,15 +63,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
     }));
   await db.insert(invitations).values(newInvitatations);
 
-  // create the passport
-  const passport = (
-    await db
-      .insert(passports)
-      .values({
-        memberId: insertedMember.id,
-      })
-      .returning()
-  )[0];
+  const passport = await createMemberPassport(insertedMember.id);
 
   console.log("created passport", {
     passportId: passport.id,

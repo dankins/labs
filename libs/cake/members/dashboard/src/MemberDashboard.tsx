@@ -22,15 +22,42 @@ export async function MemberDashboard() {
         <ContentPlaceholder />
       </div>
       <div className="md:w-1/3">
-        <PassportStack passport={member.passport} />
-        <Link
-          href="/passport/passes/add"
-          className="mt-10 flex flex-row border rounded-md p-2 items-center"
-        >
-          <span className="grow">Add Additional Passes</span>
-          <AddIcon className="fill-slate-400 text-2xl" />
-        </Link>
+        {member.passport.passes.length > 0 ? (
+          <>
+            {" "}
+            <PassportStack passport={member.passport} />
+            <Link
+              href="/passport/passes/add"
+              className="mt-10 flex flex-row border rounded-md p-2 items-center"
+            >
+              <span className="grow">Add Additional Passes</span>
+              <AddIcon className="fill-slate-400 text-2xl" />
+            </Link>
+          </>
+        ) : (
+          <NoPasses />
+        )}
       </div>
+    </div>
+  );
+}
+
+function NoPasses() {
+  return (
+    <div className="border rounded p-5">
+      <h1 className="font-bold text-lg">Build Out Your Passport</h1>
+      <p className="text-sm">
+        Select Brands to add to your passport and gain access to the benefits
+        offered. Add up to ten brands yearly, with new brands being added
+        throughout the year.
+      </p>
+      <Link
+        href="/passport/passes/add"
+        className="mt-10 flex flex-row border rounded-md p-2 items-center bg-black text-white"
+      >
+        <span className="grow">Select Brands</span>
+        <AddIcon className="fill-slate-400 text-2xl" />
+      </Link>
     </div>
   );
 }

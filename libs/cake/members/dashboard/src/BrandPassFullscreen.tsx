@@ -5,6 +5,7 @@ import { MotionDiv } from "@danklabs/pattern-library/motion";
 import { auth } from "@clerk/nextjs";
 import { OfferOverview } from "./OfferOverview";
 import { SanityImage } from "./SanityImage";
+import { LogoSpace } from "./LogoSpace";
 
 export async function BrandPassFullscreen({
   pass,
@@ -46,42 +47,41 @@ export async function BrandPassFullscreen({
           <MotionDiv
             layoutId="card-gradient"
             className="w-full h-full absolute top-0 margin-top-auto"
-            style={{
-              // background:
-              //   "linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%)",
-              background: gradient,
-            }}
+            style={{ background: gradient }}
           ></MotionDiv>
           <MotionDiv
-            className="w-full h-full absolute top-0 flex flex-col items-center justify-center"
+            className="w-full h-full absolute top-0 mt-52 flex flex-col items-center"
             layoutId="card-content"
           >
-            {brand.passLogo ? (
-              <SanityImage
-                alt={`${brand.name} Logo`}
-                image={brand.passLogo}
-                height={0}
-                width={0}
-                style={{ height: "2.5rem", width: "auto" }}
-              />
-            ) : (
-              <h1 className="text-white text-5xl">{brand.name}</h1>
-            )}
+            <div>
+              {brand.passLogo ? (
+                <LogoSpace>
+                  <SanityImage
+                    alt={`${brand.name} Logo`}
+                    image={brand.passLogo}
+                    height={0}
+                    width={0}
+                    style={{ height: "2.5rem", width: "auto" }}
+                  />
+                </LogoSpace>
+              ) : (
+                <h1 className="text-white text-5xl">{brand.name}</h1>
+              )}
+            </div>
+            <div className="w-full text-white mt-20 px-8">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-2xl font-semibold">
+                  {brand.name} Cake Pass
+                </h1>
+                <p>Brand copy for the passport pass.</p>
+              </div>
+              <div></div>
+              {/* OFFERS */}
+              <div className="mt-5">
+                <OfferOverview brand={brand} />
+              </div>
+            </div>
           </MotionDiv>
-        </div>
-
-        <div className="flex flex-col m-10 text-white">
-          {/* BRAND OVERVIEW */}
-          <div>
-            <h1>{brand.name} Cake Pass</h1>
-            <p>Brand copy for the passport pass.</p>
-            <div></div>
-          </div>
-          {/* OFFERS */}
-          {JSON.stringify(brand.pass_color)}
-          <div className="mt-5">
-            <OfferOverview brand={brand} />
-          </div>
         </div>
       </MotionDiv>
     </div>

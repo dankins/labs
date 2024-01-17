@@ -1,11 +1,12 @@
 import { db, members, passports } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
+import { createMemberPassport } from "./createMemberPassport";
 
 export async function getMemberByIAM(
   iam: string,
   include?: { passport?: true | undefined }
 ) {
-  return db.query.members.findFirst({
+  const result = await db.query.members.findFirst({
     where: eq(members.iam, iam),
     with: {
       passport: {
@@ -19,4 +20,12 @@ export async function getMemberByIAM(
       },
     },
   });
+
+  if (result && !result.passport) {
+    console.log("found member IAM but there is no passport");
+    await createMemberPassport(result.id);
+    return getMemberByIAM(iam, include);
+  }
+
+  return result;
 }
