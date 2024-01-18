@@ -6,6 +6,13 @@ export const brandListSelection = {
   name: q.string(),
   slug: q.slug("slug"),
   logoSquare: sanityImage("logo_square").nullable(),
+  passLogo: sanityImage("pass_logo").nullable(),
+  passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  // https://www.sanity.io/plugins/color-input
 };
 
 export type BrandListSelection = TypeFromSelection<typeof brandListSelection>;

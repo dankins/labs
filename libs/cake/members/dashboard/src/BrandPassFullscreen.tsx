@@ -5,7 +5,7 @@ import { MotionDiv } from "@danklabs/pattern-library/motion";
 import { auth } from "@clerk/nextjs";
 import { OfferOverview } from "./OfferOverview";
 import { SanityImage } from "./SanityImage";
-import { LogoSpace } from "./LogoSpace";
+import { LogoSpace } from "@danklabs/cake/pattern-library/core";
 
 export async function BrandPassFullscreen({
   pass,

@@ -1,5 +1,5 @@
-import { MemberDashboard } from "@danklabs/cake/members/dashboard";
+import { BrandsPage } from "@danklabs/cake/members/brands";
 
 export default function Page() {
-  return <div>I AM THE BRAND PAGE</div>;
+  return <BrandsPage />;
 }

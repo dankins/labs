@@ -8,8 +8,7 @@ export type SanityImageProps = {
     readonly _key: string | null;
     readonly _type: string;
     asset: {
-      _type: "reference";
-      _ref: string;
+      _type: "reference" | "sanity.imageAsset" | "sanity.fileAsset";
       metadata?: {
         lqip?: any;
       };
