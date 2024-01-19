@@ -1,4 +1,4 @@
-import { makeSafeQueryRunner, q, Selection } from "groqd";
+import { makeSafeQueryRunner, q, sanityImage, Selection } from "groqd";
 
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
@@ -6,6 +6,23 @@ export const brandSelection = {
   name: q.string(),
   slug: q.slug("slug"),
   website: q.string(),
+  passLogo: sanityImage("pass_logo").nullable(),
+  passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  // https://www.sanity.io/plugins/color-input
+  pass_color: q
+    .object({
+      hex: q.string(),
+      rgb: q.object({
+        r: q.number(),
+        g: q.number(),
+        b: q.number(),
+      }),
+    })
+    .nullable(),
 } satisfies Selection;
 
 const runQuery = makeSafeQueryRunner(

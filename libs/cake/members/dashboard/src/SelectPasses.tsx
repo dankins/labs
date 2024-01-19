@@ -22,7 +22,9 @@ export async function SelectPasses({
       await createBrandPass(tx, passport.id, slug);
     });
 
-    revalidatePath("/members");
+    revalidatePath("/passport");
+    revalidatePath("/brands");
+    revalidatePath(`/brands/${slug}`);
   }
   return (
     <div className="flex flex-col items-center gap-4">

@@ -6,6 +6,8 @@ import { auth } from "@clerk/nextjs";
 import { OfferOverview } from "./OfferOverview";
 import { SanityImage } from "./SanityImage";
 import { LogoSpace } from "@danklabs/cake/pattern-library/core";
+import { Button } from "@danklabs/pattern-library/core";
+import Link from "next/link";
 
 export async function BrandPassFullscreen({
   pass,
@@ -82,6 +84,11 @@ export async function BrandPassFullscreen({
               </div>
             </div>
           </MotionDiv>
+        </div>
+        <div className="absolute bottom-10 mx-10">
+          <Link href={`/brands/${brand.slug}`}>
+            <Button>View Brand</Button>
+          </Link>
         </div>
       </MotionDiv>
     </div>
