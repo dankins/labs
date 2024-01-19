@@ -27,7 +27,7 @@ export async function MemberDashboard() {
             {" "}
             <PassportStack passport={member.passport} />
             <Link
-              href="/passport/passes/add"
+              href="/brands"
               className="mt-10 flex flex-row border rounded-md p-2 items-center"
             >
               <span className="grow">Add Additional Passes</span>

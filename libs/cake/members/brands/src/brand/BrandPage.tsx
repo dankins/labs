@@ -55,7 +55,7 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <div className="flex flex-col items-center ">
-      <div className="max-w-[365px] min-h-screen bg-black w-full">
+      <div className="md:max-w-[365px] min-h-screen bg-black w-full">
         <div
           className="w-full h-full max-w-[465px] rounded-lg shadow-2xl relative"
           style={{

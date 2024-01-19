@@ -54,7 +54,7 @@ export async function Component() {
 
 function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid grid-cols-2 md:grid-cols-4">
       {brands.map((b) => (
         <GridItem brand={b} pass={passes[b.slug]} />
       ))}
