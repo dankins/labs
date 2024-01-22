@@ -1,4 +1,4 @@
-import { StoriesPage } from "@danklabs/cake/members/content";
+import { StoryDetailPage } from "@danklabs/cake/members/content";
 export default function Page({
   params,
   searchParams,
@@ -6,5 +6,5 @@ export default function Page({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  return <StoriesPage />;
+  return <StoryDetailPage slug={params.slug} />;
 }

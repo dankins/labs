@@ -22,6 +22,9 @@
       "@danklabs/cake/members/brands": [
         "libs/cake/members/brands/src/index.ts"
       ],
+      "@danklabs/cake/members/content": [
+        "libs/cake/members/content/src/index.ts"
+      ],
       "@danklabs/cake/members/dashboard": [
         "libs/cake/members/dashboard/src/index.ts"
       ],

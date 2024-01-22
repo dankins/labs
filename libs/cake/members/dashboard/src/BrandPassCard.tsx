@@ -2,7 +2,7 @@ import { PassportBrandsSelection } from "@danklabs/cake/cms";
 import type { PassportType } from "./PassportStack";
 import { BrandCardHeroImage } from "./BrandCardHeroImage";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
-import { SanityImage } from "./SanityImage";
+import { SanityImage } from "../../../pattern-library/core/src/images/SanityImage";
 
 export function BrandPassCard({
   pass,

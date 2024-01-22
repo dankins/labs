@@ -4,7 +4,7 @@ import { BrandCardHeroImage } from "./BrandCardHeroImage";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
 import { auth } from "@clerk/nextjs";
 import { OfferOverview } from "./OfferOverview";
-import { SanityImage } from "./SanityImage";
+import { SanityImage } from "../../../pattern-library/core/src/images/SanityImage";
 import { LogoSpace } from "@danklabs/cake/pattern-library/core";
 import { Button } from "@danklabs/pattern-library/core";
 import Link from "next/link";

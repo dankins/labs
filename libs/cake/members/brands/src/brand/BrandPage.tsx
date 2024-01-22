@@ -5,8 +5,7 @@ import {
   createBrandPass,
   getMemberByIAM,
 } from "@danklabs/cake/services/admin-service";
-import { Button } from "@danklabs/pattern-library/core";
-import { SanityImage } from "libs/cake/members/dashboard/src/SanityImage";
+import { SanityImage } from "@danklabs/cake/pattern-library/core";
 import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import { SelectPassButton } from "./SelectPassButton";
