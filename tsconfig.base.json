@@ -18,6 +18,7 @@
       "@danklabs/cake/admin/brands": ["libs/cake/admin/brands/src/index.ts"],
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
       "@danklabs/cake/db": ["libs/cake/db/src/index.ts"],
+      "@danklabs/cake/emails": ["libs/cake/emails/src/index.ts"],
       "@danklabs/cake/lobby": ["libs/cake/lobby/src/index.ts"],
       "@danklabs/cake/members/brands": [
         "libs/cake/members/brands/src/index.ts"

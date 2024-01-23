@@ -9,7 +9,7 @@ import {
 import { asc, eq } from "drizzle-orm";
 import { Suspense } from "react";
 import { ActivateInvitationButton } from "./ActivateInvitationButton";
-import { activateInvitationAction } from "./actions";
+import { activateInvitationAction, sendInvitationEmail } from "./actions";
 import { InvitationLink } from "./InvitationLink";
 
 export function InvitationsList() {
@@ -88,7 +88,11 @@ function InvitationNotActive({ invitation }: { invitation: Invitation }) {
 function InvitationActive({ invitation }: { invitation: Invitation }) {
   return (
     <div>
-      <InvitationLink code={invitation.code!} />
+      <InvitationLink
+        domain={process.env["VERCEL_URL"]!}
+        code={invitation.code!}
+        sendInvitationEmail={sendInvitationEmail}
+      />
     </div>
   );
 }

@@ -4,9 +4,10 @@
   "license": "MIT",
   "scripts": {
     "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
-    "storybook:cake": "npx nx run cake/pattern-library/core:storybook",
-    "dev:cake": "npx nx serve --project cake --port 4300",
-    "generate-db:cake": "drizzle-kit generate:pg --config ./libs/cake/db/drizzle.config.ts"
+    "cake:storybook": "npx nx run cake/pattern-library/core:storybook",
+    "cake:dev": "npx nx serve --project cake --port 4300",
+    "cake:generate-db": "drizzle-kit generate:pg --config ./libs/cake/db/drizzle.config.ts",
+    "cake:emails": "email dev -d libs/cake/emails"
   },
   "private": true,
   "dependencies": {
@@ -15,6 +16,8 @@
     "@neondatabase/serverless": "^0.6.0",
     "@nx/next": "17.1.2",
     "@portabletext/react": "^3.0.11",
+    "@react-email/components": "0.0.14",
+    "@react-email/tailwind": "0.0.14",
     "@sanity/color-input": "^3.1.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.20.1",
@@ -45,8 +48,10 @@
     "postgres": "^3.4.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-email": "2.0.0",
     "react-icons": "^4.12.0",
     "redis": "^4.6.10",
+    "resend": "^3.1.0",
     "stripe": "^14.8.0",
     "tslib": "^2.3.0",
     "usehooks-ts": "^2.9.1",
