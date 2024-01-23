@@ -89,7 +89,7 @@ function InvitationActive({ invitation }: { invitation: Invitation }) {
   return (
     <div>
       <InvitationLink
-        domain={process.env["VERCEL_URL"]!}
+        domain={process.env["NEXT_PUBLIC_SITE_URL"]!}
         code={invitation.code!}
         sendInvitationEmail={sendInvitationEmail}
       />
