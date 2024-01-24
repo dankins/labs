@@ -2,12 +2,15 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: "/",
     name: "Cake Prototype",
     short_name: "Cake Prototype",
     description:
       "Proof of concept application to showcase PWA functionality in cake",
     start_url: "/",
     display: "standalone",
+    dir: "ltr",
+    lang: "en_US",
     background_color: "#fff",
     theme_color: "#fff",
     icons: [
