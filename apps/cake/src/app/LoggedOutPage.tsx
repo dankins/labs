@@ -16,7 +16,9 @@ export function LoggedOutPage() {
 function Nav() {
   return (
     <div className="flex flex-row justify-end p-4">
-      <Link href="/sign-in">Member Login</Link>
+      <Link prefetch={false} href="/sign-in">
+        Member Login
+      </Link>
     </div>
   );
 }
