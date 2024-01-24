@@ -4,6 +4,7 @@ import { AddIcon } from "@danklabs/pattern-library/core";
 import Link from "next/link";
 import { PassportStack } from "./PassportStack";
 import { ContentPlaceholder } from "./ContentPlaceholder";
+import { PassportSummary } from "./PassportSummary";
 
 export async function MemberDashboard() {
   const { userId } = auth();
@@ -24,7 +25,10 @@ export async function MemberDashboard() {
       <div className="md:w-1/3">
         {member.passport.passes.length > 0 ? (
           <>
-            {" "}
+            <div className="py-4 flex flex-row items-center">
+              <h1 className="text-2xl grow">Passport</h1>
+              <PassportSummary passport={member.passport} />
+            </div>
             <PassportStack passport={member.passport} />
             <Link
               href="/brands"

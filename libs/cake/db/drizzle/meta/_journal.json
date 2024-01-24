@@ -64,6 +64,13 @@
       "when": 1704320080090,
       "tag": "0008_lonely_trish_tilby",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1706124430422,
+      "tag": "0009_supreme_cloak",
+      "breakpoints": true
     }
   ]
 }

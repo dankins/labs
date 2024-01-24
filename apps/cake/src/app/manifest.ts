@@ -13,6 +13,10 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "en_US",
     background_color: "#fff",
     theme_color: "#fff",
+    launch_handler: {
+      // @ts-ignore
+      client_mode: "navigate-existing",
+    },
     icons: [
       {
         src: "/favicon.ico",

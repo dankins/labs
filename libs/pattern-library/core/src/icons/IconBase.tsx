@@ -26,6 +26,7 @@ export function IconBase(
       {...svgProps}
       className={className}
       style={{
+        display: "inline-block",
         color: props.color,
         ...props.style,
       }}

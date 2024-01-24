@@ -14,6 +14,11 @@ export async function getMemberByIAM(
           passes: {
             with: {
               brand: true,
+              offers: {
+                with: {
+                  template: true,
+                },
+              },
             },
           },
         },

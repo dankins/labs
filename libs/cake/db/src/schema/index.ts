@@ -7,6 +7,7 @@ import {
   integer,
   boolean,
   pgEnum,
+  numeric,
 } from "drizzle-orm/pg-core";
 
 export const members = pgTable("members", {
@@ -46,6 +47,10 @@ export const brandOfferTemplates = pgTable("brand_offer_templates", {
     .notNull(),
   applyOnPassCreation: boolean("apply_on_pass_creation").notNull(),
   offerType: offerType("offer_type").notNull(),
+  offerValue: numeric("offer_value").default("0").notNull(),
+  name: numeric("name"),
+  description: numeric("description"),
+  finePrint: numeric("fine_print"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -124,7 +129,7 @@ export const brandsRelations = relations(brands, ({ many }) => ({
   offerTemplates: many(brandOfferTemplates),
 }));
 
-export const passesRelations = relations(passes, ({ one }) => ({
+export const passesRelations = relations(passes, ({ one, many }) => ({
   passport: one(passports, {
     fields: [passes.passportId],
     references: [passports.id],
@@ -133,6 +138,7 @@ export const passesRelations = relations(passes, ({ one }) => ({
     fields: [passes.brandId],
     references: [brands.id],
   }),
+  offers: many(offers),
 }));
 
 export const passportRelations = relations(passports, ({ one, many }) => ({
@@ -158,6 +164,10 @@ export const offerRelations = relations(offers, ({ one }) => ({
   code: one(offerCodes, {
     fields: [offers.id],
     references: [offerCodes.offerId],
+  }),
+  pass: one(passes, {
+    fields: [offers.passId],
+    references: [passes.id],
   }),
 }));
 
