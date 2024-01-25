@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button, ButtonProps } from "./Button";
+import { Button } from "./Button";
+import { ButtonProps } from "./BaseButton";
 
 export function ActionButton({
   action,

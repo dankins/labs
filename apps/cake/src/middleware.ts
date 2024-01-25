@@ -8,7 +8,6 @@ import {
 import { NextResponse } from "next/server";
 
 export default authMiddleware({
-  ignoredRoutes: ["/"],
   publicRoutes: ["/", "/invitation", "/api/webhooks(.*)", "/studio"],
   async afterAuth(auth, req, evt) {
     // Allow users visiting public routes to access them

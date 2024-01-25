@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { SanityImageSource } from "@sanity/asset-utils";
 import {
   ImageUrlBuilder,
   UseNextSanityImageBuilderOptions,
@@ -40,7 +39,6 @@ export function SanityImage({
 }: SanityImageProps) {
   const imageBuilder: ImageBuilderFactory | undefined = useMemo(() => {
     if (aspectRatio) {
-      console.log("build it");
       return (
         imageUrlBuilder: ImageUrlBuilder,
         options: UseNextSanityImageBuilderOptions

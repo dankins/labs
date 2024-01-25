@@ -27,10 +27,10 @@ export function PassportSummary({ passport }: { passport: PassportType }) {
   return (
     <div className="flex flex-row gap-2 items-center">
       <div className="flex flex-row gap-1 items-center">
-        <CashIcon /> <span>{totalValue}</span>
+        <CashIcon className="text-primary text-2xl" /> <span>{totalValue}</span>
       </div>
       <div className="flex flex-row gap-1 items-center">
-        <StarIcon /> <span>{perkCount}</span>
+        <StarIcon className="text-primary text-2xl" /> <span>{perkCount}</span>
       </div>
     </div>
   );

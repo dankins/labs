@@ -15,7 +15,6 @@ function Loading() {
 }
 
 async function Component({ slug }: { slug: string }) {
-  console.log("getting content", slug);
   const content = await getContent(slug);
 
   return (
