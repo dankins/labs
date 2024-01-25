@@ -16,7 +16,14 @@ export function SelectPassButton({
     setLoading(false);
   }
   return (
-    <Button disabled={loading} onClick={handleClick}>
+    <Button
+      disabled={loading}
+      onClick={handleClick}
+      background="white"
+      textColor="black"
+      border="neutral/30"
+      className="drop-shadow-xl"
+    >
       {children}
     </Button>
   );

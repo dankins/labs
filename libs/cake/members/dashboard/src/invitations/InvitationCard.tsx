@@ -45,7 +45,7 @@ function OpenInvitations({ count }: { count: number }) {
       </div>
       <div>
         <SectionHeading>Invitations</SectionHeading>
-        <div className="text-xs">
+        <div className="text-xs font-medium mt-1">
           Share your love of Cake by inviting your friends!
         </div>
       </div>
@@ -72,8 +72,9 @@ function PendingInvitations({ count }: { count: number }) {
       </div>
       <div>
         <SectionHeading>Pending invitations</SectionHeading>
-        <div className="text-xs font-medium">dan@alphaminer.com</div>
-        <div className="text-xs">1 day remaining</div>
+        <div className="text-xs font-medium mt-1">
+          Track invitations you have sent to join Cake.
+        </div>
       </div>
       <div>
         <Button

@@ -11,20 +11,20 @@ import classNames from "classnames";
 
 const inter = Inter({
   subsets: ["latin"],
-  display: "swap",
+  display: "block",
   variable: "--font-inter",
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
-  display: "swap",
+  display: "block",
   variable: "--font-poppins",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  display: "swap",
+  display: "block",
   variable: "--font-montserrat",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
