@@ -1,5 +1,6 @@
 import { PageWithNavbar } from "@danklabs/pattern-library/core";
 import { Lobby } from "@danklabs/cake/lobby";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export default async function Page({
   params,
@@ -9,8 +10,10 @@ export default async function Page({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   return (
-    <PageWithNavbar>
-      <Lobby searchParams={searchParams} />
-    </PageWithNavbar>
+    <ClerkProvider>
+      <PageWithNavbar>
+        <Lobby searchParams={searchParams} />
+      </PageWithNavbar>
+    </ClerkProvider>
   );
 }
