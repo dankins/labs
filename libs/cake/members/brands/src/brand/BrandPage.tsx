@@ -12,7 +12,7 @@ import {
 } from "@danklabs/cake/services/admin-service";
 import { SanityImage } from "@danklabs/cake/pattern-library/core";
 import { revalidatePath } from "next/cache";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { SelectPassButton } from "./SelectPassButton";
 import { auth } from "@clerk/nextjs";
 import {
@@ -39,14 +39,30 @@ async function Component({ slug }: { slug: string }) {
     throw new Error("userid not available");
   }
 
-  const [brand, { isMember, passportId, passCount }] = await Promise.all([
-    getBrandAdmin(slug),
-    getMemberByIAM(userId, { passport: true }).then((member) => ({
-      isMember: member?.passport.passes.map((p) => p.brand.slug).includes(slug),
-      passportId: member?.passport.id,
-      passCount: member?.passport.passes.length || 1000,
-    })),
-  ]);
+  const [brand, { isMember, passportId, unclaimedPassCount, passes }] =
+    await Promise.all([
+      getBrandAdmin(slug),
+      getMemberByIAM(userId, { passport: true }).then((member) => ({
+        passes: member?.passport.passes || [],
+        isMember: member?.passport.passes
+          .map((p) => p.brand.slug)
+          .includes(slug),
+        passportId: member?.passport.id,
+        passCount: member?.passport.passes.length || 1000,
+        // TOOD(dankins): model this better
+        unclaimedPassCount: 10 - (member?.passport.passes.length || 10),
+      })),
+    ]);
+
+  const passportValue = passes.reduce((acc, cur) => {
+    return (
+      acc +
+      cur.offers.reduce(
+        (acc, cur) => acc + parseFloat(cur.template.offerValue),
+        0
+      )
+    );
+  }, 0);
 
   async function claimPassAction(slug: string) {
     "use server";
@@ -65,18 +81,21 @@ async function Component({ slug }: { slug: string }) {
   return (
     <div className="flex flex-col items-center bg-black pb-52">
       {/* ADD TO PASSES BUTTON (FIXED POSITION) */}
-      {passCount < 5 && !isMember && (
-        <div className="fixed bottom-10 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
-          <div>
-            <SelectPassButton
-              claimPassAction={claimPassAction.bind(null, brand.slug)}
-            >
-              <AddIcon />
-              Add to Passes
-            </SelectPassButton>
-          </div>
-        </div>
-      )}
+      <div className="fixed bottom-10 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
+        <SelectPassButton
+          passportValue={passportValue}
+          unclaimedPassCount={unclaimedPassCount}
+          brandName={brand.name}
+          claimPassAction={claimPassAction.bind(null, brand.slug)}
+          className={
+            unclaimedPassCount === 0 || isMember ? "hidden" : undefined
+          }
+        >
+          <AddIcon />
+          Add to Passes
+        </SelectPassButton>
+      </div>
+
       {/* MAIN CONTAINER */}
       <div className="w-full h-full max-w-[465px] rounded-lg shadow-2xl  bg-black relative">
         {/* HERO IMAGE / GRADIENT OVERLAY */}
