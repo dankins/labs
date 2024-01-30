@@ -4,6 +4,7 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 const runQuery = makeSafeQueryRunner((q) =>
   sanityClient.fetch(q, {
+    // @ts-ignore
     next: {
       revalidate: 1, // look for updates to revalidate cache every 60 seconds
     },
