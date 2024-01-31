@@ -3,7 +3,7 @@ import type { getBrands } from "@danklabs/cake/cms";
 import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
 import type { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import classNames from "classnames";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./GridItem.scss";
 import {
   AddIcon,
@@ -74,12 +74,17 @@ function GridItem({
   onClick(): void;
   onAddToPassport(): void;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
   function handleClick() {
     onClick();
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   return (
     <div
+      ref={ref}
       className={classNames(
         "w-full BrandGridItem",
         active && "BrandGridItem-active",
