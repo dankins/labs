@@ -3,6 +3,8 @@ import { Container } from "./Container";
 import { getBrands } from "../queries/getBrands";
 import { Suspense } from "react";
 import { BrandCard } from "./BrandCard";
+import { Carousel } from "./Carousel";
+import { GridList } from "./BrandGrid";
 
 const MAX_SELECTIONS = 2;
 
@@ -26,8 +28,9 @@ export function Loading() {
 async function Loaded({ selection }: { selection: string[] }) {
   const result = await getBrands();
   return (
-    <Container>
-      <h1>Lobby Brands</h1>
+    <div className="w-full container">
+      <GridList />
+      {/* <h1>Lobby Brands</h1>
       <div className="grid grid-cols-3 gap-3 m-5">
         {result.brands.map((b) => (
           <BrandCard
@@ -41,7 +44,7 @@ async function Loaded({ selection }: { selection: string[] }) {
           />
         ))}
       </div>
-      <ContinueButton selection={selection} />
-    </Container>
+      <ContinueButton selection={selection} /> */}
+    </div>
   );
 }

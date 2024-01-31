@@ -5,7 +5,13 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 export const brandListSelection = {
   name: q.string(),
   slug: q.slug("slug"),
-  logoSquare: sanityImage("logo_square").nullable(),
+  summary: q.string(),
+  passLogo: sanityImage("pass_logo").nullable(),
+  passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
 };
 
 export type BrandListSelection = TypeFromSelection<typeof brandListSelection>;

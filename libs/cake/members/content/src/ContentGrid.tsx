@@ -1,7 +1,10 @@
 import { ContentListSelection } from "@danklabs/cake/cms";
 import classNames from "classnames";
 import Link from "next/link";
-import { SanityImage } from "@danklabs/cake/pattern-library/core";
+import {
+  SanityImage,
+  portraitCropBuilder,
+} from "@danklabs/cake/pattern-library/core";
 
 export type ContentGridProps = {
   contentList: ContentListSelection[];
@@ -33,7 +36,7 @@ function ContentItem({ content }: { content: ContentListSelection }) {
             height={0}
             width={0}
             style={{ height: "100%", width: "100%" }}
-            aspectRatio="portrait"
+            imageBuilder={portraitCropBuilder(284)}
           />
         </div>
         <div className="h-32 overflow-y-hidden p-3 mb-5">

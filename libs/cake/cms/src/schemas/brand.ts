@@ -36,6 +36,11 @@ const BrandType = defineType({
       type: "string",
     }),
     defineField({
+      name: "summary",
+      title: "Summary",
+      type: "text",
+    }),
+    defineField({
       name: "pass_logo",
       title: "Pass Logo",
       type: "image",
