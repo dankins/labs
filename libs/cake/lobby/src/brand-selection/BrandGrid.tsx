@@ -1,8 +1,5 @@
 import { getBrands } from "@danklabs/cake/cms";
 import { Suspense } from "react";
-import { SanityImage } from "../../../pattern-library/core/src/images/SanityImage";
-import { LogoSpace } from "@danklabs/cake/pattern-library/core";
-import Link from "next/link";
 import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import Image from "next/image";
 import { BrandGridClient } from "./BrandGridClient";

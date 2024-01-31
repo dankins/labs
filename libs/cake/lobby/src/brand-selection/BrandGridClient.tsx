@@ -11,10 +11,12 @@ import {
   ChevronRightIcon,
 } from "@danklabs/pattern-library/core";
 import { WalletIcon } from "libs/cake/pattern-library/core/src/icons";
+import { SelectionSummary } from "./SelectionSummary";
 
-type Cart = {
-  selectedBrands: Brand[];
+export type Cart = {
+  selectionMap: { [key: string]: Brand };
   totalValue: number;
+  selectionCount: number;
 };
 
 type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
@@ -22,8 +24,38 @@ type Pass = NonNullable<
   Awaited<ReturnType<typeof getMemberByIAM>>
 >["passport"]["passes"][0];
 
+function addToCart(currentCart: Cart, brand: Brand): Cart {
+  const selectionMap: { [key: string]: Brand } = {
+    ...currentCart.selectionMap,
+    [brand.slug]: brand,
+  };
+  return {
+    selectionMap,
+    selectionCount: currentCart.selectionCount + 1,
+    totalValue: currentCart.totalValue + 100,
+  };
+}
+function removeFromCart(currentCart: Cart, brand: Brand): Cart {
+  const { [brand.slug]: deleteThis, ...selectionMap } =
+    currentCart.selectionMap;
+  return {
+    selectionMap,
+    selectionCount: currentCart.selectionCount - 1,
+    totalValue: currentCart.totalValue - 100,
+  };
+}
+function togglePass(currentCart: Cart, brand: Brand): Cart {
+  return currentCart.selectionMap[brand.slug]
+    ? removeFromCart(currentCart, brand)
+    : addToCart(currentCart, brand);
+}
+
 export function BrandGridClient({ brands }: { brands: Brand[] }) {
-  const [cart, setCart] = useState<Cart>({ selectedBrands: [], totalValue: 0 });
+  const [cart, setCart] = useState<Cart>({
+    selectionMap: {},
+    selectionCount: 0,
+    totalValue: 0,
+  });
   const [activeIdx, setActiveIdx] = useState<number>();
   const [shrinkIdx, setShrinkIdx] = useState<number>();
   function handleClick(idx: number) {
@@ -35,27 +67,26 @@ export function BrandGridClient({ brands }: { brands: Brand[] }) {
       setShrinkIdx(undefined);
     }
   }
-  function handleAddToPassport() {}
+  function handleAddToPassport(brand: Brand) {
+    console.log("handleAddToPassport");
+    setCart((currentCart) => togglePass(currentCart, brand));
+  }
   return (
     <div className="flex flex-row flex-wrap">
-      {brands.map((b, idx) => {
-        let shrink = false;
-        // check if there is a selection
-        if (typeof activeIdx !== "undefined") {
-          // if selection is odd, then shrink the preceding element
-          if (activeIdx % 2 === 0) {
-          }
-        }
-        return (
-          <GridItem
-            brand={b}
-            onClick={() => handleClick(idx)}
-            shrink={idx === shrinkIdx}
-            active={idx === activeIdx}
-            onAddToPassport={handleAddToPassport}
-          />
-        );
-      })}
+      {brands.map((b, idx) => (
+        <GridItem
+          key={b.slug}
+          brand={b}
+          onClick={() => handleClick(idx)}
+          shrink={idx === shrinkIdx}
+          active={idx === activeIdx}
+          selected={typeof cart.selectionMap[b.slug] === "object"}
+          onAddToPassport={() => handleAddToPassport(b)}
+        />
+      ))}
+      <div className="fixed bottom-0 left-0 my-5 w-full">
+        <SelectionSummary cart={cart} />
+      </div>
     </div>
   );
 }
@@ -65,12 +96,15 @@ function GridItem({
   pass,
   shrink,
   active,
+  selected,
   onClick,
+  onAddToPassport,
 }: {
   brand: Brand;
   pass?: Pass;
   active?: boolean;
   shrink?: boolean;
+  selected?: boolean;
   onClick(): void;
   onAddToPassport(): void;
 }) {
@@ -80,6 +114,10 @@ function GridItem({
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  }
+  function handleAddToPassport(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+    onAddToPassport();
   }
 
   return (
@@ -106,7 +144,7 @@ function GridItem({
             />
           )}
         </figure>
-        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 group-hover:bg-transparent"></div>
+        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 "></div>
         {/** COLLAPSED CONTENT */}
         {!active && !shrink && (
           <div className={classNames("absolute top-0 w-full h-full p-4")}>
@@ -163,9 +201,23 @@ function GridItem({
                 </div>
                 <div className="text-white text-5xl">$100</div>
               </div>
-              <Button background="white uppercase my-3">
-                <AddIcon /> Add to Passport
-              </Button>
+              {selected ? (
+                <Button
+                  background="white/50"
+                  className="uppercase my-3"
+                  onClick={handleAddToPassport}
+                >
+                  <AddIcon /> In Passport
+                </Button>
+              ) : (
+                <Button
+                  background="white"
+                  className="uppercase my-3"
+                  onClick={handleAddToPassport}
+                >
+                  <AddIcon /> Add to Passport
+                </Button>
+              )}
             </div>
           </div>
         )}
