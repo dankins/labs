@@ -1,9 +1,6 @@
-import { ContinueButton } from "./ContinueButton";
 import { Container } from "./Container";
 import { getBrands } from "../queries/getBrands";
 import { Suspense } from "react";
-import { BrandCard } from "./BrandCard";
-import { Carousel } from "./Carousel";
 import { GridList } from "./BrandGrid";
 
 const MAX_SELECTIONS = 2;

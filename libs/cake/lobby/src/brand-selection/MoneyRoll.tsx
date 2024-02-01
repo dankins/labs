@@ -10,7 +10,10 @@ export type MoneyRollProps = {
 };
 export function MoneyRoll({ className, amount, duration }: MoneyRollProps) {
   const motionAmount = useMotionValue(amount);
-  const rounded = useTransform(motionAmount, Math.round);
+  const rounded = useTransform(
+    motionAmount,
+    (input) => `$${Math.round(input)}`
+  );
   useEffect(() => {
     const animation = animate(motionAmount, amount, {
       duration: duration || 1,
@@ -25,7 +28,7 @@ export function MoneyRoll({ className, amount, duration }: MoneyRollProps) {
 
   return (
     <>
-      $<motion.span className={className}>{rounded}</motion.span>
+      <motion.span className={className}>{rounded}</motion.span>
     </>
   );
 }

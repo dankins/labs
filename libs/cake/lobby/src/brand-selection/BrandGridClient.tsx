@@ -72,28 +72,29 @@ export function BrandGridClient({ brands }: { brands: Brand[] }) {
     setCart((currentCart) => togglePass(currentCart, brand));
   }
   return (
-    <div className="flex flex-row flex-wrap">
-      {brands.map((b, idx) => (
-        <GridItem
-          key={b.slug}
-          brand={b}
-          onClick={() => handleClick(idx)}
-          shrink={idx === shrinkIdx}
-          active={idx === activeIdx}
-          selected={typeof cart.selectionMap[b.slug] === "object"}
-          onAddToPassport={() => handleAddToPassport(b)}
-        />
-      ))}
+    <>
+      <div className="flex flex-row flex-wrap mb-[120px]">
+        {brands.map((b, idx) => (
+          <GridItem
+            key={b.slug}
+            brand={b}
+            onClick={() => handleClick(idx)}
+            shrink={idx === shrinkIdx}
+            active={idx === activeIdx}
+            selected={typeof cart.selectionMap[b.slug] === "object"}
+            onAddToPassport={() => handleAddToPassport(b)}
+          />
+        ))}
+      </div>
       <div className="fixed bottom-0 left-0 my-5 w-full">
         <SelectionSummary cart={cart} />
       </div>
-    </div>
+    </>
   );
 }
 
 function GridItem({
   brand,
-  pass,
   shrink,
   active,
   selected,
@@ -188,7 +189,7 @@ function GridItem({
                 border="primary"
                 className="uppercase text-black"
               >
-                <ChevronRightIcon />{" "}
+                <ChevronRightIcon className="fill-white" />{" "}
                 <span className="text-white">Learn More</span>
               </Button>
             </div>
@@ -203,11 +204,10 @@ function GridItem({
               </div>
               {selected ? (
                 <Button
-                  background="white/50"
-                  className="uppercase my-3"
+                  className="uppercase my-3 bg-white/70"
                   onClick={handleAddToPassport}
                 >
-                  <AddIcon /> In Passport
+                  <AddIcon /> Selected
                 </Button>
               ) : (
                 <Button
