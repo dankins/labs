@@ -9,3 +9,4 @@ export * from "./getBrandPassOffers";
 export * from "./getMemberByIAM";
 export * from "./getOfferCodeUsage";
 export * from "./getMemberInvitations";
+export * from "./getBrandsWithOffers";

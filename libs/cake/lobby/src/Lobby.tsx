@@ -41,7 +41,7 @@ export async function LobbyView({
     case "welcome":
       return <Welcome />;
     case "brand_selection":
-      return <BrandSelection selection={state.brandSelection} />;
+      return <BrandSelection />;
     case "checkout":
       return (
         <MembershipCheckout

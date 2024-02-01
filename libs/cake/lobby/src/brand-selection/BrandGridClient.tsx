@@ -24,7 +24,11 @@ type Pass = NonNullable<
   Awaited<ReturnType<typeof getMemberByIAM>>
 >["passport"]["passes"][0];
 
-function addToCart(currentCart: Cart, brand: Brand): Cart {
+function addToCart(
+  currentCart: Cart,
+  brand: Brand,
+  voucherAmount: number
+): Cart {
   const selectionMap: { [key: string]: Brand } = {
     ...currentCart.selectionMap,
     [brand.slug]: brand,
@@ -32,25 +36,39 @@ function addToCart(currentCart: Cart, brand: Brand): Cart {
   return {
     selectionMap,
     selectionCount: currentCart.selectionCount + 1,
-    totalValue: currentCart.totalValue + 100,
+    totalValue: currentCart.totalValue + voucherAmount,
   };
 }
-function removeFromCart(currentCart: Cart, brand: Brand): Cart {
+function removeFromCart(
+  currentCart: Cart,
+  brand: Brand,
+  voucherAmount: number
+): Cart {
   const { [brand.slug]: deleteThis, ...selectionMap } =
     currentCart.selectionMap;
   return {
     selectionMap,
     selectionCount: currentCart.selectionCount - 1,
-    totalValue: currentCart.totalValue - 100,
+    totalValue: currentCart.totalValue - voucherAmount,
   };
 }
-function togglePass(currentCart: Cart, brand: Brand): Cart {
+function togglePass(
+  currentCart: Cart,
+  brand: Brand,
+  voucherAmount: number
+): Cart {
   return currentCart.selectionMap[brand.slug]
-    ? removeFromCart(currentCart, brand)
-    : addToCart(currentCart, brand);
+    ? removeFromCart(currentCart, brand, voucherAmount)
+    : addToCart(currentCart, brand, voucherAmount);
 }
 
-export function BrandGridClient({ brands }: { brands: Brand[] }) {
+export function BrandGridClient({
+  brands,
+  vouchers,
+}: {
+  brands: Brand[];
+  vouchers: { [slug: string]: number };
+}) {
   const [cart, setCart] = useState<Cart>({
     selectionMap: {},
     selectionCount: 0,
@@ -67,9 +85,9 @@ export function BrandGridClient({ brands }: { brands: Brand[] }) {
       setShrinkIdx(undefined);
     }
   }
-  function handleAddToPassport(brand: Brand) {
+  function handleAddToPassport(brand: Brand, voucherAmount: number) {
     console.log("handleAddToPassport");
-    setCart((currentCart) => togglePass(currentCart, brand));
+    setCart((currentCart) => togglePass(currentCart, brand, voucherAmount));
   }
   return (
     <>
@@ -82,7 +100,8 @@ export function BrandGridClient({ brands }: { brands: Brand[] }) {
             shrink={idx === shrinkIdx}
             active={idx === activeIdx}
             selected={typeof cart.selectionMap[b.slug] === "object"}
-            onAddToPassport={() => handleAddToPassport(b)}
+            onAddToPassport={() => handleAddToPassport(b, vouchers[b.slug])}
+            voucherAmount={vouchers[b.slug]}
           />
         ))}
       </div>
@@ -98,6 +117,7 @@ function GridItem({
   shrink,
   active,
   selected,
+  voucherAmount,
   onClick,
   onAddToPassport,
 }: {
@@ -106,6 +126,7 @@ function GridItem({
   active?: boolean;
   shrink?: boolean;
   selected?: boolean;
+  voucherAmount: number;
   onClick(): void;
   onAddToPassport(): void;
 }) {
@@ -200,7 +221,7 @@ function GridItem({
                 <div className="grow flex flex-row gap-2 items-center text-primary">
                   <WalletIcon /> <span>Cake Card</span>
                 </div>
-                <div className="text-white text-5xl">$100</div>
+                <div className="text-white text-5xl">${voucherAmount}</div>
               </div>
               {selected ? (
                 <Button

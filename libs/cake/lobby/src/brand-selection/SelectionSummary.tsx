@@ -19,8 +19,11 @@ export function SelectionSummary({ cart }: { cart: Cart }) {
       <div className="px-4 py-2 bg-white text-black rounded-full flex flex-row  text-sm">
         <div className="grow flex flex-row gap-4">null state</div>
         <div>
-          <Button className="flex flex-col gap-0">
-            <div className="text-sm uppercase">Let's Go!</div>
+          <Button
+            className="flex flex-col gap-0 bg-[#FFE3C5]"
+            onClick={handleContinue}
+          >
+            <div className="text-sm uppercase">Choose Later</div>
           </Button>
         </div>
       </div>
