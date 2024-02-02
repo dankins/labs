@@ -11,6 +11,7 @@ import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Summary } from "./checkout/Summary";
 import { cookies } from "next/headers";
 import { CartCookie } from "./brand-selection/types";
+import { CreateAccount } from "./checkout/CreateAccount";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -18,6 +19,7 @@ const Step = z.enum([
   "welcome",
   "brand_selection",
   "summary",
+  "account",
   "checkout",
   "error",
 ]);
@@ -53,6 +55,8 @@ export async function LobbyView({
       return <BrandSelection />;
     case "summary":
       return <Summary />;
+    case "account":
+      return <CreateAccount />;
     case "checkout":
       return (
         <MembershipCheckout

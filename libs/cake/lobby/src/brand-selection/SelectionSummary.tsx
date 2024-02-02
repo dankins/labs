@@ -4,12 +4,11 @@ import { Cart } from "./types";
 import { MoneyRoll } from "./MoneyRoll";
 import { WalletIcon } from "@danklabs/cake/pattern-library/core";
 import { useQueryStringUpdater } from "../util/searchParams";
+import { LinkToStepButton } from "../LinkToStepButton";
 
 const MAX_SELECTIONS = 4;
 
 export function SelectionSummary({ cart }: { cart: Cart }) {
-  const updateQueryString = useQueryStringUpdater();
-
   if (!cart.loaded) {
     return undefined;
   }
@@ -20,20 +19,15 @@ export function SelectionSummary({ cart }: { cart: Cart }) {
           Choose your brands, or continue to account setup and add them later.
         </div>
         <div>
-          <Button
+          <LinkToStepButton
             className="flex flex-col gap-0 bg-[#FFE3C5]"
-            onClick={handleContinue}
+            step="account"
           >
             <div className="text-xs uppercase">Choose Later</div>
-          </Button>
+          </LinkToStepButton>
         </div>
       </div>
     );
-  }
-
-  function handleContinue() {
-    updateQueryString("brands", Object.keys(cart.selectionMap).join(","));
-    updateQueryString("step", "summary");
   }
 
   return (
@@ -57,13 +51,13 @@ export function SelectionSummary({ cart }: { cart: Cart }) {
       </div>
 
       <div>
-        <Button
+        <LinkToStepButton
+          step="summary"
           className="flex flex-col gap-0 bg-[#FFE3C5]"
-          onClick={handleContinue}
           disabled={cart.selectionCount > MAX_SELECTIONS}
         >
           <div className="text-sm uppercase ">Let's Go!</div>
-        </Button>
+        </LinkToStepButton>
       </div>
     </div>
   );

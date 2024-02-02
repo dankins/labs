@@ -68,7 +68,7 @@ export function Summary() {
       {/** FINISH */}
       <div className="flex flex-col items-center justify-center gap-4">
         <div>
-          <LinkToStepButton className="text-2xl" step="checkout">
+          <LinkToStepButton className="text-2xl" step="account">
             Continue <ChevronRightIcon />
           </LinkToStepButton>
         </div>
