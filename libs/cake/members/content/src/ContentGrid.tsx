@@ -36,7 +36,7 @@ function ContentItem({ content }: { content: ContentListSelection }) {
             height={0}
             width={0}
             style={{ height: "100%", width: "100%" }}
-            imageBuilder={portraitCropBuilder(284)}
+            aspectRatio="portrait"
           />
         </div>
         <div className="h-32 overflow-y-hidden p-3 mb-5">

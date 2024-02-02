@@ -1,4 +1,6 @@
 import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useInterval } from "usehooks-ts";
 
 export function Success({
@@ -8,6 +10,7 @@ export function Success({
     subscriptionId: string
   ): Promise<{ status: "complete" | "incomplete" | "pending" }>;
 }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["invitation-cart"]);
   const sp = useSearchParams();
   const router = useRouter();
   const subscriptionId = sp.get("subscriptionId");
@@ -20,6 +23,10 @@ export function Success({
       }
     }
   }, 3000);
+
+  useEffect(() => {
+    removeCookie("invitation-cart");
+  }, []);
 
   // payment_intent_client_secret, payment_intent, redirect_status=succeeded, success=true
 
