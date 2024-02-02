@@ -72,6 +72,12 @@ export function BrandGridClient({
   useEffect(() => {
     const cart: CartCookie = cookies["invitation-cart"];
     if (!cart) {
+      setCart({
+        selectionMap: {},
+        selectionCount: 0,
+        totalValue: 0,
+        loaded: true,
+      });
       return;
     }
     console.log("cart", cart);
