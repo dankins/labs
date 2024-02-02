@@ -1,28 +1,24 @@
 "use client";
-import type { getBrands } from "@danklabs/cake/cms";
-import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
-import type { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import classNames from "classnames";
-import { useRef, useState } from "react";
-import "./GridItem.scss";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
+
+import {
+  WalletIcon,
+  LogoSpace,
+  SanityImage,
+} from "@danklabs/cake/pattern-library/core";
 import {
   AddIcon,
   Button,
   ChevronRightIcon,
+  Badge,
+  CheckCircleIcon,
 } from "@danklabs/pattern-library/core";
-import { WalletIcon } from "libs/cake/pattern-library/core/src/icons";
+
 import { SelectionSummary } from "./SelectionSummary";
-
-export type Cart = {
-  selectionMap: { [key: string]: Brand };
-  totalValue: number;
-  selectionCount: number;
-};
-
-type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
-type Pass = NonNullable<
-  Awaited<ReturnType<typeof getMemberByIAM>>
->["passport"]["passes"][0];
+import "./GridItem.scss";
+import type { Brand, Cart, CartCookie, Pass } from "./types";
 
 function addToCart(
   currentCart: Cart,
@@ -33,10 +29,12 @@ function addToCart(
     ...currentCart.selectionMap,
     [brand.slug]: brand,
   };
+  console.log("add to cart", selectionMap);
   return {
     selectionMap,
     selectionCount: currentCart.selectionCount + 1,
     totalValue: currentCart.totalValue + voucherAmount,
+    loaded: true,
   };
 }
 function removeFromCart(
@@ -50,6 +48,7 @@ function removeFromCart(
     selectionMap,
     selectionCount: currentCart.selectionCount - 1,
     totalValue: currentCart.totalValue - voucherAmount,
+    loaded: true,
   };
 }
 function togglePass(
@@ -69,10 +68,31 @@ export function BrandGridClient({
   brands: Brand[];
   vouchers: { [slug: string]: number };
 }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["invitation-cart"]);
+  useEffect(() => {
+    const cart: CartCookie = cookies["invitation-cart"];
+    if (!cart) {
+      return;
+    }
+    console.log("cart", cart);
+    const selectionMap: { [key: string]: Brand } = {};
+    brands.forEach((b) => {
+      if (cart?.selectedBrands.includes(b.slug)) {
+        selectionMap[b.slug] = b;
+      }
+    });
+    setCart({
+      selectionMap,
+      selectionCount: cart.selectedBrands.length,
+      totalValue: cart.totalValue,
+      loaded: true,
+    });
+  }, []);
   const [cart, setCart] = useState<Cart>({
-    selectionMap: {},
     selectionCount: 0,
+    selectionMap: {},
     totalValue: 0,
+    loaded: false,
   });
   const [activeIdx, setActiveIdx] = useState<number>();
   const [shrinkIdx, setShrinkIdx] = useState<number>();
@@ -87,7 +107,15 @@ export function BrandGridClient({
   }
   function handleAddToPassport(brand: Brand, voucherAmount: number) {
     console.log("handleAddToPassport");
-    setCart((currentCart) => togglePass(currentCart, brand, voucherAmount));
+    setCart((currentCart) => {
+      const updatedCart = togglePass(currentCart, brand, voucherAmount);
+      const updatedCookie: CartCookie = {
+        selectedBrands: Object.keys(updatedCart.selectionMap),
+        totalValue: updatedCart.totalValue,
+      };
+      setCookie("invitation-cart", updatedCookie);
+      return updatedCart;
+    });
   }
   return (
     <>
@@ -169,21 +197,38 @@ function GridItem({
         <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 "></div>
         {/** COLLAPSED CONTENT */}
         {!active && !shrink && (
-          <div className={classNames("absolute top-0 w-full h-full p-4")}>
-            <LogoSpace>
-              {brand.passLogo ? (
-                <SanityImage
-                  alt={`${brand.name} Logo`}
-                  image={brand.passLogo}
-                  height={0}
-                  width={0}
-                  style={{ height: "2.5rem", width: "auto" }}
-                />
-              ) : (
-                <h1 className="text-white text-5xl">{brand.name}</h1>
+          <>
+            <div className={classNames("absolute top-0 w-full h-full p-4")}>
+              <LogoSpace>
+                {brand.passLogo ? (
+                  <SanityImage
+                    alt={`${brand.name} Logo`}
+                    image={brand.passLogo}
+                    height={0}
+                    width={0}
+                    style={{ height: "2.5rem", width: "auto" }}
+                  />
+                ) : (
+                  <h1 className="text-white text-5xl">{brand.name}</h1>
+                )}
+              </LogoSpace>
+            </div>
+            <div
+              className={classNames(
+                "absolute bottom-0 left-0 w-full p-4 flex flex-row"
               )}
-            </LogoSpace>
-          </div>
+            >
+              <Badge>
+                <WalletIcon /> ${voucherAmount}
+              </Badge>
+              <span className="grow"></span>
+              {selected && (
+                <Badge>
+                  <CheckCircleIcon /> In Passport
+                </Badge>
+              )}
+            </div>
+          </>
         )}
         {/** EXPANDED CONTENT */}
         {active && (

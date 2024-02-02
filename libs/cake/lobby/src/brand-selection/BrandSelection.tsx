@@ -1,18 +1,9 @@
 import { getBrands } from "@danklabs/cake/cms";
 import { Suspense } from "react";
-import {
-  getBrandsWithOffers,
-  getMemberByIAM,
-} from "@danklabs/cake/services/admin-service";
+import { getBrandsWithOffers } from "@danklabs/cake/services/admin-service";
 import Image from "next/image";
+
 import { BrandGridClient } from "./BrandGridClient";
-
-type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
-type Pass = NonNullable<
-  Awaited<ReturnType<typeof getMemberByIAM>>
->["passport"]["passes"][0];
-
-type PassMap = { [slug: string]: Pass };
 
 export async function BrandSelection() {
   return (

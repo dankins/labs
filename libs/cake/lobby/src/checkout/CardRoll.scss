@@ -1,0 +1,26 @@
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.CardRoll {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  max-width: 100vw;
+  > div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    animation: 15s slide infinite linear;
+  }
+}
+.CardRoll:hover {
+  animation-play-state: paused;
+}

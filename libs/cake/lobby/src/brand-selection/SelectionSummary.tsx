@@ -1,10 +1,6 @@
-import {
-  ChevronRightIcon,
-  StarIcon,
-  Button,
-} from "@danklabs/pattern-library/core";
-import { Cart } from "./BrandGridClient";
-import { useEffect } from "react";
+"use client";
+import { ChevronRightIcon, Button } from "@danklabs/pattern-library/core";
+import { Cart } from "./types";
 import { MoneyRoll } from "./MoneyRoll";
 import { WalletIcon } from "@danklabs/cake/pattern-library/core";
 import { useQueryStringUpdater } from "../util/searchParams";
@@ -13,17 +9,22 @@ const MAX_SELECTIONS = 4;
 
 export function SelectionSummary({ cart }: { cart: Cart }) {
   const updateQueryString = useQueryStringUpdater();
-  useEffect(() => {}, [cart]);
+
+  if (!cart.loaded) {
+    return undefined;
+  }
   if (cart.selectionCount === 0) {
     return (
-      <div className="px-4 py-2 bg-white text-black rounded-full flex flex-row  text-sm">
-        <div className="grow flex flex-row gap-4">null state</div>
+      <div className="px-4 py-2 bg-white text-black rounded-full flex flex-row  text-sm items-center">
+        <div className="grow flex flex-row gap-4 text-xs items-center justify-center w-[3/4]">
+          Choose your brands, or continue to account setup and add them later.
+        </div>
         <div>
           <Button
             className="flex flex-col gap-0 bg-[#FFE3C5]"
             onClick={handleContinue}
           >
-            <div className="text-sm uppercase">Choose Later</div>
+            <div className="text-xs uppercase">Choose Later</div>
           </Button>
         </div>
       </div>
@@ -32,7 +33,7 @@ export function SelectionSummary({ cart }: { cart: Cart }) {
 
   function handleContinue() {
     updateQueryString("brands", Object.keys(cart.selectionMap).join(","));
-    updateQueryString("step", "checkout");
+    updateQueryString("step", "summary");
   }
 
   return (

@@ -8,10 +8,19 @@ import { Centered } from "@danklabs/pattern-library/core";
 import { Account } from "./account/Account";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
+import { Summary } from "./checkout/Summary";
+import { cookies } from "next/headers";
+import { CartCookie } from "./brand-selection/types";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
-const Step = z.enum(["welcome", "brand_selection", "checkout", "error"]);
+const Step = z.enum([
+  "welcome",
+  "brand_selection",
+  "summary",
+  "checkout",
+  "error",
+]);
 type Step = z.infer<typeof Step>;
 
 type LobbyState = {
@@ -42,6 +51,8 @@ export async function LobbyView({
       return <Welcome />;
     case "brand_selection":
       return <BrandSelection />;
+    case "summary":
+      return <Summary />;
     case "checkout":
       return (
         <MembershipCheckout
@@ -79,21 +90,31 @@ async function determineState(
     };
   }
 
-  let brandSelection: string[] = [];
-  if (searchParams["brands"]) {
-    if (typeof searchParams["brands"] === "string") {
-      brandSelection = searchParams["brands"].split(",");
-    }
+  const cookieStore = cookies();
+  const cartCookie = cookieStore.get("invitation-cart");
+
+  let cart: CartCookie | undefined = undefined;
+  if (cartCookie && cartCookie.value) {
+    try {
+      cart = JSON.parse(cartCookie.value);
+    } catch (err) {}
   }
 
   try {
     const step = Step.parse(searchParams["step"]);
 
-    const customerId = normalize(searchParams["customerId"]);
-
-    return { step, brandSelection, invitation, customerId };
+    return {
+      step,
+      brandSelection: cart?.selectedBrands || [],
+      invitation,
+      customerId: cart?.stripeCustomerId,
+    };
   } catch (err) {
-    return { step: "welcome", invitation, brandSelection };
+    return {
+      step: "welcome",
+      invitation,
+      brandSelection: cart?.selectedBrands || [],
+    };
   }
 }
 
