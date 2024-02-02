@@ -74,7 +74,17 @@ export function CheckoutClient({
   }
 
   return (
-    <StripeProvider options={{}}>
+    <StripeProvider
+      options={{
+        appearance: {
+          rules: {
+            ".Label": {
+              color: "#fff",
+            },
+          },
+        },
+      }}
+    >
       <CheckoutSection>
         <Account
           active={active === "account"}

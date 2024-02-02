@@ -6,6 +6,7 @@ import {
   Button,
   EmailIcon,
   UserIcon,
+  VerifyCode,
 } from "@danklabs/pattern-library/core";
 import { useState } from "react";
 import { LinkToStepButton } from "../LinkToStepButton";
@@ -199,12 +200,11 @@ export function CreateAccount() {
         <p>
           Enter your name and email or some other helper text if we need it.
         </p>
-        <div>
-          <TextInput
+        <div className="py-6">
+          <VerifyCode
             name="code"
-            label="Code"
-            placeholder="Code"
-            icon={<UserIcon className="fill-black" />}
+            digits={6}
+            onCodeEntered={(code) => console.log("code", code)}
           />
         </div>
         <Button

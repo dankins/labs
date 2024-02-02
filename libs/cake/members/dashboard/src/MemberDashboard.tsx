@@ -89,7 +89,7 @@ function NoPasses() {
         throughout the year.
       </p>
       <Link
-        href="/passport/passes/add"
+        href="/brands"
         className="mt-10 flex flex-row border rounded-md p-2 items-center bg-black text-white"
       >
         <span className="grow">Select Brands</span>

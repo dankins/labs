@@ -11,7 +11,7 @@ import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Summary } from "./checkout/Summary";
 import { cookies } from "next/headers";
 import { CartCookie } from "./brand-selection/types";
-import { CreateAccount } from "./checkout/CreateAccount";
+import { CreateAccount } from "./account/CreateAccount";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
