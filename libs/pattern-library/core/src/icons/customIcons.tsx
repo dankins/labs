@@ -78,3 +78,16 @@ export function ChevronRightIcon(props: IconBaseProps) {
     </IconBase>
   );
 }
+
+export function ArrowDownIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" {...props}>
+      <path
+        d="M16 17L12 21M12 21L8 17M12 21V3"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </IconBase>
+  );
+}

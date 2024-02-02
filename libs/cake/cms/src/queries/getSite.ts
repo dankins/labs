@@ -1,4 +1,4 @@
-import { makeSafeQueryRunner, q } from "groqd";
+import { makeSafeQueryRunner, q, sanityImage } from "groqd";
 
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 

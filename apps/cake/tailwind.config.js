@@ -17,6 +17,7 @@ module.exports = {
       sansSerif: ["var(--font-inter)"],
       heading: ["var(--font-poppins)"],
       pizzaz: ["var(--font-montserrat)"],
+      fancy: ["var(--font-fancy)"],
     },
     extend: {
       aspectRatio: {

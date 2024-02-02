@@ -2,6 +2,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import { Poppins } from "next/font/google";
 import { Montserrat } from "next/font/google";
+import { DM_Serif_Display } from "next/font/google";
 
 // If loading a variable font, you don't need to specify the font weight
 
@@ -29,6 +30,13 @@ const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ["latin"],
+  display: "block",
+  variable: "--font-fancy",
+  weight: ["400"],
+});
+
 export const metadata = {
   title: "Cake",
 };
@@ -46,6 +54,7 @@ export default function RootLayout({
           inter.variable,
           montserrat.variable,
           poppins.variable,
+          dmSerifDisplay.variable,
           "bg-neutral text-neutral-content"
         )}
       >

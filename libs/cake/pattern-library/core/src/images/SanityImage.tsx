@@ -7,6 +7,7 @@ import {
   useNextSanityImage,
 } from "next-sanity-image";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
+import { useMemo } from "react";
 
 export type SanityImageType = {
   readonly _key: string | null;
@@ -37,15 +38,26 @@ export function portraitCropBuilder(width: number) {
 
 export type SanityImageProps = {
   image: SanityImageType;
+  aspectRatio?: "portrait";
   imageBuilder?: UseNextSanityImageBuilder;
 } & Omit<React.ComponentProps<typeof Image>, "src">;
 
 export function SanityImage({
   image,
   sizes,
-  imageBuilder,
+  imageBuilder: imageBuilderInput,
+  aspectRatio,
   ...nextImageProps
 }: SanityImageProps) {
+  const imageBuilder = useMemo(() => {
+    if (aspectRatio && aspectRatio === "portrait") {
+      return portraitCropBuilder(482);
+    }
+    if (imageBuilderInput) {
+      return imageBuilderInput;
+    }
+    return;
+  }, [imageBuilderInput, aspectRatio]);
   const options: Parameters<typeof useNextSanityImage>[2] = { imageBuilder };
   const imageProps = useNextSanityImage(sanityClient, image, options) as any;
   return (
