@@ -125,7 +125,7 @@ function CreateScreen({
 
 function ShareScreen({ invite }: { invite: Invite }) {
   const ref = useRef<HTMLTextAreaElement>(null);
-  const link = `${process.env.NEXT_PUBLIC_SITE_URL}/invite?code=${invite.code}`;
+  const link = `${process.env.NEXT_PUBLIC_SITE_URL}invite?code=${invite.code}`;
   const canShare = useMemo(isWebShareAvailable, []);
   const defaultMessage = useMemo(() => {
     return `${invite.recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
