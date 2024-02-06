@@ -6,9 +6,15 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { getMemberInvitations } from "@danklabs/cake/services/admin-service";
-import { ActionButton, Button } from "@danklabs/pattern-library/core";
+import {
+  ActionButton,
+  Button,
+  ClockIcon,
+  TicketIcon,
+} from "@danklabs/pattern-library/core";
 import { assignInviteAction, cancelInviteAction } from "./actions";
 import { NewInviteButton } from "./NewInviteBottomSheet";
+import { CancelInviteButton } from "./CancelInviteButton";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
@@ -64,13 +70,10 @@ function InviteContainer({ invite, userId }: InviteContainerProps) {
 function AvailableInvite({ invite, userId }: InviteContainerProps) {
   return (
     <Container>
-      {invite.count === 1 ? (
-        <h1 className="text-base font-medium">Available Invite</h1>
-      ) : (
-        <h1 className="text-base font-medium">
-          {invite.count} Available Invites
-        </h1>
-      )}
+      <h1 className="text-lg font-medium">
+        <TicketIcon /> {invite.count} Available Invite
+        {invite.count > 1 ? "s" : undefined}
+      </h1>
 
       <p className="text-sm font-normal text-primary">
         Share your love of Cake by inviting your friends!
@@ -88,12 +91,12 @@ function AvailableInvite({ invite, userId }: InviteContainerProps) {
 }
 
 function PendingInvite({ invite }: InviteContainerProps) {
-  const timeRemaining = useMemo(() => {
-    return dayjs(invite.expiration).toNow();
-  }, [invite.expiration]);
+  const timeRemaining = dayjs(invite.expiration).toNow();
   return (
     <Container>
-      <h1 className="text-base font-medium">Invitation Pending</h1>
+      <h1 className="text-lg font-medium">
+        <ClockIcon /> Pending Invitation
+      </h1>
       <p className="text-sm font-normal">{invite.name}</p>
       <p className="text-sm font-normal text-primary">
         {timeRemaining} remaining
@@ -102,9 +105,9 @@ function PendingInvite({ invite }: InviteContainerProps) {
       <div>
         <div className="flex flex-row gap-2">
           <Button background="white">Send Again</Button>
-          <ActionButton action={cancelInviteAction.bind(undefined, invite.id)}>
-            Cancel
-          </ActionButton>
+          <CancelInviteButton
+            cancelInviteAction={cancelInviteAction.bind(undefined, invite.id)}
+          />
         </div>
       </div>
     </Container>
@@ -112,12 +115,10 @@ function PendingInvite({ invite }: InviteContainerProps) {
 }
 
 function ExpiredInvite({ invite }: InviteContainerProps) {
-  const expiration = useMemo(() => {
-    return dayjs(invite.expiration).format("L");
-  }, [invite.expiration]);
+  const expiration = dayjs(invite.expiration).format("L");
   return (
     <Container>
-      <h1 className="text-base font-medium">Invitation Expired</h1>
+      <h1 className="text-lg font-medium">Invitation Expired</h1>
       <p className="text-sm font-normal">{invite.name}</p>
       <p className="text-sm font-normal text-primary">Expired {expiration}</p>
       <p className="grow"></p>

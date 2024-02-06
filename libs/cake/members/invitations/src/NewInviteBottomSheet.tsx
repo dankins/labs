@@ -10,6 +10,7 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isWebShareAvailable } from "@danklabs/utils";
+import { CopyButton } from "@danklabs/pattern-library/motion";
 
 export type Invite = {
   id: string;
@@ -52,8 +53,13 @@ export function NewInviteBottomSheet({
 }) {
   const [screen, setScreen] = useState("create");
   const [invite, setInvite] = useState<Invite | undefined>(undefined);
+  function handleClose() {
+    onClose();
+    setScreen("create");
+    setInvite(undefined);
+  }
   return (
-    <BottomSheet open={open} onClose={onClose}>
+    <BottomSheet open={open} onClose={handleClose}>
       <AnimatePresence>
         <h1 key="title" className="text-3xl font-medium text-pink-500">
           Share Invite
@@ -128,19 +134,11 @@ ${link}
     `;
   }, []);
 
-  function copy() {
-    console.log("copying", ref);
-    if (!ref || !ref.current) {
-      return;
-    }
-    navigator.clipboard.writeText(ref.current.value || "");
-    // TODO(dankins): pop toast
-  }
-
   return (
     <motion.div
-      initial={{ translateX: "-100vw" }}
+      initial={{ translateX: "100vw" }}
       animate={{ translateX: "0" }}
+      transition={{ duration: 0.2 }}
     >
       <p>
         Almost done! Personalize your invite or just select share invite to
@@ -150,6 +148,7 @@ ${link}
       <div className="my-3 w-full">
         <TextArea
           ref={ref}
+          rows={7}
           name="message"
           label="Invite Message"
           defaultValue={defaultMessage}
@@ -161,9 +160,9 @@ ${link}
         {canShare ? (
           <div>can share</div>
         ) : (
-          <Button onClick={() => copy()}>
+          <CopyButton text={() => ref.current?.value || ""}>
             Copy Invitation <CopyIcon />
-          </Button>
+          </CopyButton>
         )}
       </div>
     </motion.div>

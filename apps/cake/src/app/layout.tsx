@@ -9,6 +9,7 @@ import { DM_Serif_Display } from "next/font/google";
 import "./global.css";
 import { PWAProvider } from "./PWAProvider";
 import classNames from "classnames";
+import { ToastProvider } from "@danklabs/pattern-library/motion";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,7 +64,7 @@ export default function RootLayout({
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </head>
         <body>
-          {children}
+          <ToastProvider>{children}</ToastProvider>
           <SpeedInsights />
         </body>
       </html>
