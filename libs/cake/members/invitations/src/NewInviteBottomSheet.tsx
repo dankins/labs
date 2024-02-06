@@ -11,6 +11,7 @@ import { useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isWebShareAvailable } from "@danklabs/utils";
 import { CopyButton } from "@danklabs/pattern-library/motion";
+import { ShareButton } from "./ShareButton";
 
 export type Invite = {
   id: string;
@@ -158,7 +159,11 @@ ${link}
 
       <div>
         {canShare ? (
-          <div>can share</div>
+          <ShareButton
+            title={"Join me on Cake!"}
+            url={link}
+            text={() => ref.current?.value.replace(link, "") || ""}
+          />
         ) : (
           <CopyButton text={() => ref.current?.value || ""}>
             Copy Invitation <CopyIcon />
