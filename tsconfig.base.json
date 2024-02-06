@@ -29,6 +29,9 @@
       "@danklabs/cake/members/dashboard": [
         "libs/cake/members/dashboard/src/index.ts"
       ],
+      "@danklabs/cake/members/invitations": [
+        "libs/cake/members/invitations/src/index.ts"
+      ],
       "@danklabs/cake/pattern-library/core": [
         "libs/cake/pattern-library/core/src/index.ts"
       ],
@@ -49,7 +52,8 @@
       ],
       "@danklabs/pattern-library/motion": [
         "libs/pattern-library/motion/src/index.ts"
-      ]
+      ],
+      "@danklabs/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

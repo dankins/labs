@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs";
+import { Invitation } from "@danklabs/cake/db";
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { getMemberInvitations } from "@danklabs/cake/services/admin-service";
 import { Button, ClockIcon, TicketIcon } from "@danklabs/pattern-library/core";
@@ -18,6 +19,19 @@ async function Component() {
     throw new Error("user not authenticated");
   }
   const invites = await getMemberInvitations(userAuth.userId);
+
+  const inviteGroups: {
+    UNUSED: (typeof invites)[0][];
+    PENDING: (typeof invites)[0][];
+    EXPIRED: (typeof invites)[0][];
+    ACCEPTED: (typeof invites)[0][];
+  } = {
+    UNUSED: [],
+    PENDING: [],
+    EXPIRED: [],
+    ACCEPTED: [],
+  };
+  invites.forEach((i) => inviteGroups[i.status].push(i));
 
   if (!invites || invites.length === 0) {
     return <div>You have no invitations</div>;

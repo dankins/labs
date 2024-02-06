@@ -16,7 +16,7 @@ export function ActionButton({
     setLoading(false);
   }
   return (
-    <Button {...rest} onClick={handleClick} disabled={loading}>
+    <Button {...rest} onClick={handleClick} loading={loading}>
       {children}
     </Button>
   );

@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { PassportBrandsSelection, getBrandAdmin } from "@danklabs/cake/cms";
 import { getBrandPassOffers } from "@danklabs/cake/services/admin-service";
-import { CopyIcon } from "@danklabs/pattern-library/core";
+import { CopyIcon, CopyIconWithText } from "@danklabs/pattern-library/core";
 import { Carousel } from "@danklabs/pattern-library/motion";
 
 type Offer = Awaited<ReturnType<typeof getBrandPassOffers>>[0];
@@ -40,7 +40,7 @@ export function OfferCard({ offer }: { offer: Offer }) {
       <h1 className="text-md font-semibold">Cake Card</h1>
       <div className="flex flex-row text-xs gap-2 items-center">
         <span>{code}</span>
-        <CopyIcon text={code} />
+        <CopyIconWithText text={code} />
       </div>
     </div>
   );

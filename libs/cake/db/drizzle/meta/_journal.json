@@ -71,6 +71,13 @@
       "when": 1706124430422,
       "tag": "0009_supreme_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1707165197638,
+      "tag": "0010_dapper_shinko_yamashiro",
+      "breakpoints": true
     }
   ]
 }

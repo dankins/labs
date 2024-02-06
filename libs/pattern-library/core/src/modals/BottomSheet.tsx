@@ -78,9 +78,13 @@ export function BottomSheet({
   let initialStyles = initialStylesBottom;
   const bodyStyles = bodyStylesBottom;
 
+  if (!open) {
+    return <></>;
+  }
+
   return (
     <motion.div
-      className="p-4 bg-white w-full"
+      className={classNames("p-4 bg-white text-black w-full", "min-h-[90vh] ")}
       initial={initialStyles}
       animate={controls}
       variants={bodyStyles}

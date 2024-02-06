@@ -1,10 +1,11 @@
 "use client";
 import { FaRegCopy } from "react-icons/fa";
+import { CopyIcon } from "./customIcons";
 
-export function CopyIcon({ text }: { text: string }) {
+export function CopyIconWithText({ text }: { text: string }) {
   function copy() {
     navigator.clipboard.writeText(text || "");
     // TODO(dankins): pop toast
   }
-  return <FaRegCopy onClick={copy} className="cursor-pointer" />;
+  return <CopyIcon onClick={copy} />;
 }

@@ -1,7 +1,11 @@
 import { auth } from "@clerk/nextjs";
 import { getBrandPassOffers } from "@danklabs/cake/services/admin-service";
 import { getBrandAdmin } from "@danklabs/cake/cms";
-import { Button, CopyIcon } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  CopyIcon,
+  CopyIconWithText,
+} from "@danklabs/pattern-library/core";
 
 export async function BrandPass({ brandSlug }: { brandSlug: string }) {
   const { userId } = auth();
@@ -49,7 +53,7 @@ function OfferRow({
       <div>Offer:</div>
       {offerCode?.code && (
         <div className="flex flex-row gap-3">
-          {offerCode.code} <CopyIcon text={offerCode.code} />{" "}
+          {offerCode.code} <CopyIconWithText text={offerCode.code} />{" "}
           <a
             href={`${brandWebsite}?discount=${offerCode.code}`}
             target="_blank"

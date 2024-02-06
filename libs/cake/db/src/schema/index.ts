@@ -22,6 +22,7 @@ export const members = pgTable("members", {
 export const invitations = pgTable("invitations", {
   id: uuid("id").primaryKey().defaultRandom(),
   memberId: uuid("member_id").references(() => members.id),
+  recipientName: text("recipient_name"),
   redemptions: integer("redemptions").notNull().default(0),
   maxRedemptions: integer("max_redemptions").notNull(),
   code: text("code").unique(),
@@ -48,7 +49,7 @@ export const brandOfferTemplates = pgTable("brand_offer_templates", {
   applyOnPassCreation: boolean("apply_on_pass_creation").notNull(),
   offerType: offerType("offer_type").notNull(),
   offerValue: numeric("offer_value").default("0").notNull(),
-  name: numeric("name"),
+  name: text("name"),
   description: numeric("description"),
   finePrint: numeric("fine_print"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
