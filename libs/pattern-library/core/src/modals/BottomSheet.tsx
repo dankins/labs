@@ -84,7 +84,10 @@ export function BottomSheet({
 
   return (
     <motion.div
-      className={classNames("p-4 bg-white text-black w-full", "min-h-[90vh] ")}
+      className={classNames(
+        "p-4 bg-white rounded-lg text-black w-full",
+        "min-h-[90vh] "
+      )}
       initial={initialStyles}
       animate={controls}
       variants={bodyStyles}
