@@ -76,7 +76,7 @@ export function NewInviteBottomSheet({
   const [createdInvite, setInvite] = useState<Invite | undefined>(undefined);
   function handleClose() {
     onClose();
-    setScreen("create");
+    setScreen(onlyShare ? "share" : "create");
     setInvite(undefined);
   }
   return (
@@ -165,7 +165,7 @@ function ShareScreen({
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [emailChecked, setEmailChecked] = useState(false);
-  const link = `${process.env.NEXT_PUBLIC_SITE_URL}invite?code=${inviteCode}`;
+  const link = `${process.env.NEXT_PUBLIC_SITE_URL}invitation?code=${inviteCode}`;
   const canShare = useMemo(isWebShareAvailable, []);
   const defaultMessage = useMemo(() => {
     return `${recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
