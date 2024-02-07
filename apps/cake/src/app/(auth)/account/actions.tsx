@@ -4,8 +4,6 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 import { render } from "@react-email/render";
-import { faker } from "@faker-js/faker";
-import dayjs from "dayjs";
 
 import { db, invitations } from "@danklabs/cake/db";
 import {

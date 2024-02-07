@@ -36,7 +36,7 @@ export function MemberInvitationEmail({
   inviterMessage,
 }: MemberInvitationProps) {
   const authorImage = "";
-  const previewText = `Read ${memberName}'s review`;
+  const previewText = `Join ${memberName} on Cake`;
 
   return (
     <Html>

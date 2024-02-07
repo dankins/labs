@@ -6,7 +6,7 @@ export type TextInputProps = React.ComponentPropsWithoutRef<"input"> & {
   helperText?: React.ReactNode;
 };
 
-export const TextInput = React.forwardRef<HTMLTextAreaElement, TextInputProps>(
+export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ children, label, helperText, icon, ...props }, ref) => {
     return (
       <div className="inline-block w-full">
@@ -28,6 +28,7 @@ export const TextInput = React.forwardRef<HTMLTextAreaElement, TextInputProps>(
             // pattern="^\d{5}(-\d{4})?$"
             //         required
             {...props}
+            ref={ref}
           />
         </div>
         {helperText && (

@@ -12,7 +12,11 @@ import {
   ClockIcon,
   TicketIcon,
 } from "@danklabs/pattern-library/core";
-import { assignInviteAction, cancelInviteAction } from "./actions";
+import {
+  assignInviteAction,
+  cancelInviteAction,
+  emailInviteAction,
+} from "./actions";
 import { NewInviteButton } from "./NewInviteBottomSheet";
 import { CancelInviteButton } from "./CancelInviteButton";
 
@@ -83,6 +87,11 @@ function AvailableInvite({ invite, userId }: InviteContainerProps) {
         <div className="flex flex-row gap-2">
           <NewInviteButton
             assignInviteAction={assignInviteAction.bind(undefined, invite.id)}
+            emailInviteAction={emailInviteAction.bind(
+              undefined,
+              invite.id,
+              invite.code!
+            )}
           />
         </div>
       </div>

@@ -1,8 +1,11 @@
 "use client";
 import {
+  ActionButton,
   BottomSheet,
   Button,
+  Checkbox,
   CopyIcon,
+  EmailIcon,
   TextArea,
   TextInput,
   UserIcon,
@@ -10,7 +13,7 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isWebShareAvailable } from "@danklabs/utils";
-import { CopyButton } from "@danklabs/pattern-library/motion";
+import { CopyButton, useToast } from "@danklabs/pattern-library/motion";
 import { ShareButton } from "./ShareButton";
 
 export type Invite = {
@@ -22,8 +25,10 @@ export type Invite = {
 
 export function NewInviteButton({
   assignInviteAction,
+  emailInviteAction,
 }: {
   assignInviteAction(formData: FormData): Promise<Invite>;
+  emailInviteAction(formData: FormData): Promise<boolean>;
 }) {
   const [open, setOpen] = useState(false);
   function handleClick() {
@@ -36,6 +41,7 @@ export function NewInviteButton({
       </Button>
       <NewInviteBottomSheet
         assignInviteAction={assignInviteAction}
+        emailInviteAction={emailInviteAction}
         open={open}
         onClose={() => setOpen(false)}
       />
@@ -47,11 +53,14 @@ export function NewInviteBottomSheet({
   open,
   onClose,
   assignInviteAction,
+  emailInviteAction,
 }: {
   open: boolean;
   onClose(): void;
   assignInviteAction(formData: FormData): Promise<Invite>;
+  emailInviteAction(formData: FormData): Promise<boolean>;
 }) {
+  const { addToast } = useToast();
   const [screen, setScreen] = useState("create");
   const [invite, setInvite] = useState<Invite | undefined>(undefined);
   function handleClose() {
@@ -75,7 +84,17 @@ export function NewInviteBottomSheet({
             }}
           />
         )}
-        {screen === "share" && <ShareScreen key="share" invite={invite!} />}
+        {screen === "share" && (
+          <ShareScreen
+            key="share"
+            invite={invite!}
+            emailInviteAction={emailInviteAction}
+            onEmailSent={() => {
+              addToast("Email sent successfully!");
+              handleClose();
+            }}
+          />
+        )}
       </AnimatePresence>
     </BottomSheet>
   );
@@ -114,7 +133,6 @@ function CreateScreen({
           />
         </div>
         <div className="grow"></div>
-        {isWebShareAvailable() && <div>share!</div>}
         <div>
           <Button type="submit">Create Invitation</Button>
         </div>
@@ -123,8 +141,17 @@ function CreateScreen({
   );
 }
 
-function ShareScreen({ invite }: { invite: Invite }) {
+function ShareScreen({
+  invite,
+  emailInviteAction,
+  onEmailSent,
+}: {
+  invite: Invite;
+  emailInviteAction(formData: FormData): Promise<boolean>;
+  onEmailSent(): void;
+}) {
   const ref = useRef<HTMLTextAreaElement>(null);
+  const [emailChecked, setEmailChecked] = useState(false);
   const link = `${process.env.NEXT_PUBLIC_SITE_URL}invite?code=${invite.code}`;
   const canShare = useMemo(isWebShareAvailable, []);
   const defaultMessage = useMemo(() => {
@@ -135,41 +162,68 @@ ${link}
     `;
   }, []);
 
+  async function handleSubmit(formData: FormData) {
+    await emailInviteAction(formData);
+    onEmailSent();
+  }
+
   return (
     <motion.div
       initial={{ translateX: "100vw" }}
       animate={{ translateX: "0" }}
       transition={{ duration: 0.2 }}
     >
-      <p>
-        Almost done! Personalize your invite or just select share invite to
-        send!
-      </p>
-      <div></div>
-      <div className="my-3 w-full">
-        <TextArea
-          ref={ref}
-          rows={7}
-          name="message"
-          label="Invite Message"
-          defaultValue={defaultMessage}
-        />
-      </div>
-      <div className="grow"></div>
-
-      <div>
-        {canShare ? (
-          <ShareButton
-            title={"Join me on Cake!"}
-            url={link}
-            text={() => ref.current?.value.replace(link, "") || ""}
+      <form action={handleSubmit}>
+        <p>
+          Almost done! Personalize your invite or just select share invite to
+          send!
+        </p>
+        <div className="my-3 w-full">
+          <TextArea
+            ref={ref}
+            rows={7}
+            name="message"
+            label="Invite Message"
+            defaultValue={defaultMessage}
           />
+        </div>
+        <div className="grow" />
+        <div>
+          <Checkbox
+            label="Invite by email"
+            helperText="Have Cake email my Invite."
+            onChange={() => setEmailChecked(!emailChecked)}
+            className="my-4"
+          />
+        </div>
+
+        {emailChecked ? (
+          <div className="my-4 flex flex-col gap-6">
+            <TextInput
+              icon={<EmailIcon />}
+              name="email"
+              label="Email Address"
+            />
+            <div>
+              <Button type="submit">Email Invite</Button>
+            </div>
+          </div>
         ) : (
-          <CopyButton text={() => ref.current?.value || ""}>
-            Copy Invitation <CopyIcon />
-          </CopyButton>
+          <div>
+            {canShare ? (
+              <ShareButton
+                title={"Join me on Cake!"}
+                url={link}
+                text={() => ref.current?.value.replace(link, "") || ""}
+              />
+            ) : (
+              <CopyButton text={() => ref.current?.value || ""}>
+                Copy Invitation <CopyIcon />
+              </CopyButton>
+            )}
+          </div>
         )}
-      </div>
+      </form>
     </motion.div>
   );
 }
