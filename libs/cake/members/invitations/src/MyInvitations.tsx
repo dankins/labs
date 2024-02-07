@@ -17,7 +17,7 @@ import {
   cancelInviteAction,
   emailInviteAction,
 } from "./actions";
-import { NewInviteButton } from "./NewInviteBottomSheet";
+import { InviteActionButton } from "./NewInviteBottomSheet";
 import { CancelInviteButton } from "./CancelInviteButton";
 
 dayjs.extend(localizedFormat);
@@ -43,7 +43,7 @@ async function Component() {
     <div>
       <h1 className="underline mb-4">My Invitations</h1>
       {invites.map((i) => (
-        <InviteContainer key={i.id} userId={userAuth.userId} invite={i} />
+        <InviteContainer key={i.id} invite={i} />
       ))}
     </div>
   );
@@ -53,25 +53,24 @@ type Invite = Awaited<ReturnType<typeof getMemberInvitations>>["0"];
 
 type InviteContainerProps = {
   invite: Invite;
-  userId: string;
 };
 
-function InviteContainer({ invite, userId }: InviteContainerProps) {
+function InviteContainer({ invite }: InviteContainerProps) {
   switch (invite.status) {
     case "UNUSED":
-      return <AvailableInvite invite={invite} userId={userId} />;
+      return <AvailableInvite invite={invite} />;
     case "PENDING":
-      return <PendingInvite invite={invite} userId={userId} />;
+      return <PendingInvite invite={invite} />;
     case "EXPIRED":
-      return <ExpiredInvite invite={invite} userId={userId} />;
+      return <ExpiredInvite invite={invite} />;
     case "ACCEPTED":
-      return <AcceptedInvite invite={invite} userId={userId} />;
+      return <AcceptedInvite invite={invite} />;
     default:
       throw new Error("unsupported status");
   }
 }
 
-function AvailableInvite({ invite, userId }: InviteContainerProps) {
+function AvailableInvite({ invite }: InviteContainerProps) {
   return (
     <Container>
       <h1 className="text-lg font-medium">
@@ -85,7 +84,8 @@ function AvailableInvite({ invite, userId }: InviteContainerProps) {
       <p className="grow"></p>
       <div>
         <div className="flex flex-row gap-2">
-          <NewInviteButton
+          <InviteActionButton
+            cta="Send Invite"
             assignInviteAction={assignInviteAction.bind(undefined, invite.id)}
             emailInviteAction={emailInviteAction.bind(
               undefined,
@@ -100,20 +100,30 @@ function AvailableInvite({ invite, userId }: InviteContainerProps) {
 }
 
 function PendingInvite({ invite }: InviteContainerProps) {
-  const timeRemaining = dayjs(invite.expiration).toNow();
+  const timeRemaining = dayjs().to(invite.expiration);
   return (
     <Container>
       <h1 className="text-lg font-medium">
         <ClockIcon /> Pending Invitation
       </h1>
-      <p className="text-sm font-normal">{invite.name}</p>
+      <p className="text-sm font-normal">{invite.recipientName}</p>
       <p className="text-sm font-normal text-primary">
-        {timeRemaining} remaining
+        Expires {timeRemaining}
       </p>
       <p className="grow"></p>
       <div>
         <div className="flex flex-row gap-2">
-          <Button background="white">Send Again</Button>
+          <InviteActionButton
+            cta="Send Again"
+            onlyShare
+            assignInviteAction={assignInviteAction.bind(undefined, invite.id)}
+            emailInviteAction={emailInviteAction.bind(
+              undefined,
+              invite.id,
+              invite.code!
+            )}
+            invite={invite}
+          />
           <CancelInviteButton
             cancelInviteAction={cancelInviteAction.bind(undefined, invite.id)}
           />
@@ -128,12 +138,20 @@ function ExpiredInvite({ invite }: InviteContainerProps) {
   return (
     <Container>
       <h1 className="text-lg font-medium">Invitation Expired</h1>
-      <p className="text-sm font-normal">{invite.name}</p>
+      <p className="text-sm font-normal">{invite.recipientName}</p>
       <p className="text-sm font-normal text-primary">Expired {expiration}</p>
       <p className="grow"></p>
       <div>
         <div className="flex flex-row gap-2">
-          <Button background="white">Send Again</Button>
+          <InviteActionButton
+            cta="Send Again"
+            assignInviteAction={assignInviteAction.bind(undefined, invite.id)}
+            emailInviteAction={emailInviteAction.bind(
+              undefined,
+              invite.id,
+              invite.code!
+            )}
+          />
           <ActionButton action={cancelInviteAction.bind(undefined, invite.id)}>
             Cancel
           </ActionButton>

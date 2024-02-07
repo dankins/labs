@@ -1,6 +1,5 @@
 "use client";
 import {
-  ActionButton,
   BottomSheet,
   Button,
   Checkbox,
@@ -18,17 +17,23 @@ import { ShareButton } from "./ShareButton";
 
 export type Invite = {
   id: string;
-  recipientName: string;
-  code: string;
-  expiration: Date;
+  recipientName: string | null;
+  code: string | null;
+  expiration: Date | null;
 };
 
-export function NewInviteButton({
+export function InviteActionButton({
   assignInviteAction,
   emailInviteAction,
+  cta,
+  onlyShare,
+  invite,
 }: {
   assignInviteAction(formData: FormData): Promise<Invite>;
   emailInviteAction(formData: FormData): Promise<boolean>;
+  cta: string;
+  onlyShare?: boolean;
+  invite?: Invite;
 }) {
   const [open, setOpen] = useState(false);
   function handleClick() {
@@ -37,32 +42,38 @@ export function NewInviteButton({
   return (
     <>
       <Button background="white" onClick={handleClick}>
-        Invite
+        {cta}
       </Button>
       <NewInviteBottomSheet
         assignInviteAction={assignInviteAction}
         emailInviteAction={emailInviteAction}
+        onlyShare={onlyShare}
         open={open}
         onClose={() => setOpen(false)}
+        invite={invite}
       />
     </>
   );
 }
 
 export function NewInviteBottomSheet({
+  invite,
   open,
   onClose,
   assignInviteAction,
   emailInviteAction,
+  onlyShare,
 }: {
   open: boolean;
   onClose(): void;
   assignInviteAction(formData: FormData): Promise<Invite>;
   emailInviteAction(formData: FormData): Promise<boolean>;
+  onlyShare?: boolean;
+  invite?: Invite;
 }) {
   const { addToast } = useToast();
-  const [screen, setScreen] = useState("create");
-  const [invite, setInvite] = useState<Invite | undefined>(undefined);
+  const [screen, setScreen] = useState(onlyShare ? "share" : "create");
+  const [createdInvite, setInvite] = useState<Invite | undefined>(undefined);
   function handleClose() {
     onClose();
     setScreen("create");
@@ -87,7 +98,10 @@ export function NewInviteBottomSheet({
         {screen === "share" && (
           <ShareScreen
             key="share"
-            invite={invite!}
+            inviteCode={invite?.code || createdInvite?.code!}
+            recipientName={
+              invite?.recipientName! || createdInvite?.recipientName!
+            }
             emailInviteAction={emailInviteAction}
             onEmailSent={() => {
               addToast("Email sent successfully!");
@@ -105,12 +119,7 @@ function CreateScreen({
   assignInviteAction,
 }: {
   assignInviteAction(formData: FormData): Promise<Invite>;
-  onCreate(invite: {
-    id: string;
-    recipientName: string;
-    code: string;
-    expiration: Date;
-  }): void;
+  onCreate(invite: Invite): void;
 }) {
   const [loading, setLoading] = useState(false);
   async function handleCreate(formData: FormData) {
@@ -134,7 +143,9 @@ function CreateScreen({
         </div>
         <div className="grow"></div>
         <div>
-          <Button type="submit">Create Invitation</Button>
+          <Button type="submit" loading={loading}>
+            Create Invitation
+          </Button>
         </div>
       </form>
     </motion.div>
@@ -142,20 +153,22 @@ function CreateScreen({
 }
 
 function ShareScreen({
-  invite,
+  inviteCode,
+  recipientName,
   emailInviteAction,
   onEmailSent,
 }: {
-  invite: Invite;
+  inviteCode: string;
+  recipientName: string;
   emailInviteAction(formData: FormData): Promise<boolean>;
   onEmailSent(): void;
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [emailChecked, setEmailChecked] = useState(false);
-  const link = `${process.env.NEXT_PUBLIC_SITE_URL}invite?code=${invite.code}`;
+  const link = `${process.env.NEXT_PUBLIC_SITE_URL}invite?code=${inviteCode}`;
   const canShare = useMemo(isWebShareAvailable, []);
   const defaultMessage = useMemo(() => {
-    return `${invite.recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
+    return `${recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
 Hurry, the invite expires in 48 hours!
     
 ${link}
@@ -173,42 +186,45 @@ ${link}
       animate={{ translateX: "0" }}
       transition={{ duration: 0.2 }}
     >
-      <form action={handleSubmit}>
+      <>
         <p>
           Almost done! Personalize your invite or just select share invite to
           send!
         </p>
-        <div className="my-3 w-full">
-          <TextArea
-            ref={ref}
-            rows={7}
-            name="message"
-            label="Invite Message"
-            defaultValue={defaultMessage}
-          />
-        </div>
-        <div className="grow" />
-        <div>
-          <Checkbox
-            label="Invite by email"
-            helperText="Have Cake email my Invite."
-            onChange={() => setEmailChecked(!emailChecked)}
-            className="my-4"
-          />
-        </div>
-
-        {emailChecked ? (
-          <div className="my-4 flex flex-col gap-6">
-            <TextInput
-              icon={<EmailIcon />}
-              name="email"
-              label="Email Address"
+        <form action={handleSubmit}>
+          <div className="my-3 w-full">
+            <TextArea
+              ref={ref}
+              rows={7}
+              name="message"
+              label="Invite Message"
+              defaultValue={defaultMessage}
             />
-            <div>
-              <Button type="submit">Email Invite</Button>
-            </div>
           </div>
-        ) : (
+          <div className="grow" />
+          <div>
+            <Checkbox
+              label="Invite by email"
+              helperText="Have Cake email my Invite."
+              onChange={() => setEmailChecked(!emailChecked)}
+              className="my-4"
+            />
+          </div>
+          {emailChecked && (
+            <div className="my-4 flex flex-col gap-6">
+              <TextInput
+                icon={<EmailIcon />}
+                name="email"
+                label="Email Address"
+              />
+              <div>
+                <Button type="submit">Email Invite</Button>
+              </div>
+            </div>
+          )}
+        </form>
+
+        {!emailChecked && (
           <div>
             {canShare ? (
               <ShareButton
@@ -217,13 +233,16 @@ ${link}
                 text={() => ref.current?.value.replace(link, "") || ""}
               />
             ) : (
-              <CopyButton text={() => ref.current?.value || ""}>
+              <CopyButton
+                text={() => ref.current?.value || ""}
+                onClick={() => ({})}
+              >
                 Copy Invitation <CopyIcon />
               </CopyButton>
             )}
           </div>
         )}
-      </form>
+      </>
     </motion.div>
   );
 }

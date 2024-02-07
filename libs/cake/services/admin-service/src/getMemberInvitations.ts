@@ -16,7 +16,7 @@ export async function getMemberInvitations(iam: string) {
           when ${invitations.expiration} < NOW() THEN 'EXPIRED'
          else 'PENDING' end as unused_pending`,
       id: sql<string>`max(${invitations.id}::text)`,
-      name: max(invitations.recipientName),
+      recipientName: max(invitations.recipientName),
       code: invitations.code,
       expiration: max(invitations.expiration),
       count: count(),
