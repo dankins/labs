@@ -4,7 +4,7 @@ import { Tagline } from "./Tagline";
 
 export default function Page() {
   return (
-    <div className="w-full h-full p-4 min-h-screen bg-[#FFF6DA] text-[#F7B605] flex flex-col items-center justify-center">
+    <div className="w-full p-4 min-h-screen bg-[#FFF6DA] text-[#F7B605] flex flex-col items-center justify-center">
       <div className={classNames("flex flex-col items-center container")}>
         <AnimatedText
           el="span"
