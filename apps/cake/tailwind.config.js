@@ -18,6 +18,7 @@ module.exports = {
       heading: ["var(--font-poppins)"],
       pizzaz: ["var(--font-montserrat)"],
       fancy: ["var(--font-fancy)"],
+      readex: ["var(--font-readex)"],
     },
     extend: {
       aspectRatio: {

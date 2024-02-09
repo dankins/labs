@@ -8,10 +8,12 @@ export type AnimatedTextProps = {
   className?: string;
   once?: boolean;
   repeatDelay?: number;
+  letterDelay?: number;
   animation?: {
     hidden: Variant;
     visible: Variant;
   };
+  style?: any;
 };
 
 const defaultAnimations = {
@@ -33,8 +35,10 @@ export function AnimatedText({
   className,
   text,
   repeatDelay,
+  letterDelay = 0.1,
   animation = defaultAnimations,
   once,
+  style,
 }: AnimatedTextProps) {
   const controls = useAnimation();
   const ref = useRef(null);
@@ -63,14 +67,14 @@ export function AnimatedText({
   }, [isInView]);
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} style={style}>
       <span className="sr-only">{text}</span>
       <motion.span
         ref={ref}
         initial="hidden"
         animate={controls}
         variants={{
-          visible: { transition: { staggerChildren: 0.1 } },
+          visible: { transition: { staggerChildren: letterDelay } },
           hidden: {},
         }}
         aria-hidden
@@ -88,7 +92,6 @@ export function AnimatedText({
                     {char}
                   </motion.span>
                 ))}
-                <span className="inline-block">&nbsp;</span>
               </span>
             ))}
           </span>
