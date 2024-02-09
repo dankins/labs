@@ -9,7 +9,7 @@ const readex = Readex_Pro({
 
 export default function Page() {
   return (
-    <div className="w-full h-full min-h-screen bg-[#FFF6DA] text-[#FFE48F] flex flex-col items-center justify-center">
+    <div className="w-full h-full p-4 min-h-screen bg-[#FFF6DA] text-[#F7B605] flex flex-col items-center justify-center">
       <div
         className={classNames(
           readex.variable,
@@ -17,14 +17,18 @@ export default function Page() {
         )}
       >
         <span
+          style={{ backgroundSize: "100% 100%" }}
           className={classNames(
-            "text-readex text-[30vw] xl:text-[400px] text-transparent uppercase tracking-widest font-bold",
-            `bg-cover bg-clip-text bg-[url('/images/homepage/background.jpg')]`
+            readex.variable,
+            "text-[30vw] xl:text-[400px] text-transparent uppercase tracking-tighter leading-tight font-bold",
+            `bg-center bg-clip-text bg-[url('/images/homepage/background.jpg')]`
           )}
         >
           Cake
         </span>
-        <h1 className="text-readex text-3xl capitalize">How sweet it is.</h1>
+        <h1 className="font-fancy text-xl capitalize text-center">
+          Shopping is about to get a lot sweeter.
+        </h1>
       </div>
     </div>
   );
