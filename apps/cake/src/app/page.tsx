@@ -14,7 +14,7 @@ export default function Page() {
             `bg-center bg-clip-text bg-[url('/images/homepage/background.jpg')]`
           )}
           letterDelay={0.4}
-          style={{ backgroundSize: "106% auto" }}
+          style={{ backgroundSize: "107% auto" }}
         />
         <Tagline />
       </div>
