@@ -1,7 +1,6 @@
 import { WalletIcon } from "@danklabs/cake/pattern-library/core";
 import { CardRoll } from "./CardRoll";
 import { cookies } from "next/headers";
-import { Cart, CartCookie } from "../brand-selection/types";
 import {
   Button,
   ChevronRightIcon,
@@ -9,6 +8,7 @@ import {
 } from "@danklabs/pattern-library/core";
 import Link from "next/link";
 import { LinkToStepButton } from "../LinkToStepButton";
+import { CartCookie } from "../cookie";
 
 // also set in SelectionSummary
 const MAX_SELECTIONS = 4;

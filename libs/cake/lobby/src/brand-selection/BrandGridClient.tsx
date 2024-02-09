@@ -18,7 +18,8 @@ import {
 
 import { SelectionSummary } from "./SelectionSummary";
 import "./GridItem.scss";
-import type { Brand, Cart, CartCookie, Pass } from "./types";
+import type { Brand, Cart, Pass } from "./types";
+import { CartCookie } from "../cookie";
 
 function addToCart(
   currentCart: Cart,
@@ -113,15 +114,15 @@ export function BrandGridClient({
   }
   function handleAddToPassport(brand: Brand, voucherAmount: number) {
     console.log("handleAddToPassport");
-    setCart((currentCart) => {
-      const updatedCart = togglePass(currentCart, brand, voucherAmount);
-      const updatedCookie: CartCookie = {
-        selectedBrands: Object.keys(updatedCart.selectionMap),
-        totalValue: updatedCart.totalValue,
-      };
-      setCookie("invitation-cart", updatedCookie);
-      return updatedCart;
-    });
+    // setCart((currentCart) => {
+    //   const updatedCart = togglePass(currentCart, brand, voucherAmount);
+    //   const updatedCookie: CartCookie = {
+    //     selectedBrands: Object.keys(updatedCart.selectionMap),
+    //     totalValue: updatedCart.totalValue,
+    //   };
+    //   setCookie("invitation-cart", updatedCookie);
+    //   return updatedCart;
+    // });
   }
   return (
     <>

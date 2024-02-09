@@ -1,5 +1,5 @@
 import { PageWithNavbar } from "@danklabs/pattern-library/core";
-import { Lobby } from "@danklabs/cake/lobby";
+import { Foyer } from "@danklabs/cake/lobby";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export default async function Page({
@@ -12,7 +12,7 @@ export default async function Page({
   return (
     <ClerkProvider>
       <PageWithNavbar>
-        <Lobby searchParams={searchParams} />
+        <Foyer searchParams={searchParams} />
       </PageWithNavbar>
     </ClerkProvider>
   );

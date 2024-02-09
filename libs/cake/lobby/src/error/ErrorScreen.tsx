@@ -15,5 +15,12 @@ export function ErrorScreen({ error }: { error?: string }) {
       </Container>
     );
   }
+  if (error === "EXPIRED_INVITE_CODE") {
+    return (
+      <Container>
+        <h1>expired code</h1>
+      </Container>
+    );
+  }
   return <Container>error</Container>;
 }

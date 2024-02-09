@@ -12,9 +12,3 @@ export type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
 export type Pass = NonNullable<
   Awaited<ReturnType<typeof getMemberByIAM>>
 >["passport"]["passes"][0];
-
-export type CartCookie = {
-  selectedBrands: string[];
-  totalValue: number;
-  stripeCustomerId?: string;
-};

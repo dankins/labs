@@ -1,66 +1,31 @@
-import { auth, currentUser } from "@clerk/nextjs";
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { LoggedOutPage } from "./LoggedOutPage";
+import classNames from "classnames";
+import { Readex_Pro } from "next/font/google";
 
-export const revalidate = 1; // revalidate at every 60 seconds
+const readex = Readex_Pro({
+  subsets: ["latin"],
+  display: "block",
+  variable: "--font-readex",
+});
 
-export type UserType =
-  | "LOGGED_OUT"
-  | "NON_MEMBER"
-  | "MEMBER"
-  | "MEMBER_EXPIRED"
-  | "MEMBER_INVITED"
-  | "ADMIN"
-  | "BRAND_ADMIN";
-
-async function getUserType(): Promise<UserType> {
-  const { userId } = auth();
-  if (!userId) {
-    return "LOGGED_OUT";
-  }
-  const user = await currentUser();
-
-  if (user?.privateMetadata["role"] === "admin") {
-    return "ADMIN";
-  } else if (user?.privateMetadata["membershipStatus"] === "active") {
-    return "MEMBER";
-  }
-
-  return "NON_MEMBER";
-}
-
-export default async function Page() {
+export default function Page() {
   return (
-    <Suspense fallback={<Loading />}>
-      <Loaded />
-    </Suspense>
+    <div className="w-full h-full min-h-screen bg-[#FFF6DA] text-[#FFE48F] flex flex-col items-center justify-center">
+      <div
+        className={classNames(
+          readex.variable,
+          "flex flex-col items-center container"
+        )}
+      >
+        <span
+          className={classNames(
+            "text-readex text-[30vw] xl:text-[400px] text-transparent uppercase tracking-widest font-bold",
+            `bg-cover bg-clip-text bg-[url('/images/homepage/background.jpg')]`
+          )}
+        >
+          Cake
+        </span>
+        <h1 className="text-readex text-3xl capitalize">How sweet it is.</h1>
+      </div>
+    </div>
   );
-}
-
-function Loading() {
-  return <div>loading</div>;
-}
-
-async function Loaded() {
-  const userType = await getUserType();
-  switch (userType) {
-    case "ADMIN":
-      return redirect("/admin");
-    case "BRAND_ADMIN":
-      return redirect("/brand-admin");
-    case "LOGGED_OUT":
-      return <LoggedOutPage />;
-    case "MEMBER":
-      return redirect("/passport");
-    case "MEMBER_EXPIRED":
-      return <div>MEMBER_EXPIRED</div>;
-    case "MEMBER_INVITED":
-      return <div>MEMBER_INVITED</div>;
-    case "NON_MEMBER":
-      return <div>NON_MEMBER</div>;
-  }
-
-  const _exhausted: never = userType;
-  throw new Error("");
 }
