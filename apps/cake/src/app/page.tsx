@@ -11,10 +11,10 @@ export default function Page() {
           text="Cake"
           className={classNames(
             "text-[30vw] font-readex xl:text-[400px] text-transparent uppercase tracking-normal font-bold",
-            `bg-center bg-[100% 100%] bg-clip-text bg-[url('/images/homepage/background.jpg')]`
+            `bg-center bg-clip-text bg-[url('/images/homepage/background.jpg')]`
           )}
           letterDelay={0.4}
-          style={{ backgroundSize: "100% auto" }}
+          style={{ backgroundSize: "106% auto" }}
         />
         <Tagline />
       </div>
