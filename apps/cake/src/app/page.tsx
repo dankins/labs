@@ -1,7 +1,6 @@
-"use client";
 import classNames from "classnames";
 import { AnimatedText } from "@danklabs/pattern-library/motion";
-import { motion } from "framer-motion";
+import { Tagline } from "./Tagline";
 
 export default function Page() {
   return (
@@ -17,14 +16,7 @@ export default function Page() {
           letterDelay={0.4}
           style={{ backgroundSize: "100% auto" }}
         />
-        <motion.span
-          className="font-fancy text-[4.5vw] capitalize text-center"
-          initial={{ opacity: 0, translateY: 10 }}
-          animate={{ opacity: 1, translateY: 0 }}
-          transition={{ duration: 1, delay: 2 }}
-        >
-          Shopping is about to get a lot sweeter.
-        </motion.span>
+        <Tagline />
       </div>
     </div>
   );
