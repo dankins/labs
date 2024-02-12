@@ -32,6 +32,9 @@
       "@danklabs/cake/members/invitations": [
         "libs/cake/members/invitations/src/index.ts"
       ],
+      "@danklabs/cake/members/membership": [
+        "libs/cake/members/membership/src/index.ts"
+      ],
       "@danklabs/cake/pattern-library/core": [
         "libs/cake/pattern-library/core/src/index.ts"
       ],
