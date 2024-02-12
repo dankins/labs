@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import "./StickyContainer.scss";
+import sticky from "./StickyContainer.module.css";
 import { useRef } from "react";
 import ReactScrollWheelHandler from "react-scroll-wheel-handler";
 
@@ -24,7 +24,7 @@ export function StickyContainer({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      className="StickyContainer"
+      className={sticky.StickyContainer}
       ref={containerRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: scrollYProgress.get() > 0.5 ? 1 : 0 }} // Example of conditional animation based on scroll

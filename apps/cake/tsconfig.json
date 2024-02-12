@@ -16,7 +16,10 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",
@@ -29,7 +32,8 @@
     "../../libs/cake/lobby/src/Lobby.tsx",
     "../../libs/cake/lobby/src/LobbyBrands.tsx",
     "../../libs/cake/lobby/src/LobbyProvider.tsx",
-    "../../libs/cake/lobby/src/LobbyViewHandler.tsx"
+    "../../libs/cake/lobby/src/LobbyViewHandler.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

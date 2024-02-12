@@ -11,7 +11,6 @@ export async function BrandDetailBottomSheet({ slug }: { slug?: string }) {
 
   async function handleClose() {
     "use server";
-    console.log("remove the selection man");
     redirect(`/invitation?step=brand_selection`);
   }
 

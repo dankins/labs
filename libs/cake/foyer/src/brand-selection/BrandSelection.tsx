@@ -15,7 +15,7 @@ import {
 import type { Brand, Cart, Pass } from "./types";
 import { BrandDetailBottomSheet } from "./BrandDetailBottomSheet";
 
-import "./GridItem.scss";
+import "./GridItem.css";
 
 export async function BrandSelection({ detail }: { detail?: string }) {
   return (
@@ -37,7 +37,7 @@ export async function Loading() {
   return (
     <div className="flex flex-col wrap">
       {blurHashes.map((blurHash) => (
-        <div className="w-full aspect-[2/3] relative group ">
+        <div key={blurHash} className="w-full aspect-[2/3] relative group ">
           <figure className="absolute top-0 w-full h-full">
             <Image src={blurHash} fill alt="placeholder" />
           </figure>

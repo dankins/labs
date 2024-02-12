@@ -1,5 +1,5 @@
 import { PageWithNavbar } from "@danklabs/pattern-library/core";
-import { Nav } from "../Nav";
+import { Nav } from "./Nav";
 import { SideNav } from "./SideNav";
 import { ClerkProvider } from "@clerk/nextjs";
 

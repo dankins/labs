@@ -2,7 +2,7 @@ import { getBrands } from "@danklabs/cake/cms";
 import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
 import { Suspense } from "react";
 import { Brand } from "../brand-selection/types";
-import "./CardRoll.scss";
+import "./CardRoll.css";
 
 export async function CardRoll({ brandSlugs }: { brandSlugs: string[] }) {
   return (
