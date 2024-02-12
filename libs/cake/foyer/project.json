@@ -1,7 +1,7 @@
 {
-  "name": "cake/lobby",
+  "name": "cake-foyer",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/cake/lobby/src",
+  "sourceRoot": "libs/cake/foyer/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,14 +9,14 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/cake/lobby/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/cake/foyer/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/cake/lobby/jest.config.ts"
+        "jestConfig": "libs/cake/foyer/jest.config.ts"
       }
     }
   }

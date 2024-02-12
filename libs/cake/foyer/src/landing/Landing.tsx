@@ -15,14 +15,7 @@ import {
 import { validateFormData } from "@danklabs/utils";
 import { z } from "zod";
 import { db, invitations } from "@danklabs/cake/db";
-import {
-  CART_COOKIE_NAME,
-  CartCookie,
-  cartExists,
-  getCart,
-  setEmail,
-  startCookie,
-} from "../cookie";
+import { cartExists, getCart, setEmail, startCookie } from "../cookie";
 
 export async function Landing({
   code,

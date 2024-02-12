@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SanityImage, SanityImageType } from "../images";
 
 export type FeatureImageContainerProps = {

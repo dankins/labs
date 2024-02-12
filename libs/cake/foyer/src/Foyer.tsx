@@ -6,11 +6,9 @@ import { BrandSelection } from "./brand-selection/BrandSelection";
 import { ErrorScreen } from "./error/ErrorScreen";
 import { eq } from "drizzle-orm";
 import { Centered } from "@danklabs/pattern-library/core";
-import { Account } from "./account/Account";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Summary } from "./checkout/Summary";
-import { cookies } from "next/headers";
 import { CreateAccount } from "./account/CreateAccount";
 import { Landing } from "./landing/Landing";
 import { CART_COOKIE_NAME, CartCookie, getCartIfAvailable } from "./cookie";
@@ -58,6 +56,8 @@ export async function FoyerView({
     typeof searchParams?.step === "string" ? searchParams.step : undefined;
   const validatedSearchParam =
     typeof searchParams?.validated === "string" ? true : undefined;
+  const detailSearchParam =
+    typeof searchParams?.detail === "string" ? searchParams.detail : undefined;
 
   // No cart yet, so we must go to the landing page
   if (!cart) {
@@ -91,7 +91,7 @@ export async function FoyerView({
   if (stepSearchParam === "welcome") {
     return <Welcome />;
   } else if (stepSearchParam === "brand_selection") {
-    return <BrandSelection />;
+    return <BrandSelection detail={detailSearchParam} />;
   } else if (stepSearchParam === "summary") {
     return <Summary />;
   } else if (stepSearchParam === "account") {

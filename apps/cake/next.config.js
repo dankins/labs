@@ -13,6 +13,7 @@ const nextConfig = {
     svgr: false,
   },
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [{ hostname: "cdn.sanity.io" }],
   },
 };

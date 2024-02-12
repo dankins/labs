@@ -1,14 +1,26 @@
-import { getBrands } from "@danklabs/cake/cms";
 import { Suspense } from "react";
-import { getBrandsWithOffers } from "@danklabs/cake/services/admin-service";
 import Image from "next/image";
+import Link from "next/link";
+import classNames from "classnames";
 
-import { BrandGridClient } from "./BrandGridClient";
+import { getBrands } from "@danklabs/cake/cms";
+import { Badge, CheckCircleIcon } from "@danklabs/pattern-library/core";
+import { getBrandsWithOffers } from "@danklabs/cake/services/admin-service";
+import {
+  LogoSpace,
+  SanityImageServer,
+  WalletIcon,
+} from "@danklabs/cake/pattern-library/core";
 
-export async function BrandSelection() {
+import type { Brand, Cart, Pass } from "./types";
+import { BrandDetailBottomSheet } from "./BrandDetailBottomSheet";
+
+import "./GridItem.scss";
+
+export async function BrandSelection({ detail }: { detail?: string }) {
   return (
     <Suspense fallback={<Loading />}>
-      <Component />
+      <Component detail={detail} />
     </Suspense>
   );
 }
@@ -35,7 +47,7 @@ export async function Loading() {
   );
 }
 
-export async function Component() {
+export async function Component({ detail }: { detail?: string }) {
   const brands = await getBrands();
   const vouchers = await getBrandsWithOffers(
     brands.brands.reduce((acc: string[], cur) => {
@@ -50,8 +62,88 @@ export async function Component() {
   });
 
   return (
-    <div className="w-full container">
-      <BrandGridClient brands={brands.brands} vouchers={vouchers} />
-    </div>
+    <>
+      <div className="w-full container">
+        <div className="flex flex-row flex-wrap mb-[120px]">
+          {brands.brands.map((b, idx) => (
+            <GridItem key={b.slug} brand={b} voucherAmount={vouchers[b.slug]} />
+          ))}
+        </div>
+      </div>
+      <BrandDetailBottomSheet slug={detail} />
+    </>
+  );
+}
+
+function GridItem({
+  brand,
+  shrink,
+  active,
+  selected,
+  voucherAmount,
+}: {
+  brand: Brand;
+  pass?: Pass;
+  active?: boolean;
+  shrink?: boolean;
+  selected?: boolean;
+  voucherAmount: number;
+}) {
+  return (
+    <Link
+      href={`/invitation?step=brand_selection&detail=${brand.slug}`}
+      className={classNames(
+        "w-full BrandGridItem",
+        active && "BrandGridItem-active",
+        shrink && "BrandGridItem-shrink"
+      )}
+    >
+      <div className={classNames("w-full aspect-[2/3] relative group")}>
+        <figure className="absolute top-0 w-full h-full">
+          {brand.passBackground && (
+            <SanityImageServer
+              alt={`${brand.name} Logo`}
+              image={brand.passBackground}
+              height={0}
+              width={0}
+              style={{ height: "100%", width: "100%" }}
+            />
+          )}
+        </figure>
+        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 "></div>
+        {/** COLLAPSED CONTENT */}
+
+        <div className={classNames("absolute top-0 w-full h-full p-4")}>
+          <LogoSpace>
+            {brand.passLogo ? (
+              <SanityImageServer
+                alt={`${brand.name} Logo`}
+                image={brand.passLogo}
+                height={0}
+                width={0}
+                style={{ height: "2.5rem", width: "auto" }}
+              />
+            ) : (
+              <h1 className="text-white text-5xl">{brand.name}</h1>
+            )}
+          </LogoSpace>
+        </div>
+        <div
+          className={classNames(
+            "absolute bottom-0 left-0 w-full p-4 flex flex-row"
+          )}
+        >
+          <Badge>
+            <WalletIcon /> ${voucherAmount}
+          </Badge>
+          <span className="grow"></span>
+          {selected && (
+            <Badge>
+              <CheckCircleIcon /> In Passport
+            </Badge>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }

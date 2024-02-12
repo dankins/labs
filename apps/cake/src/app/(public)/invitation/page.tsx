@@ -1,5 +1,5 @@
 import { PageWithNavbar } from "@danklabs/pattern-library/core";
-import { Foyer } from "@danklabs/cake/lobby";
+import { Foyer } from "@danklabs/cake/foyer";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export default async function Page({
