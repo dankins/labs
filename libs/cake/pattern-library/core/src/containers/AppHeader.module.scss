@@ -1,0 +1,127 @@
+.AppHeader {
+  --white: #f9f9f9;
+  --black: #36383f;
+  --gray: #85888c;
+
+  > div {
+    .navContainer {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      display: flex;
+      align-items: center;
+
+      .logo {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Menu Icon */
+      .hamburger {
+        cursor: pointer;
+        float: right;
+        padding: 40px 20px;
+        z-index: 39;
+      }
+      .hamburgerLine {
+        background: var(--white);
+        display: block;
+        height: 2px;
+        position: relative;
+        width: 24px;
+      }
+
+      .hamburgerLine::before,
+      .hamburgerLine::after {
+        background: var(--white);
+        content: "";
+        display: block;
+        height: 100%;
+        position: absolute;
+        transition: all 0.2s ease-out;
+        width: 100%;
+      }
+      .hamburgerLine::before {
+        top: 5px;
+      }
+      .hamburgerLine::after {
+        top: -5px;
+      }
+    }
+    .nav {
+      background-color: #ff8b8b;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translateY(-100vh);
+      transition: transform 0.5s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .menu {
+        z-index: 38;
+        text-align: center;
+
+        a {
+          display: block;
+          padding: 15px;
+          color: var(--Palette-Red-99, #ffe1e1);
+          font-family: var(--font-nav);
+          font-size: 2.25rem;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 6.25rem;
+          letter-spacing: 0.36rem;
+          text-transform: uppercase;
+        }
+        a.signOut {
+          letter-spacing: 0.16rem;
+          font-size: 1rem;
+        }
+      }
+      .menu a:hover {
+        background-color: var(--gray);
+      }
+    }
+  }
+
+  .sideMenu {
+    display: none;
+  }
+
+  .sideMenu:checked ~ div {
+    // height: 100vh;
+    // width: 100vw;
+    overflow: hidden;
+    z-index: 38;
+    .navContainer {
+      .logo {
+        visibility: hidden;
+      }
+      .hamburgerLine {
+        background: transparent;
+      }
+      .hamburgerLine::before {
+        transform: rotate(-45deg);
+        top: 0;
+      }
+      .hamburgerLine::after {
+        transform: rotate(45deg);
+        top: 0;
+      }
+    }
+
+    .nav {
+      transform: translateY(0);
+      min-height: 100vh;
+      max-height: 100vh;
+      z-index: 38;
+    }
+  }
+}

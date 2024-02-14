@@ -11,13 +11,15 @@ export function AppShell({
   authComponent?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-row justify-center">
-      <div className="container">
-        <AppHeader authComponent={authComponent} />
-        <AppContent>{children}</AppContent>
-        <AppFooter />
+    <>
+      <AppHeader authComponent={authComponent} />{" "}
+      <div className="flex flex-row justify-center">
+        <div className="container">
+          <AppContent>{children}</AppContent>
+          <AppFooter />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

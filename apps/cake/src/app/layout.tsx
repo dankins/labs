@@ -1,10 +1,12 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter } from "next/font/google";
-import { Poppins } from "next/font/google";
-import { Montserrat } from "next/font/google";
-import { DM_Serif_Display } from "next/font/google";
-import { Readex_Pro } from "next/font/google";
-
+import {
+  DM_Serif_Display,
+  Readex_Pro,
+  Montserrat,
+  Poppins,
+  Inter,
+  Alexandria,
+} from "next/font/google";
 // If loading a variable font, you don't need to specify the font weight
 
 import "./global.css";
@@ -45,6 +47,12 @@ const readex = Readex_Pro({
   variable: "--font-readex",
 });
 
+const alexandria = Readex_Pro({
+  subsets: ["latin"],
+  display: "block",
+  variable: "--font-nav",
+});
+
 export const metadata = {
   title: "Cake",
 };
@@ -64,6 +72,7 @@ export default function RootLayout({
           poppins.variable,
           dmSerifDisplay.variable,
           readex.variable,
+          alexandria.variable,
           "bg-neutral text-neutral-content"
         )}
       >
