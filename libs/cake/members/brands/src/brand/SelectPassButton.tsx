@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@danklabs/pattern-library/core";
+import { AddIcon, Button } from "@danklabs/pattern-library/core";
 import { useState } from "react";
 import { AddPassBottomSheet } from "./AddPassBottomSheet";
 import classNames from "classnames";
@@ -26,24 +26,14 @@ export function SelectPassButton({
   }
 
   return (
-    <>
+    <div className="bg-white border-full p-2">
       <Button
         onClick={handleClick}
-        background="white"
-        textColor="black"
         border="neutral/30"
-        className={classNames("drop-shadow-xl", className)}
+        className={classNames("drop-shadow-xl uppercase", className)}
       >
-        {children}
+        <AddIcon /> Add To Collection
       </Button>
-      <AddPassBottomSheet
-        unclaimedPassCount={unclaimedPassCount}
-        brandName={brandName}
-        passportValue={passportValue}
-        claimPassAction={claimPassAction}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
-    </>
+    </div>
   );
 }

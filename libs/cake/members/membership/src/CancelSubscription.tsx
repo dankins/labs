@@ -19,6 +19,7 @@ export function CancelSubscription({
     revalidatePath("/account/membership");
     return true;
   }
+
   return (
     <div>
       <ConfirmationButton

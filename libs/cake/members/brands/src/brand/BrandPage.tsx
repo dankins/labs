@@ -20,6 +20,7 @@ import {
   ChevronRightIcon,
   OutlineButton,
 } from "@danklabs/pattern-library/core";
+import { AddPassActionBar } from "./AddPassActionBar";
 
 export async function BrandPage({ slug }: { slug: string }) {
   return (
@@ -66,23 +67,32 @@ async function Component({ slug }: { slug: string }) {
 
   async function claimPassAction(slug: string) {
     "use server";
-    if (!passportId) {
-      throw new Error("unknown passport id");
-    }
-    await db.transaction(async (tx) => {
-      await createBrandPass(tx, passportId, slug);
+    console.log("claimPassAction", slug);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("ok");
+      }, 1000);
     });
+    // if (!passportId) {
+    //   throw new Error("unknown passport id");
+    // }
+    // await db.transaction(async (tx) => {
+    //   await createBrandPass(tx, passportId, slug);
+    // });
 
-    revalidatePath("/passport");
-    revalidatePath("/brands");
-    revalidatePath(`/brands/${slug}`);
+    // revalidatePath("/passport");
+    // revalidatePath("/brands");
+    // revalidatePath(`/brands/${slug}`);
   }
 
   return (
     <div className="flex flex-col items-center bg-black pb-52">
       {/* ADD TO PASSES BUTTON (FIXED POSITION) */}
-      <div className="fixed bottom-10 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
-        <SelectPassButton
+      <div className="fixed bottom-5 px-3 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
+        <AddPassActionBar
+          action={claimPassAction.bind(undefined, brand.slug)}
+        />
+        {/* <SelectPassButton
           passportValue={passportValue}
           unclaimedPassCount={unclaimedPassCount}
           brandName={brand.name}
@@ -93,7 +103,7 @@ async function Component({ slug }: { slug: string }) {
         >
           <AddIcon />
           Add to Passes
-        </SelectPassButton>
+        </SelectPassButton> */}
       </div>
 
       {/* MAIN CONTAINER */}
