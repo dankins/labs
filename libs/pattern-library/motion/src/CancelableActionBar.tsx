@@ -6,9 +6,14 @@ import {
 } from "@danklabs/pattern-library/core";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { useFormState } from "react-dom";
-import { motion, LayoutGroup, useTime, useTransform } from "framer-motion";
-import { useFormStatus } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+import {
+  motion,
+  LayoutGroup,
+  useTime,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 
 type States = "initial" | "gracePeriod" | "processing";
 
@@ -41,17 +46,18 @@ export function CancelableActionBar({
   }
 
   return (
-    <form
+    <motion.form
+      layout
       action={formAction}
       ref={ref}
-      className="w-full mx-3 bg-white rounded-full p-2 flex flex-row items-center gap-2 drop-shadow-xl  text-sm text-black"
+      className="w-full mx-3 h-[3.8125rem] bg-white rounded-full p-2 flex flex-row items-center gap-2 drop-shadow-xl  text-sm text-black"
     >
       <Content
         {...props}
         onActionReady={submitForm}
         result={typeof state !== "undefined"}
       />
-    </form>
+    </motion.form>
   );
 }
 
@@ -65,9 +71,8 @@ function Content({ result, onActionReady, ...props }: ContentComponentProps) {
   const formStatus = useFormStatus();
 
   const [state, setState] = useState<States>("initial");
-  console.log("what to do?", formStatus, state);
   if (formStatus.pending) {
-    return <Processing {...props} onCancel={() => setState("initial")} />;
+    return <Processing {...props} />;
   }
   if (result) {
     return <Complete {...props} />;
@@ -96,14 +101,16 @@ function Initial({
 }: ContentProps & { onClick(): void }) {
   return (
     <>
-      <div className="grow">{ctaHelperText}</div>
-      <Button
-        onClick={onClick}
-        border="neutral/30"
-        className={classNames("uppercase text-xs")}
-      >
-        {buttonCta}
-      </Button>
+      <motion.div className="grow">{ctaHelperText}</motion.div>
+      <motion.div>
+        <Button
+          onClick={onClick}
+          border="neutral/30"
+          className={classNames("uppercase text-xs")}
+        >
+          {buttonCta}
+        </Button>
+      </motion.div>
     </>
   );
 }
@@ -128,50 +135,41 @@ function GracePeriod({
     [0, 1] // ...rotate 360deg
   );
 
-  const draw = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: (i: number) => {
-      const delay = 1 + i * 0.5;
-      return {
-        pathLength: 1,
-        opacity: 1,
-        transition: {
-          pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
-          opacity: { delay, duration: 0.01 },
-        },
-      };
-    },
-  };
-
   return (
     <>
-      <motion.svg width="34" height="34" viewBox="0 0 40 40" fill="#fcbfbb">
-        <motion.circle
-          cx="20"
-          cy="20"
-          r="20"
-          stroke="transparent"
-          fill={"#FEDFDD"}
-        />
-        <motion.circle
-          cx="20"
-          cy="20"
-          r="14"
-          stroke="#FFB6B6"
-          strokeWidth={"3"}
-          fill={"transparent"}
-        />
-        <motion.circle
-          cx="20"
-          cy="20"
-          r="14"
-          stroke="white"
-          strokeWidth={"3"}
-          fill={"transparent"}
-          style={{ pathLength }}
-        />
-      </motion.svg>
-      <div className="grow">{graceHelperText}</div>
+      <motion.div layoutId="icon">
+        <CircleIcon className="bg-primary">
+          <motion.svg className="w-full h-full" viewBox="0 0 40 40">
+            <motion.circle
+              cx="20"
+              cy="20"
+              r="20"
+              stroke="transparent"
+              fill={"#FEDFDD"}
+            />
+            <motion.circle
+              cx="20"
+              cy="20"
+              r="14"
+              stroke="#FFB6B6"
+              strokeWidth={"3"}
+              fill={"transparent"}
+            />
+            <motion.circle
+              cx="20"
+              cy="20"
+              r="14"
+              stroke="white"
+              strokeWidth={"3"}
+              fill={"transparent"}
+              style={{ pathLength }}
+            />
+          </motion.svg>
+        </CircleIcon>
+      </motion.div>
+      <motion.div className="grow" layoutId="helperText">
+        {graceHelperText}
+      </motion.div>
       <Button
         onClick={onCancel}
         border="transparent"
@@ -188,9 +186,7 @@ function GracePeriod({
 function Processing({
   processingHelperText,
   transitionTime = 3000,
-  cancelCta,
-  onCancel,
-}: ContentProps & { transitionTime?: number; onCancel(): void }) {
+}: ContentProps & { transitionTime?: number }) {
   const [helperTextIdx, setHelperTextIdx] = useState(0);
   useEffect(() => {
     let interval = setInterval(() => {
@@ -199,7 +195,7 @@ function Processing({
           if (cur < processingHelperText.length - 1) {
             return cur + 1;
           }
-          return cur;
+          return (cur + 1) % processingHelperText.length;
         });
       }
     }, transitionTime);
@@ -211,12 +207,28 @@ function Processing({
 
   return (
     <>
-      <DotWave />
-      <div className="grow">
-        {Array.isArray(processingHelperText)
-          ? processingHelperText[helperTextIdx]
-          : processingHelperText}
-      </div>
+      <motion.div layoutId="icon">
+        <CircleIcon className="p-2 bg-[#FFB6B6]">
+          <DotWave className="h-full w-full text-2xl fill-white" />
+        </CircleIcon>
+      </motion.div>
+
+      <motion.div layoutId="helperText" className="grow">
+        <AnimatePresence initial={false}>
+          {Array.isArray(processingHelperText) ? (
+            <motion.div
+              key={`idx-${helperTextIdx}`}
+              initial={{ y: 15, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -15, opacity: 0 }}
+            >
+              {processingHelperText[helperTextIdx]}
+            </motion.div>
+          ) : (
+            processingHelperText
+          )}
+        </AnimatePresence>
+      </motion.div>
     </>
   );
 }
@@ -226,8 +238,36 @@ function Complete({ successHelperText }: ContentProps) {
 
   return (
     <>
-      <CheckCircleIcon className="h-[40px] w-[40px] stroke-white fill-primary" />
+      <CircleIcon className="bg-primary">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <motion.path
+            fill="none"
+            initial={{ strokeWidth: 0 }}
+            animate={{ strokeWidth: 8, transition: { duration: 2 } }}
+            stroke="white"
+            d="M20,50 L40,70 L80,30"
+          />
+        </svg>
+      </CircleIcon>
       <div className="grow">{successHelperText}</div>
     </>
+  );
+}
+
+function CircleIcon({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={classNames("w-[40px] h-[40px] rounded-full", className)}>
+      {children}
+    </div>
   );
 }

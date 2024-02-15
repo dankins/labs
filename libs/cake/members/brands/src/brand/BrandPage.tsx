@@ -71,7 +71,7 @@ async function Component({ slug }: { slug: string }) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve("ok");
-      }, 1000);
+      }, 7000);
     });
     // if (!passportId) {
     //   throw new Error("unknown passport id");
@@ -92,18 +92,6 @@ async function Component({ slug }: { slug: string }) {
         <AddPassActionBar
           action={claimPassAction.bind(undefined, brand.slug)}
         />
-        {/* <SelectPassButton
-          passportValue={passportValue}
-          unclaimedPassCount={unclaimedPassCount}
-          brandName={brand.name}
-          claimPassAction={claimPassAction.bind(null, brand.slug)}
-          className={
-            unclaimedPassCount === 0 || isMember ? "hidden" : undefined
-          }
-        >
-          <AddIcon />
-          Add to Passes
-        </SelectPassButton> */}
       </div>
 
       {/* MAIN CONTAINER */}
