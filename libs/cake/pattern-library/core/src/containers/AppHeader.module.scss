@@ -2,6 +2,9 @@
   --white: #f9f9f9;
   --black: #36383f;
   --gray: #85888c;
+  --transition__duration: 700ms;
+  --transition__easing: ease-in-out;
+  --transition__delay: 0;
 
   > div {
     .navContainer {
@@ -50,16 +53,14 @@
       }
     }
     .nav {
+      display: none;
       background-color: #ff8b8b;
       width: 100%;
-      max-height: 0;
       overflow: hidden;
       position: fixed;
       top: 0;
       left: 0;
-      transform: translateY(-100vh);
       transition: transform 0.5s;
-      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -67,10 +68,11 @@
       .menu {
         z-index: 38;
         text-align: center;
+        padding-top: 30px;
 
         a {
           display: block;
-          padding: 15px;
+          padding: 10px;
           color: var(--Palette-Red-99, #ffe1e1);
           font-family: var(--font-nav);
           font-size: 2.25rem;
@@ -79,6 +81,7 @@
           line-height: 6.25rem;
           letter-spacing: 0.36rem;
           text-transform: uppercase;
+          opacity: 0;
         }
         a.signOut {
           letter-spacing: 0.16rem;
@@ -118,10 +121,63 @@
     }
 
     .nav {
-      transform: translateY(0);
+      display: flex;
+      // transform: translateY(0);
       min-height: 100vh;
       max-height: 100vh;
       z-index: 38;
+
+      animation-delay: var(--transition__delay, 0);
+      animation-duration: var(--transition__duration, 2.5s);
+      animation-timing-function: var(
+        --transition__easing,
+        cubic-bezier(0.25, 1, 0.3, 1)
+      );
+      animation-fill-mode: both;
+      will-change: clip-path;
+      animation-name: in-circle-swoop;
+
+      .menu {
+        a {
+          animation: link-appear 500ms ease-out;
+          animation-fill-mode: forwards;
+        }
+        a:nth-child(1) {
+          animation-delay: 700ms;
+        }
+        a:nth-child(2) {
+          animation-delay: 800ms;
+        }
+        a:nth-child(3) {
+          animation-delay: 900ms;
+        }
+        a:nth-child(4) {
+          animation-delay: 1000ms;
+        }
+        a:nth-child(5) {
+          animation-delay: 1100ms;
+        }
+      }
     }
+  }
+}
+
+@keyframes in-circle-swoop {
+  from {
+    clip-path: circle(5% at top right);
+  }
+  to {
+    clip-path: circle(150% at bottom right);
+  }
+}
+
+@keyframes link-appear {
+  from {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
