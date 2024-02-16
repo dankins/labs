@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { HamburgerIcon } from "@danklabs/pattern-library/core";
 
 import styles from "./AppHeader.module.scss";
+import { AppHeaderLink } from "./AppHeaderLink";
 
 export function AppHeader({
   authComponent,
@@ -31,13 +32,13 @@ export function AppHeader({
         {/** Menu */}
         <nav className={styles.nav}>
           <div className={styles.menu}>
-            <Link href={"/passport"}>Collection</Link>
-            <Link href={"/brands"}>The Brands</Link>
-            <Link href={"/stories"}>Cake Stories</Link>
-            <Link href={"/account"}>Account</Link>
-            <Link href={"/account"} className={styles.signOut}>
+            <AppHeaderLink href={"/passport"}>Collection</AppHeaderLink>
+            <AppHeaderLink href={"/brands"}>The Brands</AppHeaderLink>
+            <AppHeaderLink href={"/stories"}>Cake Stories</AppHeaderLink>
+            <AppHeaderLink href={"/account"}>Account</AppHeaderLink>
+            <AppHeaderLink href={"/account"} className={styles.signOut}>
               Sign Out
-            </Link>
+            </AppHeaderLink>
           </div>
         </nav>
       </div>
