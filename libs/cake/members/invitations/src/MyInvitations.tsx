@@ -145,6 +145,7 @@ function ExpiredInvite({ invite }: InviteContainerProps) {
         <div className="flex flex-row gap-2">
           <InviteActionButton
             cta="Send Again"
+            onlyShare
             assignInviteAction={assignInviteAction.bind(undefined, invite.id)}
             emailInviteAction={emailInviteAction.bind(
               undefined,
