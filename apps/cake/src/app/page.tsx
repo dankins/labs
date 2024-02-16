@@ -9,8 +9,8 @@ export default function Page() {
         <h1 className="text-[9.375rem] font-readex uppercase tracking-normal font-bold">
           Cake
         </h1>
-        <h3 className="font-lexend text-[1.25rem] capitalize text-center">
-          Shopping is about to get sweeter
+        <h3 className="font-lexend text-[1.25rem] text-center">
+          Shopping is about to get sweeter.
         </h3>
         {/* <AnimatedText
           el="span"
