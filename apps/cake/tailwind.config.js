@@ -19,6 +19,7 @@ module.exports = {
       pizzaz: ["var(--font-montserrat)"],
       fancy: ["var(--font-fancy)"],
       readex: ["var(--font-readex)"],
+      lexend: ["var(--font-lexend)"],
     },
     extend: {
       aspectRatio: {
