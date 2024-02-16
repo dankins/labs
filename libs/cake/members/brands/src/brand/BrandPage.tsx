@@ -71,7 +71,7 @@ async function Component({ slug }: { slug: string }) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve("ok");
-      }, 7000);
+      }, 4000);
     });
     // if (!passportId) {
     //   throw new Error("unknown passport id");
