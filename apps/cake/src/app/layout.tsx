@@ -14,6 +14,7 @@ import "./global.css";
 import { PWAProvider } from "./PWAProvider";
 import classNames from "classnames";
 import { ToastProvider } from "@danklabs/pattern-library/motion";
+import { EventProvider } from "@danklabs/cake/events";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,7 +89,9 @@ export default function RootLayout({
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </head>
         <body>
-          <ToastProvider>{children}</ToastProvider>
+          <EventProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </EventProvider>
           <SpeedInsights />
         </body>
       </html>

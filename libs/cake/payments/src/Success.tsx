@@ -19,7 +19,7 @@ export function Success({
       const result = await checkSubscriptionStatus(subscriptionId);
       console.log("result", result);
       if (result.status === "complete") {
-        router.push("/");
+        router.push("/passport");
       }
     }
   }, 3000);

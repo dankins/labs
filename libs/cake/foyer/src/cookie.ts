@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export const CART_COOKIE_NAME = "invitation_cart";
+const CART_COOKIE_NAME = "invitation_cart";
 export type CartCookie = {
   code: string;
   selectedBrands: string[];
@@ -11,10 +11,14 @@ export type CartCookie = {
 
 export function cartExists(): boolean {
   const cookieStore = cookies();
-  return cookieStore.has(CART_COOKIE_NAME);
+  if (cookieStore.has(CART_COOKIE_NAME)) {
+    const cartCookie = cookieStore.get(CART_COOKIE_NAME)!.value;
+    return cartCookie.length > 0;
+  }
+  return false;
 }
 
-export function getCart(): CartCookie {
+function getCart(): CartCookie {
   const cookieStore = cookies();
   return JSON.parse(cookieStore.get(CART_COOKIE_NAME)?.value!);
 }
@@ -33,11 +37,13 @@ export function setEmail(email: string) {
   setCart(cart);
 }
 
+export function getCartIfAvailable(): CartCookie | undefined {
+  return cartExists() ? getCart() : undefined;
+}
+
+export function setAccountData() {}
+
 function setCart(cart: CartCookie) {
   const cookieStore = cookies();
   cookieStore.set(CART_COOKIE_NAME, JSON.stringify(cart));
-}
-
-export function getCartIfAvailable(): CartCookie | undefined {
-  return cartExists() ? getCart() : undefined;
 }

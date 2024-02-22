@@ -76,7 +76,7 @@ export function VerifyCode({
   }
 
   return (
-    <div className="text-center">
+    <div className="text-center grid grid-cols-6">
       {codes.map((code, index) => (
         <input
           key={index}
@@ -96,8 +96,6 @@ export function VerifyCode({
             px-2
             py-2
             mx-0.5
-            w-14
-            h-14
             text-center
             bg-white
             text-black

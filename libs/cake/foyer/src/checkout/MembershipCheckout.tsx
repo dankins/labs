@@ -1,8 +1,7 @@
 import { currentUser } from "@clerk/nextjs";
 import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
-import { CartCookie } from "../cookie";
-import { cookies } from "next/headers";
+import { getCartIfAvailable } from "../cookie";
 
 const CAKE_MEMBERSHIP_PRICE_ID = "price_1OMByvFp1nXP3WhKTbP8y1CW";
 
@@ -13,15 +12,10 @@ export async function MembershipCheckout({
 }) {
   const user = await currentUser();
 
-  const cookieStore = cookies();
-  if (!cookieStore.has("invitation-cart")) {
-    throw new Error("cart not available");
-  }
+  const cart = getCartIfAvailable();
 
-  const cartCookie = cookieStore.get("invitation-cart");
-  let cart: CartCookie = JSON.parse(cartCookie!.value);
-  if (!invitation) {
-    throw new Error("no invitation");
+  if (!cart) {
+    throw new Error("cart not available");
   }
 
   if (user?.privateMetadata["membershipStatus"] === "active") {

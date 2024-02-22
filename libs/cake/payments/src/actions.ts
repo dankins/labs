@@ -6,6 +6,9 @@ import {
   StripeAddressElementChangeEvent,
 } from "@stripe/stripe-js";
 import Stripe from "stripe";
+import { track } from "@danklabs/cake/events";
+import { cookies } from "next/headers";
+
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
 export async function createPaymentIntent() {
@@ -117,7 +120,6 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
       !user.privateMetadata["membershipStatus"] ||
       !user.privateMetadata["subscriptionId"]
     ) {
-      const privateMetadata = user.privateMetadata;
       user.privateMetadata["membershipStatus"] = "active";
       user.privateMetadata["subscriptionId"] = subscriptionId;
       await clerkClient.users.updateUserMetadata(userAuth.userId, {
@@ -125,6 +127,15 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
       });
 
       console.log("updated user metadata", user.privateMetadata);
+      track(userAuth.userId!, {
+        name: "Invitation Checkout Completed",
+        subscriptionId,
+      });
+
+      // delete cart cookie
+      const cookieStore = cookies();
+      cookieStore.delete("invitation_cart");
+
       return { status: "complete" };
     }
     if (user.privateMetadata["membershipStatus"] === "active") {
@@ -132,11 +143,6 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
       return { status: "complete" };
     }
   }
-
-  // const result = await stripe.invoices.search({
-  //   query: `payment_intent:'${paymentIntentId}'`,
-  // });
-  // console.log("invoice", result);
 
   return { status: "pending" };
 }

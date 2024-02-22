@@ -6,6 +6,7 @@ import { HamburgerIcon } from "@danklabs/pattern-library/core";
 
 import styles from "./AppHeader.module.scss";
 import { AppHeaderLink } from "./AppHeaderLink";
+import { SignOut } from "./SignOut";
 
 export function AppHeader({
   authComponent,
@@ -36,33 +37,10 @@ export function AppHeader({
             <AppHeaderLink href={"/brands"}>The Brands</AppHeaderLink>
             <AppHeaderLink href={"/stories"}>Cake Stories</AppHeaderLink>
             <AppHeaderLink href={"/account"}>Account</AppHeaderLink>
-            <AppHeaderLink href={"/account"} className={styles.signOut}>
-              Sign Out
-            </AppHeaderLink>
+            <SignOut />
           </div>
         </nav>
       </div>
     </header>
-  );
-}
-
-function NavLink({
-  children,
-  href,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  const classes = classNames(
-    // "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-    // "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-    "block py-2 px-3 text-neutral-content rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-  );
-  return (
-    <li>
-      <Link href={href} className={classes} aria-current="page">
-        {children}
-      </Link>
-    </li>
   );
 }

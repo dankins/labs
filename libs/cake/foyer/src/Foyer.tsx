@@ -5,41 +5,28 @@ import { Invitation, db, invitations } from "@danklabs/cake/db";
 import { BrandSelection } from "./brand-selection/BrandSelection";
 import { ErrorScreen } from "./error/ErrorScreen";
 import { eq } from "drizzle-orm";
-import { Centered } from "@danklabs/pattern-library/core";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Summary } from "./checkout/Summary";
-import { CreateAccount } from "./account/CreateAccount";
 import { Landing } from "./landing/Landing";
-import { CART_COOKIE_NAME, CartCookie, getCartIfAvailable } from "./cookie";
+import { getCartIfAvailable } from "./cookie";
+import { AccountStep } from "./account/AccountStep";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
 const Step = z.enum([
   "landing",
   "welcome",
-  "brand_selection",
-  "summary",
+  // "brand_selection",
+  // "summary",
   "account",
   "checkout",
   "error",
 ]);
 type Step = z.infer<typeof Step>;
 
-type LobbyState = {
-  invitation?: Invitation;
-  step: Step;
-  customerId?: string;
-  error?: string;
-  cart?: CartCookie;
-};
-
 export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
-  return (
-    <Centered>
-      <FoyerView searchParams={searchParams} />
-    </Centered>
-  );
+  return <FoyerView searchParams={searchParams} />;
 }
 
 export async function FoyerView({
@@ -88,66 +75,28 @@ export async function FoyerView({
     return <ErrorScreen error="EXPIRED_INVITE_CODE" />;
   }
 
-  if (stepSearchParam === "welcome") {
-    return <Welcome />;
-  } else if (stepSearchParam === "brand_selection") {
-    return <BrandSelection detail={detailSearchParam} />;
-  } else if (stepSearchParam === "summary") {
-    return <Summary />;
-  } else if (stepSearchParam === "account") {
-    return <CreateAccount />;
-  } else if (stepSearchParam === "checkout") {
-    return <MembershipCheckout invitation={invitation} />;
+  let step: Step;
+  try {
+    step = Step.parse(stepSearchParam);
+  } catch (err) {
+    return <ErrorScreen error={"INVALID_STATE"} />;
   }
 
-  return <ErrorScreen error={"INVALID_STATE"} />;
-
-  // try {
-  //   const step = Step.parse(searchParam?.step);
-
-  //   return {
-  //     step,
-  //     invitation,
-  //     customerId: cart?.stripeCustomerId,
-  //   };
-  // } catch (err) {
-  //   return {
-  //     step: "landing",
-  //     invitation,
-  //   };
-  // }
-  // switch (step) {
-  //   case "landing":
-  //     return (
-  //       <Landing
-  //         code={searchParams?.code || state.cart?.code}
-  //         error={searchParams?.error}
-  //         validated={searchParams?.validated}
-  //       />
-  //     );
-  //   case "welcome":
-  //     return <Welcome />;
-  //   case "brand_selection":
-  //     return <BrandSelection />;
-  //   case "summary":
-  //     return <Summary />;
-  //   case "account":
-  //     return <CreateAccount />;
-  //   case "checkout":
-  //     return <MembershipCheckout invitation={state.invitation!} />;
-  //   case "error":
-  //     return <ErrorScreen error={error} />;
-  // }
-
-  // const _exhaustive: never = step;
-  // throw new Error("unrecognized status");
-}
-
-function normalize(input: string | string[] | undefined): string | undefined {
-  if (!input) {
-    return;
-  } else if (Array.isArray(input)) {
-    return input.join(",");
+  switch (step) {
+    case "welcome":
+      return <Welcome />;
+    case "account":
+      if (!cart.email) {
+        return <ErrorScreen error={"INVALID_STATE"} />;
+      }
+      return <AccountStep email={cart.email} />;
+    // case "brand_selection":
+    //   return <BrandSelection detail={detailSearchParam} />;
+    // case "summary":
+    //   return <Summary />;
+    case "checkout":
+      return <MembershipCheckout invitation={invitation} />;
+    default:
+      return <ErrorScreen error={"INVALID_STATE"} />;
   }
-  return input;
 }

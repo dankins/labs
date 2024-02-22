@@ -1,8 +1,4 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
-import dayjs from "dayjs";
 
 import { getPage } from "@danklabs/cake/cms";
 import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
@@ -12,10 +8,7 @@ import {
   TicketIcon,
   EmailIcon,
 } from "@danklabs/pattern-library/core";
-import { validateFormData } from "@danklabs/utils";
-import { z } from "zod";
-import { db, invitations } from "@danklabs/cake/db";
-import { cartExists, getCart, setEmail, startCookie } from "../cookie";
+import { submitEmail, submitInviteCode } from "./actions";
 
 export async function Landing({
   code,
@@ -58,39 +51,6 @@ function InvitationStart({
   code: string | string[] | null | undefined;
   error: string | string[] | undefined;
 }) {
-  async function submitInviteCode(
-    formData: FormData
-  ): Promise<"valid" | "invalid" | "expired"> {
-    "use server";
-    console.log("submit invite code");
-    const data = validateFormData(formData, z.object({ code: z.string() }));
-    const invitation = await db.query.invitations.findFirst({
-      where: eq(invitations.code, data.code),
-    });
-
-    if (!invitation) {
-      redirect(`/invitation?code=${data.code}&error=invalid`);
-      return "invalid";
-    }
-    if (dayjs(invitation.expiration).isBefore(dayjs())) {
-      redirect(`/invitation?code=${data.code}&error=expired`);
-      return "expired";
-    }
-
-    if (cartExists()) {
-      const cartCookie = getCart();
-      // start with a fresh cart if the code is not the same as the one in the cookie
-      if (invitation && invitation.code !== cartCookie.code) {
-        startCookie(invitation.code!);
-      }
-    } else {
-      startCookie(invitation.code!);
-    }
-
-    redirect(`/invitation?code=${data.code}&validated=true`);
-    return "valid";
-  }
-
   return (
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
@@ -162,17 +122,6 @@ function InvitationEmail({
   cookieEmail?: string;
   jwtEmail?: string;
 }) {
-  async function submitEmail(formData: FormData): Promise<void> {
-    "use server";
-    const data = validateFormData(
-      formData,
-      z.object({ email: z.string().email() })
-    );
-    setEmail(data.email);
-
-    redirect(`/invitation?step=welcome`);
-  }
-
   return (
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
@@ -190,7 +139,6 @@ function InvitationEmail({
             placeholder="Enter Email Address"
             label="Email Address"
             icon={<EmailIcon className="fill-white strokee-white text-xl" />}
-            defaultValue={jwtEmail || cookieEmail}
             className="bg-neutral text-neutral-content"
           />
           <Button type="submit" background="white">

@@ -1,11 +1,5 @@
 import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
-import { TriggerScrollButton } from "./TriggerScrollButton";
-import {
-  ArrowDownIcon,
-  Button,
-  ChevronRightIcon,
-} from "@danklabs/pattern-library/core";
-import { SelectBrandsButton } from "./SelectMyBrandsButton";
+import { Button } from "@danklabs/pattern-library/core";
 
 export function WelcomePanel({ heroImage }: { heroImage: any }) {
   return (
@@ -18,24 +12,14 @@ export function WelcomePanel({ heroImage }: { heroImage: any }) {
           <h1 className="text-[#FFF6DA] text-6xl font-fancy">
             Welcome, Margaret.
           </h1>
-          <span className="text-base font-normal leading-6">
-            Katherine invited you to become a member of Cake, the invitation
-            only club where you gain insider privileges to some of the worlds
-            most exclusive and exciting fashion brands. Select your brands, and
-            see what it means to be on the inside.
-          </span>
-          <div>
-            <SelectBrandsButton />
+          <div className="text-base font-normal leading-6">
+            Katherine wants you to join her on CAKE where you’re treated to special, friend-of-the-brand privileges, perks and surprises.
+            <br /> <br />
+            She is having too much fun shopping the latest trends so she asked us to fill you in on all the delicious details about CAKE.
           </div>
-        </div>
-        <div className="w-full mt-[150px] pb-25 flex flex-row items-center justify-center">
-          <a
-            href="#panel1"
-            className="uppercase flex flex-col items-center justify-center my-10 font-poppins scroll-smooth"
-          >
-            <div className="p-4">How does it work?</div>
-            <ArrowDownIcon />
-          </a>
+          <div>
+            <Button>Tell Me About Cake</Button>
+          </div>
         </div>
       </div>
     </FeatureImageContainer>

@@ -1,8 +1,10 @@
 "use client";
-import { useAnimationControls, motion, useInView } from "framer-motion";
+import { motion, useAnimationControls, useInView } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { SelectBrandsButton } from "./SelectMyBrandsButton";
+
+import { Button } from "@danklabs/pattern-library/core";
+import { LinkToStepButton } from "../LinkToStepButton";
 
 export function ValueProp3() {
   const ref = useRef(null);
@@ -98,7 +100,7 @@ export function ValueProp3() {
         </motion.p>
       </div>
       <div className="flex flex-row justify-center items-center text-lg">
-        <SelectBrandsButton />
+        <LinkToStepButton step="account">Get Started</LinkToStepButton>
       </div>
     </motion.div>
   );
