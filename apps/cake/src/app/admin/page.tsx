@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <PageContent>
       <Centered>
-        <h1>Welcome to the admin dashboard</h1>
+        <h1>Admin dashboard</h1>
 
         <div>
           <ul>
