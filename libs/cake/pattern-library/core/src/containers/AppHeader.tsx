@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { LogoIcon } from "../logos";
 import React from "react";
-import classNames from "classnames";
-import { HamburgerIcon } from "@danklabs/pattern-library/core";
 
 import styles from "./AppHeader.module.scss";
 import { AppHeaderLink } from "./AppHeaderLink";

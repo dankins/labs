@@ -127,9 +127,11 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
       });
 
       console.log("updated user metadata", user.privateMetadata);
+      const email = user.emailAddresses.map((e) => e.emailAddress)[0];
       track(userAuth.userId!, {
         name: "Invitation Checkout Completed",
         subscriptionId,
+        email,
       });
 
       // delete cart cookie

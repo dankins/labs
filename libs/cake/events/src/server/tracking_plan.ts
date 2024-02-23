@@ -24,4 +24,5 @@ export type TrackInvitationAccountCompleted = {
 export type TrackInvitationCheckoutCompleted = {
   name: "Invitation Checkout Completed";
   subscriptionId: string;
+  email: string;
 };
