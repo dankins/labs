@@ -1,4 +1,11 @@
-import { UserIcon } from "@danklabs/pattern-library/core";
+import {
+  BookmarkIcon,
+  CreditCardIcon,
+  NotificationsIcon,
+  ProfileIcon,
+  TicketIcon,
+  UserIcon,
+} from "@danklabs/pattern-library/core";
 import Link from "next/link";
 
 export function Menu() {
@@ -7,31 +14,31 @@ export function Menu() {
       <div>
         <h1 className="pt-4 pb-2 uppercase text-xs">My Account</h1>
         <AccountLink
-          icon={<UserIcon />}
-          href="/account/invites"
+          icon={<ProfileIcon />}
+          href="/account/profile"
           heading="Member Profile"
-          subheading="Blah"
+          subheading="Manage my personal details"
         />
         <AccountLink
-          icon={<UserIcon />}
+          icon={<CreditCardIcon />}
           href="/account/membership"
           heading="Manage Account"
           subheading="Manage my Cake Membership"
         />
         <AccountLink
-          icon={<UserIcon />}
-          href="/account/membership"
+          icon={<TicketIcon />}
+          href="/account/invites"
           heading="Cake Invites"
           subheading="Manage my Cake Invitations"
         />
         <AccountLink
-          icon={<UserIcon />}
+          icon={<BookmarkIcon />}
           href="/account/favorites"
           heading="My Favorites"
           subheading="Manage Favorited Brands"
         />
         <AccountLink
-          icon={<UserIcon />}
+          icon={<NotificationsIcon />}
           href="/account/notifications"
           heading="Notification Preferences"
           subheading="Manage how we stay in touch"
@@ -47,12 +54,12 @@ export function Menu() {
         />
         <AccountLink
           icon={<UserIcon />}
-          href="/privacy-policy"
+          href="/account/privacy-policy"
           heading="Privacy Policy"
         />
         <AccountLink
           icon={<UserIcon />}
-          href="/terms-and-conditions"
+          href="/account/terms-and-conditions"
           heading="Terms and Conditions"
         />
       </div>
@@ -76,7 +83,10 @@ function AccountLink({
       href={href}
       className="py-2 border-0 border-b border-white/25 flex flex-row justify-top gap-2 last:border-b-0 "
     >
-      <div className="pt-1 flex flex-row justify-top text-primary"> {icon}</div>
+      <div className="pt-1 flex flex-row justify-top text-primary stroke-primary">
+        {" "}
+        {icon}
+      </div>
 
       <div>
         <div className="text-base font-medium">{heading}</div>
