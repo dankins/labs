@@ -27,7 +27,7 @@ export async function Landing({
 
   return (
     <FeatureImageContainer
-      image={page.heroImage}
+      image={page.heroImage!}
       overlay={<div className="w-full h-full absolute top-0 bg-black/40"></div>}
     >
       {validated ? (

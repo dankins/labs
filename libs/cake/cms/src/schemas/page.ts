@@ -28,6 +28,19 @@ export default defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: "content",
+      type: "array",
+      title: "Content",
+      of: [
+        {
+          type: "block",
+        },
+        {
+          type: "faq",
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
