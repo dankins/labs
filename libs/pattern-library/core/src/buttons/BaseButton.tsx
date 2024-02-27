@@ -48,5 +48,5 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 const ThrowAway = (
-  <div className="bg-primary text-primary-content text-xs"></div>
+  <div className="bg-primary text-primary-content text-xs bg-gray-100 bg-gray-100 text-gray-900"></div>
 );

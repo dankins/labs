@@ -25,12 +25,12 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             type="text"
             aria-describedby="helper-text-explanation"
             className={classNames(
-              "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 pl-8  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+              "w-full ps-10 p-2.5 pl-8 border border-gray-300 rounded-lg block text-sm",
+              " focus:ring-blue-500 focus:border-blue-500",
+              !props.disabled && "bg-white text-black",
+              props.disabled && "bg-white/50 text-black cursor-not-allowed",
               className
             )}
-            // placeholder="12345 or 12345-6789"
-            // pattern="^\d{5}(-\d{4})?$"
-            //         required
             {...props}
             ref={ref}
           />
