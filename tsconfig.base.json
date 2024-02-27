@@ -17,10 +17,14 @@
     "paths": {
       "@danklabs/cake/admin/brands": ["libs/cake/admin/brands/src/index.ts"],
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
+      "@danklabs/cake/cms-content": ["libs/cake/cms-content/src/index.ts"],
       "@danklabs/cake/db": ["libs/cake/db/src/index.ts"],
       "@danklabs/cake/emails": ["libs/cake/emails/src/index.ts"],
       "@danklabs/cake/events": ["libs/cake/events/src/index.ts"],
       "@danklabs/cake/foyer": ["libs/cake/foyer/src/index.ts"],
+      "@danklabs/cake/members/account": [
+        "libs/cake/members/account/src/index.ts"
+      ],
       "@danklabs/cake/members/brands": [
         "libs/cake/members/brands/src/index.ts"
       ],

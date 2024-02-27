@@ -1,4 +1,4 @@
-## Create a React Library with Storybook
+## Create a React Library
 
 ```
 npx nx generate @nx/react:library pattern-library/core --directory libs/pattern-library/core
