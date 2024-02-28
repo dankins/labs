@@ -107,9 +107,21 @@ export const offerCodes = pgTable("offer_codes", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const favorites = pgTable("favorites", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  memberId: uuid("member_id")
+    .references(() => members.id)
+    .notNull(),
+  brandId: uuid("brandId")
+    .references(() => brands.id)
+    .notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // RELATIONS
 export const membersRelations = relations(members, ({ many, one }) => ({
   invitations: many(invitations),
+  favorites: many(favorites),
   passport: one(passports, {
     fields: [members.id],
     references: [passports.memberId],
@@ -172,9 +184,21 @@ export const offerRelations = relations(offers, ({ one }) => ({
   }),
 }));
 
+export const favoritesRelations = relations(favorites, ({ one, many }) => ({
+  member: one(members, {
+    fields: [favorites.memberId],
+    references: [members.id],
+  }),
+  brand: one(brands, {
+    fields: [favorites.brandId],
+    references: [brands.id],
+  }),
+}));
+
 // TYPES
 export type Invitation = typeof invitations.$inferSelect;
 export type Member = typeof members.$inferSelect;
 export type Passport = typeof passports.$inferSelect;
 export type Offer = typeof offers.$inferSelect;
 export type OfferCode = typeof offerCodes.$inferSelect;
+export type Favorite = typeof favorites.$inferSelect;
