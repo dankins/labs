@@ -176,3 +176,25 @@ export function PhoneIcon(props: IconBaseProps) {
     </IconBase>
   );
 }
+
+export function FavoriteFilledIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 124 124" {...props}>
+      <path
+        d="M61.5528 95.2056L32 109.982V24.8C32 21.7766 33.2011 18.8769 35.339 16.739C37.4769 14.6011 40.3765 13.4 43.4 13.4H80.6C83.6235 13.4 86.5231 14.6011 88.661 16.739C90.7989 18.8769 92 21.7766 92 24.8V109.982L62.4472 95.2056L62 94.982L61.5528 95.2056Z"
+        strokeWidth="2"
+      />
+    </IconBase>
+  );
+}
+
+export function FavoriteOutlineIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 124 124" fill="none" {...props}>
+      <path
+        d="M61.5528 95.2056L32 109.982V24.8C32 21.7766 33.2011 18.8769 35.339 16.739C37.4769 14.6011 40.3765 13.4 43.4 13.4H80.6C83.6235 13.4 86.5231 14.6011 88.661 16.739C90.7989 18.8769 92 21.7766 92 24.8V109.982L62.4472 95.2056L62 94.982L61.5528 95.2056Z"
+        strokeWidth="2"
+      />
+    </IconBase>
+  );
+}
