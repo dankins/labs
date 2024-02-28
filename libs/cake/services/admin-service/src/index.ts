@@ -14,3 +14,5 @@ export * from "./getBrandsWithOffers";
 
 // invitations
 export * from "./invitations";
+
+export * from "./favorites";
