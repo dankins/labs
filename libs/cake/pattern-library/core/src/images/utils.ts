@@ -78,7 +78,7 @@ function getCroppedDimensions(
   };
 }
 
-function getSanityRefId(image: SanityImageSource): string {
+export function getSanityRefId(image: SanityImageSource): string {
   if (typeof image === "string") {
     return image;
   }
@@ -134,12 +134,6 @@ export function sanityImageHelper(
     image,
     originalImageDimensions
   );
-
-  console.log("debug", {
-    image,
-    originalImageDimensions,
-    croppedImageDimensions,
-  });
 
   const loader: ImageLoader = ({ width, quality }) => {
     return (

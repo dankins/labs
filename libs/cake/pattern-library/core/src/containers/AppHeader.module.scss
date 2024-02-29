@@ -6,6 +6,16 @@
   --transition__easing: ease-in-out;
   --transition__delay: 0;
 
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  color: white;
+  width: 100%;
+  @media screen and (min-width: 480px) {
+    position: inherit;
+    color: var(--text-primary-content);
+  }
+
   > div {
     @media screen and (min-width: 480px) {
       display: flex;
@@ -128,6 +138,10 @@
         a.signOut {
           letter-spacing: 0.16rem;
           font-size: 1rem;
+
+          @media screen and (min-width: 480px) {
+            display: none;
+          }
         }
         a.active {
           border-bottom: 1px solid white;

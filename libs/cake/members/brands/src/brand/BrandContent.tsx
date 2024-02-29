@@ -1,30 +1,11 @@
 import { getBrandAdmin } from "@danklabs/cake/cms";
 import { db } from "@danklabs/cake/db";
-import {
-  Currency,
-  LogoSpace,
-  SanityArtDirection,
-  SanityImageServer,
-  SectionHeading,
-  WalletCard,
-} from "@danklabs/cake/pattern-library/core";
-import {
-  createBrandPass,
-  getMemberByIAM,
-} from "@danklabs/cake/services/admin-service";
-import { SanityImage } from "@danklabs/cake/pattern-library/core";
-import { revalidatePath } from "next/cache";
+import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
+import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import { Suspense, useMemo } from "react";
-import { SelectPassButton } from "./SelectPassButton";
 import { auth } from "@clerk/nextjs";
-import {
-  AddIcon,
-  ChevronRightIcon,
-  OutlineButton,
-} from "@danklabs/pattern-library/core";
-import { AddPassActionBar } from "./AddPassActionBar";
-import { Header } from "./components/Header";
-import { Content } from "./components/Content";
+import { Header, HeaderLoading } from "./components/Header";
+import { Content, ContentLoading } from "./components/Content";
 import { ContainerWithBackground } from "./components/ContainerWithBackground";
 
 export async function BrandContent({ slug }: { slug: string }) {
@@ -36,7 +17,13 @@ export async function BrandContent({ slug }: { slug: string }) {
 }
 
 function Loading() {
-  return <div>loading</div>;
+  return (
+    <ContainerWithBackground loading>
+      <MobileNavSpacer />
+      <HeaderLoading />
+      <ContentLoading />
+    </ContainerWithBackground>
+  );
 }
 
 async function Component({ slug }: { slug: string }) {
@@ -92,6 +79,7 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <ContainerWithBackground brand={brand}>
+      <MobileNavSpacer />
       <Header brand={brand} />
       <Content brand={brand} />
     </ContainerWithBackground>

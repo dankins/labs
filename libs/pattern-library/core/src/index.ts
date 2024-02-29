@@ -5,3 +5,4 @@ export * from "./icons";
 export * from "./menu";
 export * from "./modals";
 export * from "./badges";
+export * from "./skeleton";

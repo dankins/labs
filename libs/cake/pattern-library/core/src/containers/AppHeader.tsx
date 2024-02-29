@@ -18,7 +18,7 @@ export function AppHeader({
         {/** container */}
         <div className={styles.navContainer}>
           {/** LOGO */}
-          <Link href="/" className={styles.logo}>
+          <Link href="/passport" className={styles.logo}>
             <LogoIcon />
             <span>Cake</span>
           </Link>
