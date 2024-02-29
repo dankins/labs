@@ -12,13 +12,14 @@ export function AppShell({
 }) {
   return (
     <>
-      <AppHeader authComponent={authComponent} />{" "}
-      <div className="flex flex-row justify-center">
+      <AppHeader authComponent={authComponent} />
+      <AppContent>{children}</AppContent>
+      <AppFooter />
+      {/* <div className="flex flex-row justify-center">
         <div className="container">
-          <AppContent>{children}</AppContent>
-          <AppFooter />
+          
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

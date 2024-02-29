@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
+import { Button } from "@danklabs/pattern-library/core";
 
 type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
 type Pass = NonNullable<
@@ -73,11 +74,21 @@ export async function Component() {
 
 function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4">
-      {brands.map((b) => (
-        <GridItem brand={b} pass={passes[b.slug]} />
-      ))}
-    </div>
+    <>
+      <div className="my-5 flex flex-row items-center">
+        <div className="grow">
+          <span>{Object.keys(passes).length} / 10</span> in Collections
+        </div>
+        <div>
+          <Button>Sort</Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4">
+        {brands.map((b) => (
+          <GridItem brand={b} pass={passes[b.slug]} />
+        ))}
+      </div>
+    </>
   );
 }
 

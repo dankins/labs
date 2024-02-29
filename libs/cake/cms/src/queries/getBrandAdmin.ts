@@ -6,8 +6,14 @@ export const brandSelection = {
   name: q.string(),
   slug: q.slug("slug"),
   website: q.string(),
+  summary: q.string(),
   passLogo: sanityImage("pass_logo").nullable(),
   passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  passBackgroundDesktop: sanityImage("pass_background_desktop", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,
     withCrop: true,
