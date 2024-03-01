@@ -3,7 +3,7 @@ import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
 import { getCartIfAvailable } from "../cookie";
 
-const CAKE_MEMBERSHIP_PRICE_ID = "price_1OMByvFp1nXP3WhKTbP8y1CW";
+const CAKE_MEMBERSHIP_PRICE_ID = "price_1OpYe1HnJcBv7Ja0NG0dr9p5";
 
 export async function MembershipCheckout({
   invitation,
