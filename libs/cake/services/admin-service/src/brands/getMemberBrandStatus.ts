@@ -43,7 +43,7 @@ members.iam = ${userIAM}
   console.log("debug  getMemberBrandStatus", userIAM, brandSlug, result);
 
   // @ts-ignore not safe, I know
-  return result[0];
+  return result[0] || result?.rows[0];
 }
 
 // getMemberByIAM(userId, { passport: true }).then((member) => ({
