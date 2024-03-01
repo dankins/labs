@@ -14,29 +14,40 @@ import classNames from "classnames";
 
 export type FavoritesGridProps = {
   brands: {
-    slug: string;
+    brandId: string;
     name: string;
     passLogo: SanityImageType;
   }[];
+  removeMultipleFavorites(brandIds: string[]): Promise<void>;
 };
-export function FavoritesGrid({ brands }: FavoritesGridProps) {
+export function FavoritesGrid({
+  removeMultipleFavorites,
+  brands,
+}: FavoritesGridProps) {
+  const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [removeMap, setRemoveMap] = useState<{ [key: string]: boolean }>({});
-  function toggle(slug: string) {
-    console.log("toggle", slug);
-    if (removeMap[slug]) {
+  function toggle(brandId: string) {
+    console.log("toggle", brandId);
+    if (removeMap[brandId]) {
       setRemoveMap((current) => {
-        const { [slug]: _, ...rest } = current;
+        const { [brandId]: _, ...rest } = current;
         return rest;
       });
     } else {
       setRemoveMap((current) => {
-        return { [slug]: true, ...current };
+        return { [brandId]: true, ...current };
       });
     }
   }
 
-  function handleCancel() {
+  async function handleSubmit() {
+    setLoading(true);
+    await removeMultipleFavorites(Object.keys(removeMap));
+    setLoading(false);
+  }
+
+  async function handleCancel() {
     setEditMode(false);
     setRemoveMap({});
   }
@@ -45,10 +56,18 @@ export function FavoritesGrid({ brands }: FavoritesGridProps) {
     <>
       <div className="my-6 flex flex-row justify-end">
         {!editMode ? (
-          <Button onClick={() => setEditMode(true)}>Edit</Button>
+          <Button
+            onClick={() => setEditMode(true)}
+            background="black"
+            textColor="white"
+          >
+            Edit
+          </Button>
         ) : (
           <div className="flex flex-row gap-4">
-            <Button disabled={!dirty}>Save</Button>
+            <Button disabled={!dirty} onClick={handleSubmit} loading={loading}>
+              Save
+            </Button>
             <Button onClick={handleCancel}>Cancel</Button>
           </div>
         )}
@@ -57,12 +76,12 @@ export function FavoritesGrid({ brands }: FavoritesGridProps) {
         {brands.map((b) => {
           return (
             <div
-              key={b.slug}
-              className="p-2 aspect-[1/1] bg-white/20 flex flex-col cursor-pointer"
-              onClick={() => toggle(b.slug)}
+              key={b.brandId}
+              className="p-2 aspect-[1/1] bg-black/40 flex flex-col cursor-pointer"
+              onClick={() => toggle(b.brandId)}
             >
               <div className="flex justify-end m-h-[24px]">
-                {removeMap[b.slug] ? (
+                {removeMap[b.brandId] ? (
                   <FavoriteOutlineIcon className="w-[24px] h-[24px]" />
                 ) : (
                   <FavoriteFilledIcon

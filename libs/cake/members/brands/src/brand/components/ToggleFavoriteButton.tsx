@@ -1,27 +1,32 @@
 "use client";
 import {
-  Button,
   FavoriteFilledIcon,
   FavoriteOutlineIcon,
   OutlineButton,
 } from "@danklabs/pattern-library/core";
-import { addFavorite, removeFavorite } from "../actions";
 import { useState } from "react";
 import { useToast } from "@danklabs/pattern-library/motion";
 
 export function ToggleFavoriteButton({
   isFavorite: isFavoriteStart,
   slug,
+  addFavoriteAction,
+  removeFavoriteAction,
 }: {
   slug: string;
   isFavorite?: boolean;
+  addFavoriteAction?(): Promise<void>;
+  removeFavoriteAction?(): Promise<void>;
 }) {
   const [isFavorite, setIsFavorite] = useState(isFavoriteStart);
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   async function handleToggle() {
+    if (!addFavoriteAction || !removeFavoriteAction) {
+      throw new Error("not ready");
+    }
     setLoading(true);
-    await (isFavorite ? removeFavorite(slug) : addFavorite(slug));
+    await (isFavorite ? removeFavoriteAction() : addFavoriteAction());
     setLoading(false);
     toast.addToast(
       isFavorite ? `Removed from favorites` : `Added to favorites`

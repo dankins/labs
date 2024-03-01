@@ -1,5 +1,4 @@
 import { getBrandAdmin } from "@danklabs/cake/cms";
-import { db } from "@danklabs/cake/db";
 import {
   Currency,
   LogoSpace,

@@ -112,9 +112,10 @@ export const favorites = pgTable("favorites", {
   memberId: uuid("member_id")
     .references(() => members.id)
     .notNull(),
-  brandId: uuid("brandId")
+  brandId: uuid("brand_id")
     .references(() => brands.id)
     .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 

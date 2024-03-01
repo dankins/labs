@@ -10,7 +10,6 @@ import {
   PlayIcon,
 } from "@danklabs/pattern-library/core";
 import { FaHeart } from "react-icons/fa";
-import { ToggleFavoriteButton } from "./ToggleFavoriteButton";
 import {
   getImageDimensions,
   getSanityRefId,

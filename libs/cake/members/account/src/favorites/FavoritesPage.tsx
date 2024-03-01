@@ -9,6 +9,7 @@ import {
 } from "@danklabs/pattern-library/core";
 import { Suspense } from "react";
 import { FavoritesGrid } from "./FavoritesGrid";
+import { removeMultipleFavorites } from "../actions";
 
 export async function FavoritesPage() {
   return (
@@ -24,24 +25,39 @@ async function Component() {
     throw new Error("not authenticated");
   }
   const faves = await getFavorites(userId);
+  const { brands: cmsBrands } = await getBrands();
+  const memberId = faves[0].members.id;
 
-  const { brands } = await getBrands();
-  console.log("faves", brands, faves);
+  const cmsBrandMap: {
+    [slug: string]: Awaited<ReturnType<typeof getBrands>>["brands"][0];
+  } = {};
+  cmsBrands.forEach((b) => (cmsBrandMap[b.slug] = b));
+
+  let brands = faves.map((fave) => ({
+    brandId: fave.brands.id,
+    name: cmsBrandMap[fave.brands.slug].name,
+    passLogo: cmsBrandMap[fave.brands.slug].passLogo!,
+  }));
+
+  if (faves.length === 0) {
+    return <NoFavorites />;
+  }
 
   return (
     <>
       <div>
-        <h1 className="text-primary text-xl font-normal">My Favorites</h1>
+        <h1 className="text-black text-xl font-normal">My Favorites</h1>
         <p className="text-base font-normal">
-          Manage your personal settings associated to your Cake account.
+          View and manage brands that you have favorited. Favoriting brands will
+          help keep you up to date with their new releases and more.
         </p>
       </div>
       <FavoritesGrid
-        brands={brands.map((b) => ({
-          name: b.name,
-          slug: b.slug,
-          passLogo: b.passLogo!,
-        }))}
+        brands={brands}
+        removeMultipleFavorites={removeMultipleFavorites.bind(
+          undefined,
+          memberId
+        )}
       />
     </>
   );

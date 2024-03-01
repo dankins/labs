@@ -12,7 +12,6 @@ export * from "./getMemberInvitations";
 export * from "./getMemberInvitationCounts";
 export * from "./getBrandsWithOffers";
 
-// invitations
-export * from "./invitations";
-
+export * from "./brands";
 export * from "./favorites";
+export * from "./invitations";

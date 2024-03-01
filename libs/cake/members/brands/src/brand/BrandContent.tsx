@@ -1,9 +1,13 @@
-import { getBrandAdmin } from "@danklabs/cake/cms";
-import { db } from "@danklabs/cake/db";
-import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
-import { Suspense, useMemo } from "react";
+import { Suspense } from "react";
 import { auth } from "@clerk/nextjs";
+
+import { getBrandAdmin } from "@danklabs/cake/cms";
+import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
+import {
+  getBrand,
+  getMemberBrandStatus,
+} from "@danklabs/cake/services/admin-service";
+
 import { Header, HeaderLoading } from "./components/Header";
 import { Content, ContentLoading } from "./components/Content";
 import { ContainerWithBackground } from "./components/ContainerWithBackground";
@@ -27,61 +31,28 @@ function Loading() {
 }
 
 async function Component({ slug }: { slug: string }) {
-  const { userId } = auth();
-  if (!userId) {
+  const { userId: userIAM } = auth();
+  if (!userIAM) {
     throw new Error("userid not available");
   }
 
-  const [brand, { isMember, passportId, unclaimedPassCount, passes }] =
+  const [brand, { memberId, isFavorite, isInCollection }, { id: brandId }] =
     await Promise.all([
       getBrandAdmin(slug),
-      getMemberByIAM(userId, { passport: true }).then((member) => ({
-        passes: member?.passport.passes || [],
-        isMember: member?.passport.passes
-          .map((p) => p.brand.slug)
-          .includes(slug),
-        passportId: member?.passport.id,
-        passCount: member?.passport.passes.length || 1000,
-        // TOOD(dankins): model this better
-        unclaimedPassCount: 10 - (member?.passport.passes.length || 10),
-      })),
+      getMemberBrandStatus(userIAM, slug),
+      getBrand(slug),
     ]);
-
-  const passportValue = passes.reduce((acc, cur) => {
-    return (
-      acc +
-      cur.offers.reduce(
-        (acc, cur) => acc + parseFloat(cur.template.offerValue),
-        0
-      )
-    );
-  }, 0);
-
-  async function claimPassAction(slug: string) {
-    "use server";
-    console.log("claimPassAction", slug);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("ok");
-      }, 4000);
-    });
-    // if (!passportId) {
-    //   throw new Error("unknown passport id");
-    // }
-    // await db.transaction(async (tx) => {
-    //   await createBrandPass(tx, passportId, slug);
-    // });
-
-    // revalidatePath("/passport");
-    // revalidatePath("/brands");
-    // revalidatePath(`/brands/${slug}`);
-  }
 
   return (
     <ContainerWithBackground brand={brand}>
       <MobileNavSpacer />
       <Header brand={brand} />
-      <Content brand={brand} />
+      <Content
+        memberId={memberId}
+        brandId={brandId}
+        brand={brand}
+        isFavorite={isFavorite}
+      />
     </ContainerWithBackground>
   );
 }

@@ -1,12 +1,13 @@
-import { getBrands } from "@danklabs/cake/cms";
 import { Suspense } from "react";
-import { SanityImage } from "../../../pattern-library/core/src/images/SanityImage";
-import { LogoSpace } from "@danklabs/cake/pattern-library/core";
-import Link from "next/link";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
+
 import { Button } from "@danklabs/pattern-library/core";
+
+import { getBrands } from "@danklabs/cake/cms";
+import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
+import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
 
 type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
 type Pass = NonNullable<
