@@ -3,7 +3,7 @@ import { PageView } from "@danklabs/cake/events";
 
 export default function Page() {
   return (
-    <>
+    <div className="bg-[#322423]">
       <PageView tags={[]} />
       <div className="w-full p-4 min-h-screen text-[#FDFDEA] flex flex-col items-center justify-center">
         <div className={classNames("flex flex-col items-center container")}>
@@ -15,6 +15,6 @@ export default function Page() {
           </h3>
         </div>
       </div>
-    </>
+    </div>
   );
 }
