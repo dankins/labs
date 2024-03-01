@@ -15,3 +15,4 @@ export * from "./getBrandsWithOffers";
 export * from "./brands";
 export * from "./favorites";
 export * from "./invitations";
+export * from "./membership";

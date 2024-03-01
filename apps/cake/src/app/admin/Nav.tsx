@@ -2,14 +2,15 @@ import { auth, currentUser, clerkClient } from "@clerk/nextjs";
 import Link from "next/link";
 import { Suspense } from "react";
 import { NavDropdown } from "./NavDropdown";
-import { OrganizationMembership } from "@clerk/nextjs/dist/types/server";
+import { LogoIcon } from "@danklabs/cake/pattern-library/core";
 
 export function Nav() {
   const { userId, organization } = auth();
   return (
     <nav className="flex flex-row p-4">
-      <Link href="/" className="text-2xl">
-        🎂
+      <Link href="/admin" className="text-2xl flex flex-row gap-2">
+        <LogoIcon />
+        <span>Cake</span>
       </Link>
       <span className="grow"></span>
       <div>
