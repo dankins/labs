@@ -40,6 +40,8 @@ members.iam = ${userIAM}
 ;  
 `);
 
+  console.log("debug  getMemberBrandStatus", userIAM, brandSlug, result);
+
   // @ts-ignore not safe, I know
   return result[0];
 }

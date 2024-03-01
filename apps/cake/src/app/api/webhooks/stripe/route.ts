@@ -3,9 +3,6 @@ import { handleEvent } from "./handleEvent";
 
 const webhookSecret = process.env["STRIPE_WEBHOOK_SIGNING_SECRET"]!;
 export async function POST(req: Request) {
-  console.log("incoming stripe webhook", {
-    signingSecret: webhookSecret.substring(0, 10),
-  });
   const payload = await req.text();
   const sig = req.headers.get("stripe-signature");
   if (!sig) {
