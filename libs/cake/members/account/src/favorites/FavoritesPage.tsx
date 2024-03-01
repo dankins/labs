@@ -26,7 +26,7 @@ async function Component() {
   }
   const faves = await getFavorites(userId);
   const { brands: cmsBrands } = await getBrands();
-  const memberId = faves[0].members.id;
+  const memberId = faves[0]?.members.id;
 
   const cmsBrandMap: {
     [slug: string]: Awaited<ReturnType<typeof getBrands>>["brands"][0];
