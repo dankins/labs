@@ -1,54 +1,121 @@
-import { auth, currentUser, clerkClient } from "@clerk/nextjs";
+"use client";
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Suspense } from "react";
-import { NavDropdown } from "./NavDropdown";
-import { LogoIcon } from "@danklabs/cake/pattern-library/core";
+import { WalletIcon } from "@danklabs/cake/pattern-library/core";
+import { IconBaseProps } from "react-icons/lib";
+import {
+  BrandIcon,
+  MembersIcon,
+  OffersIcon,
+  SettingsIcon,
+  UserIcon,
+} from "@danklabs/pattern-library/core";
+import nav from "./Nav.module.scss";
+import { useSelectedLayoutSegments } from "next/navigation";
+import classNames from "classnames";
 
 export function Nav() {
-  const { userId, organization } = auth();
+  const segments = useSelectedLayoutSegments();
+  const isBrandDetail = segments[0] === "brands" && !!segments[1];
+
   return (
-    <nav className="flex flex-row p-4">
-      <Link href="/admin" className="text-2xl flex flex-row gap-2">
-        <LogoIcon />
-        <span>Cake</span>
-      </Link>
-      <span className="grow"></span>
-      <div>
-        {!userId ? <Link href="/sign-in">Member Login</Link> : <LoggedIn />}
+    <nav className="flex flex-col bg-white min-h-screen min-w-[275px] shadow-md">
+      <div className="h-[64px] bg-black/80">
+        <Link
+          href="/admin"
+          className="p-4 flex flex-row items-center gap-2 text-white"
+        >
+          <span className="text-2xl">Cake</span>
+          <span className="text-xs">admin</span>
+          <span className="grow" />
+          <UserButton afterSignOutUrl={"/"} />
+        </Link>
       </div>
+      <div className="grow flex flex-col">
+        <nav className={nav.Nav}>
+          <NavItem
+            href={"/admin/brands"}
+            title="Brands"
+            icon={WalletIcon}
+            activeSection={segments[0] === "brands"}
+            activePage={segments.length === 1 && segments[0] === "brands"}
+          >
+            {isBrandDetail && (
+              <>
+                <NavItem
+                  href={`/admin/brands/${segments[1]}`}
+                  title={segments[1]}
+                  icon={BrandIcon}
+                  activeSection={isBrandDetail}
+                  activePage={segments.length === 2}
+                >
+                  <NavItem
+                    href={`/admin/brands/${segments[1]}/offers`}
+                    title="Offers"
+                    icon={OffersIcon}
+                    activeSection={segments[2] === "offers"}
+                    activePage={segments[2] === "offers"}
+                  />
+                  <NavItem
+                    href={`/admin/brands/${segments[1]}/members`}
+                    title="Members"
+                    icon={MembersIcon}
+                    activeSection={segments[2] === "members"}
+                    activePage={segments[2] === "members"}
+                  />
+                  <NavItem
+                    href={`/admin/brands/${segments[1]}/settings`}
+                    title="Settings"
+                    icon={SettingsIcon}
+                    activeSection={segments[2] === "settings"}
+                    activePage={segments[2] === "settings"}
+                  />
+                </NavItem>
+              </>
+            )}
+          </NavItem>
+          <NavItem
+            href="/admin/members"
+            title="Members"
+            icon={UserIcon}
+            activeSection={segments[0] === "members"}
+            activePage={segments.length === 1 && segments[0] === "members"}
+          ></NavItem>
+        </nav>
+      </div>
+      <div className="p-4"></div>
     </nav>
   );
 }
 
-async function LoggedIn() {
+function NavItem({
+  title,
+  href,
+  icon: Icon,
+  activeSection,
+  activePage,
+  children,
+}: {
+  title: string;
+  href: string;
+  icon: React.FC<IconBaseProps>;
+  activeSection: boolean;
+  activePage: boolean;
+  children?: React.ReactNode;
+}) {
   return (
-    <Suspense>
-      <LoggedInLoaded />
-    </Suspense>
+    <>
+      <Link
+        href={href}
+        className={classNames(
+          nav.NavItem,
+          activeSection && nav.activeSection,
+          activePage && nav.activePage
+        )}
+      >
+        <Icon /> {title}
+      </Link>
+      {children ? <div>{children}</div> : undefined}
+    </>
   );
-}
-
-async function LoggedInLoading() {
-  return <div>Welcome, yo</div>;
-}
-
-async function LoggedInLoaded() {
-  const { userId } = auth();
-  if (userId) {
-    const orgMembers = await clerkClient.users.getOrganizationMembershipList({
-      userId,
-    });
-  }
-
-  let isAdmin = false;
-  if (userId) {
-    const orgMembers = await clerkClient.users.getOrganizationMembershipList({
-      userId,
-    });
-
-    isAdmin =
-      orgMembers.findIndex((om) => om.organization.slug === "cake") >= 0;
-  }
-
-  return <NavDropdown isAdmin={isAdmin} />;
 }
