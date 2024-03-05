@@ -1,0 +1,1 @@
+ALTER TABLE "favorites" ADD COLUMN "created_at" timestamp DEFAULT now() NOT NULL;

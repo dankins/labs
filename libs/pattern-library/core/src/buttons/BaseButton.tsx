@@ -18,11 +18,21 @@ export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   fontWeight?: "light" | "normal" | "semibold" | "bold";
   border?: ButtonColors;
   rounded?: "full" | "md";
+  icon?: React.ReactNode;
 };
 
 export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { children, loading, textColor, border, background, rounded, ...props },
+    {
+      children,
+      loading,
+      textColor,
+      border,
+      background,
+      rounded,
+      icon,
+      ...props
+    },
     ref
   ) => {
     const className = classNames(
@@ -41,7 +51,8 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
     return (
       <button ref={ref} {...props} className={className}>
-        {loading && <Spinner />} {children}
+        {loading ? <Spinner /> : icon}
+        {children}
       </button>
     );
   }

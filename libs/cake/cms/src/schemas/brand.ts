@@ -47,7 +47,15 @@ const BrandType = defineType({
     }),
     defineField({
       name: "pass_background",
-      title: "Pass Background",
+      title: "Pass Background Mobile",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: "pass_background_desktop",
+      title: "Pass Background Desktop",
       type: "image",
       options: {
         hotspot: true,

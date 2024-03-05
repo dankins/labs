@@ -8,6 +8,7 @@ import {
 } from "next-sanity-image";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 import { useMemo } from "react";
+import { portraitCropBuilder } from "./utils";
 
 export type SanityImageType = {
   readonly _key: string | null;
@@ -24,17 +25,6 @@ type ImageBuilderFactory = (
   imageUrlBuilder: ImageUrlBuilder,
   options: UseNextSanityImageBuilderOptions
 ) => ImageUrlBuilder;
-
-export function portraitCropBuilder(width: number) {
-  return (
-    imageUrlBuilder: ImageUrlBuilder,
-    options: UseNextSanityImageBuilderOptions
-  ) =>
-    imageUrlBuilder
-      .width(width)
-      .height((width * 3) / 2)
-      .fit("crop");
-}
 
 export type SanityImageProps = {
   image: SanityImageType;

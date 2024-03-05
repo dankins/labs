@@ -1,11 +1,13 @@
-import { getBrands } from "@danklabs/cake/cms";
 import { Suspense } from "react";
-import { SanityImage } from "../../../pattern-library/core/src/images/SanityImage";
-import { LogoSpace } from "@danklabs/cake/pattern-library/core";
-import Link from "next/link";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
+
+import { Button } from "@danklabs/pattern-library/core";
+
+import { getBrands } from "@danklabs/cake/cms";
+import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
+import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
 
 type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
 type Pass = NonNullable<
@@ -32,7 +34,7 @@ export async function Loading() {
     "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cfilter id='b' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='20'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 100 -1' result='s'/%3E%3CfeFlood x='0' y='0' width='100%25' height='100%25'/%3E%3CfeComposite operator='out' in='s'/%3E%3CfeComposite in2='SourceGraphic'/%3E%3CfeGaussianBlur stdDeviation='20'/%3E%3C/filter%3E%3Cimage width='100%25' height='100%25' x='0' y='0' preserveAspectRatio='none' style='filter: url(%23b);' href='data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAeABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUBBAcG/8QAJxAAAgEEAgECBwEAAAAAAAAAAQMCAAQFERIxIRNhBgcUIjJCUcH/xAAXAQADAQAAAAAAAAAAAAAAAAABAgUA/8QAGhEBAAIDAQAAAAAAAAAAAAAAAQARAgMSIf/aAAwDAQACEQMRAD8AdY214tC1Cfq+1OLn6hMIbhMR6JNUbrIyxPw3cXkVmNzJZZKI7G/AArKMV8ycvjcxBeQWWRbOI46J8E9aqPhpciyVM95i0zX/AFW6/An33RTl707gVWq4wMBIA9+Ruig668uMbL9qcOcicnYTQ5kUMA4R5R+2UT/tUchhMRcXuOvLlq1tsx5VDUpOI666qcZacRJb2F0h+0hUXtvBBk5Kl7gNHdEQYldR8cu559ThxEuo/wAFFK07YuMgSNjrdFboY3KT/9k='/%3E%3C/svg%3E",
   ];
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4">
+    <div className="grid grid-cols-2 md:grid-cols-5">
       {blurHashes.map((blurHash) => (
         <div className="w-full aspect-[2/3] relative group ">
           <figure className="absolute top-0 w-full h-full">
@@ -73,11 +75,21 @@ export async function Component() {
 
 function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4">
-      {brands.map((b) => (
-        <GridItem brand={b} pass={passes[b.slug]} />
-      ))}
-    </div>
+    <>
+      <div className="my-5 flex flex-row items-center">
+        <div className="grow">
+          <span>{Object.keys(passes).length} / 10</span> in Collections
+        </div>
+        <div>
+          <Button>Sort</Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-5">
+        {brands.map((b) => (
+          <GridItem brand={b} pass={passes[b.slug]} />
+        ))}
+      </div>
+    </>
   );
 }
 

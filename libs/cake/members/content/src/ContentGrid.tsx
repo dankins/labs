@@ -1,10 +1,7 @@
 import { ContentListSelection } from "@danklabs/cake/cms";
+import { SanityImage } from "@danklabs/cake/pattern-library/core";
 import classNames from "classnames";
 import Link from "next/link";
-import {
-  SanityImage,
-  portraitCropBuilder,
-} from "@danklabs/cake/pattern-library/core";
 
 export type ContentGridProps = {
   contentList: ContentListSelection[];

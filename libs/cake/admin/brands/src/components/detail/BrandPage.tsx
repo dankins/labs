@@ -5,6 +5,8 @@ import {
 } from "@danklabs/cake/services/admin-service";
 import { CreateOffer } from "./offers/CreateOffer";
 import Link from "next/link";
+import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
+import { Tabs } from "./detail/Tabs";
 
 export function BrandPage({ slug }: { slug: string }) {
   return (
@@ -15,11 +17,21 @@ export function BrandPage({ slug }: { slug: string }) {
 }
 
 function Loading() {
-  return <div>Loading</div>;
+  return (
+    <div>
+      <Spinner />
+    </div>
+  );
 }
 
 async function Loaded({ slug }: { slug: string }) {
   const brand = await getBrandAdminData(slug);
+
+  return (
+    <div>
+      <Tabs />
+    </div>
+  );
 
   return (
     <div>

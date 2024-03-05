@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { TypeFromSelection } from "groqd";
 import { sanityImageUrlBuilder } from "@danklabs/integrations/sanitycms";
+import { AdminPageHeader } from "@danklabs/pattern-library/core";
 
 export function BrandList() {
   return (
@@ -22,13 +23,17 @@ async function Component() {
   console.log({ data });
 
   return (
-    <div className="px-4 mx-auto max-w-screen-2xl lg:px-12 w-full">
-      <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg ">
-        <TableHeader brandCount={data.brandCount as number} />
-        <TableBody brands={data.brands} />
-        <div className="mt-10"></div>
+    <>
+      <AdminPageHeader>
+        <h1 className="text-3xl">All Brands</h1>
+      </AdminPageHeader>
+      <div className="px-4 mx-auto max-w-screen-2xl lg:px-12 w-full">
+        <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg ">
+          <TableBody brands={data.brands} />
+          <div className="mt-10"></div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

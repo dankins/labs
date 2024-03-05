@@ -1,0 +1,43 @@
+.Nav {
+  font-size: 1em;
+  color: #333;
+
+  a {
+    padding: 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+
+    &.activeSection {
+      font-weight: 500;
+      color: #333;
+    }
+    &.activePage {
+      background-color: #f9f9a5;
+    }
+
+    &:hover {
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  > a {
+    padding-left: 12px;
+  }
+
+  div {
+    a {
+      padding-left: 24px;
+      font-size: 0.95em;
+    }
+    div {
+      a {
+        padding-left: 36px;
+        font-size: 0.9em;
+      }
+    }
+  }
+}

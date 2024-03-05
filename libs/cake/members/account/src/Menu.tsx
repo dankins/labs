@@ -83,7 +83,7 @@ function AccountLink({
       href={href}
       className="py-2 border-0 border-b border-white/25 flex flex-row justify-top gap-2 last:border-b-0 "
     >
-      <div className="pt-1 flex flex-row justify-top text-primary stroke-primary">
+      <div className="pt-1 flex flex-row justify-top text-black stroke-black">
         {" "}
         {icon}
       </div>
@@ -91,7 +91,7 @@ function AccountLink({
       <div>
         <div className="text-base font-medium">{heading}</div>
         {subheading && (
-          <div className="text-sm text-primary font-normal">{subheading}</div>
+          <div className="text-sm text-gray-400 font-normal">{subheading}</div>
         )}
       </div>
     </Link>

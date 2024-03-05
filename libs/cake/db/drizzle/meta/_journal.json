@@ -78,6 +78,20 @@
       "when": 1707165197638,
       "tag": "0010_dapper_shinko_yamashiro",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1709251440161,
+      "tag": "0011_nice_anita_blake",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1709256014342,
+      "tag": "0012_perpetual_blizzard",
+      "breakpoints": true
     }
   ]
 }
