@@ -1,4 +1,4 @@
-import { Centered, PageContent } from "@danklabs/pattern-library/core";
+import { PageContent } from "@danklabs/pattern-library/core";
 import { BrandDashboard } from "@danklabs/cake/admin/brands";
 
 export default function ({ params }: { params: { slug: string } }) {

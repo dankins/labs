@@ -18,18 +18,15 @@ export const brandListSelection = {
 export type BrandListSelection = TypeFromSelection<typeof brandListSelection>;
 
 const runQuery = makeSafeQueryRunner(
-  (q: string, params: Record<string, number | string> = {}) =>
+  (q: string, params: Record<string, number | string | string[]> = {}) =>
     sanityClient.fetch(q, {
       ...params,
-      // @ts-ignore
-      next: {
-        revalidate: 1, // look for updates to revalidate cache every 60 seconds
-      },
     })
 );
 
 export type GetBrandsFilter = {
   status?: string;
+  slugs?: string[];
 };
 export async function getBrands(filter?: GetBrandsFilter) {
   const query = q("*", { isArray: false }).filterByType("brand");
@@ -40,4 +37,15 @@ export async function getBrands(filter?: GetBrandsFilter) {
     }),
     { status: "any" }
   );
+}
+
+export async function getBrandsNoCount(filter?: GetBrandsFilter) {
+  let query = q(`*[_type=="brand"]`, { isArray: true });
+  if (filter?.slugs) {
+    // @ts-ignore
+    query = query.filter("slug.current in $slugs");
+  }
+
+  console.log("running getBrandsNoCount", filter);
+  return runQuery(query.grab(brandListSelection), filter);
 }

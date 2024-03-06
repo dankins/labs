@@ -16,3 +16,4 @@ export * from "./brands";
 export * from "./favorites";
 export * from "./invitations";
 export * from "./membership";
+export * from "./brand-admin";

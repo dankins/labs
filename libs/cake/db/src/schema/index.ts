@@ -8,6 +8,7 @@ import {
   boolean,
   pgEnum,
   numeric,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const members = pgTable("members", {
@@ -35,6 +36,7 @@ export const invitations = pgTable("invitations", {
 export const brands = pgTable("brands", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").unique().notNull(),
+  admins: jsonb("admins").$type<{ email: string; role: "admin" }[]>().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
