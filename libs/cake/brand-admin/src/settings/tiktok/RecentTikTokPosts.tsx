@@ -4,7 +4,7 @@ import {
   InstagramPost,
 } from "@danklabs/cake/services/admin-service";
 
-export async function RecentInstagramPosts({
+export async function RecentTikTokPosts({
   accessToken,
 }: {
   accessToken: string;

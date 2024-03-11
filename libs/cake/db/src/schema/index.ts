@@ -33,10 +33,24 @@ export const invitations = pgTable("invitations", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export type BrandSettings = {
+  instagram?: {
+    status: "active" | "pending";
+    accessToken?: string;
+    userId?: string;
+  };
+  tiktok?: {
+    status: "active" | "pending";
+    accessToken?: string;
+    userId?: string;
+  };
+};
+
 export const brands = pgTable("brands", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").unique().notNull(),
   admins: jsonb("admins").$type<{ email: string; role: "admin" }[]>().notNull(),
+  settings: jsonb("settings").$type<BrandSettings>().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

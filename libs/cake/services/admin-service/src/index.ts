@@ -17,3 +17,5 @@ export * from "./favorites";
 export * from "./invitations";
 export * from "./membership";
 export * from "./brand-admin";
+export * from "./instagram";
+export * from "./tiktok";

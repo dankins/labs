@@ -1,11 +1,11 @@
 import {
   updateInstagramConfig,
-  getInstagramRedirectUrl,
+  getTikTokRedirectUrl,
 } from "@danklabs/cake/services/admin-service";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Suspense } from "react";
 
-export async function InstagramCallbackPage({
+export async function TikTokCallbackPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -42,14 +42,14 @@ function Loading({ slug }: { slug: string }) {
 async function Component({ slug, code }: { slug: string; code: string }) {
   // Exchange the code for a token
   const request = {
-    client_id: process.env["INSTAGRAM_APP_ID"]!,
-    client_secret: process.env["INSTAGRAM_APP_SECRET"]!,
+    client_key: process.env["TIKTOK_CLIENT_KEY"]!,
+    client_secret: process.env["TIKTOK_APP_SECRET"]!,
     grant_type: "authorization_code",
-    redirect_uri: getInstagramRedirectUrl(),
+    redirect_uri: getTikTokRedirectUrl(),
     code,
   };
   console.log("requesting oauth token", request);
-  const response = await fetch("https://api.instagram.com/oauth/access_token", {
+  const response = await fetch("https://open.tiktokapis.com/v2/oauth/token/", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",

@@ -12,6 +12,7 @@ export async function getBrandAdminData(slug: string) {
             {
               slug,
               admins: [],
+              settings: {},
             },
           ]);
           return getDatabaseData(slug).then((b) => b!);
