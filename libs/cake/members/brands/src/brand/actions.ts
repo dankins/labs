@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import {
   addFavorite,
   removeFavorite,
+  claimPass,
 } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 
@@ -25,21 +26,6 @@ export async function removeFavoriteAction(
   revalidatePath("/brands/" + brandSlug);
 }
 
-async function claimPassAction(slug: string) {
-  console.log("claimPassAction", slug);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("ok");
-    }, 4000);
-  });
-  // if (!passportId) {
-  //   throw new Error("unknown passport id");
-  // }
-  // await db.transaction(async (tx) => {
-  //   await createBrandPass(tx, passportId, slug);
-  // });
-
-  // revalidatePath("/passport");
-  // revalidatePath("/brands");
-  // revalidatePath(`/brands/${slug}`);
+export async function claimPassAction(iam: string, slug: string) {
+  return claimPass(iam, slug);
 }

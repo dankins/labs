@@ -11,6 +11,9 @@ import {
 import { Header, HeaderLoading } from "./components/Header";
 import { Content, ContentLoading } from "./components/Content";
 import { ContainerWithBackground } from "./components/ContainerWithBackground";
+import { AddPassActionBar } from "./AddPassActionBar";
+
+import { claimPassAction } from "./actions";
 
 export async function BrandContent({ slug }: { slug: string }) {
   return (
@@ -53,6 +56,11 @@ async function Component({ slug }: { slug: string }) {
         brand={brand}
         isFavorite={isFavorite}
       />
+      <div className="fixed bottom-5 px-3 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
+        <AddPassActionBar
+          action={claimPassAction.bind(undefined, userIAM, brand.slug)}
+        />
+      </div>
     </ContainerWithBackground>
   );
 }

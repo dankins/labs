@@ -110,7 +110,7 @@ function Initial({
       <motion.div
         layoutId="container"
         style={{ borderRadius: 9999 }}
-        className="h-[3.8125rem] p-2 rounded-full bg-white shadow-xl uppercase cursor-point flex flex-row items-center"
+        className="h-[3.8125rem] p-2 rounded-full bg-white shadow-xl uppercase cursor-pointer flex flex-row items-center"
         // initial={{ width: "200px" }}
         animate={{
           // width: "200px",
@@ -159,7 +159,7 @@ function GracePeriod({
       style={{ borderRadius: 9999 }}
       initial={{ width: "auto" }}
       animate={{ width: "100%", transition: { duration: 0.3 } }}
-      className="h-[3.8125rem] w-full  p-2 rounded-full bg-white shadow-xl cursor-point flex flex-row justify-center items-center gap-2"
+      className="h-[3.8125rem] w-full  p-2 rounded-full bg-white shadow-xl cursor-pointerflex flex-row justify-center items-center gap-2"
     >
       <motion.svg
         className="w-[2.5rem] h-[2.5rem]"
@@ -256,7 +256,7 @@ function Processing({
     <motion.div
       layoutId="container"
       style={{ borderRadius: 9999 }}
-      className="h-[3.8125rem] w-full  p-2 rounded-full bg-white shadow-xl cursor-point flex flex-row justify-center items-center gap-2"
+      className="h-[3.8125rem] w-full  p-2 rounded-full bg-white shadow-xl cursor-pointer flex flex-row justify-center items-center gap-2"
     >
       <motion.div layoutId="icon">
         <CircleIcon className="p-2 bg-[#FFB6B6]">
@@ -294,7 +294,7 @@ function Complete({ successHelperText }: ContentProps) {
         y: 300,
         transition: { delay: 1, duration: 0.5 },
       }}
-      className="h-[3.8125rem] w-[3.8125rem] p-2 bg-[#FEDFDD] shadow-xl cursor-point flex flex-row justify-center items-center gap-2"
+      className="h-[3.8125rem] w-[3.8125rem] p-2 bg-[#FEDFDD] shadow-xl cursor-pointer flex flex-row justify-center items-center gap-2"
     >
       <motion.svg
         className="w-full h-full"
