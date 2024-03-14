@@ -1,12 +1,11 @@
 "use server";
-import { auth, clerkClient, currentUser } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
+import { auth, currentUser } from "@clerk/nextjs";
 import { z } from "zod";
 
 import { validateFormData } from "@danklabs/utils";
-import { identify } from "@danklabs/cake/events";
+import { updateProfile } from "@danklabs/cake/services/admin-service";
 
-export async function updateProfile(formData: FormData) {
+export async function updateProfileAction(formData: FormData) {
   const { userId } = auth();
   const user = await currentUser();
   if (!userId) {
@@ -18,12 +17,11 @@ export async function updateProfile(formData: FormData) {
       firstName: z.string(),
       lastName: z.string(),
       phone: z.string().optional(),
+      email: z.string().optional(),
     })
   );
 
-  const result = await clerkClient.users.updateUser(userId, data);
-  console.log("update successful", result);
-  revalidatePath("/account/profile");
+  data.email = user?.emailAddresses[0].emailAddress!;
 
-  identify(userId, { ...data, email: user?.emailAddresses[0].emailAddress });
+  await updateProfile(userId, data);
 }

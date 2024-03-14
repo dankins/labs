@@ -1,6 +1,8 @@
 import { Suspense, useState } from "react";
-import { ProfileToggle } from "./ProfileToggle";
 import { currentUser } from "@clerk/nextjs";
+
+import { ProfileToggle } from "./ProfileToggle";
+import { updateProfileAction } from "./actions";
 
 export function ProfilePage() {
   return (
@@ -36,6 +38,7 @@ export async function Component() {
           phone: null,
           email: user.emailAddresses[0].emailAddress,
         }}
+        action={updateProfileAction}
       />
     </div>
   );
