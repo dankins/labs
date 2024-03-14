@@ -25,7 +25,7 @@ export async function claimPass(iam: string, brandSlug: string) {
 
   trackBrandAddedToCollection(iam, brandSlug, collection);
 
-  revalidatePath("/passport");
+  revalidatePath("/collection");
   revalidatePath("/brands");
   revalidatePath(`/brands/${brandSlug}`);
 

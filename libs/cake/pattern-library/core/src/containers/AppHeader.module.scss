@@ -14,6 +14,7 @@
   @media screen and (min-width: 480px) {
     position: inherit;
     color: var(--text-primary-content);
+    padding: 20px 0 20px;
   }
 
   > div {
@@ -49,7 +50,7 @@
         z-index: 39;
       }
       .hamburgerLine {
-        background: var(--white);
+        background: var(--black);
         display: block;
         height: 2px;
         position: relative;
@@ -58,7 +59,7 @@
 
       .hamburgerLine::before,
       .hamburgerLine::after {
-        background: var(--white);
+        background: var(--black);
         content: "";
         display: block;
         height: 100%;
@@ -75,14 +76,16 @@
     }
     .nav {
       display: none;
+      flex-grow: 1;
       @media screen and (min-width: 480px) {
         display: flex;
         background-color: transparent;
         flex-direction: row;
         position: inherit;
+        justify-content: flex-end;
       }
 
-      background-color: #ff8b8b;
+      background-color: #da4c30;
       width: 100%;
       overflow: hidden;
       position: fixed;
@@ -120,13 +123,13 @@
 
           @media screen and (min-width: 480px) {
             display: flex;
+            color: #322423;
             flex-direction: row;
             padding: 5px 0 5px 0;
             margin: 0 20px 0 20px;
             opacity: 1;
             font-size: 1rem;
             color: var(--text-primary-content);
-            text-transform: none;
             font-family: var(--font-inter);
             font-size: 16px;
             font-style: normal;

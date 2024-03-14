@@ -42,9 +42,13 @@ export async function getInstagramPosts(
 }
 
 export async function cachedGetInstagramPosts(accessToken: string) {
-  const fn = unstable_cache(getInstagramPosts, ["get-instagram-posts"], {
-    revalidate: 360,
-  });
+  const fn = unstable_cache(
+    getInstagramPosts,
+    [`get-instagram-posts-${accessToken}`],
+    {
+      revalidate: 360,
+    }
+  );
 
   return fn(accessToken);
 }

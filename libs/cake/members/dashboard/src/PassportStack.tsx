@@ -4,9 +4,6 @@ import { ExpandableCard } from "./ExpandableCard";
 import { BrandPassCard } from "./BrandPassCard";
 import { BrandPassFullscreen } from "./BrandPassFullscreen";
 
-export const CARD_HEIGHT = 230;
-export const CARD_REVEAL = 52;
-
 export type PassportType = NonNullable<
   Awaited<ReturnType<typeof getMemberByIAM>>
 >["passport"];

@@ -275,3 +275,29 @@ export function HomeIcon(props: IconBaseProps) {
     </IconBase>
   );
 }
+
+export function RightArrow(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        d="M14 5L21 12M21 12L14 19M21 12H3"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </IconBase>
+  );
+}
+
+export function LeftArrow(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        stroke-Linejoin="round"
+        strokeWidth="2"
+        d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+      />
+    </IconBase>
+  );
+}
