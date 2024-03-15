@@ -10,10 +10,13 @@ export const contentListSelection = {
     withHotspot: true,
     withCrop: true,
   }),
-  brand: q("brand").deref().grab({
-    name: q.string(),
-  }),
-  excerpt: q.string(),
+  brand: q("brand")
+    .deref()
+    .grab({
+      name: q.string(),
+    })
+    .nullable(),
+  excerpt: q.string().optional(),
   featured: q.boolean().optional(),
 };
 
@@ -25,10 +28,6 @@ const runQuery = makeSafeQueryRunner(
   (q: string, params: Record<string, number | string> = {}) =>
     sanityClient.fetch(q, {
       ...params,
-      // @ts-ignore
-      next: {
-        revalidate: 1, // look for updates to revalidate cache every 60 seconds
-      },
     })
 );
 

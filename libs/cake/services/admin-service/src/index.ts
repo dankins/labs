@@ -15,6 +15,7 @@ export * from "./getBrandsWithOffers";
 export * from "./brands";
 export * from "./favorites";
 export * from "./invitations";
+export * from "./stories";
 export * from "./members";
 export * from "./membership";
 export * from "./brand-admin";

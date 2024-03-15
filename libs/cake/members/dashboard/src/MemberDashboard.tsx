@@ -14,7 +14,7 @@ export async function MemberDashboard() {
         <div className="mb-[20px] md:mt-[48px]">
           <CollectionPanel />
         </div>
-        <div className="md:mt-[76px] flex flex-col md:flex-row md:justify-evenly gap-10">
+        <div className="md:mt-[46px] flex flex-col md:flex-row md:justify-evenly gap-10">
           <InvitationsPanel />
           <RewardsPanel />
           <StoriesPanel />

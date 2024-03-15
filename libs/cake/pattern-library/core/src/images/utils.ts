@@ -18,7 +18,11 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 const DEFAULT_FALLBACK_IMAGE_QUALITY = 75;
 
-export type AspectRatioChoices = "portrait" | "landscape" | undefined;
+export type AspectRatioChoices =
+  | "portrait"
+  | "landscape"
+  | "square"
+  | undefined;
 
 export type SanityImageType = {
   readonly _key: string | null;
@@ -111,6 +115,12 @@ export function landscapeCropBuilder(width: number) {
     options: UseNextSanityImageBuilderOptions
   ) => imageUrlBuilder.fit("crop");
 }
+export function squareCropBuilder(width: number) {
+  return (
+    imageUrlBuilder: ImageUrlBuilder,
+    options: UseNextSanityImageBuilderOptions
+  ) => imageUrlBuilder.width(width).height(width).fit("crop");
+}
 
 export function sanityImageHelper(
   sanityClient: SanityClientOrProjectDetails,
@@ -198,6 +208,8 @@ function imageBuilderFactory(aspectRatio: AspectRatioChoices) {
       return portraitCropBuilder(768);
     case "landscape":
       return landscapeCropBuilder(2880);
+    case "square":
+      return squareCropBuilder(500);
     default:
       return undefined;
   }
