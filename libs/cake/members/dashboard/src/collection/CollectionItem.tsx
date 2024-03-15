@@ -98,7 +98,7 @@ function Shell({
       href={`/collection/${slug}`}
       className={`col-start-1 row-start-1 mt-[${
         idx * 3
-      }rem] p-4 rounded-md bg-dark md:w-full md:h-full md:mt-0 aspect-[3/2] md:aspect-[4/5] relative overflow-hidden`}
+      }rem] p-4 rounded-md bg-dark max-w-[360px] md:w-full md:h-full md:mt-0 aspect-[3/2] md:aspect-[4/5] relative overflow-hidden`}
     >
       <div className="absolute top-0 left-0 w-full md:aspect-[4/5]">
         <SanityArtDirection alt={`${slug} background image`} images={images} />

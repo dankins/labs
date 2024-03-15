@@ -54,7 +54,7 @@ export function CardGrid({ memberFirstName, collection }: CardGridProps) {
 function Helper0({ memberFirstName }: { memberFirstName: string | null }) {
   return (
     <InfoPanel>
-      <div className="p-6 max-w-[525px] flex flex-col items-center gap-6 p-6 text-center">
+      <div className="p-6 h-[480px] max-w-[525px] flex flex-col items-center gap-6 p-6 text-center">
         <CakePresentIcon className="h-[64px] w-[64px] fill-accent stroke-transparent" />
         <h1 className="uppercase font-bold text-[36px]">
           You’re ready to Design your collection.
@@ -78,7 +78,7 @@ function Helper0({ memberFirstName }: { memberFirstName: string | null }) {
 function Helper1({ memberFirstName }: { memberFirstName: string | null }) {
   return (
     <InfoPanel>
-      <div className="max-w-[350px] flex flex-col gap-6 border-l-[5px] border-accent p-6">
+      <div className="flex flex-col gap-6 border-l-[5px] border-accent p-6 max-w-[450px]">
         <h1 className="uppercase font-bold text-[36px]">
           {memberFirstName}, it only gets sweeter.
         </h1>
@@ -86,7 +86,13 @@ function Helper1({ memberFirstName }: { memberFirstName: string | null }) {
           Picking just one of anything can be a difficult decision, luckily you
           get to choose nine more brands to build out your collection!
         </p>
-        <Button>View The Brands </Button>
+        <Link
+          href="/brands"
+          className="flex flex-row p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content border border-dark-content"
+        >
+          <span className="grow uppercase">View the Brands</span>
+          <RightArrow className="stroke-accent" />
+        </Link>
       </div>
     </InfoPanel>
   );
@@ -94,15 +100,21 @@ function Helper1({ memberFirstName }: { memberFirstName: string | null }) {
 function Helper2({ memberFirstName }: { memberFirstName: string | null }) {
   return (
     <InfoPanel>
-      <div className="max-w-[350px] flex flex-col gap-6">
+      <div className="flex flex-col gap-6 border-l-[5px] border-accent p-6 max-w-[450px]">
         <h1 className="uppercase font-bold text-[36px]">
-          There must be more you knead?
+          {memberFirstName}, it only gets sweeter.
         </h1>
         <p>
-          Now your really starting to cook. The more brands in your collection,
-          the more ingredients for cooking up your favorite looks!
+          Picking just one of anything can be a difficult decision, luckily you
+          get to choose nine more brands to build out your collection!
         </p>
-        <Button>View The Brands </Button>
+        <Link
+          href="/brands"
+          className="flex flex-row p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content border border-dark-content"
+        >
+          <span className="grow uppercase">View the Brands</span>
+          <RightArrow className="stroke-accent" />
+        </Link>
       </div>
     </InfoPanel>
   );
@@ -110,7 +122,7 @@ function Helper2({ memberFirstName }: { memberFirstName: string | null }) {
 
 function InfoPanel({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="h-[580px] w-full flex flex-col items-center justify-center bg-dark text-dark-content rounded-md">
+    <div className="w-full flex flex-col items-center justify-center bg-dark text-dark-content rounded-md">
       <div className="">{children}</div>
     </div>
   );
