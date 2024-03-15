@@ -1,7 +1,13 @@
 import { getMemberCollectionReturnType } from "@danklabs/cake/services/admin-service";
-import { Button, LeftArrow, RightArrow } from "@danklabs/pattern-library/core";
+import {
+  AddIcon,
+  Button,
+  LeftArrow,
+  RightArrow,
+} from "@danklabs/pattern-library/core";
 import { CollectionItem } from "./CollectionItem";
 import { CakePresentIcon } from "@danklabs/cake/pattern-library/core";
+import Link from "next/link";
 
 export type CardGridProps = {
   memberFirstName: string | null;
@@ -57,9 +63,13 @@ function Helper0({ memberFirstName }: { memberFirstName: string | null }) {
           You haven’t added any brands to your collection! Select up to ten
           brands to build out your collection and reap the rewards and benefits!
         </p>
-        <Button>
-          View The Brands <RightArrow className="fill-accent stroke-accent" />
-        </Button>
+        <Link
+          href="/brands"
+          className="flex flex-row p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content border border-dark-content"
+        >
+          <span className="grow uppercase">View the Brands</span>
+          <RightArrow className="stroke-accent" />
+        </Link>
       </div>
     </InfoPanel>
   );

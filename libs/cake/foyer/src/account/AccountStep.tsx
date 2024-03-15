@@ -127,8 +127,8 @@ export function AccountStep({ email }: { email: string }) {
         <>
           <CreateAccount
             email={email}
-            firstName={"Fix"}
-            lastName="Me"
+            firstName={state.name.firstname}
+            lastName={state.name.lastname}
             onComplete={handleAccountCreated}
           />
         </>
