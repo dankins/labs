@@ -100,7 +100,7 @@ function Helper2({ memberFirstName }: { memberFirstName: string | null }) {
 
 function InfoPanel({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="h-[580px]  w-full flex flex-col items-center justify-center bg-dark text-dark-content rounded-md">
+    <div className="h-[580px] w-full flex flex-col items-center justify-center bg-dark text-dark-content rounded-md">
       <div className="">{children}</div>
     </div>
   );
