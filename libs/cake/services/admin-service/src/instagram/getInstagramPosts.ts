@@ -30,7 +30,18 @@ export async function getInstagramPosts(
   const response = await fetch(url);
 
   if (!response.ok) {
-    const body = await response.json();
+    let body: any;
+    try {
+      const bodyText = await response.text();
+      if (bodyText === "Sorry, this content isn't available right now") {
+        throw new Error("Error loading Instagram posts");
+      }
+      console.log("bodyText", bodyText);
+      body = JSON.parse(bodyText);
+    } catch (err) {
+      console.log("error parsing json", err);
+    }
+
     if (body.error.code === 190) {
       const newToken = await refreshInstagramToken(accessToken);
       return getInstagramPosts(newToken);

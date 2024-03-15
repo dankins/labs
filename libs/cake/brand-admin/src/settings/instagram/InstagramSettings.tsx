@@ -2,6 +2,7 @@ import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 import { AuthorizeButton } from "./AuthorizeButton";
 import { RecentInstagramPosts } from "../../instagram/RecentInstagramPosts";
+import { DisconnectButton } from "./DisconnectButton";
 
 export function InstagramSettings({ slug }: { slug: string }) {
   return (
@@ -16,7 +17,7 @@ async function Component({ slug }: { slug: string }) {
 
   const instagramConfig = brand.db.settings.instagram;
 
-  if (!instagramConfig) {
+  if (!instagramConfig || instagramConfig.status !== "active") {
     return (
       <div>
         <div>Instagram not configured</div>
@@ -31,6 +32,9 @@ async function Component({ slug }: { slug: string }) {
     <div>
       <div>Instagram successfully configured</div>
       <RecentInstagramPosts accessToken={instagramConfig.accessToken!} />
+      <div>
+        <DisconnectButton slug={slug} />
+      </div>
     </div>
   );
 }

@@ -5,5 +5,8 @@ export async function refreshInstagramToken(accessToken: string) {
   const response = await fetch(url);
   const data = await response.json();
   console.log("Refreshed token data:", data);
+  if (data.error.code === 190) {
+    throw new Error("unable to refresh token - expired");
+  }
   return data.access_token; // This is your refreshed long-lived token
 }

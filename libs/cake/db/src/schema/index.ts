@@ -35,7 +35,7 @@ export const invitations = pgTable("invitations", {
 
 export type BrandSettings = {
   instagram?: {
-    status: "active" | "pending";
+    status: "active" | "pending" | "deactivated";
     accessToken?: string;
     userId?: string;
   };
