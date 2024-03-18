@@ -34,7 +34,7 @@ export const ButtonStory: Story = {
           <div className="grid grid-cols-4 gap-3 items-center justify-center">
             <>
               <div></div>
-              <div>Primary!</div>
+              <div>Primary</div>
               <div>Secondary</div>
               <div>Tertiary</div>
             </>
