@@ -1,6 +1,6 @@
 {
   "name": "@danklabs/source",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
