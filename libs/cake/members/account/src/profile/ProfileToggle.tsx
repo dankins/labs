@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { Button, PhoneIcon, UserIcon } from "@danklabs/pattern-library/core";
 import { TextInput } from "@danklabs/pattern-library/core";
-import { updateProfile } from "./actions";
-import { useFormState } from "sanity";
 import { useFormStatus } from "react-dom";
 
 export type Profile = {
@@ -13,7 +11,13 @@ export type Profile = {
   phone: string | null;
 };
 
-export function ProfileToggle({ profile }: { profile: Profile }) {
+export function ProfileToggle({
+  profile,
+  action,
+}: {
+  profile: Profile;
+  action(formData: FormData): Promise<void>;
+}) {
   const [readOnly, setReadOnly] = useState(true);
   return (
     <div>
@@ -24,12 +28,14 @@ export function ProfileToggle({ profile }: { profile: Profile }) {
           console.log("toggle", readOnly);
           setReadOnly(!readOnly);
         }}
+        action={action}
       />
     </div>
   );
 }
 
 export function ProfileEdit({
+  action,
   profile,
   toggle,
   readOnly,
@@ -37,13 +43,14 @@ export function ProfileEdit({
   profile: Profile;
   readOnly: boolean;
   toggle(): void;
+  action(formData: FormData): Promise<void>;
 }) {
-  async function action(formData: FormData) {
-    await updateProfile(formData);
+  async function onSubmit(formData: FormData) {
+    await action(formData);
     toggle();
   }
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form action={onSubmit} className="flex flex-col gap-4">
       <ProfileForm profile={profile} toggle={toggle} readOnly={readOnly} />
     </form>
   );

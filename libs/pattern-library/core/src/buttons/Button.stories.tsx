@@ -1,4 +1,4 @@
-// Button.stories.ts|tsx
+// button.stories.ts|tsx
 
 import type { Meta, StoryObj } from "@storybook/react";
 

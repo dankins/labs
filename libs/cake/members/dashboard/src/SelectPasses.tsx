@@ -22,7 +22,7 @@ export async function SelectPasses({
       await createBrandPass(tx, passport.id, slug);
     });
 
-    revalidatePath("/passport");
+    revalidatePath("/collection");
     revalidatePath("/brands");
     revalidatePath(`/brands/${slug}`);
   }

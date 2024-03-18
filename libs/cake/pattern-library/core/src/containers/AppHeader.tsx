@@ -18,9 +18,8 @@ export function AppHeader({
         {/** container */}
         <div className={styles.navContainer}>
           {/** LOGO */}
-          <Link href="/passport" className={styles.logo}>
+          <Link href="/collection" className={styles.logo}>
             <LogoIcon />
-            <span>Cake</span>
           </Link>
           {/** Hamburger */}
           <label className={styles.hamburger} htmlFor="side-menu">
@@ -31,7 +30,7 @@ export function AppHeader({
         {/** Menu */}
         <nav className={styles.nav}>
           <div className={styles.menu}>
-            <AppHeaderLink href={"/passport"}>Collection</AppHeaderLink>
+            <AppHeaderLink href={"/collection"}>Collection</AppHeaderLink>
             <AppHeaderLink href={"/brands"}>The Brands</AppHeaderLink>
             <AppHeaderLink href={"/stories"}>Stories</AppHeaderLink>
             <AppHeaderLink href={"/account"}>Account</AppHeaderLink>

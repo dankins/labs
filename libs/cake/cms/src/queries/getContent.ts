@@ -19,7 +19,7 @@ export const contentSelection = {
   brand: q("brand").deref().grab({
     name: q.string(),
   }),
-  excerpt: q.string(),
+  excerpt: q.string().nullable(),
   content: q("content")
     .filter()
     .select({

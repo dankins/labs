@@ -11,6 +11,8 @@ export async function getBrandAdminData(slug: string) {
           await db.insert(brands).values([
             {
               slug,
+              admins: [],
+              settings: {},
             },
           ]);
           return getDatabaseData(slug).then((b) => b!);

@@ -2,7 +2,9 @@ export type ServerTrackingEvent =
   | TrackInvitationCodeSubmittedEvent
   | TrackInvitationEmailSubmittedEvent
   | TrackInvitationAccountCompleted
-  | TrackInvitationCheckoutCompleted;
+  | TrackInvitationCheckoutCompleted
+  | TrackBrandAddedToCollection
+  | TrackProfileUpdated;
 
 export type TrackInvitationCodeSubmittedEvent = {
   name: "Invitation Code Submitted";
@@ -25,4 +27,21 @@ export type TrackInvitationCheckoutCompleted = {
   name: "Invitation Checkout Completed";
   subscriptionId: string;
   email: string;
+};
+
+export type TrackBrandAddedToCollection = {
+  name: "Brand Added To Collection";
+  brand: string;
+  collection: string[];
+};
+
+export type Profile = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+};
+export type TrackProfileUpdated = {
+  name: "Profile Updated";
+  profile: Profile;
 };

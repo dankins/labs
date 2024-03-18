@@ -1,3 +1,5 @@
-export default function Page() {
-  return <div>brand admin</div>;
+import { SelectBrandPage } from "@danklabs/cake/brand-admin";
+
+export default async function Page() {
+  return <SelectBrandPage />;
 }

@@ -1,16 +1,11 @@
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 import Image from "next/image";
-import {
-  SanityImageType,
-  buildImageProps,
-  portraitCropBuilder,
-  sanityImageHelper,
-} from "./utils";
+import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
 
 type SanityImageProps = {
   image: SanityImageType;
-  aspectRatio?: "portrait";
+  aspectRatio?: AspectRatioChoices;
 } & Omit<React.ComponentProps<typeof Image>, "src">;
 
 export function SanityImageServer({

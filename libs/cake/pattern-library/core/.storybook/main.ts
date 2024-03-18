@@ -1,12 +1,25 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: ['@storybook/addon-essentials', '@nx/react/plugins/storybook'],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {},
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  // addons: ["@storybook/addon-essentials", "@nx/react/plugins/storybook"],
+  framework: "@storybook/nextjs",
+  webpackFinal: async (config, { configType }) => {
+    // if (configType === "DEVELOPMENT") {
+    //   // Modify config for development
+    // }
+    // if (configType === "PRODUCTION") {
+    //   // Modify config for production
+    // }
+    config.resolve!.fallback = { zlib: false, stream: false, fs: false };
+    return config;
   },
+  staticDirs: [
+    {
+      from: "../src/fonts",
+      to: "src/fonts",
+    },
+  ],
 };
 
 export default config;

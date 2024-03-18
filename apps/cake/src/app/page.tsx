@@ -1,15 +1,16 @@
 import classNames from "classnames";
 import { PageView } from "@danklabs/cake/events";
+import { Logo } from "@danklabs/cake/pattern-library/core";
 
 export default function Page() {
   return (
-    <div className="bg-[#322423]">
+    <div>
       <PageView tags={[]} />
-      <div className="w-full p-4 min-h-screen text-[#FDFDEA] flex flex-col items-center justify-center">
+      <div className="w-full p-4 min-h-screen text-dark flex flex-col items-center justify-center">
         <div className={classNames("flex flex-col items-center container")}>
-          <h1 className="text-[5rem] tracking-[1.3rem] font-readex uppercase font-bold lg:text-[9.375rem] lg:tracking-[2.34375rem]">
-            Cake
-          </h1>
+          <div className="p-6 max-w-[570px] w-full">
+            <Logo className="w-full" />
+          </div>
           <h3 className="font-lexend text-sm lg:text-[1.25rem] text-center">
             Shopping is about to get sweeter.
           </h3>
