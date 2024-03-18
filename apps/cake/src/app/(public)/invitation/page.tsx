@@ -14,7 +14,7 @@ export default async function Page({
     <ClerkProvider>
       <PageView tags={[]} />
       <PageWithNavbar>
-        <div className="bg-[#322423] text-white">
+        <div>
           <Foyer searchParams={searchParams} />
         </div>
       </PageWithNavbar>

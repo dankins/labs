@@ -27,6 +27,19 @@
             "output": "."
           }
         ]
+      },
+      "build-storybook": {
+        "executor": "@nx/storybook:build",
+        "outputs": ["{options.outputDir}"],
+        "options": {
+          "outputDir": "dist/libs/cake/pattern-library/core",
+          "configDir": "libs/cake/pattern-library/core/.storybook"
+        },
+        "configurations": {
+          "ci": {
+            "quiet": true
+          }
+        }
       }
     },
     "test": {

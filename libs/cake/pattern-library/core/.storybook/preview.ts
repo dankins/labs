@@ -1,2 +1,2 @@
 // .storybook/preview.js
-import './preview.css';
+import "./preview.scss";

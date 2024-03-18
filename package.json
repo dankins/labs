@@ -5,6 +5,7 @@
   "scripts": {
     "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
     "cake:storybook": "npx nx run cake/pattern-library/core:storybook",
+    "cake:storybook-build": "npx nx run cake/pattern-library/core:build-storybook",
     "cake:dev": "npx nx run serve --project cake --port 4300",
     "cake:generate-db": "drizzle-kit generate:pg --config ./libs/cake/db/drizzle.config.ts",
     "cake:emails": "email dev -d libs/cake/emails"
@@ -84,7 +85,8 @@
     "@rollup/plugin-url": "^7.0.0",
     "@storybook/addon-essentials": "^7.6.7",
     "@storybook/core-server": "^7.6.7",
-    "@storybook/react-webpack5": "^7.6.7",
+    "@storybook/nextjs": "^8.0.0",
+    "@storybook/react": "^8.0.0",
     "@svgr/rollup": "^8.0.1",
     "@swc-node/register": "~1.8.0",
     "@swc/core": "~1.3.85",

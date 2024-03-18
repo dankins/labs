@@ -1,27 +1,25 @@
-// button.stories.ts|tsx
+// text.stories.ts|tsx
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "./Button";
+import { Paragraph } from "./Paragraph";
 
-const meta: Meta<typeof Button> = {
-  component: Button,
+const meta: Meta<typeof Paragraph> = {
+  component: Paragraph,
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof Paragraph>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/react/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
+export const Text: Story = {
   render: () => (
     <div className="grid grid-cols-3 gap-3">
-      <Button>Primary Button</Button>
-      <Button disabled>Primary - disabled</Button>
-      <Button loading>Primary - loading</Button>
+      <Paragraph>Hello World</Paragraph>
     </div>
   ),
 };
