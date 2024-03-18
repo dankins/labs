@@ -2,14 +2,15 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Paragraph } from "./Paragraph";
+import { Heading1, Heading2, Heading3, Heading4 } from "./Heading";
+import { Paragraph1, Paragraph2, Paragraph3, Paragraph4 } from "./Paragraph";
 
-const meta: Meta<typeof Paragraph> = {
-  component: Paragraph,
+const meta: Meta<typeof Paragraph1> = {
+  component: Paragraph1,
 };
 
 export default meta;
-type Story = StoryObj<typeof Paragraph>;
+type Story = StoryObj<typeof Paragraph1>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -17,9 +18,7 @@ type Story = StoryObj<typeof Paragraph>;
  * to learn how to use render functions.
  */
 export const Text: Story = {
-  render: () => (
-    <div className="grid grid-cols-3 gap-3">
-      <Paragraph>Hello World</Paragraph>
-    </div>
-  ),
+  render() {
+    return <div>fix me</div>;
+  },
 };

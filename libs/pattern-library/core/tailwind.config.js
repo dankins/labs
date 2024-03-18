@@ -12,6 +12,9 @@ module.exports = {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
+    fontFamily: {
+      h2: ["var(--font-h2)"],
+    },
     extend: {
       colors: {
         primary: "rgb(var(--color-primary) / <alpha-value>)",

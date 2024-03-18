@@ -13,13 +13,10 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ["var(--font-inter)"],
-      sansSerif: ["var(--font-inter)"],
-      heading: ["var(--font-poppins)"],
-      pizzaz: ["var(--font-montserrat)"],
-      fancy: ["var(--font-fancy)"],
-      readex: ["var(--font-readex)"],
-      lexend: ["var(--font-lexend)"],
+      h1: ["var(--font-h1)"],
+      h2: ["var(--font-h2)"],
+      h3: ["var(--font-h3)"],
+      h4: ["var(--font-h4)"],
     },
     extend: {
       aspectRatio: {

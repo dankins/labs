@@ -14,6 +14,12 @@ const config: StorybookConfig = {
     config.resolve!.fallback = { zlib: false, stream: false, fs: false };
     return config;
   },
+  staticDirs: [
+    {
+      from: "../src/fonts",
+      to: "src/fonts",
+    },
+  ],
 };
 
 export default config;

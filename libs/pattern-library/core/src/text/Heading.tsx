@@ -1,39 +1,39 @@
-export function Paragraph1({
+export function Heading1({
   children,
   className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="text-[18px] font-light">{children}</p>;
+  return <h1 className={className}>{children}</h1>;
 }
 
-export function Paragraph2({
+export function Heading2({
   children,
   className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="text-[14px] font-light">{children}</p>;
+  return <h2 className={className}>{children}</h2>;
 }
 
-export function Paragraph3({
+export function Heading3({
   children,
   className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="text-[12px]">{children}</p>;
+  return <h3 className={className}>{children}</h3>;
 }
 
-export function Paragraph4({
+export function Heading4({
   children,
   className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="text-[11px]">{children}</p>;
+  return <h4 className={className}>{children}</h4>;
 }
