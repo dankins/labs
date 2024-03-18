@@ -6,6 +6,7 @@
     "storybook:pattern-library": "npx nx run pattern-library/core:storybook",
     "cake:storybook": "npx nx run cake/pattern-library/core:storybook",
     "cake:storybook-build": "npx nx run cake/pattern-library/core:build-storybook",
+    "cake:storybook-serve": "npx nx run cake/pattern-library/core:serve-storybook",
     "cake:dev": "npx nx run serve --project cake --port 4300",
     "cake:generate-db": "drizzle-kit generate:pg --config ./libs/cake/db/drizzle.config.ts",
     "cake:emails": "email dev -d libs/cake/emails"

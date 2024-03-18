@@ -27,19 +27,6 @@
             "output": "."
           }
         ]
-      },
-      "build-storybook": {
-        "executor": "@nx/storybook:build",
-        "outputs": ["{options.outputDir}"],
-        "options": {
-          "outputDir": "dist/libs/cake/pattern-library/core",
-          "configDir": "libs/cake/pattern-library/core/.storybook"
-        },
-        "configurations": {
-          "ci": {
-            "quiet": true
-          }
-        }
       }
     },
     "test": {
@@ -65,7 +52,7 @@
       "executor": "@nx/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "dist/storybook/pattern-library/core",
+        "outputDir": "dist/libs/cake/pattern-library/core",
         "configDir": "libs/cake/pattern-library/core/.storybook"
       },
       "configurations": {
@@ -78,7 +65,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "cake/pattern-library/core:build-storybook",
-        "staticFilePath": "dist/storybook/pattern-library/core"
+        "staticFilePath": "dist/libs/cake/pattern-library/core"
       },
       "configurations": {
         "ci": {
