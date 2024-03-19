@@ -1,5 +1,7 @@
 import localFont from "next/font/local";
 
+console.log("load font");
+
 export const apris = localFont({
   variable: "--font-apris",
   src: [
@@ -20,17 +22,17 @@ export const supreme = localFont({
   variable: "--font-supreme",
   src: [
     {
-      path: "./Supreme-Trail/SupremeTrial-Regular.otf",
+      path: "./SupremeLLWeb/SupremeLLWeb-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./Supreme-Trail/SupremeTrial-Regular.otf",
+      path: "./SupremeLLWeb/SupremeLLWeb-Thin.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "./Supreme-Trail/SupremeTrial-Regular.otf",
+      path: "./SupremeLLWeb/SupremeLLWeb-Regular.woff2",
       weight: "700",
       style: "normal",
     },

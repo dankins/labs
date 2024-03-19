@@ -12,15 +12,13 @@ module.exports = {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
-    fontFamily: {
-      h1: ["var(--font-h1)"],
-      h2: ["var(--font-h2)"],
-      h3: ["var(--font-h3)"],
-      h4: ["var(--font-h4)"],
-    },
     extend: {
       aspectRatio: {
         wallet: "1.586 / 1",
+      },
+      fontFamily: {
+        supreme: ["var(--font-supreme)"],
+        apris: ["var(--font-apris)"],
       },
       colors: {
         dark: "rgb(var(--color-dark) / <alpha-value>)",
