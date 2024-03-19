@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { PageView } from "@danklabs/cake/events";
-import { Logo } from "@danklabs/cake/pattern-library/core";
+import { Heading3, Logo } from "@danklabs/cake/pattern-library/core";
 
 export default function Page() {
   return (
@@ -11,9 +11,10 @@ export default function Page() {
           <div className="p-6 max-w-[570px] w-full">
             <Logo className="w-full" />
           </div>
-          <h3 className="font-lexend text-sm lg:text-[1.25rem] text-center">
+          {/* <h3 className="font-lexend text-sm lg:text-[1.25rem] text-center">
             Shopping is about to get sweeter.
-          </h3>
+          </h3> */}
+          <Heading3>Shopping is about to get sweeter.</Heading3>
         </div>
       </div>
     </div>

@@ -1,7 +1,5 @@
 import localFont from "next/font/local";
 
-console.log("load font");
-
 export const apris = localFont({
   variable: "--font-apris",
   src: [
@@ -39,4 +37,4 @@ export const supreme = localFont({
   ],
 });
 
-export function loadFonts() {}
+export const fonts = [supreme, apris];
