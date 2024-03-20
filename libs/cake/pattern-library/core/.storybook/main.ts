@@ -16,8 +16,8 @@ const config: StorybookConfig = {
   },
   staticDirs: [
     {
-      from: "../src/fonts",
-      to: "src/fonts",
+      from: "../../../../../libs/cake/pattern-library/core/src/fonts",
+      to: "libs/cake/pattern-library/core/src/fonts",
     },
   ],
 };

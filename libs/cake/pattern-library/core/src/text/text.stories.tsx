@@ -12,6 +12,8 @@ import {
   Paragraph3,
   Paragraph4,
 } from "@danklabs/pattern-library/core";
+import { fonts } from "../fonts";
+import classNames from "classnames";
 
 const meta: Meta<typeof Paragraph1> = {
   component: Paragraph1,
@@ -30,7 +32,7 @@ export const Text: Story = {
   render: () => {
     const paragraphCopy = `Getting dressed is just a moment in your day and so I understand why it’s easy to write it off as a thing that you have to check off your morning routine’s to-dos, but put-ting a little work into figuring out what suits you can in fact arm you with the confidence it takes to feel more fluid and free in your own skin.`;
     return (
-      <>
+      <div className={classNames(fonts.map((f) => f.variable))}>
         <div>
           <Heading1>
             The Coolest and Sweetest Women you Know Shop with Cake
@@ -48,8 +50,9 @@ export const Text: Story = {
           <Paragraph2>{paragraphCopy}</Paragraph2>
           <Paragraph3>{paragraphCopy}</Paragraph3>
           <Paragraph4>{paragraphCopy}</Paragraph4>
+          <p>normal copy</p>
         </div>
-      </>
+      </div>
     );
   },
 };

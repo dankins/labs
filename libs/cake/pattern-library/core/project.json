@@ -9,26 +9,6 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/cake/pattern-library/core",
-        "tsConfig": "libs/cake/pattern-library/core/tsconfig.lib.json",
-        "project": "libs/cake/pattern-library/core/package.json",
-        "entryFile": "libs/cake/pattern-library/core/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "babel",
-        "assets": [
-          {
-            "glob": "libs/cake/pattern-library/core/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
