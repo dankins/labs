@@ -1,3 +1,8 @@
+import {
+  CollectionItemInterceptModal,
+  MemberDashboard,
+} from "@danklabs/cake/members/dashboard";
+
 export default function Page({
   params,
   searchParams,
@@ -5,5 +10,10 @@ export default function Page({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  return <div> collection item: {params.slug}</div>;
+  return (
+    <>
+      <MemberDashboard />
+      <CollectionItemInterceptModal slug={params.slug} />
+    </>
+  );
 }

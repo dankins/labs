@@ -44,21 +44,58 @@
     font-family: var(--font-supreme);
     font-size: 64px;
     font-weight: 700;
+    line-height: 115%;
+    letter-spacing: 0.01em;
   }
   h2 {
     font-family: var(--font-apris);
     font-weight: 300;
     font-size: 48px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
   }
   h3 {
     font-family: var(--font-apris);
     font-weight: 300;
     font-size: 24px;
+    line-height: 125%;
+    letter-spacing: 0.01em;
   }
   h4 {
     font-family: var(--font-supreme);
     font-weight: 500;
     font-size: 16px;
     text-transform: uppercase;
+    line-height: 120%;
+    letter-spacing: 0.08em;
+  }
+
+  p.p1 {
+    font-family: var(--font-apris);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 155%;
+    letter-spacing: 0.01em;
+  }
+  p.p2 {
+    font-family: var(--font-apris);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 155%;
+    letter-spacing: 0.01em;
+  }
+  p.p3 {
+    font-family: var(--font-supreme);
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 145%;
+    letter-spacing: 0.02em;
+  }
+  p.p4 {
+    font-family: var(--font-apris);
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 145%;
+    letter-spacing: 0.01em;
   }
 }
