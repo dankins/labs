@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { Spinner } from "../icons/Spinner";
+import Link from "next/link";
 
 export type ButtonColors =
   | "primary"
@@ -11,7 +12,8 @@ export type ButtonColors =
   | "neutral"
   | string;
 
-export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
+export type ButtonPropsCommon = {
+  href?: string;
   loading?: boolean;
   background?: ButtonColors;
   textColor?: ButtonColors;
@@ -25,6 +27,13 @@ export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   simulateHover?: boolean;
   simulateActive?: boolean;
 };
+
+export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
+  ButtonPropsCommon;
+export type ButtonButtonProps = React.ComponentPropsWithoutRef<"button"> &
+  ButtonPropsCommon;
+
+export type ButtonProps = LinkButtonProps | ButtonButtonProps;
 
 export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -67,12 +76,28 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       hoverClass,
       activeClass,
       disabledClass,
-      "inline-block flex flex-row items-center gap-2",
+      "font-button inline-block flex flex-row items-center gap-2",
       loading && "bg-slate-500 text-slate-300 cursor-default",
       props.className
     );
+
+    if (props.href) {
+      return (
+        <Link
+          {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
+          className={className}
+        >
+          {loading ? <Spinner /> : icon}
+          {children}
+        </Link>
+      );
+    }
     return (
-      <button ref={ref} {...props} className={className}>
+      <button
+        ref={ref}
+        {...(props as React.ComponentPropsWithoutRef<"button">)}
+        className={className}
+      >
         {loading ? <Spinner /> : icon}
         {children}
       </button>

@@ -1,5 +1,5 @@
 import { WalletIcon } from "@danklabs/cake/pattern-library/core";
-import { AddIcon, Button } from "@danklabs/pattern-library/core";
+import { AddIcon, Button, PrimaryButton } from "@danklabs/pattern-library/core";
 import Link from "next/link";
 
 export function Summary({ collectionValue }: { collectionValue: number }) {
@@ -14,13 +14,10 @@ export function Summary({ collectionValue }: { collectionValue: number }) {
         </div>
       </div>
       <div className="hidden md:block">
-        <Link
-          href="/brands"
-          className="flex flex-row rounded-full p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content"
-        >
+        <PrimaryButton href="/brands">
           <AddIcon />
           <span className="grow uppercase">Add to Collection</span>
-        </Link>
+        </PrimaryButton>
       </div>
       <div className="block md:hidden">
         <Button

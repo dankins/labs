@@ -5,6 +5,7 @@ import React from "react";
 import styles from "./AppHeader.module.scss";
 import { AppHeaderLink } from "./AppHeaderLink";
 import { SignOut } from "./SignOut";
+import { Heading4 } from "../text";
 
 export function AppHeader({
   authComponent,
@@ -30,10 +31,18 @@ export function AppHeader({
         {/** Menu */}
         <nav className={styles.nav}>
           <div className={styles.menu}>
-            <AppHeaderLink href={"/collection"}>Collection</AppHeaderLink>
-            <AppHeaderLink href={"/brands"}>The Brands</AppHeaderLink>
-            <AppHeaderLink href={"/stories"}>Stories</AppHeaderLink>
-            <AppHeaderLink href={"/account"}>Account</AppHeaderLink>
+            <AppHeaderLink href={"/collection"}>
+              <Heading4>Collection</Heading4>
+            </AppHeaderLink>
+            <AppHeaderLink href={"/brands"}>
+              <Heading4>The Brands</Heading4>
+            </AppHeaderLink>
+            <AppHeaderLink href={"/stories"}>
+              <Heading4>Stories</Heading4>
+            </AppHeaderLink>
+            <AppHeaderLink href={"/account"}>
+              <Heading4>Account</Heading4>
+            </AppHeaderLink>
             <SignOut />
           </div>
         </nav>
