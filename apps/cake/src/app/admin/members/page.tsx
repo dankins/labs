@@ -1,4 +1,4 @@
-import { MemberDashboard } from "@danklabs/cake/admin/members";
+import { MemberDashboard } from "@danklabs/cake/admin";
 
 export default function () {
   return <MemberDashboard />;

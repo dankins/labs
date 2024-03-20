@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@danklabs/pattern-library/core";
+import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
 
 import { getBrands } from "@danklabs/cake/cms";
 import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
@@ -81,7 +81,7 @@ function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
           <span>{Object.keys(passes).length} / 10</span> in Collections
         </div>
         <div>
-          <Button>Sort</Button>
+          <PrimaryButton>Sort</PrimaryButton>
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5">

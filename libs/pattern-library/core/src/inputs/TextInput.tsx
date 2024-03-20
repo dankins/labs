@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import { IconBaseProps } from "react-icons/lib";
 export type TextInputProps = React.ComponentPropsWithoutRef<"input"> & {
-  label: React.ReactNode;
+  label?: React.ReactNode;
   icon?: React.ReactNode;
   helperText?: React.ReactNode;
 };
@@ -11,9 +11,14 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ children, label, helperText, icon, className, ...props }, ref) => {
     return (
       <div className="inline-block w-full">
-        <label htmlFor="zip-input" className="block mb-2 text-sm font-medium ">
-          {label}
-        </label>
+        {label && (
+          <label
+            htmlFor="zip-input"
+            className="block mb-2 text-sm font-medium "
+          >
+            {label}
+          </label>
+        )}
         <div className="relative fill-black flex flex-row">
           {icon && (
             <div className="absolute inset-y-0 start-0 top-0 left-2 flex items-center ps-3.5 pointer-events-none">

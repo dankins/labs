@@ -31,6 +31,7 @@ const BrandType = defineType({
       type: "image",
     }),
     defineField({
+      // https://help.klaviyo.com/hc/en-us/articles/115005253088
       name: "website",
       title: "Website ",
       type: "string",

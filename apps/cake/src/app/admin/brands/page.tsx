@@ -1,10 +1,10 @@
 import { PageContent } from "@danklabs/pattern-library/core";
-import { BrandList } from "@danklabs/cake/admin/brands";
+import { BrandsDashboard } from "@danklabs/cake/admin";
 
 export default function () {
   return (
     <PageContent>
-      <BrandList />
+      <BrandsDashboard />
     </PageContent>
   );
 }

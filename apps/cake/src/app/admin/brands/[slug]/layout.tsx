@@ -1,4 +1,4 @@
-import { Layout as LayoutComponent } from "@danklabs/cake/admin/brands";
+import { AdminBrandLayout } from "@danklabs/cake/admin";
 
 export default function ({
   params,
@@ -7,5 +7,5 @@ export default function ({
   params: { slug: string };
   children: React.ReactNode;
 }) {
-  return <LayoutComponent slug={params.slug}>{children}</LayoutComponent>;
+  return <AdminBrandLayout slug={params.slug}>{children}</AdminBrandLayout>;
 }

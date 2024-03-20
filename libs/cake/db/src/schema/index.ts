@@ -135,6 +135,16 @@ export const favorites = pgTable("favorites", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const superAdminRoles = pgEnum("super_admin_roles", ["super_admin"]);
+
+export const superAdmins = pgTable("super_admins", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  iam: text("iam").unique().notNull(),
+  role: superAdminRoles("role").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // RELATIONS
 export const membersRelations = relations(members, ({ many, one }) => ({
   invitations: many(invitations),

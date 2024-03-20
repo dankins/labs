@@ -21,3 +21,4 @@ export * from "./membership";
 export * from "./brand-admin";
 export * from "./instagram";
 export * from "./tiktok";
+export * from "./super-admin";
