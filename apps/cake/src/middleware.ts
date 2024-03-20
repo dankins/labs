@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 export default authMiddleware({
   publicRoutes: [
     "/",
+    "/sign-in",
     "/invitation",
     "/api/webhooks(.*)",
     "/studio",
