@@ -12,10 +12,6 @@ const runQuery = makeSafeQueryRunner(
   (q: string, params: Record<string, number | string> = {}) =>
     sanityClient.fetch(q, {
       ...params,
-      // @ts-ignore
-      next: {
-        revalidate: 1, // look for updates to revalidate cache every 60 seconds
-      },
     })
 );
 
