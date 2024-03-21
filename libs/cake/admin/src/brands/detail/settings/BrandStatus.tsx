@@ -56,7 +56,7 @@ export function DraftStatus({
         >
           <PrimaryButton>Set Active</PrimaryButton>
         </form>
-        <SecondaryButton>Deactivate</SecondaryButton>
+        <SecondaryButton disabled>Deactivate</SecondaryButton>
       </div>
     </div>
   );
@@ -83,7 +83,7 @@ export function ActiveStatus({
         >
           <PrimaryButton>Pause</PrimaryButton>
         </form>
-        <SecondaryButton>Deactivate</SecondaryButton>
+        <SecondaryButton disabled>Deactivate</SecondaryButton>
       </div>
     </div>
   );
