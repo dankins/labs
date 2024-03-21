@@ -6,7 +6,7 @@ export default function Page() {
     <ClerkProvider>
       <PageContent>
         <Centered>
-          <SignIn redirectUrl={"/passport"} />
+          <SignIn redirectUrl={"/collection"} />
         </Centered>
       </PageContent>
     </ClerkProvider>

@@ -43,7 +43,7 @@ export function AppHeader({
             <AppHeaderLink href={"/account"}>
               <Heading4>Account</Heading4>
             </AppHeaderLink>
-            <SignOut />
+            <SignOut className={styles.signOut}>Sign Out</SignOut>
           </div>
         </nav>
       </div>

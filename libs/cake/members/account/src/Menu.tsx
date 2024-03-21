@@ -1,7 +1,10 @@
+import { SignOut } from "@danklabs/cake/pattern-library/core";
 import {
   BookmarkIcon,
   CreditCardIcon,
   NotificationsIcon,
+  Paragraph2,
+  Paragraph3,
   ProfileIcon,
   TicketIcon,
   UserIcon,
@@ -44,7 +47,7 @@ export function Menu() {
           subheading="Manage how we stay in touch"
         />
       </div>
-      <div>
+      <div className="md:hidden">
         <h1 className="pt-8 pb-2 uppercase text-xs">Cake Details</h1>
         <AccountLink icon={<UserIcon />} href="/account/faq" heading="FAQ" />
         <AccountLink
@@ -63,6 +66,9 @@ export function Menu() {
           heading="Terms and Conditions"
         />
       </div>
+      <SignOut className="mt-10 text-lg cursor-pointer">
+        <Paragraph2>Sign Out</Paragraph2>
+      </SignOut>
     </div>
   );
 }
