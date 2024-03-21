@@ -42,8 +42,13 @@ order by the_date
     // @ts-ignore not safe, I know
     resultRows: result?.rows,
   });
+
+  if (Array.isArray(result)) {
+    // @ts-ignore not safe, I know
+    return result;
+  }
   // @ts-ignore not safe, I know
-  return result || result?.rows;
+  return result?.rows || result;
 }
 
 export async function cachedGetAnalyticsDailyMemberCount(
