@@ -1,10 +1,10 @@
 import { Heading1 } from "@danklabs/cake/pattern-library/core";
-import { cachedGetSuperAdmins } from "@danklabs/cake/services/admin-service";
+import { superadmin } from "@danklabs/cake/services/admin-service";
 import { PrimaryButton, TextInput } from "@danklabs/pattern-library/core";
 import { addSuperAdminAction } from "./actions";
 
 export async function ManageAdmins() {
-  const superAdmins = await cachedGetSuperAdmins();
+  const superAdmins = await superadmin.cachedGetSuperAdmins();
   return (
     <>
       <Heading1 className="text-xl">Super Admins</Heading1>

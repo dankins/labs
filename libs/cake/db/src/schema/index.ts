@@ -46,9 +46,17 @@ export type BrandSettings = {
   };
 };
 
+export const brandStatus = pgEnum("brand_statuses", [
+  "draft",
+  "active",
+  "paused",
+  "deactivated",
+]);
 export const brands = pgTable("brands", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").unique().notNull(),
+  cmsId: text("cms_id").unique(),
+  status: brandStatus("status").notNull().default("draft"),
   admins: jsonb("admins").$type<{ email: string; role: "admin" }[]>().notNull(),
   settings: jsonb("settings").$type<BrandSettings>().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -223,6 +231,7 @@ export const favoritesRelations = relations(favorites, ({ one, many }) => ({
 }));
 
 // TYPES
+export type Brand = typeof brands.$inferSelect;
 export type Invitation = typeof invitations.$inferSelect;
 export type Member = typeof members.$inferSelect;
 export type Passport = typeof passports.$inferSelect;

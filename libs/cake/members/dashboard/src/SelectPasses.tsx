@@ -32,7 +32,7 @@ export async function SelectPasses({
         .filter((b) => ownedPassBrandSlugs.indexOf(b.slug) === -1)
         .map((b) => (
           <SelectPassButton
-            name={b.name}
+            name={b.name!}
             claimPassAction={claimPassAction.bind(null, b.slug)}
           />
         ))}

@@ -1,6 +1,10 @@
 import { Suspense } from "react";
 import { Widget } from "./Widget";
-import { MembersIcon, OffersIcon } from "@danklabs/pattern-library/core";
+import {
+  MembersIcon,
+  OffersIcon,
+  Paragraph3,
+} from "@danklabs/pattern-library/core";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 
 export async function Offers({ slug }: { slug: string }) {
@@ -23,9 +27,9 @@ function Body({ slug, children }: { slug: string; children: React.ReactNode }) {
       title="Offers"
       href={`/admin/brands/${slug}/offers`}
       cta={
-        <>
+        <Paragraph3>
           <OffersIcon /> Manage Offers
-        </>
+        </Paragraph3>
       }
     >
       {children}

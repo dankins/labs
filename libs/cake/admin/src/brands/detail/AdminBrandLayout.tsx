@@ -3,7 +3,7 @@ import { Tabs } from "./Tabs";
 import { Suspense } from "react";
 import { getBrandAdminData } from "@danklabs/cake/services/admin-service";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
-import { AdminPageHeader } from "@danklabs/pattern-library/core";
+import { AdminPageHeader, Heading1 } from "@danklabs/pattern-library/core";
 
 export function AdminBrandLayout({
   slug,
@@ -34,14 +34,20 @@ async function LogoSectionLoaded({ slug }: { slug: string }) {
 
   return (
     <AdminPageHeader>
-      <SanityImageServer
-        alt="Brand Logo"
-        className="my-2 invert"
-        image={brand.cmsData.passLogo!}
-        width={200}
-        height={100}
-        style={{ height: "100%", width: "auto" }}
-      />
+      {brand.cmsData.passLogo ? (
+        <SanityImageServer
+          alt="Brand Logo"
+          className="my-2 invert"
+          image={brand.cmsData.passLogo!}
+          width={200}
+          height={100}
+          style={{ height: "100%", width: "auto" }}
+        />
+      ) : (
+        <Heading1 className="text-xl">
+          {brand.cmsData.name || brand.slug}
+        </Heading1>
+      )}
     </AdminPageHeader>
   );
 }

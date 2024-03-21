@@ -12,6 +12,7 @@ export * from "./getMemberInvitations";
 export * from "./getMemberInvitationCounts";
 export * from "./getBrandsWithOffers";
 
+export * from "./analytics";
 export * from "./brands";
 export * from "./favorites";
 export * from "./invitations";

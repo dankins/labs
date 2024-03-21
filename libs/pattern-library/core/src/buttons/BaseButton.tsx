@@ -24,6 +24,7 @@ export type ButtonPropsCommon = {
   border?: ButtonColors;
   rounded?: "full" | "md";
   icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
   simulateHover?: boolean;
   simulateActive?: boolean;
 };
@@ -50,6 +51,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       background,
       rounded,
       icon,
+      iconPosition = "left",
       ...props
     },
     ref
@@ -87,8 +89,9 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
           className={className}
         >
-          {loading ? <Spinner /> : icon}
+          {loading ? <Spinner /> : iconPosition === "left" && icon}
           {children}
+          {icon && iconPosition === "right" && icon}
         </Link>
       );
     }
@@ -98,8 +101,9 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...(props as React.ComponentPropsWithoutRef<"button">)}
         className={className}
       >
-        {loading ? <Spinner /> : icon}
+        {loading ? <Spinner /> : iconPosition === "left" && icon}
         {children}
+        {icon && iconPosition === "right" && icon}
       </button>
     );
   }

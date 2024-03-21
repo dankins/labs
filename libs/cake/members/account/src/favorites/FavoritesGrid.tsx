@@ -15,8 +15,8 @@ import classNames from "classnames";
 export type FavoritesGridProps = {
   brands: {
     brandId: string;
-    name: string;
-    passLogo: SanityImageType;
+    name: string | null | undefined;
+    passLogo: SanityImageType | null | undefined;
   }[];
   removeMultipleFavorites(brandIds: string[]): Promise<void>;
 };

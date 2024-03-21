@@ -324,7 +324,7 @@ export function InstagramIcon(props: IconBaseProps) {
 export function TikTokIcon(props: IconBaseProps) {
   return (
     <IconBase viewBox="0 0 24 25" fill="none" strokeWidth="1.5" {...props}>
-      <g clip-path="url(#clip0_2903_15933)">
+      <g clipPath="url(#clip0_2903_15933)">
         <path
           d="M17.0725 0.5H13.0278V16.8478C13.0278 18.7957 11.4722 20.3957 9.53626 20.3957C7.60034 20.3957 6.04469 18.7957 6.04469 16.8478C6.04469 14.9348 7.56577 13.3695 9.43257 13.3V9.19567C5.31872 9.2652 2 12.6391 2 16.8478C2 21.0913 5.38786 24.5 9.57085 24.5C13.7538 24.5 17.1416 21.0565 17.1416 16.8478V8.4652C18.6627 9.57827 20.5295 10.2391 22.5 10.2739V6.16957C19.4579 6.06522 17.0725 3.56087 17.0725 0.5Z"
           fill="#171717"
@@ -340,6 +340,42 @@ export function TikTokIcon(props: IconBaseProps) {
           />
         </clipPath>
       </defs>
+    </IconBase>
+  );
+}
+
+export function ExternalLinkIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+      />
+    </IconBase>
+  );
+}
+
+export function CancelIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 18 18 6M6 6l12 12"
+      />
+    </IconBase>
+  );
+}
+
+export function CheckIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m4.5 12.75 6 6 9-13.5"
+      />
     </IconBase>
   );
 }

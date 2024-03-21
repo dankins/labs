@@ -1,6 +1,4 @@
 import { getBrand } from "@danklabs/cake/services/admin-service";
-import { RecentInstagramPosts } from "../instagram/RecentInstagramPosts";
-import { InstagramProfile } from "../instagram/InstagramProfile";
 
 export async function DashboardPage({ slug }: { slug: string }) {
   const brand = await getBrand(slug);

@@ -15,3 +15,7 @@ export async function cachedGetBrandDetail(slug: string) {
     tags: [`get-brand-detail-${slug}`],
   })(slug);
 }
+
+export function getBrandDetail_tag(slug: string) {
+  return `get-brand-detail-${slug}`;
+}

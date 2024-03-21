@@ -1,10 +1,19 @@
 import { Suspense } from "react";
-import { brandListSelection, getBrands } from "../queries/getBrands";
 import Link from "next/link";
 import Image from "next/image";
 import { TypeFromSelection } from "groqd";
 import { sanityImageUrlBuilder } from "@danklabs/integrations/sanitycms";
-import { AdminPageHeader, PrimaryButton } from "@danklabs/pattern-library/core";
+import {
+  AdminPageHeader,
+  Badge,
+  ExternalLinkIcon,
+  Paragraph3,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
+import {
+  CakeBrand,
+  cachedGetBrands,
+} from "@danklabs/cake/services/admin-service";
 
 export function BrandsDashboard() {
   return (
@@ -19,8 +28,7 @@ function Loading() {
 }
 
 async function Component() {
-  const data = await getBrands();
-  console.log({ data });
+  const data = await cachedGetBrands("admin");
 
   return (
     <>
@@ -36,7 +44,7 @@ async function Component() {
       </AdminPageHeader>
       <div className="px-4 mx-auto max-w-screen-2xl lg:px-12 w-full">
         <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg ">
-          <TableBody brands={data.brands} />
+          <TableBody brands={data} />
         </div>
       </div>
       <div className="my-10"></div>
@@ -44,9 +52,8 @@ async function Component() {
   );
 }
 
-type BrandListSelectionProps = TypeFromSelection<typeof brandListSelection>;
 export type TableBodyProps = {
-  brands: BrandListSelectionProps[];
+  brands: CakeBrand[];
 };
 
 async function TableBody({ brands }: TableBodyProps) {
@@ -69,19 +76,25 @@ async function TableBody({ brands }: TableBodyProps) {
 }
 
 type BrandRowProps = {
-  brand: BrandListSelectionProps;
+  brand: CakeBrand;
 };
 function BrandRow({ brand }: BrandRowProps) {
+  const cmsUrl =
+    process.env[`NEXT_PUBLIC_SITE_URL`]! +
+    `/studio/structure/brand;${brand.cmsId}`;
   const logoUrl = brand.logoSquare
     ? sanityImageUrlBuilder.image(brand.logoSquare).width(200).url()
     : "/images/missing-brand-logo.png";
   return (
-    <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+    <tr className="group border-b dark:border-gray-600 hover:bg-gray-100">
       <th
         scope="row"
         className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-row"
       >
-        <Link href={`/admin/brands/${brand.slug}`}>
+        <Link
+          href={`/admin/brands/${brand.slug}`}
+          className="grow flex flex-row items-center"
+        >
           <Image
             src={logoUrl}
             alt={`Logo for ${brand.name}`}
@@ -89,11 +102,22 @@ function BrandRow({ brand }: BrandRowProps) {
             height={64}
             className="w-auto h-14 w-14 mr-3"
           />
+          <Paragraph3>{brand.name || brand.slug}</Paragraph3>
         </Link>
-
-        <Link href={`/admin/brands/${brand.slug}`} className="grow">
-          {brand.name || brand.slug}
-        </Link>
+        <div className="hidden group-hover:block">
+          {brand.cmsId && (
+            <PrimaryButton
+              href={cmsUrl}
+              icon={<ExternalLinkIcon />}
+              iconPosition="right"
+            >
+              View in CMS
+            </PrimaryButton>
+          )}
+        </div>
+        <div className="w-16 ml-4 flex justify-center">
+          <Badge>{brand.status}</Badge>
+        </div>
       </th>
     </tr>
   );

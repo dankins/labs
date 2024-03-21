@@ -3,7 +3,7 @@ import { makeSafeQueryRunner, q, sanityImage, Selection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 const brandSelection = {
-  slug: q.slug("slug"),
+  _id: q.string(),
 } satisfies Selection;
 
 const runQuery = makeSafeQueryRunner(
@@ -13,7 +13,7 @@ const runQuery = makeSafeQueryRunner(
     })
 );
 
-export async function brandExists(slug: string) {
+export async function brandExists(slug: string): Promise<string | undefined> {
   return runQuery(
     q(`*[_type=="brand"][slug.current==$slug]`)
       .filter(`_type == "brand"`)
@@ -22,8 +22,8 @@ export async function brandExists(slug: string) {
     { slug }
   ).then((x) => {
     if (x.length === 0) {
-      return false;
+      return undefined;
     }
-    return true;
+    return x[0]._id;
   });
 }

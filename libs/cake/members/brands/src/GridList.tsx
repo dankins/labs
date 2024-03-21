@@ -6,8 +6,17 @@ import Link from "next/link";
 import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
 
 import { getBrands } from "@danklabs/cake/cms";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
-import { LogoSpace, SanityImage } from "@danklabs/cake/pattern-library/core";
+import {
+  CakeBrand,
+  cachedGetBrands,
+  cachedGetMember,
+  getMemberByIAM,
+} from "@danklabs/cake/services/admin-service";
+import {
+  LogoSpace,
+  SanityImage,
+  SanityImageServer,
+} from "@danklabs/cake/pattern-library/core";
 
 type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
 type Pass = NonNullable<
@@ -16,10 +25,10 @@ type Pass = NonNullable<
 
 type PassMap = { [slug: string]: Pass };
 
-export async function GridList() {
+export async function GridList({ perspective }: { perspective?: string }) {
   return (
     <Suspense fallback={<Loading />}>
-      <Component />
+      <Component perspective={perspective} />
     </Suspense>
   );
 }
@@ -46,34 +55,52 @@ export async function Loading() {
   );
 }
 
-export async function Component() {
+export async function Component({ perspective }: { perspective?: string }) {
+  let validatedSort: Parameters<typeof cachedGetBrands>[1] = "asc";
+
   const { userId } = auth();
   if (!userId) {
     throw new Error("userid not available");
   }
 
-  const [brands, passes] = await Promise.all([
-    getBrands(),
-    getMemberByIAM(userId, { passport: true }).then((member) =>
-      member?.passport.passes.reduce((acc, cur) => {
-        acc[cur.brand.slug] = cur;
-        return acc;
-      }, {} as PassMap)
-    ),
-  ]);
+  const member = await cachedGetMember(userId);
+  let validatedPerspective = "member";
+  if (perspective === "brand-manager" && member.isBrandManager) {
+    validatedPerspective = "brand-manager";
+  } else if (perspective === "admin" && member.isSuperAdmin) {
+    validatedPerspective = "admin";
+  }
 
-  if (!passes) {
-    return <div>error loading brands: invalid member id</div>;
+  const brands = await cachedGetBrands(validatedPerspective, validatedSort);
+
+  // const [brands, passes] = await Promise.all([
+  //   getBrands(),
+  //   getMemberByIAM(userId, { passport: true }).then((member) =>
+  //     member?.passport.passes.reduce((acc, cur) => {
+  //       acc[cur.brand.slug] = cur;
+  //       return acc;
+  //     }, {} as PassMap)
+  //   ),
+  // ]);
+
+  if (!brands) {
+    return <div>error loading brands</div>;
   }
 
   return (
     <div>
-      <BrandGrid brands={brands.brands} passes={passes} />
+      <BrandGrid brands={brands} passes={member.passes} />
     </div>
   );
 }
 
-function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
+function BrandGrid({
+  brands,
+  passes,
+}: {
+  brands: CakeBrand[];
+  passes: PassMap;
+}) {
   return (
     <>
       <div className="my-5 flex flex-row items-center">
@@ -93,13 +120,13 @@ function BrandGrid({ brands, passes }: { brands: Brand[]; passes: PassMap }) {
   );
 }
 
-function GridItem({ brand, pass }: { brand: Brand; pass?: Pass }) {
+function GridItem({ brand, pass }: { brand: CakeBrand; pass?: Pass }) {
   return (
     <Link href={`/brands/${brand.slug}`}>
       <div className="w-full aspect-[2/3] relative group">
         <figure className="absolute top-0 w-full h-full">
           {brand.passBackground && (
-            <SanityImage
+            <SanityImageServer
               alt={`${brand.name} Logo`}
               image={brand.passBackground}
               height={0}
@@ -112,7 +139,7 @@ function GridItem({ brand, pass }: { brand: Brand; pass?: Pass }) {
         <div className="absolute top-0 w-full h-full p-4">
           <LogoSpace>
             {brand.passLogo ? (
-              <SanityImage
+              <SanityImageServer
                 alt={`${brand.name} Logo`}
                 image={brand.passLogo}
                 height={0}
@@ -120,7 +147,9 @@ function GridItem({ brand, pass }: { brand: Brand; pass?: Pass }) {
                 style={{ height: "2.5rem", width: "auto" }}
               />
             ) : (
-              <h1 className="text-white text-5xl">{brand.name}</h1>
+              <h1 className="text-white text-5xl">
+                {brand.name || brand.slug}
+              </h1>
             )}
           </LogoSpace>
         </div>

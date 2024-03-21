@@ -3,7 +3,7 @@ import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export const brandListSelection = {
-  name: q.string(),
+  name: q.string().nullable().optional(),
   slug: q.slug("slug"),
   logoSquare: sanityImage("logo_square").nullable(),
   passLogo: sanityImage("pass_logo").nullable(),
@@ -46,6 +46,5 @@ export async function getBrandsNoCount(filter?: GetBrandsFilter) {
     query = query.filter("slug.current in $slugs");
   }
 
-  console.log("running getBrandsNoCount", filter);
   return runQuery(query.grab(brandListSelection), filter);
 }

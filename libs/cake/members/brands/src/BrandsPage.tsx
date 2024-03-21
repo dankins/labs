@@ -1,21 +1,29 @@
 import { GridList } from "./GridList";
 
-export async function BrandsPage() {
+export async function BrandsPage({
+  perspective,
+  sort,
+}: {
+  perspective?: string;
+  sort?: string;
+}) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="container">
-        <div>
+    <>
+      <div className="flex flex-col items-center">
+        <div className="container">
           <div>
-            <h1 className="text-xl capitalize font-bold">The Brands</h1>
-            <p className="text-base font-normal leading-[150%]">
-              The Best Brands Jerry, the Best. Select up to ten brands to build
-              your collection, collect cake cards, and access amazing benefits
-              only available to our exclusive Cake members.
-            </p>
+            <div>
+              <h1 className="text-xl capitalize font-bold">The Brands</h1>
+              <p className="text-base font-normal leading-[150%]">
+                The Best Brands Jerry, the Best. Select up to ten brands to
+                build your collection, collect cake cards, and access amazing
+                benefits only available to our exclusive Cake members.
+              </p>
+            </div>
+            <GridList perspective={perspective} />
           </div>
-          <GridList />
         </div>
       </div>
-    </div>
+    </>
   );
 }
