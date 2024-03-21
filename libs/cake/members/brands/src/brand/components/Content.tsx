@@ -46,7 +46,7 @@ export function Content({
             )}
             isFavorite={isFavorite}
           />
-          <ShopButton name={brand.name} website={brand.website} />
+          <ShopButton name={brand.name!} website={brand.website!} />
         </div>
       </div>
       <div className="md:w-2/3 flex flex-col gap-4">

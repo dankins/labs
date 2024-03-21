@@ -1,3 +1,4 @@
+export * from "./addBrand";
 export * from "./getBrand";
 export * from "./getMemberBrandStatus";
 export * from "./getBrandsBySlug";

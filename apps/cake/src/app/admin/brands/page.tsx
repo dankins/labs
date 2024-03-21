@@ -1,10 +1,21 @@
-import { PageContent } from "@danklabs/pattern-library/core";
-import { BrandsDashboard } from "@danklabs/cake/admin";
+import { InterceptModal, PageContent } from "@danklabs/pattern-library/core";
+import { AddBrand, BrandsDashboard } from "@danklabs/cake/admin";
 
-export default function () {
+export default function ({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   return (
-    <PageContent>
-      <BrandsDashboard />
-    </PageContent>
+    <>
+      {searchParams?.action === "add" && (
+        <InterceptModal returnHref="/admin/brands">
+          <AddBrand />
+        </InterceptModal>
+      )}
+      <PageContent>
+        <BrandsDashboard />
+      </PageContent>
+    </>
   );
 }

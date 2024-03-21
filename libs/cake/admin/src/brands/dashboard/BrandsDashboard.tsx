@@ -27,7 +27,10 @@ async function Component() {
       <AdminPageHeader>
         <h1 className="text-3xl grow">All Brands</h1>
 
-        <PrimaryButton className="self-align-end" href={`/admin/brands/add`}>
+        <PrimaryButton
+          className="self-align-end"
+          href={`/admin/brands?action=add`}
+        >
           Add Brand
         </PrimaryButton>
       </AdminPageHeader>
@@ -89,7 +92,7 @@ function BrandRow({ brand }: BrandRowProps) {
         </Link>
 
         <Link href={`/admin/brands/${brand.slug}`} className="grow">
-          {brand.name}
+          {brand.name || brand.slug}
         </Link>
       </th>
     </tr>

@@ -29,7 +29,7 @@ export async function BrandPass({ brandSlug }: { brandSlug: string }) {
           <OfferRow
             offer={o!}
             offerCode={offerCode}
-            brandWebsite={cmsData.website}
+            brandWebsite={cmsData.website!}
           />
         ))}
       </div>

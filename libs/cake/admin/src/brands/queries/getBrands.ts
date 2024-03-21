@@ -3,8 +3,8 @@ import { makeSafeQueryRunner, q, sanityImage } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export const brandListSelection = {
-  name: q.string(),
   slug: q.slug("slug"),
+  name: q.string().optional(),
   logoSquare: sanityImage("logo_square").nullable(),
 };
 

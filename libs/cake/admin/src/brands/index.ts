@@ -6,3 +6,4 @@ export * from "./detail/offers/BrandOfferPage";
 export * from "./detail/offers/OffersPage";
 export * from "./detail/dashboard/BrandDashboard";
 export * from "./detail/AdminBrandLayout";
+export * from "./add/AddBrand";
