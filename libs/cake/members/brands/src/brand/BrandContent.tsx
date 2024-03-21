@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { auth } from "@clerk/nextjs";
 
-import { getBrandAdmin } from "@danklabs/cake/cms";
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import {
+  cachedGetBrandDetail,
   getBrand,
   getMemberBrandStatus,
 } from "@danklabs/cake/services/admin-service";
@@ -39,26 +39,24 @@ async function Component({ slug }: { slug: string }) {
     throw new Error("userid not available");
   }
 
-  const [brand, { memberId, isFavorite, isInCollection }, { id: brandId }] =
-    await Promise.all([
-      getBrandAdmin(slug),
-      getMemberBrandStatus(userIAM, slug),
-      getBrand(slug),
-    ]);
+  const [brand, { memberId, isFavorite, isInCollection }] = await Promise.all([
+    cachedGetBrandDetail(slug),
+    getMemberBrandStatus(userIAM, slug),
+  ]);
 
   return (
-    <ContainerWithBackground brand={brand}>
+    <ContainerWithBackground brand={brand.cms}>
       <MobileNavSpacer />
-      <Header brand={brand} />
+      <Header brand={brand.cms} />
       <Content
         memberId={memberId}
-        brandId={brandId}
-        brand={brand}
+        brandId={brand.db.id}
+        brand={brand.cms}
         isFavorite={isFavorite}
       />
       <div className="fixed bottom-5 px-3 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
         <AddPassActionBar
-          action={claimPassAction.bind(undefined, userIAM, brand.slug)}
+          action={claimPassAction.bind(undefined, userIAM, brand.db.slug)}
         />
       </div>
     </ContainerWithBackground>
