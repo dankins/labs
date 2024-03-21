@@ -51,7 +51,7 @@ async function Component({ slug }: { slug: string }) {
         <div className="flex flex-col items-center">
           <h1 className="text-sm ">Members</h1>
           <Heading1 className="text-3xl">
-            {lastData.cumulative_members}
+            {lastData?.cumulative_members}
           </Heading1>
         </div>
         <div className="text-xs">

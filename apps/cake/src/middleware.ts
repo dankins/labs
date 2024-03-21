@@ -1,11 +1,4 @@
-import {
-  UserButton,
-  authMiddleware,
-  clerkClient,
-  currentUser,
-  redirectToSignIn,
-} from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   publicRoutes: [
