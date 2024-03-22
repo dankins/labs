@@ -10,5 +10,5 @@ export function trackCheckoutComplete(
     name: "Checkout Complete",
     ...event,
   };
-  track(iam, eventFull);
+  return track(iam, eventFull);
 }

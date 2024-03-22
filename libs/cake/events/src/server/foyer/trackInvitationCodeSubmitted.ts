@@ -7,6 +7,6 @@ export async function trackInvitationCodeSubmitted(code: string) {
     name: "Invitation Code Submitted",
     code,
   };
-  trackAnon(event);
   console.log("trackInvitationCodeSubmitted", code, aId);
+  return trackAnon(event);
 }

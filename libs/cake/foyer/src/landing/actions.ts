@@ -7,12 +7,7 @@ import { eq } from "drizzle-orm";
 import { validateFormData } from "@danklabs/utils";
 import { db, invitations } from "@danklabs/cake/db";
 
-import {
-  cartExists,
-  getCartIfAvailable,
-  setEmail,
-  startCookie,
-} from "../cookie";
+import { getCartIfAvailable, setEmail, startCookie } from "../cookie";
 import {
   trackInvitationCodeSubmitted,
   trackInvitationEmailSubmitted,

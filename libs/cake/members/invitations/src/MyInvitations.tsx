@@ -32,12 +32,12 @@ export async function MyInvitations() {
 }
 
 async function Component() {
-  const userAuth = auth();
-  if (!userAuth || !userAuth.userId) {
+  const { userId } = auth();
+  if (!userId) {
     throw new Error("not authenticated");
   }
 
-  const invites = await getMemberInvitations(userAuth.userId);
+  const invites = await getMemberInvitations(userId);
 
   return (
     <div>

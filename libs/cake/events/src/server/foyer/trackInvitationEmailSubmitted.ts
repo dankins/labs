@@ -8,6 +8,6 @@ export async function trackInvitationEmailSubmitted(email: string) {
     email,
   };
   identifyAnon(email, {});
-  trackAnon(event);
   console.log("trackInvitationEmailSubmitted", email, aId);
+  return trackAnon(event);
 }

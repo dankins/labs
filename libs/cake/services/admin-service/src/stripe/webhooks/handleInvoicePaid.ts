@@ -5,7 +5,10 @@ import {
 } from "@danklabs/cake/services/admin-service";
 import { Stripe } from "stripe";
 import { eq } from "drizzle-orm";
-import { trackCheckoutComplete } from "@danklabs/cake/events";
+import {
+  TrackCheckoutComplete,
+  trackCheckoutComplete,
+} from "@danklabs/cake/events";
 import { cachedGetMemberById } from "../../members/getMemberId";
 import dayjs from "dayjs";
 
@@ -97,19 +100,18 @@ async function trackEvent(
   invitation: Invitation,
   renewalDate: Date
 ) {
-  let inviterFirstName: string | undefined = undefined;
+  const event: Omit<TrackCheckoutComplete, "name"> = {
+    invitationId: invitation.id,
+    renewalDate: renewalDate.toISOString(),
+  };
   if (invitation.memberId) {
     const inviter = await cachedGetMemberById(invitation.memberId);
     if (inviter.firstName) {
-      inviterFirstName = inviter.firstName;
+      event.inviterFirstName = inviter.firstName;
     }
   }
 
-  return trackCheckoutComplete(iam, {
-    invitationId: invitation.id,
-    inviterFirstName,
-    renewalDate: renewalDate.toISOString(),
-  });
+  return trackCheckoutComplete(iam, event);
 }
 
 function determineRenewalDate(event: Stripe.InvoicePaidEvent): Date {
