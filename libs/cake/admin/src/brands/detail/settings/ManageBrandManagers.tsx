@@ -1,8 +1,5 @@
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
-import {
-  cachedGetBrandDetail,
-  getBrand,
-} from "@danklabs/cake/services/admin-service";
+import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
 
 export async function ManageBrandManagers({ slug }: { slug: string }) {
   const brand = await cachedGetBrandDetail(slug);

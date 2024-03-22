@@ -4,7 +4,6 @@ import { auth } from "@clerk/nextjs";
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import {
   cachedGetBrandDetail,
-  getBrand,
   getMemberBrandStatus,
 } from "@danklabs/cake/services/admin-service";
 

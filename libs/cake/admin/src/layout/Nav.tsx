@@ -33,7 +33,7 @@ export function Nav() {
             height={100}
             width={100}
           />
-          <span className="text-xs text-secondary">admin</span>
+          <span className="text-sm text-secondary">admin</span>
           <span className="grow" />
         </Link>
       </div>
