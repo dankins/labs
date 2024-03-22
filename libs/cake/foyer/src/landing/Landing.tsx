@@ -99,7 +99,7 @@ function InvitationStart({
         <div className="mt-4">
           Already a member?{" "}
           <Link
-            href="/signin"
+            href="/sign-in"
             prefetch={false}
             className="underline text-primary"
           >

@@ -16,6 +16,7 @@ export function getAnonymousId() {
 }
 
 export function track(userId: string, event: ServerTrackingEvent) {
+  console.log("tracking event", userId, event);
   const { name: eventName, ...properties } = event;
   analytics.track({
     userId,
