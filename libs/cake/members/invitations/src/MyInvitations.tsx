@@ -41,9 +41,7 @@ async function Component() {
 
   return (
     <div>
-      <h1 className="underline mb-4 text-2xl">
-        My Invitations {invites.length}
-      </h1>
+      <h1 className="underline mb-4 text-2xl">My Invitations</h1>
       {invites.map((i) => (
         <InviteContainer key={i.id} invite={i} />
       ))}
