@@ -1,6 +1,10 @@
 "use client";
 
-import { Button, TextArea } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  PrimaryButton,
+  TextArea,
+} from "@danklabs/pattern-library/core";
 import { useRef } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -31,7 +35,9 @@ function FormBody() {
         name="codes"
         disabled={pending}
       />
-      <Button disabled={pending}>Upload Codes</Button>
+      <PrimaryButton disabled={pending} type="submit">
+        Upload Codes
+      </PrimaryButton>
     </>
   );
 }
