@@ -1,6 +1,7 @@
 import { Analytics, UserTraits } from "@segment/analytics-node";
 import { cookies } from "next/headers";
 import { ServerTrackingEvent } from "./tracking_plan";
+import { resolve } from "path";
 
 const ANONYMOUS_COOKIE_NAME = "ajs_anonymous_id";
 
@@ -15,13 +16,18 @@ export function getAnonymousId() {
     : undefined;
 }
 
-export function track(userId: string, event: ServerTrackingEvent) {
+export async function track(userId: string, event: ServerTrackingEvent) {
   console.log("tracking event", userId, event);
   const { name: eventName, ...properties } = event;
-  analytics.track({
-    userId,
-    event: eventName,
-    properties,
+  return new Promise((resolve) => {
+    analytics.track(
+      {
+        userId,
+        event: eventName,
+        properties,
+      },
+      resolve
+    );
   });
 }
 
@@ -31,19 +37,29 @@ export function trackAnon(event: ServerTrackingEvent) {
     throw new Error("unable to retrieve anonymous id");
   }
   const { name: eventName, ...properties } = event;
-  analytics.track({
-    anonymousId,
-    event: eventName,
-    properties,
+  return new Promise((resolve) => {
+    analytics.track(
+      {
+        anonymousId,
+        event: eventName,
+        properties,
+      },
+      resolve
+    );
   });
 }
 
 export function identify(userId: string, traits: UserTraits) {
   const anonymousId = getAnonymousId();
-  analytics.identify({
-    userId,
-    anonymousId,
-    traits,
+  return new Promise((resolve) => {
+    analytics.identify(
+      {
+        userId,
+        anonymousId,
+        traits,
+      },
+      resolve
+    );
   });
 }
 
@@ -57,13 +73,18 @@ export function identifyAnon(
     throw new Error("unable to retrieve anonymous id");
   }
 
-  analytics.identify({
-    anonymousId,
-    traits: allTraits,
-    integrations: {
-      Klaviyo: {
-        confirmOptin: false, // optional
+  return new Promise((resolve) => {
+    analytics.identify(
+      {
+        anonymousId,
+        traits: allTraits,
+        integrations: {
+          Klaviyo: {
+            confirmOptin: false, // optional
+          },
+        },
       },
-    },
+      resolve
+    );
   });
 }

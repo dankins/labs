@@ -75,7 +75,7 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   await Promise.all(createBrandPromises);
 
   const renewalDate = determineRenewalDate(event);
-  trackEvent(clerkUserId, invitation, renewalDate);
+  await trackEvent(clerkUserId, invitation, renewalDate);
 
   return { passportId: passport.id };
 }
@@ -105,7 +105,7 @@ async function trackEvent(
     }
   }
 
-  trackCheckoutComplete(iam, {
+  return trackCheckoutComplete(iam, {
     invitationId: invitation.id,
     inviterFirstName,
     renewalDate: renewalDate.toISOString(),
