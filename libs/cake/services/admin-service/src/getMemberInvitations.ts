@@ -8,6 +8,7 @@ import {
 import { and, sql, eq, desc, isNull, count, max } from "drizzle-orm";
 
 export async function getMemberInvitations(iam: string) {
+  console.log("getMemberInvitations", iam);
   return db
     .select({
       status: sql<"UNUSED" | "PENDING" | "EXPIRED" | "ACCEPTED">`case 
