@@ -51,5 +51,5 @@ export type TrackCheckoutComplete = {
   name: "Checkout Complete";
   invitationId?: string;
   inviterFirstName?: string;
-  renewalDate?: Date;
+  renewalDate?: string;
 };

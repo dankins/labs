@@ -108,7 +108,7 @@ async function trackEvent(
   trackCheckoutComplete(iam, {
     invitationId: invitation.id,
     inviterFirstName,
-    renewalDate,
+    renewalDate: renewalDate.toISOString(),
   });
 }
 
