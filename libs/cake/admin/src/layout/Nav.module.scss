@@ -3,19 +3,19 @@
   color: #333;
 
   a {
-    padding: 6px;
+    font-size: "1.5em";
+    padding: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 4px;
-    padding: 4px;
+    gap: 6px;
 
     &.activeSection {
       font-weight: 500;
       color: #333;
     }
     &.activePage {
-      background-color: #f9f9a5;
+      color: rgb(var(--color-secondary));
     }
 
     &:hover {

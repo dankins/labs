@@ -18,7 +18,7 @@ export function Widget({
   return (
     <Link href={href} className={classNames(size === "full" && "col-span-3")}>
       <div className="bg-white shadow-md overflow-hidden rounded-lg min-h-[175px] flex flex-col">
-        <Heading1 className="p-2 text-sm bg-[#F9F9A5]">{title}</Heading1>
+        <Heading1 className="bg-dark text-white p-2 text-sm ">{title}</Heading1>
         <div className="grow flex flex-col items-center justify-center">
           {children}
         </div>

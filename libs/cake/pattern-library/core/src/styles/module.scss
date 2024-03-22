@@ -17,6 +17,8 @@
 
     --color-accent: 233 134 200;
 
+    font-family: var(--font-supreme);
+
     .darkSection {
       --color-primary: 255 255 255;
       --color-primary-content: 0 0 0;
@@ -29,6 +31,7 @@
       --color-dark: 56 53 50;
       --color-dark-content: 247 242 238;
       --color-accent: 233 134 200;
+
       background-color: rgb(var(--color-neutral));
       color: rgb(var(--color-neutral-content));
     }

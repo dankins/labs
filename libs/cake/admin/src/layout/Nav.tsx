@@ -20,8 +20,8 @@ export function Nav() {
   const isBrandDetail = segments[0] === "brands" && !!segments[1];
 
   return (
-    <nav className="flex flex-col bg-white min-h-screen min-w-[275px] shadow-md">
-      <div className="h-[64px] bg-black/80">
+    <nav className="flex flex-col min-h-screen min-w-[275px]">
+      <div className="h-[64px] ">
         <Link
           href="/admin"
           className="p-4 flex flex-row items-center gap-2 text-white"
@@ -29,13 +29,12 @@ export function Nav() {
           <Image
             alt="Cake Logo"
             src="/images/logo.svg"
-            className="w-[66px] h-[19px] invert"
+            className="w-[132px] h-[38px]"
             height={100}
             width={100}
           />
-          <span className="text-xs">admin</span>
+          <span className="text-xs text-secondary">admin</span>
           <span className="grow" />
-          <UserButton afterSignOutUrl={"/"} />
         </Link>
       </div>
       <div className="grow flex flex-col">
@@ -97,7 +96,9 @@ export function Nav() {
           ></NavItem>
         </nav>
       </div>
-      <div className="p-4"></div>
+      <div className="p-4">
+        <UserButton afterSignOutUrl={"/"} />
+      </div>
     </nav>
   );
 }
