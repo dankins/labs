@@ -4,7 +4,8 @@ export type ServerTrackingEvent =
   | TrackInvitationAccountCompleted
   | TrackInvitationCheckoutCompleted
   | TrackBrandAddedToCollection
-  | TrackProfileUpdated;
+  | TrackProfileUpdated
+  | TrackCheckoutComplete;
 
 export type TrackInvitationCodeSubmittedEvent = {
   name: "Invitation Code Submitted";
@@ -44,4 +45,11 @@ export type Profile = {
 export type TrackProfileUpdated = {
   name: "Profile Updated";
   profile: Profile;
+};
+
+export type TrackCheckoutComplete = {
+  name: "Checkout Complete";
+  invitationId?: string;
+  inviterFirstName?: string;
+  renewalDate?: Date;
 };

@@ -1,13 +1,15 @@
-import { db, invitations, members, passports } from "@danklabs/cake/db";
+import { Invitation, db, invitations, members } from "@danklabs/cake/db";
 import {
   createBrandPass,
   createMemberPassport,
 } from "@danklabs/cake/services/admin-service";
 import { Stripe } from "stripe";
 import { eq } from "drizzle-orm";
+import { trackCheckoutComplete } from "@danklabs/cake/events";
+import { cachedGetMemberById } from "../../members/getMemberId";
+import dayjs from "dayjs";
 
-const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
-const NEW_MEMBER_INVITATIONS = 5;
+const NEW_MEMBER_INVITATIONS = 2;
 const NEW_MEMBER_MAX_REDEMPTIONS = 1;
 
 export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
@@ -65,17 +67,16 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
 
   const passport = await createMemberPassport(insertedMember.id);
 
-  console.log("created passport", {
-    passportId: passport.id,
-    memberId: insertedMember.id,
-  });
-
   // create passes based selected brands
   const selectedBrands = validateSelectedBrands(brandSelectionString);
   const createBrandPromises = selectedBrands.map((selectedBrand) =>
     createBrandPass(db, passport.id, selectedBrand)
   );
   await Promise.all(createBrandPromises);
+
+  const renewalDate = determineRenewalDate(event);
+  trackEvent(clerkUserId, invitation, renewalDate);
+
   return { passportId: passport.id };
 }
 
@@ -89,4 +90,34 @@ function validateSelectedBrands(selectedBrandsString: string): string[] {
   }
 
   return selectedBrandsString.split(",");
+}
+
+async function trackEvent(
+  iam: string,
+  invitation: Invitation,
+  renewalDate: Date
+) {
+  let inviterFirstName: string | undefined = undefined;
+  if (invitation.memberId) {
+    const inviter = await cachedGetMemberById(invitation.memberId);
+    if (inviter.firstName) {
+      inviterFirstName = inviter.firstName;
+    }
+  }
+
+  trackCheckoutComplete(iam, {
+    invitationId: invitation.id,
+    inviterFirstName,
+    renewalDate,
+  });
+}
+
+function determineRenewalDate(event: Stripe.InvoicePaidEvent): Date {
+  try {
+    const periodEndUnix = event.data.object.lines.data[0].period.end;
+    return dayjs.unix(periodEndUnix).toDate();
+  } catch (err) {
+    console.error("could not determine renewal date", err);
+    return dayjs().add(1, "year").toDate();
+  }
 }

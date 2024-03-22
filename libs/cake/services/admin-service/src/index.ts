@@ -23,3 +23,4 @@ export * from "./brand-admin";
 export * from "./instagram";
 export * from "./tiktok";
 export * from "./super-admin";
+export * from "./stripe";
