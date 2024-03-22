@@ -13,7 +13,7 @@ export function AppHeaderLink({
     <Link
       className={classNames(
         props.className,
-        pathname === props.href ? styles.active : undefined
+        pathname.startsWith(props.href.toString()) ? styles.active : undefined
       )}
       {...props}
     >

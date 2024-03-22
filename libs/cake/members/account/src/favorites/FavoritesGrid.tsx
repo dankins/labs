@@ -8,6 +8,8 @@ import {
   Button,
   FavoriteFilledIcon,
   FavoriteOutlineIcon,
+  PrimaryButton,
+  SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { useState } from "react";
 import classNames from "classnames";
@@ -56,19 +58,17 @@ export function FavoritesGrid({
     <>
       <div className="my-6 flex flex-row justify-end">
         {!editMode ? (
-          <Button
-            onClick={() => setEditMode(true)}
-            background="black"
-            textColor="white"
-          >
-            Edit
-          </Button>
+          <PrimaryButton onClick={() => setEditMode(true)}>Edit</PrimaryButton>
         ) : (
           <div className="flex flex-row gap-4">
-            <Button disabled={!dirty} onClick={handleSubmit} loading={loading}>
+            <PrimaryButton
+              disabled={!dirty}
+              onClick={handleSubmit}
+              loading={loading}
+            >
               Save
-            </Button>
-            <Button onClick={handleCancel}>Cancel</Button>
+            </PrimaryButton>
+            <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
           </div>
         )}
       </div>
@@ -86,7 +86,7 @@ export function FavoritesGrid({
                 ) : (
                   <FavoriteFilledIcon
                     className={classNames(
-                      "w-[24px] h-[24px]",
+                      "w-[24px] h-[24px] text-secondary",
                       !editMode && "invisible"
                     )}
                   />

@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Button, PhoneIcon, UserIcon } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  PhoneIcon,
+  PrimaryButton,
+  SecondaryButton,
+  UserIcon,
+} from "@danklabs/pattern-library/core";
 import { TextInput } from "@danklabs/pattern-library/core";
 import { useFormStatus } from "react-dom";
 
@@ -69,7 +75,6 @@ function ProfileForm({
   const { pending } = useFormStatus();
   return (
     <>
-      <div>{profile.email}</div>
       <div className="mt-5 flex flex-row gap-3">
         <TextInput
           icon={<UserIcon />}
@@ -99,15 +104,15 @@ function ProfileForm({
       />
       <div className="flex flex-row gap-4">
         {readOnly && (
-          <Button type="button" onClick={toggle}>
+          <PrimaryButton type="button" onClick={toggle}>
             Edit
-          </Button>
+          </PrimaryButton>
         )}
         {!readOnly && pending && <Button loading>Save</Button>}
         {!readOnly && !pending && (
           <>
-            <Button type="submit">Save</Button>
-            <Button onClick={toggle}>Cancel</Button>
+            <PrimaryButton type="submit">Save</PrimaryButton>
+            <SecondaryButton onClick={toggle}>Cancel</SecondaryButton>
           </>
         )}
       </div>

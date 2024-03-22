@@ -4,7 +4,7 @@ import { InstagramIcon, TikTokIcon } from "@danklabs/pattern-library/core";
 
 export function AppFooter() {
   return (
-    <footer className="px-10 pt-10 pb-5">
+    <footer className="px-4 pt-10 pb-5">
       <div className="border-t-2 border-t-dark/10 flex flex-col md:flex-row items-center">
         <div className="hidden grow flex-col md:flex md:flex-row md:gap-4 items-center">
           <Link className="pt-2 pb-1" href="/account/faq">

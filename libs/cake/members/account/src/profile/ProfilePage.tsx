@@ -24,22 +24,24 @@ export async function Component() {
   }
 
   return (
-    <div>
+    <div className="max-w-[764px]">
       <div>
-        <h1 className="text-primary text-xl font-normal">Member Profile</h1>
-        <p className="text-base font-normal">
-          Manage your personal settings associated to your Cake account.
-        </p>
+        <div>
+          <h1 className="text-primary text-xl font-normal">Member Profile</h1>
+          <p className="text-base font-normal">
+            Manage your personal settings associated to your Cake account.
+          </p>
+        </div>
+        <ProfileToggle
+          profile={{
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: null,
+            email: user.emailAddresses[0].emailAddress,
+          }}
+          action={updateProfileAction}
+        />
       </div>
-      <ProfileToggle
-        profile={{
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phone: null,
-          email: user.emailAddresses[0].emailAddress,
-        }}
-        action={updateProfileAction}
-      />
     </div>
   );
 }
