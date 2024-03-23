@@ -4,6 +4,20 @@
 
 @layer base {
   :root {
+    --input-border-radius: 8px;
+    --input-border-color: #e9ded3;
+    --input-border-color-focus: red;
+    --input-text-color: #292725;
+    --input-text-color-disabled: #9d9c9b;
+    --input-background-color: var(--color-neutral);
+    --input-font-family: var(--font-apris);
+    --input-border-color-focus: #fff;
+
+    --color-form-background: 233 222 211;
+    --color-form-background-disabled: 233 222 211;
+    --color-form-text: 233 222 211;
+    --color-form-text-disabled: 233 222 211;
+
     --color-primary: 58 38 42;
     --color-primary-content: 255 255 255;
 
