@@ -1,6 +1,7 @@
 import {
   Button,
   EmailIcon,
+  PrimaryButton,
   TextInput,
   UserIcon,
 } from "@danklabs/pattern-library/core";
@@ -14,7 +15,7 @@ export function VerifyEmail({ email }: { email: string }) {
         <p>Tell us a bit about yourself</p>
       </div>
       <div className="mt-8">
-        <Button>Send Verification Email</Button>
+        <PrimaryButton>Send Verification Email</PrimaryButton>
       </div>
     </div>
   );

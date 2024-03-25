@@ -7,6 +7,7 @@ import {
   Button,
   TicketIcon,
   EmailIcon,
+  SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { submitEmail, submitInviteCode } from "./actions";
 
@@ -26,21 +27,25 @@ export async function Landing({
   const page = await getPage("foyer");
 
   return (
-    <FeatureImageContainer
-      image={page.heroImage!}
-      overlay={<div className="w-full h-full absolute top-0 bg-black/40"></div>}
-    >
-      {validated ? (
-        <InvitationEmail
-          code={code}
-          error={error}
-          jwtEmail={jwtEmail}
-          cookieEmail={cookieEmail}
-        />
-      ) : (
-        <InvitationStart code={code} error={error} />
-      )}
-    </FeatureImageContainer>
+    <div className="max-w-[500px]">
+      <FeatureImageContainer
+        image={page.heroImage!}
+        overlay={
+          <div className="w-full h-full absolute top-0 bg-neutral/70"></div>
+        }
+      >
+        {validated ? (
+          <InvitationEmail
+            code={code}
+            error={error}
+            jwtEmail={jwtEmail}
+            cookieEmail={cookieEmail}
+          />
+        ) : (
+          <InvitationStart code={code} error={error} />
+        )}
+      </FeatureImageContainer>
+    </div>
   );
 }
 
@@ -55,7 +60,7 @@ function InvitationStart({
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
       <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-[#FFF6DA] text-6xl font-fancy">Oh, Cake.</h1>
+        <h1 className="text-6xl font-fancy">Oh, Cake.</h1>
         <span className="text-base font-normal leading-6">
           Why do I need an invitation? Like any truly special thing in the
           universe, Cake is not unlimited. Our partners are among the most loved
@@ -80,11 +85,8 @@ function InvitationStart({
             label="Invitation Code"
             icon={<TicketIcon className="fill-white strokee-white text-xl" />}
             defaultValue={code && code.length > 0 ? code : undefined}
-            className="bg-neutral text-neutral-content"
           />
-          <Button type="submit" background="white">
-            Submit
-          </Button>
+          <SecondaryButton type="submit">Submit</SecondaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">
@@ -126,7 +128,7 @@ function InvitationEmail({
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
       <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-[#FFF6DA] text-6xl font-fancy">You’re in!</h1>
+        <h1 className="text-dark text-6xl font-fancy">You’re in!</h1>
         <span className="text-base font-normal leading-6">
           Almost there, we’ll need an email address to setup your account.
         </span>
@@ -139,11 +141,8 @@ function InvitationEmail({
             placeholder="Enter Email Address"
             label="Email Address"
             icon={<EmailIcon className="fill-white strokee-white text-xl" />}
-            className="bg-neutral text-neutral-content"
           />
-          <Button type="submit" background="white">
-            Continue
-          </Button>
+          <SecondaryButton type="submit">Continue</SecondaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">

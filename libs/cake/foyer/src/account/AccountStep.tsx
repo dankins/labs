@@ -143,5 +143,5 @@ export function AccountStep({ email }: { email: string }) {
       break;
   }
 
-  return <div className="p-4">{component}</div>;
+  return <div className="p-4 max-w-[500px]">{component}</div>;
 }

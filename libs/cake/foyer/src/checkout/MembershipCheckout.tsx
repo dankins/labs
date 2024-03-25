@@ -29,11 +29,13 @@ export async function MembershipCheckout({
   };
 
   return (
-    <Checkout
-      priceId={CAKE_MEMBERSHIP_PRICE_ID}
-      userId={user?.id}
-      userEmailAddress={user?.emailAddresses[0].emailAddress}
-      metadata={subscriptionMetadata}
-    />
+    <div className="max-w-[500px]">
+      <Checkout
+        priceId={CAKE_MEMBERSHIP_PRICE_ID}
+        userId={user?.id}
+        userEmailAddress={user?.emailAddresses[0].emailAddress}
+        metadata={subscriptionMetadata}
+      />
+    </div>
   );
 }

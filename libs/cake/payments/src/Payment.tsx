@@ -10,7 +10,7 @@ import {
   StripePaymentElementChangeEvent,
   StripePaymentElementOptions,
 } from "@stripe/stripe-js";
-import { Button } from "@danklabs/pattern-library/core";
+import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
 
 export function Payment({
   active,
@@ -124,12 +124,12 @@ export function PaymentForm() {
         onChange={handlePaymentChange}
       />
       <div className="my-5">
-        <Button
+        <PrimaryButton
           onClick={handleSubmit}
           disabled={!formComplete || !stripe || !elements || loading}
         >
           Purchase Membership
-        </Button>
+        </PrimaryButton>
       </div>
     </>
   );

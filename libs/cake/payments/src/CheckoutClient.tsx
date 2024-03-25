@@ -79,7 +79,7 @@ export function CheckoutClient({
         appearance: {
           rules: {
             ".Label": {
-              color: "#fff",
+              color: "#000",
             },
           },
         },

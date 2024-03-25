@@ -7,6 +7,8 @@ import {
   EmailIcon,
   UserIcon,
   VerifyCode,
+  PrimaryButton,
+  SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { useState } from "react";
 
@@ -167,18 +169,12 @@ export function CreateAccount({
         </p>
         <div className="flex flex-row justify-center gap-4 my-5">
           <div>
-            <Button background="white" onClick={onComplete}>
-              Continue
-            </Button>
+            <PrimaryButton onClick={onComplete}>Continue</PrimaryButton>
           </div>
           <div>
-            <Button
-              background="transparent"
-              textColor="white"
-              onClick={() => signOut()}
-            >
+            <SecondaryButton onClick={() => signOut()}>
               Sign Out
-            </Button>
+            </SecondaryButton>
           </div>
         </div>
       </div>
@@ -214,14 +210,13 @@ export function CreateAccount({
         <strong>{email}</strong>.
       </p>
 
-      <Button
-        background="white"
+      <PrimaryButton
         className="mt-6 font-poppins"
         type="submit"
         disabled={!isLoaded || loading}
       >
         Send Verification Email
-      </Button>
+      </PrimaryButton>
     </form>
   );
 }

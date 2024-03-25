@@ -3,6 +3,7 @@ import { useFormStatus } from "react-dom";
 import {
   Button,
   EmailIcon,
+  PrimaryButton,
   TextInput,
   UserIcon,
 } from "@danklabs/pattern-library/core";
@@ -79,9 +80,13 @@ export function NameForm({
           icon={<UserIcon />}
         />
       </div>
-      <Button className="mt-4" disabled={!isValid || pending} type="submit">
+      <PrimaryButton
+        className="mt-4"
+        disabled={!isValid || pending}
+        type="submit"
+      >
         Continue
-      </Button>
+      </PrimaryButton>
     </>
   );
 }
