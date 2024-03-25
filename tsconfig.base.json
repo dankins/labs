@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@danklabs/cake/admin": ["libs/cake/admin/src/index.ts"],
+      "@danklabs/cake/auth": ["libs/cake/auth/src/index.ts"],
       "@danklabs/cake/brand-admin": ["libs/cake/brand-admin/src/index.ts"],
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
       "@danklabs/cake/cms-content": ["libs/cake/cms-content/src/index.ts"],

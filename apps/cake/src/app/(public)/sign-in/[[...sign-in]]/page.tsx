@@ -1,14 +1,5 @@
-import { ClerkProvider, SignIn } from "@clerk/nextjs";
-import { Centered, PageContent } from "@danklabs/pattern-library/core";
+import { SignInPage } from "@danklabs/cake/auth";
 
 export default function Page() {
-  return (
-    <ClerkProvider>
-      <PageContent>
-        <Centered>
-          <SignIn redirectUrl={"/collection"} />
-        </Centered>
-      </PageContent>
-    </ClerkProvider>
-  );
+  return <SignInPage />;
 }
