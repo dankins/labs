@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@danklabs/pattern-library/core";
+import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
 import { useToast } from "@danklabs/pattern-library/motion";
 import { isWebShareAvailable } from "@danklabs/utils";
 
@@ -26,5 +26,5 @@ export function ShareButton({
     });
     addToast("Shared successfully!");
   }
-  return <Button onClick={handleClick}>Share Invitation</Button>;
+  return <PrimaryButton onClick={handleClick}>Share Invitation</PrimaryButton>;
 }

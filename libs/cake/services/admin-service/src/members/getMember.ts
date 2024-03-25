@@ -4,6 +4,8 @@ import { superadmin } from "../super-admin";
 
 export type getMemberReturnType = {
   firstName: string | null;
+  iam: string;
+  email: string;
   isSuperAdmin: boolean;
   isBrandManager: boolean;
   isMember: boolean;
@@ -15,12 +17,12 @@ async function getMember(iam: string): Promise<getMemberReturnType> {
 
   const admins = await superadmin.cachedGetSuperAdmins();
 
-  console.log("get member", {
-    isSuperAdmin: admins.map((a) => a.iam).includes(iam),
-  });
-
   return {
+    iam: member.id,
     firstName: member.firstName,
+    email: member.emailAddresses.filter(
+      (e) => e.id === member.primaryEmailAddressId
+    )[0].emailAddress!,
     isSuperAdmin: admins.map((a) => a.iam).includes(iam),
     isBrandManager: false,
     isMember: false,

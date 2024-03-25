@@ -3,14 +3,7 @@ import { unstable_cache } from "next/cache";
 import { superadmin } from "../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-
-export type getMemberReturnType = {
-  firstName: string | null;
-  isSuperAdmin: boolean;
-  isBrandManager: boolean;
-  isMember: boolean;
-  passes: { [key: string]: any };
-};
+import { getMemberReturnType } from "./getMember";
 
 async function getMemberById(memberId: string): Promise<getMemberReturnType> {
   const dbMember = await db.query.members.findFirst({
@@ -26,6 +19,10 @@ async function getMemberById(memberId: string): Promise<getMemberReturnType> {
 
   return {
     firstName: iamUser.firstName,
+    iam: dbMember.iam,
+    email: iamUser.emailAddresses.filter(
+      (e) => e.id === iamUser.primaryEmailAddressId
+    )[0].emailAddress!,
     isSuperAdmin: admins.map((a) => a.iam).includes(dbMember.iam),
     isBrandManager: false,
     isMember: false,

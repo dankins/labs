@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@danklabs/pattern-library/core";
+import { Button, SecondaryButton } from "@danklabs/pattern-library/core";
 import { useToast } from "@danklabs/pattern-library/motion";
 
 export function CancelInviteButton({
@@ -12,5 +12,5 @@ export function CancelInviteButton({
     await cancelInviteAction();
     addToast("Invite cancelled and available to resend");
   }
-  return <Button onClick={handleClick}>Cancel</Button>;
+  return <SecondaryButton onClick={handleClick}>Cancel</SecondaryButton>;
 }

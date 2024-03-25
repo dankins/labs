@@ -1,7 +1,14 @@
-import { Invitation, db, invitations } from "@danklabs/cake/db";
+import {
+  Invitation,
+  db,
+  invitations as invitationsTable,
+} from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
+import { invitations } from "@danklabs/cake/services/admin-service";
+import { cachedGetMemberById } from "../members/getMemberId";
+import { trackInvitationActivated } from "@danklabs/cake/events";
 
 export async function assignInvite(
   inviteId: string,
@@ -13,30 +20,37 @@ export async function assignInvite(
   expiration: Date;
 }> {
   const adverb = faker.word.adverb({
-    length: { min: 5, max: 10 },
+    length: { min: 5, max: 12 },
     strategy: "longest",
   });
   const adjective = faker.word.adjective({
-    length: { min: 5, max: 10 },
+    length: { min: 5, max: 12 },
     strategy: "longest",
   });
   const noun = faker.word.noun({
-    length: { min: 5, max: 10 },
+    length: { min: 5, max: 12 },
     strategy: "longest",
   });
 
   const newCode = `${adverb}-${adjective}-${noun}`;
   const newExpiration = dayjs().add(7, "day").toDate();
 
+  const invitation = await db.query.invitations.findFirst({
+    where: eq(invitationsTable.id, inviteId),
+  });
+  if (!invitation) {
+    throw new Error("invitation not found");
+  }
+
   const result = await db
-    .update(invitations)
+    .update(invitationsTable)
     .set({
       code: newCode,
       expiration: newExpiration,
       recipientName: name,
       updatedAt: new Date(),
     })
-    .where(eq(invitations.id, inviteId))
+    .where(eq(invitationsTable.id, inviteId))
     .returning();
 
   if (result.length !== 1) {
@@ -45,6 +59,26 @@ export async function assignInvite(
   }
 
   const { id, code, expiration, recipientName } = result[0];
+  console.log("assigned invite", inviteId, {
+    id,
+    code,
+    expiration,
+    recipientName,
+  });
+
+  const member = await cachedGetMemberById(invitation.memberId!);
+
+  trackInvitationActivated(member.iam, {
+    email: member.email,
+    invitationId: inviteId,
+    inviteUrl: `${process.env["NEXT_PUBLIC_SITE_URL"]}invitation?code=${invitation.code}`,
+    inviteCode: newCode,
+    expirationDate: newExpiration.toISOString(),
+    recipientName: name,
+  });
+
+  invitations.getMemberInvitations.clearCache(member.iam);
+  invitations.getInvitation.clearCache(invitation.id);
 
   return {
     id,

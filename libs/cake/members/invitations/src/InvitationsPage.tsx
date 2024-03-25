@@ -1,18 +1,19 @@
-import { Suspense } from "react";
-import { MyInvitations } from "./MyInvitations";
+import { Heading1, InterceptModal } from "@danklabs/pattern-library/core";
+import { InvitationsList } from "./InvitationsList";
+import { MaybeModal } from "./MaybeModal";
 
-export async function InvitationsPage() {
+export async function InvitationsPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
-    <Suspense>
-      <Component />
-    </Suspense>
-  );
-}
-
-async function Component() {
-  return (
-    <div className="px-5 container mb-24">
-      <MyInvitations />
-    </div>
+    <>
+      <MaybeModal searchParams={searchParams} />
+      <div className="px-5 container mb-24">
+        <Heading1 className="text-2xl">My Invitations</Heading1>
+        <InvitationsList />
+      </div>
+    </>
   );
 }
