@@ -9,8 +9,8 @@ import {
 export async function emailInvite(
   inviterMemberId: string,
   invitationId: string,
-  recipientEmail: string,
   recipientName: string,
+  recipientEmail: string,
   message?: string
 ) {
   const invitation = await db.query.invitations.findFirst({
