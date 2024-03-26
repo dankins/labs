@@ -17,6 +17,9 @@ module.exports = {
       supreme: ["var(--font-supreme)"],
     },
     extend: {
+      borderRadius: {
+        DEFAULT: "2px",
+      },
       aspectRatio: {
         wallet: "1.586 / 1",
       },

@@ -13,6 +13,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        DEFAULT: "2px",
+      },
       aspectRatio: {
         wallet: "1.586 / 1",
       },

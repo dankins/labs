@@ -58,7 +58,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     let backgroundClass = `bg-${background || "primary"}`;
     let borderClass = border;
-    let textClass = `${textColor} || "text-primary-content"}`;
+    let textClass = textColor || "text-primary-content";
     if (simulateActive) {
       backgroundClass = activeClass?.replace("active:bg-", "bg-")!;
       borderClass = activeClass?.replace("active:border-", "border-");
@@ -74,7 +74,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textClass,
       borderClass,
       props.fontWeight && `font-${props.fontWeight}`,
-      rounded && `rounded-${rounded}`,
+      "rounded",
       hoverClass,
       activeClass,
       disabledClass,

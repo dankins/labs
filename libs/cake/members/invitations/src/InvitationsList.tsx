@@ -11,7 +11,7 @@ export async function InvitationsList() {
   const list = await invitations.getMemberInvitations.cached(userId);
 
   return (
-    <div>
+    <div className="flex flex-row flex-wrap gap-4">
       {list.map((i) => (
         <InvitationListItem key={i.id} invite={i} />
       ))}
