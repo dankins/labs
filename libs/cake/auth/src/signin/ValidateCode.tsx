@@ -19,14 +19,21 @@ export function ValidateCode({
 }) {
   const { signIn, isLoaded: isSignInLoaded, setActive } = useSignIn();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   async function handleCodeSubmit(code: string) {
     if (!signIn) {
       throw new Error("signup not loaded");
     }
+    setError(undefined);
     setLoading(true);
-    await handleSignInFirstFactor(code);
-    onSuccess();
+    try {
+      await handleSignInFirstFactor(code);
+      onSuccess();
+    } catch (err) {
+      console.error(err);
+      setError("Invalid code - please double check and try again.");
+    }
     setLoading(false);
   }
   async function handleSignInFirstFactor(code: string) {
@@ -58,6 +65,7 @@ export function ValidateCode({
           <Spinner /> <Paragraph1>Logging in...</Paragraph1>
         </div>
       )}
+      {error && <Paragraph1 className="text-secondary">{error}</Paragraph1>}
     </form>
   );
 }
