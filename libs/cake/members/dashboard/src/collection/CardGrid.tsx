@@ -1,20 +1,15 @@
-import { getMemberCollectionReturnType } from "@danklabs/cake/services/admin-service";
-import {
-  AddIcon,
-  Button,
-  LeftArrow,
-  RightArrow,
-} from "@danklabs/pattern-library/core";
+import { RightArrow } from "@danklabs/pattern-library/core";
 import { CollectionItem } from "./CollectionItem";
 import { CakePresentIcon } from "@danklabs/cake/pattern-library/core";
 import Link from "next/link";
+import { Member } from "@danklabs/cake/services/admin-service";
 
 export type CardGridProps = {
-  memberFirstName: string | null;
-  collection: getMemberCollectionReturnType;
+  member: Member;
 };
 
-export function CardGrid({ memberFirstName, collection }: CardGridProps) {
+export function CardGrid({ member }: CardGridProps) {
+  const collection = member.collection;
   if (collection.brandSlugs.length === 0) {
   } else if (collection.brandSlugs.length === 1) {
   } else if (collection.brandSlugs.length === 2) {
@@ -25,17 +20,17 @@ export function CardGrid({ memberFirstName, collection }: CardGridProps) {
   let infoPanel: React.ReactNode = <></>;
 
   if (collection.brandSlugs.length === 0) {
-    infoPanel = <Helper0 memberFirstName={memberFirstName} />;
+    infoPanel = <Helper0 memberFirstName={member.firstName} />;
     cardWidth += "w-1/3";
     infoWidth = "w-2/3";
   } else if (collection.brandSlugs.length === 1) {
-    infoPanel = <Helper1 memberFirstName={memberFirstName} />;
+    infoPanel = <Helper1 memberFirstName={member.firstName} />;
     cardWidth += "w-1/3";
     infoWidth += "w-2/3";
   } else if (collection.brandSlugs.length === 2) {
     cardWidth = "w-1/3";
     infoWidth += " w-1/3";
-    infoPanel = <Helper2 memberFirstName={memberFirstName} />;
+    infoPanel = <Helper2 memberFirstName={member.firstName} />;
   } else {
     cardWidth = "w-1/5";
     infoWidth = ""; // No helper text for more than 3 cards

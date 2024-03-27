@@ -51,6 +51,7 @@ export type TrackProfileUpdated = {
 };
 
 export type TrackCheckoutComplete = {
+  email: string;
   name: "Checkout Complete";
   invitationId?: string;
   inviterFirstName?: string;

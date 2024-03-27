@@ -127,6 +127,20 @@
       "when": 1711038856479,
       "tag": "0017_overrated_ozymandias",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1711480446767,
+      "tag": "0018_faithful_retro_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1711485287418,
+      "tag": "0019_flippant_synch",
+      "breakpoints": true
     }
   ]
 }

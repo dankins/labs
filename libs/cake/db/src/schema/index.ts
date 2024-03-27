@@ -11,10 +11,18 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 
+export const membershipStatuses = pgEnum("membership_statuses", [
+  "active",
+  "expired",
+]);
+
 export const members = pgTable("members", {
   id: uuid("id").primaryKey().defaultRandom(),
   iam: text("iam").unique().notNull(),
   invitationId: uuid("invitation_id"),
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  membershipStatus: membershipStatuses("membership_status"),
   invitedBy: uuid("invited_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

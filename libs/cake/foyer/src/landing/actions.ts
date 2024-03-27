@@ -13,6 +13,7 @@ import {
   trackInvitationEmailSubmitted,
 } from "@danklabs/cake/events";
 import { clerkClient, currentUser, auth } from "@clerk/nextjs";
+import { members } from "@danklabs/cake/services/admin-service";
 
 export async function submitEmail(formData: FormData): Promise<void> {
   "use server";
@@ -23,14 +24,12 @@ export async function submitEmail(formData: FormData): Promise<void> {
   setEmail(data.email);
 
   const userAuth = auth();
-  const user = await currentUser();
-  if (
-    user &&
-    user.emailAddresses &&
-    !user.emailAddresses.map((e) => e.emailAddress).includes(data.email)
-  ) {
-    console.log("revoke session", user.emailAddresses, data.email);
-    await clerkClient.sessions.revokeSession(userAuth.sessionId!);
+  if (userAuth.userId) {
+    const user = await members.member.get(userAuth.userId);
+    if (user && user.email.toLowerCase() === data.email.toLowerCase()) {
+      console.log("revoke session", user.email, data.email);
+      await clerkClient.sessions.revokeSession(userAuth.sessionId!);
+    }
   }
 
   trackInvitationEmailSubmitted(data.email);

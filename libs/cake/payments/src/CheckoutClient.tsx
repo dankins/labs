@@ -10,17 +10,11 @@ import { Payment } from "./Payment";
 import { Account } from "./Account";
 import { StripeAddressElementChangeEvent } from "@stripe/stripe-js";
 import { Success } from "./Success";
+import { SubscriptionReturnType } from "./types";
 
 export type CheckoutProps = {
-  priceId: string;
-  userId?: string;
-  userEmailAddress?: string;
-  createStripeCustomerAction(
-    address: StripeAddressElementChangeEvent["value"]
-  ): Promise<{ customerId: string }>;
-  createSubscriptionAction(
-    customerId: string
-  ): Promise<{ subscriptionId: string; clientSecret: string }>;
+  stripeCustomerId: string;
+  createSubscriptionAction(customerId: string): Promise<SubscriptionReturnType>;
   checkSubscriptionStatus(subscriptionId: string): Promise<{
     status: "incomplete" | "pending" | "complete";
   }>;
@@ -38,36 +32,13 @@ export type StripeCustomer = {
 };
 
 export function CheckoutClient({
-  userId,
-  userEmailAddress,
-  createStripeCustomerAction,
+  stripeCustomerId,
   createSubscriptionAction,
   checkSubscriptionStatus,
-  createAccount,
 }: CheckoutProps) {
   const sp = useSearchParams();
-  const [stripeCustomer, setStripeCustomer] = useState<StripeCustomer>();
-  let active: "account" | "billing" | "shipping" | "payment" | "success" =
-    "account";
-
-  async function handleAddressSubmit(
-    address: StripeAddressElementChangeEvent["value"]
-  ) {
-    const result = await createStripeCustomerAction(address);
-    console.log("created customer", result, result.customerId);
-    setStripeCustomer({
-      stripeCustomerId: result.customerId,
-      billingAddress: address,
-    });
-  }
-
-  if (!userId || !userEmailAddress) {
-    active = "account";
-  } else if (!stripeCustomer) {
-    active = "billing";
-  } else {
-    active = "payment";
-  }
+  // const [stripeCustomer, setStripeCustomer] = useState<StripeCustomer>();
+  let active = "payment";
 
   if (sp.get("redirect_status") && sp.get("redirect_status") === "succeeded") {
     return <Success checkSubscriptionStatus={checkSubscriptionStatus} />;
@@ -85,15 +56,15 @@ export function CheckoutClient({
         },
       }}
     >
-      <CheckoutSection>
+      {/* <CheckoutSection>
         <Account
           active={active === "account"}
           userId={userId}
           userEmailAddress={userEmailAddress}
           createAccount={createAccount}
         />
-      </CheckoutSection>
-      <CheckoutSection>
+      </CheckoutSection> */}
+      {/* <CheckoutSection>
         <Address
           mode={"billing"}
           active={active === "billing"}
@@ -101,11 +72,11 @@ export function CheckoutClient({
           stripeCustomer={stripeCustomer}
           onSubmit={handleAddressSubmit}
         />
-      </CheckoutSection>
+      </CheckoutSection> */}
       <CheckoutSection>
         <Payment
           active={active === "payment"}
-          stripeCustomerId={stripeCustomer?.stripeCustomerId}
+          stripeCustomerId={stripeCustomerId}
           createSubscriptionAction={createSubscriptionAction}
         />
       </CheckoutSection>

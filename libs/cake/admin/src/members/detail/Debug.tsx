@@ -1,5 +1,4 @@
-import { clerkClient } from "@clerk/nextjs";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 
 export async function Debug({ iam }: { iam: string }) {
@@ -10,15 +9,11 @@ export async function Debug({ iam }: { iam: string }) {
   );
 }
 async function Component({ iam }: { iam: string }) {
-  const [user, dbUser] = await Promise.all([
-    clerkClient.users.getUser(iam),
-    getMemberByIAM(iam),
-  ]);
+  const member = await members.member.get(iam);
 
   return (
     <div className="flex flex-col gap-5 text-xs text-gray-500">
-      <pre>{JSON.stringify(user, null, "\t")}</pre>
-      <pre>{JSON.stringify(dbUser, null, "\t")}</pre>
+      <pre>{JSON.stringify(member, null, "\t")}</pre>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { clerkClient } from "@clerk/nextjs";
-import { getMemberByIAM } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 
 export async function MemberInfo({ iam }: { iam: string }) {
@@ -11,22 +11,13 @@ export async function MemberInfo({ iam }: { iam: string }) {
 }
 
 async function Component({ iam }: { iam: string }) {
-  const [user, dbUser] = await Promise.all([
-    clerkClient.users.getUser(iam),
-    getMemberByIAM(iam),
-  ]);
-
+  const member = await members.member.get(iam);
   return (
     <>
       <div className="text-bold text-3xl">
-        {user.firstName} {user.lastName}
+        {member.firstName} {member.lastName}
       </div>
-      <div className="text-semibold text-xl">
-        {
-          user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
-            ?.emailAddress
-        }
-      </div>
+      <div className="text-semibold text-xl">{member.email}</div>
     </>
   );
 }

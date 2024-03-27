@@ -3,27 +3,19 @@ import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
+import { PrimaryButton } from "@danklabs/pattern-library/core";
 
-import { getBrands } from "@danklabs/cake/cms";
 import {
   CakeBrand,
+  MemberCollection,
+  MemberCollectionItem,
   cachedGetBrands,
-  cachedGetMember,
-  getMemberByIAM,
+  members,
 } from "@danklabs/cake/services/admin-service";
 import {
   LogoSpace,
-  SanityImage,
   SanityImageServer,
 } from "@danklabs/cake/pattern-library/core";
-
-type Brand = Awaited<ReturnType<typeof getBrands>>["brands"][0];
-type Pass = NonNullable<
-  Awaited<ReturnType<typeof getMemberByIAM>>
->["passport"]["passes"][0];
-
-type PassMap = { [slug: string]: Pass };
 
 export async function GridList({ perspective }: { perspective?: string }) {
   return (
@@ -63,7 +55,7 @@ export async function Component({ perspective }: { perspective?: string }) {
     throw new Error("userid not available");
   }
 
-  const member = await cachedGetMember(userId);
+  const member = await members.member.get(userId);
   let validatedPerspective = "member";
   if (perspective === "brand-manager" && member.isBrandManager) {
     validatedPerspective = "brand-manager";
@@ -89,23 +81,23 @@ export async function Component({ perspective }: { perspective?: string }) {
 
   return (
     <div>
-      <BrandGrid brands={brands} passes={member.passes} />
+      <BrandGrid brands={brands} collection={member.collection} />
     </div>
   );
 }
 
 function BrandGrid({
   brands,
-  passes,
+  collection,
 }: {
   brands: CakeBrand[];
-  passes: PassMap;
+  collection: MemberCollection;
 }) {
   return (
     <>
       <div className="my-5 flex flex-row items-center">
         <div className="grow">
-          <span>{Object.keys(passes).length} / 10</span> in Collections
+          <span>{Object.keys(collection).length} / 10</span> in Collections
         </div>
         <div>
           <PrimaryButton>Sort</PrimaryButton>
@@ -113,14 +105,20 @@ function BrandGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5">
         {brands.map((b) => (
-          <GridItem brand={b} pass={passes[b.slug]} />
+          <GridItem brand={b} pass={collection.itemMap[b.slug]} />
         ))}
       </div>
     </>
   );
 }
 
-function GridItem({ brand, pass }: { brand: CakeBrand; pass?: Pass }) {
+function GridItem({
+  brand,
+  pass,
+}: {
+  brand: CakeBrand;
+  pass?: MemberCollectionItem;
+}) {
   return (
     <Link href={`/brands/${brand.slug}`}>
       <div className="w-full aspect-[2/3] relative group">

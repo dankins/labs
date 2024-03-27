@@ -1,6 +1,6 @@
 import { db, invitations } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { cachedGetMember } from "../members";
+import { members } from "../members";
 import {
   trackSendInvitationEmailRecipient,
   trackSendInvitationEmailInviter,
@@ -32,12 +32,9 @@ export async function emailInvite(
   const inviteUrl = `${process.env["NEXT_PUBLIC_SITE_URL"]}invitation?code=${invitation.code}`;
   const inviterMessage = message?.replace(inviteUrl, "");
 
-  const inviter = await cachedGetMember(inviterMemberId);
+  const inviter = await members.member.getById(inviterMemberId);
 
-  let brands: string[] = [];
-  Object.keys(inviter.passes).forEach((key) => {
-    brands.push(inviter.passes[key].brand.slug);
-  });
+  let brands: string[] = Object.keys(inviter.collection.itemMap);
 
   trackSendInvitationEmailRecipient({
     email: recipientEmail,

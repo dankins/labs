@@ -52,7 +52,7 @@ export function Address({
             <div>{stripeCustomer.billingAddress.address.line2}</div>
           )}
           <div>
-            {stripeCustomer.billingAddress.address.city},
+            {stripeCustomer.billingAddress.address.city},{" "}
             {stripeCustomer.billingAddress.address.state}{" "}
             {stripeCustomer.billingAddress.address.postal_code}{" "}
           </div>
@@ -80,7 +80,7 @@ export function Address({
 
   return (
     <>
-      <h1 className="capitalize">{mode} Address</h1>
+      <h1 className="text-md capitalize">{mode} Address</h1>
       <div className="flex flex-col gap-3 py-5">
         <AddressElement
           options={addressOptions}

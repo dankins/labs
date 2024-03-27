@@ -3,7 +3,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { z } from "zod";
 
 import { validateFormData } from "@danklabs/utils";
-import { updateProfile } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 
 export async function updateProfileAction(formData: FormData) {
   const { userId } = auth();
@@ -23,5 +23,5 @@ export async function updateProfileAction(formData: FormData) {
 
   data.email = user?.emailAddresses[0].emailAddress!;
 
-  await updateProfile(userId, data);
+  await members.member.updateProfile(userId, data);
 }

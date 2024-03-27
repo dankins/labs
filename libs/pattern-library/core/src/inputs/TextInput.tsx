@@ -13,7 +13,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ children, label, helperText, icon, className, ...props }, ref) => {
     return (
       <div className={styles.TextInput}>
-        {label && <label htmlFor="zip-input">{label}</label>}
+        {label && <label htmlFor={`${props.name}-input`}>{label}</label>}
         <div className="relative flex flex-row">
           {icon && (
             <div
@@ -26,18 +26,15 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           )}
 
           <input
+            ref={ref}
+            id={`${props.name}-input`}
             type="text"
-            aria-describedby="helper-text-explanation"
             className={classNames("w-full ps-10 p-2.5 pl-8 text-sm", className)}
             {...props}
-            ref={ref}
           />
         </div>
         {helperText && (
-          <p
-            id="helper-text-explanation"
-            className="mt-2 text-sm text-gray-500 dark:text-gray-400"
-          >
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {helperText}
           </p>
         )}

@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { invitations } from "@danklabs/cake/services/admin-service";
-import { cachedGetMemberById } from "../members/getMemberId";
+import { member as memberAPI } from "../members/member";
 import { trackInvitationActivated } from "@danklabs/cake/events";
 
 export async function assignInvite(
@@ -66,7 +66,7 @@ export async function assignInvite(
     recipientName,
   });
 
-  const member = await cachedGetMemberById(invitation.memberId!);
+  const member = await memberAPI.getById(invitation.memberId!);
 
   trackInvitationActivated(member.iam, {
     email: member.email,

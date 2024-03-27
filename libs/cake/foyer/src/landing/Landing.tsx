@@ -4,7 +4,6 @@ import { getPage } from "@danklabs/cake/cms";
 import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
 import {
   TextInput,
-  Button,
   TicketIcon,
   EmailIcon,
   SecondaryButton,
@@ -36,10 +35,9 @@ export async function Landing({
       >
         {validated ? (
           <InvitationEmail
-            code={code}
             error={error}
-            jwtEmail={jwtEmail}
             cookieEmail={cookieEmail}
+            jwtEmail={jwtEmail}
           />
         ) : (
           <InvitationStart code={code} error={error} />
@@ -76,16 +74,20 @@ function InvitationStart({
       {/** INVITE CODE */}
       <div>
         <form
+          key="code-form"
           action={submitInviteCode}
           className="flex flex-row items-end gap-2"
         >
           <TextInput
+            id="code-input"
+            key="code"
             name="code"
             placeholder="Enter Invitation Code"
             label="Invitation Code"
-            icon={<TicketIcon className="fill-white strokee-white text-xl" />}
+            icon={<TicketIcon />}
             defaultValue={code && code.length > 0 ? code : undefined}
           />
+
           <SecondaryButton type="submit">Submit</SecondaryButton>
         </form>
         {error && error === "invalid" && (
@@ -114,12 +116,10 @@ function InvitationStart({
 }
 
 function InvitationEmail({
-  code,
   error,
   cookieEmail,
   jwtEmail,
 }: {
-  code: string | string[] | null | undefined;
   error: string | string[] | undefined;
   cookieEmail?: string;
   jwtEmail?: string;
@@ -135,18 +135,25 @@ function InvitationEmail({
       </div>
       {/** Email */}
       <div>
-        <form action={submitEmail} className="flex flex-row items-end gap-2">
+        <form
+          key="email-form"
+          id="email-form"
+          action={submitEmail}
+          className="flex flex-row items-end gap-2"
+        >
           <TextInput
             name="email"
             placeholder="Enter Email Address"
             label="Email Address"
-            icon={<EmailIcon className="fill-white strokee-white text-xl" />}
+            icon={<EmailIcon />}
+            defaultValue={cookieEmail || jwtEmail}
           />
+
           <SecondaryButton type="submit">Continue</SecondaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">
-            <span className="text-red-500">Invalid invite code</span>
+            <span className="text-red-500">Invalid email</span>
           </div>
         )}
         {error && error === "expired" && (
@@ -157,7 +164,7 @@ function InvitationEmail({
         <div className="mt-4">
           Already a member?{" "}
           <Link
-            href="/signin"
+            href="/sign-in"
             prefetch={false}
             className="underline text-primary"
           >
