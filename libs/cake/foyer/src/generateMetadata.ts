@@ -27,9 +27,7 @@ export async function generateMetadata(inviteCode?: string): Promise<Metadata> {
     title: `Cake Invitation`,
     description: `${invite.recipientName}, join me on Cake!`,
     openGraph: {
-      images: [
-        `https://dank.ngrok.app/invitation/opengraph-image?code=${inviteCode}`,
-      ],
+      images: [`/invitation/opengraph-image?code=${inviteCode}`],
     },
   };
 }
