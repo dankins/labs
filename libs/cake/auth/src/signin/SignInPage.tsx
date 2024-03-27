@@ -1,8 +1,12 @@
-import { ClerkProvider, clerkClient } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { SignInClient } from "./SignInClient";
 import { Centered, PageContent } from "@danklabs/pattern-library/core";
 
-export async function SignInPage() {
+export async function SignInPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <ClerkProvider>
       <PageContent>
@@ -10,7 +14,9 @@ export async function SignInPage() {
           <div className="max-w-[400px]">
             <SignInClient
               verifyCodeHeading="Verify Code"
-              redirectUrl="/collection"
+              redirectUrl={
+                (searchParams["redirect_url"] as string) || "/collection"
+              }
             />
           </div>
         </Centered>

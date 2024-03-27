@@ -8,6 +8,7 @@ import { CreateAccount } from "./CreateAccount";
 import { validateFormData } from "@danklabs/utils";
 import { z } from "zod";
 import { completeAccountStepAction } from "./action";
+import { Signup } from "@danklabs/cake/auth";
 
 export const nameSchema = z.object({
   firstname: z.string(),
@@ -125,11 +126,11 @@ export function AccountStep({ email }: { email: string }) {
     case "createAccount":
       component = (
         <>
-          <CreateAccount
-            email={email}
-            firstName={state.name.firstname}
-            lastName={state.name.lastname}
-            onComplete={handleAccountCreated}
+          <Signup
+          // email={email}
+          // firstName={state.name.firstname}
+          // lastName={state.name.lastname}
+          // onComplete={handleAccountCreated}
           />
         </>
       );

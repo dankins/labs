@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { StartSignIn } from "./signin/StartSignIn";
-import { ValidateCode } from "./signin/ValidateCode";
+import { StartSignIn } from "./StartSignIn";
+import { ValidateCode } from "./ValidateCode";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
-import { AlreadyLoggedIn } from "./signin/AlreadyLoggedIn";
+import { AlreadyLoggedIn } from "./AlreadyLoggedIn";
 
 const EMAIL_ADDRESS_EXISTS = "form_identifier_exists";
 type signinStates = "first_factor" | "email_sent_signin";
