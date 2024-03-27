@@ -4,7 +4,8 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/sign-in",
-    "/invitation",
+    "/invitation(.*)",
+    "/api/invitations(.*)",
     "/api/webhooks(.*)",
     "/studio",
     "/terms-and-conditions",
