@@ -4,7 +4,11 @@ export type ServerTrackingEvent =
   | TrackInvitationAccountCompleted
   | TrackInvitationCheckoutCompleted
   | TrackBrandAddedToCollection
-  | TrackProfileUpdated;
+  | TrackProfileUpdated
+  | TrackCheckoutComplete
+  | TrackSendInvitationEmailInviter
+  | TrackSendInvitationEmailRecipient
+  | TrackInvitationActivated;
 
 export type TrackInvitationCodeSubmittedEvent = {
   name: "Invitation Code Submitted";
@@ -44,4 +48,47 @@ export type Profile = {
 export type TrackProfileUpdated = {
   name: "Profile Updated";
   profile: Profile;
+};
+
+export type TrackCheckoutComplete = {
+  email: string;
+  name: "Checkout Complete";
+  invitationId?: string;
+  inviterFirstName?: string;
+  renewalDate?: string;
+};
+
+export type TrackInvitationActivated = {
+  email: string;
+  name: "Invitation Activated";
+  invitationId: string;
+  inviteUrl: string;
+  inviteCode: string;
+  expirationDate: string;
+  recipientName: string;
+};
+
+export type TrackSendInvitationEmailInviter = {
+  email: string;
+  name: "Send Invitation Email Inviter";
+  invitationId: string;
+  inviterMessage: string | null | undefined;
+  inviteUrl: string;
+  inviteCode: string;
+  expirationDate: string;
+  recipientEmail: string;
+  recipientName: string;
+};
+
+export type TrackSendInvitationEmailRecipient = {
+  email: string;
+  name: "Send Invitation Email Recipient";
+  invitationId: string;
+  inviterFirstName: string | null;
+  inviterMessage: string | null | undefined;
+  inviterBrands: string[];
+  inviteUrl: string;
+  inviteCode: string;
+  expirationDate: string;
+  recipientName: string;
 };

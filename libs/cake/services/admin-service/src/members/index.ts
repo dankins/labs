@@ -1,4 +1,7 @@
-export * from "./claimPass";
-export * from "./updateProfile";
-export * from "./getMember";
-export * from "./getMemberCollection";
+import { member } from "./member";
+
+export const members = {
+  member,
+};
+
+export * from "./member/types";

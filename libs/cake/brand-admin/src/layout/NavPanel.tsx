@@ -7,16 +7,23 @@ import {
   cachedGetBrandsBySlug,
 } from "@danklabs/cake/services/admin-service";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
+import Image from "next/image";
 
 export function NavPanel({ slug }: { slug: string }) {
   return (
     <nav className="flex flex-col bg-white min-h-screen min-w-[275px] shadow-md">
       <div className="h-[64px] bg-black/80">
         <Link
-          href="/admin"
+          href="/brand-admin"
           className="p-4 flex flex-row items-center gap-2 text-white"
         >
-          <span className="text-2xl">Cake</span>
+          <Image
+            alt="Cake Logo"
+            src="/images/logo.svg"
+            className="w-[66px] h-[19px] invert"
+            height={100}
+            width={100}
+          />
           <span className="text-xs">manager</span>
           <span className="grow" />
           <UserButton afterSignOutUrl={"/"} />

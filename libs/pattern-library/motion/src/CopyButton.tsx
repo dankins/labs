@@ -1,6 +1,10 @@
 import { copy } from "@danklabs/utils";
 import { useToast } from "@danklabs/pattern-library/motion";
-import { Button, ButtonProps } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  ButtonProps,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
 
 type StringOrFunc = string | (() => string);
 
@@ -18,5 +22,5 @@ export function CopyButton({
     }
     addToast("Copied!");
   }
-  return <Button onClick={handleClick}>{children}</Button>;
+  return <PrimaryButton onClick={handleClick}>{children}</PrimaryButton>;
 }

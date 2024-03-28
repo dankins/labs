@@ -6,5 +6,5 @@ export function trackProfileUpdated(userId: string, profile: Partial<Profile>) {
     name: "Profile Updated",
     profile,
   };
-  track(userId, event);
+  return track(userId, event);
 }

@@ -1,4 +1,4 @@
-import { OfferPage } from "@danklabs/cake/admin/brands";
+import { BrandOfferPage } from "@danklabs/cake/admin";
 import { PageContent } from "@danklabs/pattern-library/core";
 
 export default function ({
@@ -8,7 +8,7 @@ export default function ({
 }) {
   return (
     <PageContent>
-      <OfferPage brandSlug={params.slug} templateId={params.templateId} />
+      <BrandOfferPage brandSlug={params.slug} templateId={params.templateId} />
     </PageContent>
   );
 }

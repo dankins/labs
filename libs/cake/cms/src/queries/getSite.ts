@@ -2,14 +2,7 @@ import { makeSafeQueryRunner, q, sanityImage } from "groqd";
 
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
-const runQuery = makeSafeQueryRunner((q) =>
-  sanityClient.fetch(q, {
-    // @ts-ignore
-    next: {
-      revalidate: 1, // look for updates to revalidate cache every 60 seconds
-    },
-  })
-);
+const runQuery = makeSafeQueryRunner((q) => sanityClient.fetch(q, {}));
 
 export async function getSite() {
   return (

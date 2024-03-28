@@ -11,6 +11,6 @@ export function trackBrandAddedToCollection(
     brand: brandSlug,
     collection,
   };
-  track(userId, event);
   console.log("trackBrandAddedToCollection", userId, brandSlug, collection);
+  return track(userId, event);
 }

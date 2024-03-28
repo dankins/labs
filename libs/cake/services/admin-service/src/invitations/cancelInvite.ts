@@ -1,20 +1,23 @@
-import {
-  Member,
-  db,
-  invitations,
-  members,
-  Invitation,
-} from "@danklabs/cake/db";
-import { and, sql, eq, desc, isNull, count } from "drizzle-orm";
+import { db, invitations as invitationsTable } from "@danklabs/cake/db";
+import { invitations } from "@danklabs/cake/services/admin-service";
+import { eq } from "drizzle-orm";
+import { getInvitation } from "./getInvitation";
 
-export async function cancelInvite(id: string) {
+export async function cancelInvite(iam: string, id: string) {
+  const invitation = await getInvitation.cached(id);
+  if (!invitation) {
+    throw new Error("invitation not found");
+  }
   console.log("cancel invite", id);
-  return db
-    .update(invitations)
+  await db
+    .update(invitationsTable)
     .set({
       updatedAt: new Date(),
       code: null,
       expiration: null,
     })
-    .where(eq(invitations.id, id));
+    .where(eq(invitationsTable.id, id));
+
+  invitations.getInvitation.clearCache(id);
+  invitations.getMemberInvitations.clearCache(iam);
 }

@@ -14,7 +14,7 @@ async function getPublicBrandDetail(
   const result = await getBrandDetail(slug);
 
   return {
-    name: result.cms.name,
+    name: result.cms.name!,
     logo: result.cms.passLogo!,
     heroPortrait: result.cms.passBackground!,
     heroLandscape: result.cms.passBackgroundDesktop!,

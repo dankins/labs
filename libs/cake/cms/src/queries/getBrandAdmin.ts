@@ -3,10 +3,10 @@ import { makeSafeQueryRunner, q, sanityImage, Selection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export const brandSelection = {
-  name: q.string(),
   slug: q.slug("slug"),
-  website: q.string(),
-  summary: q.string(),
+  name: q.string().optional().nullable(),
+  website: q.string().optional().nullable(),
+  summary: q.string().optional().nullable(),
   passLogo: sanityImage("pass_logo").nullable(),
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
@@ -35,10 +35,6 @@ const runQuery = makeSafeQueryRunner(
   (q: string, params: Record<string, number | string> = {}) =>
     sanityClient.fetch(q, {
       ...params,
-      // @ts-ignore
-      next: {
-        revalidate: 1, // look for updates to revalidate cache every 60 seconds
-      },
     })
 );
 
@@ -50,6 +46,9 @@ export async function getBrandAdmin(slug: string) {
       .slice(0, 1),
     { slug }
   ).then((x) => {
+    if (x.length === 0) {
+      throw new Error(`Brand not found`);
+    }
     return x[0];
   });
 }

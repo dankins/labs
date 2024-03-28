@@ -1,6 +1,10 @@
 "use client";
 
-import { Button, ButtonProps } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  ButtonProps,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
 import { useQueryStringUpdater } from "./util/searchParams";
 
 export function LinkToStepButton({
@@ -14,8 +18,8 @@ export function LinkToStepButton({
   }
 
   return (
-    <Button {...props} onClick={handleClick}>
+    <PrimaryButton {...props} onClick={handleClick}>
       {children}
-    </Button>
+    </PrimaryButton>
   );
 }

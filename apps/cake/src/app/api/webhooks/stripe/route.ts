@@ -1,5 +1,5 @@
-import stripe, { Stripe } from "stripe";
-import { handleEvent } from "./handleEvent";
+import stripeClient, { Stripe } from "stripe";
+import { stripe } from "@danklabs/cake/services/admin-service";
 
 const webhookSecret = process.env["STRIPE_WEBHOOK_SIGNING_SECRET"]!;
 export async function POST(req: Request) {
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+    event = stripeClient.webhooks.constructEvent(payload, sig, webhookSecret);
   } catch (err: any) {
     // On error, log and return the error message
     console.log(`❌ Error message: ${err.message}`);
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     });
   }
 
-  await handleEvent(event);
+  await stripe.webhooks.handleEvent(event);
 
   return new Response("handled event", {
     status: 200,

@@ -2,36 +2,33 @@ import { CheckoutClient } from "./CheckoutClient";
 
 import {
   checkSubscriptionStatus,
-  createStripeCustomer,
   createSubscription,
   createAccount,
 } from "./actions";
 
 export type CheckoutProps = {
+  cartId: string;
   priceId: string;
-  userId?: string;
-  userEmailAddress?: string;
+  stripeCustomerId: string;
+  couponId?: string;
   metadata?: any;
 };
 
 export function Checkout({
+  cartId,
   priceId,
-  userId,
+  couponId,
+  stripeCustomerId,
   metadata,
-  userEmailAddress,
 }: CheckoutProps) {
   return (
     <CheckoutClient
-      priceId={priceId}
-      userId={userId}
-      userEmailAddress={userEmailAddress}
-      createStripeCustomerAction={createStripeCustomer.bind(
-        undefined,
-        userEmailAddress
-      )}
+      stripeCustomerId={stripeCustomerId}
       createSubscriptionAction={createSubscription.bind(
         undefined,
+        cartId,
         priceId,
+        couponId,
         metadata
       )}
       checkSubscriptionStatus={checkSubscriptionStatus}

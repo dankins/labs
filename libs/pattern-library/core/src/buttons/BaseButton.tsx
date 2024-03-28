@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { Spinner } from "../icons/Spinner";
+import Link from "next/link";
 
 export type ButtonColors =
   | "primary"
@@ -11,7 +12,8 @@ export type ButtonColors =
   | "neutral"
   | string;
 
-export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
+export type ButtonPropsCommon = {
+  href?: string;
   loading?: boolean;
   background?: ButtonColors;
   textColor?: ButtonColors;
@@ -22,9 +24,17 @@ export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   border?: ButtonColors;
   rounded?: "full" | "md";
   icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
   simulateHover?: boolean;
   simulateActive?: boolean;
 };
+
+export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
+  ButtonPropsCommon;
+export type ButtonButtonProps = React.ComponentPropsWithoutRef<"button"> &
+  ButtonPropsCommon;
+
+export type ButtonProps = LinkButtonProps | ButtonButtonProps;
 
 export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -41,13 +51,14 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       background,
       rounded,
       icon,
+      iconPosition = "left",
       ...props
     },
     ref
   ) => {
     let backgroundClass = `bg-${background || "primary"}`;
     let borderClass = border;
-    let textClass = `${textColor} || "text-primary-content"}`;
+    let textClass = textColor || "text-primary-content";
     if (simulateActive) {
       backgroundClass = activeClass?.replace("active:bg-", "bg-")!;
       borderClass = activeClass?.replace("active:border-", "border-");
@@ -63,18 +74,36 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textClass,
       borderClass,
       props.fontWeight && `font-${props.fontWeight}`,
-      rounded && `rounded-${rounded}`,
+      "rounded",
       hoverClass,
       activeClass,
       disabledClass,
-      "inline-block flex flex-row items-center gap-2",
+      "font-button inline-block flex flex-row items-center gap-2",
       loading && "bg-slate-500 text-slate-300 cursor-default",
       props.className
     );
+
+    if (props.href) {
+      return (
+        <Link
+          {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
+          className={className}
+        >
+          {loading ? <Spinner /> : iconPosition === "left" && icon}
+          {children}
+          {icon && iconPosition === "right" && icon}
+        </Link>
+      );
+    }
     return (
-      <button ref={ref} {...props} className={className}>
-        {loading ? <Spinner /> : icon}
+      <button
+        ref={ref}
+        {...(props as React.ComponentPropsWithoutRef<"button">)}
+        className={className}
+      >
+        {loading ? <Spinner /> : iconPosition === "left" && icon}
         {children}
+        {icon && iconPosition === "right" && icon}
       </button>
     );
   }

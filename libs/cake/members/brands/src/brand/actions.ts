@@ -1,9 +1,9 @@
 "use server";
-import { auth } from "@clerk/nextjs";
+
 import {
   addFavorite,
   removeFavorite,
-  claimPass,
+  members,
 } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 
@@ -27,5 +27,5 @@ export async function removeFavoriteAction(
 }
 
 export async function claimPassAction(iam: string, slug: string) {
-  return claimPass(iam, slug);
+  return members.member.claimPass(iam, slug);
 }

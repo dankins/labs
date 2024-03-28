@@ -1,5 +1,5 @@
-import { BrandOffersPage } from "@danklabs/cake/admin/brands";
+import { OffersPage } from "@danklabs/cake/admin";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  return <BrandOffersPage slug={params.slug} />;
+  return <OffersPage slug={params.slug} />;
 }

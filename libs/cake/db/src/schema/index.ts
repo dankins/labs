@@ -11,10 +11,18 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 
+export const membershipStatuses = pgEnum("membership_statuses", [
+  "active",
+  "expired",
+]);
+
 export const members = pgTable("members", {
   id: uuid("id").primaryKey().defaultRandom(),
   iam: text("iam").unique().notNull(),
   invitationId: uuid("invitation_id"),
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  membershipStatus: membershipStatuses("membership_status"),
   invitedBy: uuid("invited_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -46,9 +54,17 @@ export type BrandSettings = {
   };
 };
 
+export const brandStatus = pgEnum("brand_statuses", [
+  "draft",
+  "active",
+  "paused",
+  "deactivated",
+]);
 export const brands = pgTable("brands", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").unique().notNull(),
+  cmsId: text("cms_id").unique(),
+  status: brandStatus("status").notNull().default("draft"),
   admins: jsonb("admins").$type<{ email: string; role: "admin" }[]>().notNull(),
   settings: jsonb("settings").$type<BrandSettings>().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -135,6 +151,16 @@ export const favorites = pgTable("favorites", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const superAdminRoles = pgEnum("super_admin_roles", ["super_admin"]);
+
+export const superAdmins = pgTable("super_admins", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  iam: text("iam").unique().notNull(),
+  role: superAdminRoles("role").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // RELATIONS
 export const membersRelations = relations(members, ({ many, one }) => ({
   invitations: many(invitations),
@@ -213,6 +239,7 @@ export const favoritesRelations = relations(favorites, ({ one, many }) => ({
 }));
 
 // TYPES
+export type Brand = typeof brands.$inferSelect;
 export type Invitation = typeof invitations.$inferSelect;
 export type Member = typeof members.$inferSelect;
 export type Passport = typeof passports.$inferSelect;

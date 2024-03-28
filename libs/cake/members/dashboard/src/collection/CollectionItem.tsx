@@ -3,7 +3,7 @@ import {
   SanityImageServer,
 } from "@danklabs/cake/pattern-library/core";
 import {
-  getMemberCollectionItemType,
+  MemberCollectionItem,
   cachedGetPublicBrandInfo,
 } from "@danklabs/cake/services/admin-service";
 import { Badge } from "@danklabs/pattern-library/core";
@@ -15,7 +15,7 @@ export async function CollectionItem({
   item,
 }: {
   idx: number;
-  item: getMemberCollectionItemType;
+  item: MemberCollectionItem;
 }) {
   return (
     <Suspense fallback={<Loading item={item} idx={idx} />}>
@@ -24,13 +24,7 @@ export async function CollectionItem({
   );
 }
 
-function Loading({
-  item,
-  idx,
-}: {
-  item: getMemberCollectionItemType;
-  idx: number;
-}) {
+function Loading({ item, idx }: { item: MemberCollectionItem; idx: number }) {
   return <Shell idx={idx} slug={item.slug} images={[]}></Shell>;
 }
 
@@ -38,7 +32,7 @@ async function Component({
   item,
   idx,
 }: {
-  item: getMemberCollectionItemType;
+  item: MemberCollectionItem;
   idx: number;
 }) {
   const brandDetail = await cachedGetPublicBrandInfo(item.slug);

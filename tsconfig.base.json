@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@danklabs/cake/admin/brands": ["libs/cake/admin/brands/src/index.ts"],
-      "@danklabs/cake/admin/members": ["libs/cake/admin/members/src/index.ts"],
+      "@danklabs/cake/admin": ["libs/cake/admin/src/index.ts"],
+      "@danklabs/cake/auth": ["libs/cake/auth/src/index.ts"],
       "@danklabs/cake/brand-admin": ["libs/cake/brand-admin/src/index.ts"],
       "@danklabs/cake/cms": ["libs/cake/cms/src/index.ts"],
       "@danklabs/cake/cms-content": ["libs/cake/cms-content/src/index.ts"],

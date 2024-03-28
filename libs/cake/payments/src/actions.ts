@@ -6,73 +6,102 @@ import {
   StripeAddressElementChangeEvent,
 } from "@stripe/stripe-js";
 import Stripe from "stripe";
-import { track } from "@danklabs/cake/events";
-import { cookies } from "next/headers";
+import { SubscriptionReturnType } from "./types";
+import { v4 as uuid } from "uuid";
+import { members } from "@danklabs/cake/services/admin-service";
 
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
-export async function createPaymentIntent() {
-  const session = await stripe.paymentIntents.create({
-    amount: 100 * 100,
-    currency: "usd",
-    payment_method_types: ["card"],
-    metadata: {},
-  });
-
-  if (!session.client_secret) {
-    throw new Error("no client_secret");
-  }
-
-  return { clientSecret: session.client_secret };
-}
-
 // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements#create-customer
 export async function createSubscription(
+  cartId: string,
   priceId: string,
+  coupon: string | undefined,
   metadata: any,
   customerId: string
-) {
-  // Create the subscription. Note we're expanding the Subscription's
-  // latest invoice and that invoice's payment_intent
-  // so we can pass it to the front end to confirm the payment
-  const subscription = await stripe.subscriptions.create({
-    customer: customerId,
-    items: [
-      {
-        price: priceId,
-      },
-    ],
-    payment_behavior: "default_incomplete",
-    payment_settings: { save_default_payment_method: "on_subscription" },
-    expand: ["latest_invoice.payment_intent"],
+): Promise<SubscriptionReturnType> {
+  console.log("creating subscription", {
+    priceId,
     metadata,
+    coupon,
+    customerId,
+    cartId,
   });
 
-  if (!subscription.latest_invoice) {
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "active",
+    expand: ["data.latest_invoice.payment_intent"],
+    // additional filters can be applied if necessary to find the specific subscription
+  });
+
+  let subscription: Stripe.Subscription | undefined;
+  if (subscriptions.data.length > 0) {
+    subscription = subscriptions.data[0];
+  }
+
+  if (!subscription) {
+    // Create the subscription. Note we're expanding the Subscription's
+    // latest invoice and that invoice's payment_intent
+    // so we can pass it to the front end to confirm the payment
+    subscription = await stripe.subscriptions.create(
+      {
+        customer: customerId,
+        items: [
+          {
+            price: priceId,
+          },
+        ],
+        payment_behavior: "default_incomplete",
+        payment_settings: { save_default_payment_method: "on_subscription" },
+        expand: ["latest_invoice.payment_intent"],
+        metadata,
+        coupon,
+      },
+      {
+        idempotencyKey: uuid(),
+      }
+    );
+  }
+
+  console.log("this is the subscription", subscription);
+  if (!subscription) {
+    throw new Error("no subscription");
+  } else if (!subscription.latest_invoice) {
     throw new Error("invoice not provided on subscription");
   } else if (typeof subscription.latest_invoice === "string") {
     throw new Error("latest_invoice object not available");
   }
 
   const invoice = subscription.latest_invoice as Stripe.Invoice;
-  if (!invoice.payment_intent) {
-    throw new Error("payment_intent object not available");
-  } else if (typeof invoice.payment_intent === "string") {
-    throw new Error("payment_intent object not available");
-  }
-  if (!invoice.payment_intent!.client_secret) {
-    throw new Error("no client secret");
-  }
 
-  const clientSecret = invoice.payment_intent!.client_secret;
+  // if (!invoice.payment_intent) {
+  //   throw new Error("payment_intent object not available");
+  // } else if (typeof invoice.payment_intent === "string") {
+  //   throw new Error("payment_intent object not available");
+  // } else if (!invoice.payment_intent!.client_secret) {
+  //   throw new Error("no client secret");
+  // }
+
+  const clientSecret = (invoice.payment_intent as Stripe.PaymentIntent)
+    ?.client_secret;
 
   return {
     subscriptionId: subscription.id,
+    invoiceStatus: invoice.status,
     clientSecret: clientSecret,
+    total: subscription.latest_invoice.total,
+    total_discount_amounts: subscription.latest_invoice
+      .total_discount_amounts as { discount: string; amount: number }[],
+    total_excluding_tax: subscription.latest_invoice.total_excluding_tax!,
+    total_tax_amounts: subscription.latest_invoice.total_tax_amounts.map(
+      (t) => t.amount
+    ),
   };
 }
 
 export async function createStripeCustomer(
+  customerCreatedCallback: (id: string) => void,
   email: string | undefined,
   billing: StripeAddressElementChangeEvent["value"],
   shipping?: StripeAddressElementChangeEvent["value"]
@@ -113,34 +142,19 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   }
 
   if (sub.status === "active") {
-    const user = await clerkClient.users.getUser(userAuth.userId);
-    console.log("subscription is active", user.privateMetadata);
-    if (
-      !user.privateMetadata ||
-      !user.privateMetadata["membershipStatus"] ||
-      !user.privateMetadata["subscriptionId"]
-    ) {
-      user.privateMetadata["membershipStatus"] = "active";
-      user.privateMetadata["subscriptionId"] = subscriptionId;
-      await clerkClient.users.updateUserMetadata(userAuth.userId, {
-        privateMetadata: user.privateMetadata,
-      });
+    const member = await members.member.get(userAuth.userId);
+    console.log("subscription is active", member.iam, subscriptionId);
 
-      console.log("updated user metadata", user.privateMetadata);
-      const email = user.emailAddresses.map((e) => e.emailAddress)[0];
-      track(userAuth.userId!, {
-        name: "Invitation Checkout Completed",
+    if (member.stripeCustomerId !== subscriptionId) {
+      await members.member.updateMembershipStatus(
+        member.iam,
         subscriptionId,
-        email,
-      });
-
-      // delete cart cookie
-      const cookieStore = cookies();
-      cookieStore.delete("invitation_cart");
-
+        "active"
+      );
+      console.log("updated user membership status");
       return { status: "complete" };
     }
-    if (user.privateMetadata["membershipStatus"] === "active") {
+    if (member.membershipStatus === "active") {
       console.log("status is already complete, not doing anything");
       return { status: "complete" };
     }

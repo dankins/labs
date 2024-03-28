@@ -2,9 +2,14 @@
 
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import styles from "./AppHeader.module.scss";
 
-export function SignOut() {
+export function SignOut({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   const router = useRouter();
   const { isLoaded, signOut } = useAuth();
   function onClick() {
@@ -15,8 +20,8 @@ export function SignOut() {
     router.push("/");
   }
   return (
-    <a onClick={onClick} className={styles.signOut}>
-      Sign Out
+    <a onClick={onClick} className={className}>
+      {children}
     </a>
   );
 }

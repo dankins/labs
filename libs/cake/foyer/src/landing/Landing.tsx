@@ -4,9 +4,9 @@ import { getPage } from "@danklabs/cake/cms";
 import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
 import {
   TextInput,
-  Button,
   TicketIcon,
   EmailIcon,
+  SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { submitEmail, submitInviteCode } from "./actions";
 
@@ -26,21 +26,24 @@ export async function Landing({
   const page = await getPage("foyer");
 
   return (
-    <FeatureImageContainer
-      image={page.heroImage!}
-      overlay={<div className="w-full h-full absolute top-0 bg-black/40"></div>}
-    >
-      {validated ? (
-        <InvitationEmail
-          code={code}
-          error={error}
-          jwtEmail={jwtEmail}
-          cookieEmail={cookieEmail}
-        />
-      ) : (
-        <InvitationStart code={code} error={error} />
-      )}
-    </FeatureImageContainer>
+    <div className="max-w-[500px]">
+      <FeatureImageContainer
+        image={page.heroImage!}
+        overlay={
+          <div className="w-full h-full absolute top-0 bg-neutral/70"></div>
+        }
+      >
+        {validated ? (
+          <InvitationEmail
+            error={error}
+            cookieEmail={cookieEmail}
+            jwtEmail={jwtEmail}
+          />
+        ) : (
+          <InvitationStart code={code} error={error} />
+        )}
+      </FeatureImageContainer>
+    </div>
   );
 }
 
@@ -55,7 +58,7 @@ function InvitationStart({
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
       <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-[#FFF6DA] text-6xl font-fancy">Oh, Cake.</h1>
+        <h1 className="text-6xl font-fancy">Oh, Cake.</h1>
         <span className="text-base font-normal leading-6">
           Why do I need an invitation? Like any truly special thing in the
           universe, Cake is not unlimited. Our partners are among the most loved
@@ -71,20 +74,21 @@ function InvitationStart({
       {/** INVITE CODE */}
       <div>
         <form
+          key="code-form"
           action={submitInviteCode}
           className="flex flex-row items-end gap-2"
         >
           <TextInput
+            id="code-input"
+            key="code"
             name="code"
             placeholder="Enter Invitation Code"
             label="Invitation Code"
-            icon={<TicketIcon className="fill-white strokee-white text-xl" />}
+            icon={<TicketIcon />}
             defaultValue={code && code.length > 0 ? code : undefined}
-            className="bg-neutral text-neutral-content"
           />
-          <Button type="submit" background="white">
-            Submit
-          </Button>
+
+          <SecondaryButton type="submit">Submit</SecondaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">
@@ -99,7 +103,7 @@ function InvitationStart({
         <div className="mt-4">
           Already a member?{" "}
           <Link
-            href="/signin"
+            href="/sign-in"
             prefetch={false}
             className="underline text-primary"
           >
@@ -112,12 +116,10 @@ function InvitationStart({
 }
 
 function InvitationEmail({
-  code,
   error,
   cookieEmail,
   jwtEmail,
 }: {
-  code: string | string[] | null | undefined;
   error: string | string[] | undefined;
   cookieEmail?: string;
   jwtEmail?: string;
@@ -126,28 +128,32 @@ function InvitationEmail({
     <div className="h-full flex flex-col px-5">
       {/** WELCOME MESSAGE */}
       <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-[#FFF6DA] text-6xl font-fancy">You’re in!</h1>
+        <h1 className="text-dark text-6xl font-fancy">You’re in!</h1>
         <span className="text-base font-normal leading-6">
           Almost there, we’ll need an email address to setup your account.
         </span>
       </div>
       {/** Email */}
       <div>
-        <form action={submitEmail} className="flex flex-row items-end gap-2">
+        <form
+          key="email-form"
+          id="email-form"
+          action={submitEmail}
+          className="flex flex-row items-end gap-2"
+        >
           <TextInput
             name="email"
             placeholder="Enter Email Address"
             label="Email Address"
-            icon={<EmailIcon className="fill-white strokee-white text-xl" />}
-            className="bg-neutral text-neutral-content"
+            icon={<EmailIcon />}
+            defaultValue={cookieEmail || jwtEmail}
           />
-          <Button type="submit" background="white">
-            Continue
-          </Button>
+
+          <SecondaryButton type="submit">Continue</SecondaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">
-            <span className="text-red-500">Invalid invite code</span>
+            <span className="text-red-500">Invalid email</span>
           </div>
         )}
         {error && error === "expired" && (
@@ -158,7 +164,7 @@ function InvitationEmail({
         <div className="mt-4">
           Already a member?{" "}
           <Link
-            href="/signin"
+            href="/sign-in"
             prefetch={false}
             className="underline text-primary"
           >

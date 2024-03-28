@@ -1,4 +1,4 @@
-import { Button } from "@danklabs/pattern-library/core";
+import { Button, PrimaryButton } from "@danklabs/pattern-library/core";
 import { useElements, AddressElement } from "@stripe/react-stripe-js";
 import {
   StripeAddressElementChangeEvent,
@@ -44,7 +44,7 @@ export function Address({
   if (stripeCustomer) {
     return (
       <div>
-        <h1 className="capitalize">{mode} Address</h1>
+        <h1 className="text-md capitalize">{mode} Address</h1>
         <div>
           <div>{stripeCustomer.billingAddress.name}</div>
           <div>{stripeCustomer.billingAddress.address.line1}</div>
@@ -52,7 +52,7 @@ export function Address({
             <div>{stripeCustomer.billingAddress.address.line2}</div>
           )}
           <div>
-            {stripeCustomer.billingAddress.address.city},
+            {stripeCustomer.billingAddress.address.city},{" "}
             {stripeCustomer.billingAddress.address.state}{" "}
             {stripeCustomer.billingAddress.address.postal_code}{" "}
           </div>
@@ -80,7 +80,7 @@ export function Address({
 
   return (
     <>
-      <h1 className="capitalize">{mode} Address</h1>
+      <h1 className="text-md capitalize">{mode} Address</h1>
       <div className="flex flex-col gap-3 py-5">
         <AddressElement
           options={addressOptions}
@@ -88,9 +88,9 @@ export function Address({
         />
       </div>
 
-      <Button disabled={!complete} onClick={handleSubmit}>
+      <PrimaryButton disabled={!complete} onClick={handleSubmit}>
         Continue
-      </Button>
+      </PrimaryButton>
     </>
   );
 }

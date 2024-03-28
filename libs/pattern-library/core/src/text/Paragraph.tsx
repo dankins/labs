@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 export function Paragraph1({
   children,
   className,
@@ -5,7 +7,7 @@ export function Paragraph1({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="p1">{children}</p>;
+  return <p className={classNames("p1", className)}>{children}</p>;
 }
 
 export function Paragraph2({
@@ -15,7 +17,7 @@ export function Paragraph2({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="p2">{children}</p>;
+  return <p className={classNames("p2", className)}>{children}</p>;
 }
 
 export function Paragraph3({
@@ -25,7 +27,7 @@ export function Paragraph3({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="p3">{children}</p>;
+  return <p className={classNames("3", className)}>{children}</p>;
 }
 
 export function Paragraph4({
@@ -35,5 +37,5 @@ export function Paragraph4({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className="p4">{children}</p>;
+  return <p className={classNames("p4", className)}>{children}</p>;
 }

@@ -5,6 +5,7 @@ import {
   Checkbox,
   CopyIcon,
   EmailIcon,
+  PrimaryButton,
   TextArea,
   TextInput,
   UserIcon,
@@ -41,9 +42,7 @@ export function InviteActionButton({
   }
   return (
     <>
-      <Button background="white" onClick={handleClick}>
-        {cta}
-      </Button>
+      <PrimaryButton onClick={handleClick}>{cta}</PrimaryButton>
       <NewInviteBottomSheet
         assignInviteAction={assignInviteAction}
         emailInviteAction={emailInviteAction}
@@ -87,7 +86,6 @@ export function NewInviteBottomSheet({
         </h1>
         {screen === "create" && (
           <CreateScreen
-            key="create"
             assignInviteAction={assignInviteAction}
             onCreate={(invitation) => {
               setScreen("share");
@@ -97,7 +95,6 @@ export function NewInviteBottomSheet({
         )}
         {screen === "share" && (
           <ShareScreen
-            key="share"
             inviteCode={invite?.code || createdInvite?.code!}
             recipientName={
               invite?.recipientName! || createdInvite?.recipientName!
@@ -143,9 +140,9 @@ function CreateScreen({
         </div>
         <div className="grow"></div>
         <div>
-          <Button type="submit" loading={loading}>
+          <PrimaryButton type="submit" loading={loading}>
             Create Invitation
-          </Button>
+          </PrimaryButton>
         </div>
       </form>
     </motion.div>
@@ -218,7 +215,7 @@ ${link}
                 label="Email Address"
               />
               <div>
-                <Button type="submit">Email Invite</Button>
+                <PrimaryButton type="submit">Email Invite</PrimaryButton>
               </div>
             </div>
           )}

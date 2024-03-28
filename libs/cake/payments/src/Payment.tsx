@@ -10,7 +10,12 @@ import {
   StripePaymentElementChangeEvent,
   StripePaymentElementOptions,
 } from "@stripe/stripe-js";
-import { Button } from "@danklabs/pattern-library/core";
+import {
+  Button,
+  Paragraph1,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
+import { SubscriptionReturnType } from "./types";
 
 export function Payment({
   active,
@@ -19,13 +24,14 @@ export function Payment({
 }: {
   active: boolean;
   stripeCustomerId?: string;
-  createSubscriptionAction(
-    customerId: string
-  ): Promise<{ subscriptionId: string; clientSecret: string }>;
+  createSubscriptionAction(customerId: string): Promise<SubscriptionReturnType>;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  const [subscriptionData, setSubscriptionData] = useState<
+    SubscriptionReturnType | undefined
+  >();
   const [clientSecret, setClientSecret] = useState<string | undefined>();
 
   useEffect(() => {
@@ -41,12 +47,11 @@ export function Payment({
     }
 
     createSubscriptionAction(stripeCustomerId).then((data) => {
-      setClientSecret(data.clientSecret);
-      const current = new URLSearchParams(Array.from(sp.entries()));
-      current.set("subscriptionId", data.subscriptionId);
-      let search = current.toString();
-      search = search ? `?${search}` : "";
-      router.push(`${pathname}${search}`);
+      console.log("setting subscription data", data);
+      setSubscriptionData(data);
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+      }
     });
   }, [stripeCustomerId]);
 
@@ -64,14 +69,62 @@ export function Payment({
     return <div>error: no customer id</div>;
   }
 
+  if (subscriptionData && subscriptionData.invoiceStatus === "paid") {
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center text-center">
+        <Paragraph1 className="text-lg">
+          Good news! Your subscription has been fully comped and will be free of
+          charge!
+        </Paragraph1>
+        <PrimaryButton
+          href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${subscriptionData.subscriptionId}`}
+        >
+          Continue
+        </PrimaryButton>
+      </div>
+    );
+  }
+
   if (!clientSecret) {
-    return <div>loading</div>;
+    return <div>loading {JSON.stringify(subscriptionData, null, 2)}</div>;
   }
 
   return (
     <StripeProvider key={clientSecret} options={options}>
+      <CartSummary subscriptionData={subscriptionData} />
       <PaymentForm />
     </StripeProvider>
+  );
+}
+
+export function CartSummary({
+  subscriptionData,
+}: {
+  subscriptionData?: SubscriptionReturnType;
+}) {
+  if (!subscriptionData) {
+    return <></>;
+  }
+  return (
+    <div>
+      <div>Total: {subscriptionData.total}</div>
+      <div>Total excluding tax: {subscriptionData.total_excluding_tax}</div>
+      <div>
+        Total excluding tax:{" "}
+        {subscriptionData.total_discount_amounts?.map(
+          (d) => `${d.discount} -> ${d.amount}`
+        )}
+      </div>
+      <div>
+        Total Tax:
+        {subscriptionData.total_tax_amounts.map((tax) => tax.toLocaleString())}
+      </div>
+      <div>
+        Total:
+        {subscriptionData.total.toLocaleString()}
+      </div>
+      <div></div>
+    </div>
   );
 }
 
@@ -124,12 +177,12 @@ export function PaymentForm() {
         onChange={handlePaymentChange}
       />
       <div className="my-5">
-        <Button
+        <PrimaryButton
           onClick={handleSubmit}
           disabled={!formComplete || !stripe || !elements || loading}
         >
           Purchase Membership
-        </Button>
+        </PrimaryButton>
       </div>
     </>
   );

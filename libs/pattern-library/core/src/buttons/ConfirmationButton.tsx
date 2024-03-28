@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "./Button";
 import { ButtonProps } from "./BaseButton";
 import { ActionButtonProps } from "./ActionButton";
+import { PrimaryButton } from "./PrimaryButton";
+import { SecondaryButton } from "./SecondaryButton";
 
 export type ConfirmationButtonProps = {
   confirmMessage?: React.ReactNode;
@@ -39,18 +41,22 @@ export function ConfirmationButton({
     return (
       <div className="flex flex-row gap-2 items-center">
         {confirmMessage}
-        <Button onClick={handleConfirmation} loading={loading}>
+        <PrimaryButton onClick={handleConfirmation} loading={loading}>
           {confirmCta}
-        </Button>
-        {!loading && <Button onClick={handleRejection}>{rejectCta}</Button>}
+        </PrimaryButton>
+        {!loading && (
+          <SecondaryButton onClick={handleRejection}>
+            {rejectCta}
+          </SecondaryButton>
+        )}
       </div>
     );
   }
   if (state === "ready") {
     return (
-      <Button {...rest} onClick={handleClick} loading={loading}>
+      <PrimaryButton {...rest} onClick={handleClick} loading={loading}>
         {children}
-      </Button>
+      </PrimaryButton>
     );
   }
 

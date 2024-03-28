@@ -1,11 +1,10 @@
 import { cookies } from "next/headers";
+import { v4 as uuid } from "uuid";
 
 const CART_COOKIE_NAME = "invitation_cart";
 export type CartCookie = {
+  id: string;
   code: string;
-  selectedBrands: string[];
-  totalValue: number;
-  stripeCustomerId?: string;
   email?: string;
 };
 
@@ -25,9 +24,8 @@ function getCart(): CartCookie {
 
 export function startCookie(code: string) {
   setCart({
+    id: uuid(),
     code,
-    selectedBrands: [],
-    totalValue: 0,
   });
 }
 

@@ -1,5 +1,4 @@
 import { CollectionItemInterceptModal } from "@danklabs/cake/members/dashboard";
-import { BottomSheet, InterceptModal } from "@danklabs/pattern-library/core";
 
 export default function ({
   params,

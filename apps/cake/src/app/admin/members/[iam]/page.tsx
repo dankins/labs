@@ -1,4 +1,4 @@
-import { MemberDetail } from "@danklabs/cake/admin/members";
+import { MemberDetail } from "@danklabs/cake/admin";
 
 export default function Page({
   params,
