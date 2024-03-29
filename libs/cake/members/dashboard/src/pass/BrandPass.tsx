@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { getBrandPassOffers } from "@danklabs/cake/services/admin-service";
 import { getBrandAdmin } from "@danklabs/cake/cms";
 import {
@@ -8,10 +8,7 @@ import {
 } from "@danklabs/pattern-library/core";
 
 export async function BrandPass({ brandSlug }: { brandSlug: string }) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("not authenticated");
-  }
+  const { userId } = auth().protect();
   const [result, cmsData] = await Promise.all([
     getBrandPassOffers(userId, brandSlug),
     getBrandAdmin(brandSlug),

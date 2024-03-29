@@ -1,8 +1,9 @@
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import Stripe from "stripe";
 import { CancelSubscription } from "./CancelSubscription";
 import { ResumeSubscription } from "./ResumeSubscription";
+import { members } from "@danklabs/cake/services/admin-service";
 
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
@@ -11,10 +12,9 @@ type StripeSubscription = Awaited<
 >;
 
 export async function ManageSubscription() {
-  const user = await currentUser();
-  const subscriptionId = user?.privateMetadata["subscriptionId"] as
-    | string
-    | undefined;
+  const { userId } = auth().protect();
+  const member = await members.member.get(userId);
+  const subscriptionId = member.stripeSubscriptionId;
   if (!subscriptionId) {
     throw new Error("no subscription id");
   }

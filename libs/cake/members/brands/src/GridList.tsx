@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -50,10 +50,7 @@ export async function Loading() {
 export async function Component({ perspective }: { perspective?: string }) {
   let validatedSort: Parameters<typeof cachedGetBrands>[1] = "asc";
 
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("userid not available");
-  }
+  const { userId } = auth().protect();
 
   const member = await members.member.get(userId);
   let validatedPerspective = "member";

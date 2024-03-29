@@ -19,5 +19,6 @@ export type Member = {
   isBrandManager: boolean;
   membershipStatus: "active" | "expired" | undefined;
   stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
   collection: MemberCollection;
 };

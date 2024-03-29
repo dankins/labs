@@ -1,6 +1,5 @@
-import { clerkClient } from "@clerk/nextjs";
-import { identify, trackProfileUpdated } from "@danklabs/cake/events";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { clerkClient } from "@clerk/nextjs/server";
+import { trackProfileUpdated } from "@danklabs/cake/events";
 import { clearCache } from "./clearCache";
 
 export type Profile = {

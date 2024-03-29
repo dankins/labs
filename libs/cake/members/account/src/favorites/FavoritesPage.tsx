@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { getBrands } from "@danklabs/cake/cms";
 import { SanityImage } from "@danklabs/cake/pattern-library/core";
 import { getFavorites } from "@danklabs/cake/services/admin-service";
@@ -20,10 +20,8 @@ export async function FavoritesPage() {
 }
 
 async function Component() {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("not authenticated");
-  }
+  const { userId } = auth().protect();
+
   const faves = await getFavorites(userId);
   const { brands: cmsBrands } = await getBrands();
   const memberId = faves[0]?.members.id;

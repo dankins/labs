@@ -1,5 +1,5 @@
-import { clerkClient } from "@clerk/nextjs";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { clerkClient } from "@clerk/nextjs/server";
+import { unstable_cache } from "next/cache";
 import { superadmin } from "../../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
@@ -57,6 +57,7 @@ async function getMember(iam: string): Promise<Member> {
     firstName: iamMember.firstName,
     lastName: iamMember.lastName,
     stripeCustomerId: dbMember.stripeCustomerId || undefined,
+    stripeSubscriptionId: dbMember.stripeSubscriptionId || undefined,
     email: iamMember.emailAddresses.filter(
       (e) => e.id === iamMember.primaryEmailAddressId
     )[0].emailAddress!,

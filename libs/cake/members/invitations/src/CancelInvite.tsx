@@ -4,14 +4,10 @@ import {
   SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { cancelInviteAction } from "./actions";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 export async function CancelInvite({ invitationId }: { invitationId: string }) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("no user id");
-  }
-
+  const { userId } = auth().protect();
   return (
     <div className="p-4 text-center flex flex-col gap-4">
       <Paragraph1>Are you sure you want to cancel this invitation?</Paragraph1>

@@ -1,4 +1,4 @@
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { brands, db } from "@danklabs/cake/db";
 import { sql } from "drizzle-orm";
 import { revalidateTag, unstable_cache } from "next/cache";

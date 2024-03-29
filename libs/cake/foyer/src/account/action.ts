@@ -2,7 +2,7 @@
 
 import { identify, track } from "libs/cake/events/src/server/serverTracking";
 import type { Name, Address, Contact } from "./AccountStep";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { UserTraits } from "@segment/analytics-next";
 import { TrackInvitationAccountCompleted } from "@danklabs/cake/events";
@@ -13,10 +13,7 @@ export async function completeAccountStepAction(
   address: Address,
   contact: Contact
 ) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("user not authenticated");
-  }
+  const { userId } = auth().protect();
 
   const event: TrackInvitationAccountCompleted = {
     name: "Invitation Account Completed",

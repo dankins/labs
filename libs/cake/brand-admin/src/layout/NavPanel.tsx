@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Nav } from "./Nav";
-import { UserButton, auth } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { Suspense } from "react";
 import {
   cachedGetBrandAdminOptions,

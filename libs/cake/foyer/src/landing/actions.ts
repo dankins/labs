@@ -12,7 +12,7 @@ import {
   trackInvitationCodeSubmitted,
   trackInvitationEmailSubmitted,
 } from "@danklabs/cake/events";
-import { clerkClient, currentUser, auth } from "@clerk/nextjs";
+import { clerkClient, auth } from "@clerk/nextjs/server";
 import { members } from "@danklabs/cake/services/admin-service";
 
 export async function submitEmail(formData: FormData): Promise<void> {

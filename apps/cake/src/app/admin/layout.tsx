@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { AdminSectionLayout } from "@danklabs/cake/admin";
 import { superadmin } from "@danklabs/cake/services/admin-service";
 import { redirect } from "next/navigation";
@@ -15,10 +15,7 @@ export default async function Layout({
 }
 
 async function isSuperAdmin() {
-  const { userId } = auth();
-  if (!userId) {
-    return false;
-  }
+  const { userId } = auth().protect();
 
   const superAdmins = await superadmin.cachedGetSuperAdmins();
   return superAdmins.map((a) => a.iam).includes(userId);

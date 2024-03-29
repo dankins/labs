@@ -1,6 +1,6 @@
 "use server";
 import z from "zod";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import {
   AddressParam,
   StripeAddressElementChangeEvent,
@@ -185,7 +185,7 @@ export async function createAccount(
     emailAddress: [data.email],
   });
 
-  if (users.length > 0) {
+  if (users.data.length > 0) {
     return { error: "ACCOUNT_EXISTS" };
   }
   const result = await clerkClient.users.createUser(request);

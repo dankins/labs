@@ -1,5 +1,5 @@
 "use server";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { z } from "zod";
 
 import { validateFormData } from "@danklabs/utils";

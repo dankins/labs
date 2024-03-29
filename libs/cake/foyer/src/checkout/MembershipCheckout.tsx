@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
 import { getCartIfAvailable } from "../cookie";
@@ -11,10 +11,7 @@ export async function MembershipCheckout({
 }: {
   invitation: Invitation;
 }) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("not authenticated");
-  }
+  const { userId } = auth().protect();
   const user = await members.member.get(userId);
 
   const cart = getCartIfAvailable();

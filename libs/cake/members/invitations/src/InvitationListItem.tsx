@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -38,10 +38,8 @@ export function InvitationListItem({ invite }: InvitationListItemProps) {
 }
 
 function AvailableInvite({ invite }: InvitationListItemProps) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("invalid user id");
-  }
+  const { userId } = auth().protect();
+
   return (
     <Container>
       <h1 className="uppercase text-lg font-medium flex flex-row items-center gap-1">

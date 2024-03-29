@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { ShareInviteClient } from "./ShareInviteClient";
 import { emailInviteAction } from "./actions";
 import { invitations } from "@danklabs/cake/services/admin-service";

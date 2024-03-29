@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import {
