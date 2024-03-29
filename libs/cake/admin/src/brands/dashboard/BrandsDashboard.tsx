@@ -35,10 +35,7 @@ async function Component() {
       <AdminPageHeader>
         <h1 className="text-3xl grow">All Brands</h1>
 
-        <PrimaryButton
-          className="self-align-end"
-          href={`/admin/brands?action=add`}
-        >
+        <PrimaryButton className="self-align-end" href={`?action=add`}>
           Add Brand
         </PrimaryButton>
       </AdminPageHeader>

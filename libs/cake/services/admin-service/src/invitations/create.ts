@@ -3,7 +3,7 @@ import { db, invitations } from "@danklabs/cake/db";
 const NEW_MEMBER_INVITATIONS = 2;
 const NEW_MEMBER_MAX_REDEMPTIONS = 1;
 
-export async function create(memberId: string) {
+export async function create(memberId: string, amount?: number) {
   type NewInvitation = typeof invitations.$inferInsert;
   const newInvitatations: NewInvitation[] = new Array(NEW_MEMBER_INVITATIONS)
     .fill(undefined)

@@ -23,6 +23,7 @@ export const members = pgTable("members", {
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
   membershipStatus: membershipStatuses("membership_status"),
+  maxCollectionItems: integer("max_collection_items"),
   invitedBy: uuid("invited_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -37,6 +38,10 @@ export const invitations = pgTable("invitations", {
   code: text("code").unique(),
   expiration: timestamp("expiration"),
   coupon: text("coupon"),
+  campaign: text("campaign"),
+  revshare: numeric("revshare"),
+  invitationsGranted: integer("invitations_granted"),
+  collectionItemsGranted: integer("collection_items_granted"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

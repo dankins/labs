@@ -42,7 +42,10 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   await invitations.incrementRedemptions(invitation.id);
 
   // create invitations for the member
-  await invitations.create(member.id);
+  await invitations.create(
+    member.id,
+    invitation.invitationsGranted || undefined
+  );
 
   const renewalDate = determineRenewalDate(event);
   await trackEvent(member.iam, member.email, invitation, renewalDate);

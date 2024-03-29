@@ -8,6 +8,7 @@ import {
   MembersIcon,
   OffersIcon,
   SettingsIcon,
+  TicketIcon,
   UserIcon,
 } from "@danklabs/pattern-library/core";
 import nav from "./Nav.module.scss";
@@ -81,19 +82,26 @@ export function Nav() {
             )}
           </NavItem>
           <NavItem
+            href="/admin/invitations"
+            title="Invitations"
+            icon={TicketIcon}
+            activeSection={segments[0] === "invitations"}
+            activePage={segments.length === 1 && segments[0] === "invitations"}
+          />
+          <NavItem
             href="/admin/members"
             title="Members"
             icon={UserIcon}
             activeSection={segments[0] === "members"}
             activePage={segments.length === 1 && segments[0] === "members"}
-          ></NavItem>
+          />
           <NavItem
             href="/admin/settings"
             title="Settings"
             icon={SettingsIcon}
             activeSection={segments[0] === "settings"}
             activePage={segments.length === 1 && segments[0] === "settings"}
-          ></NavItem>
+          />
         </nav>
       </div>
       <div className="p-4">
