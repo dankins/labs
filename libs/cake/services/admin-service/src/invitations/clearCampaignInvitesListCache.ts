@@ -1,6 +1,6 @@
 import { revalidateTag } from "next/cache";
-import { getCampaignInvitesTag } from "./getCampaignInvites";
+import { getCampaignsTag } from "./getCampaigns";
 
 export async function clearCampaignInvitesListCache() {
-  revalidateTag(getCampaignInvitesTag());
+  revalidateTag(getCampaignsTag());
 }

@@ -4,8 +4,9 @@ import {
   PageContent,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
-import { CreateCampaignInviteModal } from "./CreateCampaignInviteModal";
-import { CampaignInvitesList } from "./CampaignInvitesList";
+import { CreateCampaignModal } from "./CreateCampaignModal";
+import { InvitationCampaignsList } from "./InvitationCampaignsList";
+import { CreateInvitesModal } from "./CreateInvitesModal";
 
 export async function InvitationsPage({
   searchParams,
@@ -15,19 +16,25 @@ export async function InvitationsPage({
   return (
     <>
       {searchParams && searchParams.action === "create" && (
-        <CreateCampaignInviteModal />
+        <CreateCampaignModal />
+      )}
+      {searchParams && searchParams.action === "create-invites" && (
+        <CreateInvitesModal
+          mode={searchParams["mode"] as string}
+          campaignSlug={searchParams["campaign"] as string}
+        />
       )}
       <PageContent>
         <div>
           <AdminPageHeader>
-            <Heading1 className="text-3xl grow">Campaign Invitations</Heading1>
+            <Heading1 className="text-3xl grow">Invitation Campaigns</Heading1>
 
             <PrimaryButton className="self-align-end" href={`?action=create`}>
               Create
             </PrimaryButton>
           </AdminPageHeader>
         </div>
-        <CampaignInvitesList />
+        <InvitationCampaignsList />
       </PageContent>
     </>
   );

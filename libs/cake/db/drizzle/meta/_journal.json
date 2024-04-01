@@ -155,6 +155,20 @@
       "when": 1711651437444,
       "tag": "0021_flashy_forge",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1711734011010,
+      "tag": "0022_quick_vertigo",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1711746084724,
+      "tag": "0023_lame_wallflower",
+      "breakpoints": true
     }
   ]
 }

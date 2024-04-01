@@ -15,6 +15,7 @@ export type ButtonColors =
 export type ButtonPropsCommon = {
   href?: string;
   loading?: boolean;
+  active?: boolean;
   background?: ButtonColors;
   textColor?: ButtonColors;
   disabledClass?: string;
@@ -59,7 +60,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     let backgroundClass = `bg-${background || "primary"}`;
     let borderClass = border;
     let textClass = textColor || "text-primary-content";
-    if (simulateActive) {
+    if (simulateActive || props.active) {
       backgroundClass = activeClass?.replace("active:bg-", "bg-")!;
       borderClass = activeClass?.replace("active:border-", "border-");
       textClass = activeClass?.replace("active:text-", "text-")!;

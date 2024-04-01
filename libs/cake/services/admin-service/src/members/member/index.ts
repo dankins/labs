@@ -6,6 +6,7 @@ import { updateMembershipStatus } from "./updateMembershipStatus";
 import { create } from "./create";
 import { updateProfile } from "./updateProfile";
 import { claimPass } from "./claimPass";
+import { getOrCreateByEmail } from "./getOrCreateByEmail";
 
 export const member = {
   get: cachedGetMember,
@@ -16,4 +17,5 @@ export const member = {
   create,
   updateProfile,
   claimPass,
+  getOrCreateByEmail,
 };

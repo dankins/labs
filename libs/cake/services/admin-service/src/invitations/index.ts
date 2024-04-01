@@ -6,9 +6,11 @@ import { getByCode } from "./getByCode";
 import { getMemberInvitations } from "./getMemberInvitations";
 import { create } from "./create";
 import { incrementRedemptions } from "./incrementRedemptions";
-import { getCampaignInvites } from "./getCampaignInvites";
+import { getCampaigns } from "./getCampaigns";
 import { clearCampaignInvitesListCache } from "./clearCampaignInvitesListCache";
-import { createCampaignInvitation } from "./createCampaignInvitation";
+import { createCampaign } from "./createCampaign";
+import { getCampaign } from "./getCampaign";
+import { createCampaignInvitations } from "./createCampaignInvitations";
 
 export const invitations = {
   assignInvite,
@@ -19,7 +21,9 @@ export const invitations = {
   create,
   incrementRedemptions,
   getByCode,
-  getCampaignInvites,
+  getCampaign,
+  getCampaigns,
   clearCampaignInvitesListCache,
-  createCampaignInvitation,
+  createCampaign,
+  createCampaignInvitations,
 };

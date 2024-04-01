@@ -28,16 +28,30 @@ export const members = pgTable("members", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const invitationCampaigns = pgTable("invitation_campaigns", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  slug: text("slug").unique().notNull(),
+  name: text("name").notNull(),
+  invitationsGranted: integer("invitations_granted").notNull(),
+  collectionItemsGranted: integer("collection_items_granted").notNull(),
+  revshare: numeric("revshare"),
+  coupon: text("coupon"),
+  memberId: uuid("member_id").references(() => members.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const invitations = pgTable("invitations", {
   id: uuid("id").primaryKey().defaultRandom(),
+  campaignId: uuid("campaign_id").references(() => invitationCampaigns.id),
   memberId: uuid("member_id").references(() => members.id),
+  tranche: text("tranche"),
   recipientName: text("recipient_name"),
   redemptions: integer("redemptions").notNull().default(0),
   maxRedemptions: integer("max_redemptions").notNull(),
   code: text("code").unique(),
   expiration: timestamp("expiration"),
   coupon: text("coupon"),
-  campaign: text("campaign"),
   revshare: numeric("revshare"),
   invitationsGranted: integer("invitations_granted"),
   collectionItemsGranted: integer("collection_items_granted"),
@@ -245,6 +259,7 @@ export const favoritesRelations = relations(favorites, ({ one, many }) => ({
 // TYPES
 export type Brand = typeof brands.$inferSelect;
 export type Invitation = typeof invitations.$inferSelect;
+export type InvitationCampaign = typeof invitationCampaigns.$inferSelect;
 export type Member = typeof members.$inferSelect;
 export type Passport = typeof passports.$inferSelect;
 export type Offer = typeof offers.$inferSelect;

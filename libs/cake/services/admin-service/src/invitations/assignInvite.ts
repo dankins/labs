@@ -9,16 +9,9 @@ import dayjs from "dayjs";
 import { invitations } from "@danklabs/cake/services/admin-service";
 import { member as memberAPI } from "../members/member";
 import { trackInvitationActivated } from "@danklabs/cake/events";
+import { generate } from "langchain/dist/util/fast-json-patch";
 
-export async function assignInvite(
-  inviteId: string,
-  name: string
-): Promise<{
-  id: string;
-  recipientName: string;
-  code: string;
-  expiration: Date;
-}> {
+export function generateInviteCode(prefix?: string) {
   const adverb = faker.word.adverb({
     length: { min: 5, max: 12 },
     strategy: "longest",
@@ -32,7 +25,19 @@ export async function assignInvite(
     strategy: "longest",
   });
 
-  const newCode = `${adverb}-${adjective}-${noun}`;
+  return `${prefix ? `${prefix}-` : ""}${adverb}-${adjective}-${noun}`;
+}
+
+export async function assignInvite(
+  inviteId: string,
+  name: string
+): Promise<{
+  id: string;
+  recipientName: string;
+  code: string;
+  expiration: Date;
+}> {
+  const newCode = generateInviteCode();
   const newExpiration = dayjs().add(7, "day").toDate();
 
   const invitation = await db.query.invitations.findFirst({
