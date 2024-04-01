@@ -1,6 +1,6 @@
 import { brands, db } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 export async function getBrandOffers(slug: string) {
   const brandWithOffers = await db.query.brands.findFirst({
     where: eq(brands.slug, slug),
@@ -16,10 +16,18 @@ export async function getBrandOffers(slug: string) {
   return brandWithOffers;
 }
 
+function tag(slug: string) {
+  return `get-brand-offers-${slug}`;
+}
+
 export async function cachedGetBrandOffers(slug: string) {
-  const fn = unstable_cache(getBrandOffers, [`get-brand-offers-${slug}`], {
-    tags: [`get-brand-offers-${slug}`],
+  const fn = unstable_cache(getBrandOffers, [tag(slug)], {
+    tags: [tag(slug)],
   });
 
   return fn(slug);
+}
+
+export function clearCacheBrandOffers(slug: string) {
+  revalidateTag(tag(slug));
 }

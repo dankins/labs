@@ -1,5 +1,4 @@
 export * from "./createBrandOfferCodes";
-export * from "./createBrandPassOffer";
 
 export * from "./getBrandAdminData";
 export * from "./getBrandPassOffer";
@@ -19,5 +18,6 @@ export * from "./tiktok";
 export * from "./super-admin";
 export * from "./stripe";
 
+export * from "./admin";
 export * from "./members";
 export * from "./invitations";

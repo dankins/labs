@@ -3,19 +3,11 @@
 import {
   addBrand,
   createBrandOfferCodes,
-  createBrandPassOffer,
   superadmin,
 } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import type { brandStatus } from "@danklabs/cake/db";
-
-export async function createOffer(brandSlug: string, brandId: string) {
-  console.log("create offer", brandId);
-  await createBrandPassOffer(brandId, true);
-  revalidatePath(`/admin/brands/${brandSlug}/`);
-}
 
 export async function createCodes(
   brandSlug: string,
