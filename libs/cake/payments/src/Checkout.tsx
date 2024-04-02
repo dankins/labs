@@ -1,10 +1,6 @@
 import { CheckoutClient } from "./CheckoutClient";
 
-import {
-  checkSubscriptionStatus,
-  createSubscription,
-  createAccount,
-} from "./actions";
+import { checkSubscriptionStatus, createSubscription } from "./actions";
 
 export type CheckoutProps = {
   cartId: string;
@@ -32,7 +28,6 @@ export function Checkout({
         metadata
       )}
       checkSubscriptionStatus={checkSubscriptionStatus}
-      createAccount={createAccount}
     />
   );
 }

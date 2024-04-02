@@ -1,6 +1,8 @@
 import { db, members, passports } from "@danklabs/cake/db";
 import { clearCache } from "./clearCache";
 
+export const DEFAULT_MAX_COLLECTION_ITEMS = 10;
+
 export async function create(
   iam: string,
   data: Omit<typeof members.$inferInsert, "iam" | "createdAt" | "updatedAt">

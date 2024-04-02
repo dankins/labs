@@ -12,8 +12,8 @@ import {
 import React, { useState } from "react";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { validateFormData } from "@danklabs/utils";
-import { defaultErrorMap, z } from "zod";
-import { CodeValidationResult, ValidateCode } from "./ValidateCode";
+import { z } from "zod";
+import { ValidateCode } from "./ValidateCode";
 import { AlreadyLoggedIn } from "./AlreadyLoggedIn";
 
 const EMAIL_ADDRESS_EXISTS = "form_identifier_exists";

@@ -23,6 +23,7 @@ export const members = pgTable("members", {
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
   membershipStatus: membershipStatuses("membership_status"),
+  maxCollectionItems: integer("max_collection_items").notNull(),
   invitedBy: uuid("invited_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

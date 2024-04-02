@@ -4,7 +4,7 @@ import {
   invitations,
   members,
 } from "@danklabs/cake/db";
-import { eq, isNotNull, sql, sum } from "drizzle-orm";
+import { eq, isNotNull, max, sql, sum } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 
 async function fn() {
@@ -12,9 +12,11 @@ async function fn() {
     .select({
       id: invitationCampaigns.id,
       campaign: invitationCampaigns.name,
-      campaign_slug: invitationCampaigns.slug,
-      member_id: members.id,
-      member_iam: members.iam,
+      campaignSlug: invitationCampaigns.slug,
+      campaignCollectionItems: max(invitationCampaigns.collectionItemsGranted),
+      campaignInvitationsGranted: max(invitationCampaigns.invitationsGranted),
+      memberId: members.id,
+      memberIam: members.iam,
       tranche: invitations.tranche,
       redemptions: sum(invitations.redemptions),
       max_redemptions: sum(invitations.maxRedemptions),
@@ -33,12 +35,10 @@ async function fn() {
     .groupBy(invitationCampaigns.id, members.id, invitations.tranche);
 
   let campaigns: {
-    [key: string]: {
-      id: string;
-      campaign: string;
-      campaignSlug: string;
-      memberId: string | null;
-      memberIam: string | null;
+    [key: string]: Omit<
+      (typeof results)[0],
+      "tranche" | "redemptions" | "max_redemptions" | "mode" | "code"
+    > & {
       tranches: {
         tranche: string | null;
         redemptions: number | null;
@@ -54,9 +54,11 @@ async function fn() {
       campaigns[result.id] = {
         id: result.id,
         campaign: result.campaign,
-        campaignSlug: result.campaign_slug,
-        memberId: result.member_id,
-        memberIam: result.member_iam,
+        campaignSlug: result.campaignSlug,
+        campaignCollectionItems: result.campaignCollectionItems,
+        campaignInvitationsGranted: result.campaignInvitationsGranted,
+        memberId: result.memberId,
+        memberIam: result.memberIam,
         tranches: [],
       };
     }

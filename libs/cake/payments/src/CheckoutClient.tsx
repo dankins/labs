@@ -1,13 +1,10 @@
 "use client";
-import React, { useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
 import { StripeProvider } from "./StripeProvider";
-import { Address } from "./Address";
 import { CheckoutSection } from "./CheckoutSection";
 import { Payment } from "./Payment";
-import { Account } from "./Account";
 import { StripeAddressElementChangeEvent } from "@stripe/stripe-js";
 import { Success } from "./Success";
 import { SubscriptionReturnType } from "./types";
@@ -18,12 +15,6 @@ export type CheckoutProps = {
   checkSubscriptionStatus(subscriptionId: string): Promise<{
     status: "incomplete" | "pending" | "complete";
   }>;
-  createAccount(
-    formData: FormData
-  ): Promise<
-    | { error?: undefined; userId: string; ticket: string }
-    | { error: "ACCOUNT_EXISTS" }
-  >;
 };
 
 export type StripeCustomer = {
@@ -37,7 +28,6 @@ export function CheckoutClient({
   checkSubscriptionStatus,
 }: CheckoutProps) {
   const sp = useSearchParams();
-  // const [stripeCustomer, setStripeCustomer] = useState<StripeCustomer>();
   let active = "payment";
 
   if (sp.get("redirect_status") && sp.get("redirect_status") === "succeeded") {

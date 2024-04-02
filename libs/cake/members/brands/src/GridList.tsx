@@ -94,7 +94,10 @@ function BrandGrid({
     <>
       <div className="my-5 flex flex-row items-center">
         <div className="grow">
-          <span>{Object.keys(collection).length} / 10</span> in Collections
+          <span>
+            {Object.keys(collection).length} / {collection.maxCollectionItems}
+          </span>{" "}
+          in Collections
         </div>
         <div>
           <PrimaryButton>Sort</PrimaryButton>
@@ -102,7 +105,7 @@ function BrandGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5">
         {brands.map((b) => (
-          <GridItem brand={b} pass={collection.itemMap[b.slug]} />
+          <GridItem key={b.id} brand={b} pass={collection.itemMap[b.slug]} />
         ))}
       </div>
     </>

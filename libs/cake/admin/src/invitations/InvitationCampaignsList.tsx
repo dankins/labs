@@ -66,6 +66,16 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
       >
         <div className="flex flex-row gap-2">
           <Heading3 className="grow">{campaign.campaign}</Heading3>
+          {campaign.campaignCollectionItems && (
+            <Badge className="text-black/40">
+              {campaign.campaignCollectionItems} brands
+            </Badge>
+          )}
+          {campaign.campaignInvitationsGranted && (
+            <Badge className="text-black/40">
+              {campaign.campaignInvitationsGranted} invitations
+            </Badge>
+          )}
           <SecondaryButton
             href={`?action=create-invites&campaign=${campaign.campaignSlug}&mode=multi-use`}
             icon={<AddIcon />}

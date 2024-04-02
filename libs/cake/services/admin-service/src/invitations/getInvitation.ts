@@ -5,6 +5,9 @@ import { revalidateTag, unstable_cache } from "next/cache";
 async function fn(invitationId: string) {
   return db.query.invitations.findFirst({
     where: eq(invitations.id, invitationId),
+    with: {
+      campaign: true,
+    },
   });
 }
 

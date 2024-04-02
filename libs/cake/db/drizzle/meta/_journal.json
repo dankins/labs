@@ -169,6 +169,20 @@
       "when": 1711746084724,
       "tag": "0023_lame_wallflower",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1712077832621,
+      "tag": "0024_vengeful_susan_delgado",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1712077989043,
+      "tag": "0025_exotic_jocasta",
+      "breakpoints": true
     }
   ]
 }

@@ -7,6 +7,7 @@ export type MemberCollection = {
   value: number;
   count: number;
   remaining: number;
+  maxCollectionItems: number;
   itemMap: { [key: string]: MemberCollectionItem };
 };
 export type Member = {

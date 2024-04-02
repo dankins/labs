@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import { superadmin } from "../../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { create } from "./create";
+import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { Member, MemberCollection } from "./types";
 
 async function getMember(iam: string): Promise<Member> {
@@ -13,7 +13,7 @@ async function getMember(iam: string): Promise<Member> {
   }
   let dbMember = await getDbUser(iam);
   if (!dbMember) {
-    await create(iam, {});
+    await create(iam, { maxCollectionItems: DEFAULT_MAX_COLLECTION_ITEMS });
     dbMember = await getDbUser(iam);
   }
   if (!dbMember) {
@@ -25,6 +25,7 @@ async function getMember(iam: string): Promise<Member> {
     value: 0,
     count: 0,
     remaining: 0,
+    maxCollectionItems: dbMember.maxCollectionItems,
     itemMap: {},
   };
 
@@ -42,6 +43,8 @@ async function getMember(iam: string): Promise<Member> {
       value: itemValue,
     };
   });
+
+  collection.remaining = collection.maxCollectionItems - collection.count;
 
   let id = dbMember?.id;
 
