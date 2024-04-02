@@ -1,17 +1,13 @@
 import React from "react";
-import { BaseButton, ButtonProps } from "./BaseButton";
+import { BaseButton } from "./BaseButton";
 import classNames from "classnames";
 
-export type CircleButtonProps = {
-  size: 24;
-} & ButtonProps;
-export const CircleButton = React.forwardRef<
-  HTMLButtonElement,
-  CircleButtonProps
->(({ size, children, ...props }, ref) => {
+export function CircleButton({
+  children,
+  ...props
+}: React.ComponentProps<typeof BaseButton>) {
   return (
     <BaseButton
-      ref={ref}
       {...props}
       rounded="full"
       background={props.background || "primary"}
@@ -25,4 +21,4 @@ export const CircleButton = React.forwardRef<
       {children}
     </BaseButton>
   );
-});
+}

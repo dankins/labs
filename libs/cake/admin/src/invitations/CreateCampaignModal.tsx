@@ -12,7 +12,7 @@ export async function CreateCampaignModal() {
     <InterceptModal returnHref={`/admin/invitations`}>
       <FormAction
         action={createCampaignAction}
-        className="p-4 flex flex-col gap-4"
+        className="p-6 flex flex-col gap-4"
         cta="Create"
       >
         <Heading3>Create Invitation Campaign</Heading3>

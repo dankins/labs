@@ -3,6 +3,7 @@ import styles from "./InterceptModal.module.scss";
 import { BackLink } from "./BackLink";
 
 export function InterceptModal({
+  returnHref,
   children,
 }: {
   children: React.ReactNode;
@@ -10,9 +11,9 @@ export function InterceptModal({
 }) {
   return (
     <div className={styles.InterceptModal}>
-      <BackLink>
+      <Link href={returnHref} className="cursor-default">
         <div></div>
-      </BackLink>
+      </Link>
       <div>{children}</div>
     </div>
   );

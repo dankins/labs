@@ -28,6 +28,7 @@ export type ButtonPropsCommon = {
   iconPosition?: "left" | "right";
   simulateHover?: boolean;
   simulateActive?: boolean;
+  size?: "sm" | "md" | "lg";
 };
 
 export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
@@ -53,6 +54,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rounded,
       icon,
       iconPosition = "left",
+      size = "md",
       ...props
     },
     ref
@@ -69,8 +71,16 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       borderClass = hoverClass?.replace("hover:border-", "border-");
       textClass = hoverClass?.replace("hover:text-", "text-")!;
     }
+    let padding = "py-2 px-4";
+    let fontSize = "text-md";
+    if (size === "sm") {
+      fontSize = "text-sm";
+      padding = "py-1 px-2";
+    }
+
     const className = classNames(
-      "py-2 px-4",
+      padding,
+      fontSize,
       backgroundClass,
       textClass,
       borderClass,

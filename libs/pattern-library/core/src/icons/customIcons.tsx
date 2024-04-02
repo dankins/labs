@@ -432,3 +432,39 @@ export function LoginGoogleIcon(props: IconBaseProps) {
     </IconBase>
   );
 }
+
+export function ExpandIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+      />
+    </IconBase>
+  );
+}
+
+export function StackIcon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3"
+      />
+    </IconBase>
+  );
+}
+
+export function TicketOutlineicon(props: IconBaseProps) {
+  return (
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
+      />
+    </IconBase>
+  );
+}

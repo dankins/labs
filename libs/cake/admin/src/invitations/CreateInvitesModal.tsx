@@ -10,7 +10,8 @@ import {
   CheckIcon,
 } from "@danklabs/pattern-library/core";
 import { createCampaignInvitationsAction } from "./actions";
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { admin } from "@danklabs/cake/services/admin-service";
+import { CampaignData } from "./CampaignData";
 
 export async function CreateInvitesModal({
   mode = "multi-use",
@@ -26,7 +27,7 @@ export async function CreateInvitesModal({
       </InterceptModal>
     );
   }
-  const campaign = await invitations.getCampaign(campaignSlug);
+  const campaign = await admin.invitations.getCampaign(campaignSlug);
   if (!campaign) {
     return <div>Could not find campaign</div>;
   }
@@ -35,7 +36,7 @@ export async function CreateInvitesModal({
 
   return (
     <InterceptModal returnHref={`/admin/invitations`}>
-      <div className="p-4">
+      <div className="p-6">
         <Heading3>Create Invitation Tranche</Heading3>
         <CampaignData campaign={campaign} />
         <div className="py-6 flex flex-row">
@@ -78,28 +79,6 @@ export async function CreateInvitesModal({
         )}
       </div>
     </InterceptModal>
-  );
-}
-
-export function CampaignData({
-  campaign,
-}: {
-  campaign: NonNullable<Awaited<ReturnType<typeof invitations.getCampaign>>>;
-}) {
-  return (
-    <div className="p-4 rounded-md bg-neutral/70 text-sm">
-      <div>Campaign Name: {campaign.name}</div>
-      <div>
-        Coupon Code:{" "}
-        {campaign.coupon ? <span>{campaign.coupon}</span> : <i>None</i>}
-      </div>
-      <div>
-        # of Invites: <span>{campaign.invitationsGranted}</span>
-      </div>
-      <div>
-        # of Collection Items: <span>{campaign.collectionItemsGranted}</span>
-      </div>
-    </div>
   );
 }
 

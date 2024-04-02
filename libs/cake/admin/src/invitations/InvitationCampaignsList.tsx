@@ -1,11 +1,16 @@
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { admin } from "@danklabs/cake/services/admin-service";
 import {
+  AddIcon,
+  Badge,
+  GhostButton,
   Heading1,
-  Paragraph2,
-  Paragraph4,
+  Heading3,
   PrimaryButton,
+  RightArrow,
   SecondaryButton,
   Spinner,
+  StackIcon,
+  TicketOutlineicon,
 } from "@danklabs/pattern-library/core";
 import { Suspense } from "react";
 
@@ -23,8 +28,14 @@ export async function InvitationCampaignsList() {
   );
 }
 
+type Campaign = Awaited<
+  ReturnType<typeof admin.invitations.getCampaigns>
+>["key"];
+
 async function Component() {
-  const campaigns = await invitations.getCampaigns();
+  const campaignMap = await admin.invitations.getCampaigns();
+  let campaigns: (typeof campaignMap)["key"][] = [];
+  Object.keys(campaignMap).map((key) => campaigns.push(campaignMap[key]));
 
   if (campaigns.length === 0) {
     return (
@@ -36,42 +47,72 @@ async function Component() {
       </div>
     );
   }
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <div>
-        <div className="w-full text-left grid grid grid-cols-4">
-          <div>
-            <Paragraph2>Campaign</Paragraph2>
-          </div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        {campaigns.map((campaign) => (
-          <div
-            key={campaign.id}
-            className="w-full text-left grid grid grid-cols-4 items-center"
+    <div className="flex flex-col gap-12">
+      {campaigns.map((campaign) => (
+        <CampaignCard key={campaign.id} campaign={campaign} />
+      ))}
+    </div>
+  );
+}
+
+function CampaignCard({ campaign }: { campaign: Campaign }) {
+  return (
+    <>
+      <div
+        key={campaign.id}
+        className="w-full bg-white p-4 rounded-lg shadow-md"
+      >
+        <div className="flex flex-row gap-2">
+          <Heading3 className="grow">{campaign.campaign}</Heading3>
+          <SecondaryButton
+            href={`?action=create-invites&campaign=${campaign.campaignSlug}&mode=multi-use`}
+            icon={<AddIcon />}
+            size="sm"
           >
-            <div>{campaign.name}</div>
-            <div></div>
-            <div></div>
-            <div>
-              <div className="flex flex-row gap-2 w-[375px]">
-                <SecondaryButton
-                  href={`?action=create-invites&campaign=${campaign.slug}&mode=multi-use`}
-                >
-                  Create Multi-Use
-                </SecondaryButton>
-                <SecondaryButton
-                  href={`?action=create-invites&campaign=${campaign.slug}&mode=single-use`}
-                >
-                  Create Single-Use
-                </SecondaryButton>
-              </div>
-            </div>
-          </div>
-        ))}
+            Add Tranche
+          </SecondaryButton>
+        </div>
+        <div className="my-5 flex flex-col">
+          {campaign.tranches.map((tranche) => (
+            <TrancheRow
+              key={tranche.tranche}
+              campaignSlug={campaign.campaignSlug}
+              tranche={tranche}
+            />
+          ))}
+        </div>
       </div>
+    </>
+  );
+}
+
+function TrancheRow({
+  campaignSlug,
+  tranche,
+}: {
+  campaignSlug: string;
+  tranche: Campaign["tranches"][0];
+}) {
+  return (
+    <div className="p-2 flex flex-row items-center gap-4 hover:bg-gray-100">
+      <div>
+        {tranche.mode === "multi-use" ? <TicketOutlineicon /> : <StackIcon />}
+      </div>
+      <div>{tranche.tranche}</div>
+      <div className="grow"></div>
+      <div className="text-right flex flex-row gap-2 items-center">
+        {tranche.mode === "multi-use" && (
+          <Badge className="text-black/80">{tranche.code}</Badge>
+        )}
+        {tranche.redemptions} / {tranche.maxRedemptions}
+      </div>
+
+      <GhostButton
+        href={`?action=tranche_detail&campaign=${campaignSlug}&tranche=${tranche.tranche}`}
+        icon={<RightArrow />}
+      ></GhostButton>
     </div>
   );
 }

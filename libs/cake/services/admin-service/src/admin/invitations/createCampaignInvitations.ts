@@ -1,7 +1,10 @@
 import { db, invitations } from "@danklabs/cake/db";
-import { generateInviteCode } from "./assignInvite";
+import { generateInviteCode } from "../../invitations/generateInviteCode";
 import { getCampaign } from "./getCampaign";
-import { NotNull } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
+import { getCampaignsTag } from "./getCampaigns";
+import { getCampaignTag } from "./getCampaign";
+import { clearTrancheCache } from "./getTrancheInvitations";
 
 type CampaignRtn = NonNullable<Awaited<ReturnType<typeof getCampaign>>>;
 
@@ -64,8 +67,10 @@ async function createSingleUseInvitations(
     }
   );
 
-  console.log("invites", invites);
   await db.insert(invitations).values(invites).execute();
+  clearTrancheCache(campaign.slug, input.tranche);
+  revalidateTag(getCampaignTag(campaign.slug));
+  revalidateTag(getCampaignsTag());
 }
 
 async function createMultiUseInvitations(
@@ -73,5 +78,23 @@ async function createMultiUseInvitations(
   input: InputDataMapping["multi-use"]
 ) {
   console.log("createMultiUseInvitations", campaign, input);
+  const invite: typeof invitations.$inferInsert = {
+    tranche: input.tranche,
+    campaignId: campaign.id,
+    code: input.code.toLowerCase(),
+    maxRedemptions: input.maxRedemptions,
+    coupon: input.coupon,
+    invitationsGranted: campaign.invitationsGranted,
+    collectionItemsGranted: campaign.collectionItemsGranted,
+    memberId: campaign.memberId,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  await db.insert(invitations).values(invite).execute();
+
+  revalidateTag(getCampaignTag(campaign.slug));
+  revalidateTag(getCampaignsTag());
+  clearTrancheCache(campaign.slug, input.tranche);
   return {};
 }

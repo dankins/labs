@@ -2,6 +2,7 @@
 
 import { Paragraph3, PrimaryButton } from "@danklabs/pattern-library/core";
 import { form } from "@segment/analytics-next/dist/types/core/auto-track";
+import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
@@ -21,11 +22,13 @@ const initialState: FormState = {
 export function FormAction({
   action,
   cta,
+  inline = false,
   children,
   className,
 }: {
   action(previousState: FormState, formData: FormData): Promise<FormState>;
   cta: React.ReactNode;
+  inline?: boolean;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -57,7 +60,10 @@ export function FormAction({
   return (
     <form
       action={formAction}
-      className={className}
+      className={classNames(
+        inline && "flex flex-row items-center gap-2",
+        className
+      )}
       ref={formRef}
       onChange={handleChange}
     >

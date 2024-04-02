@@ -5,7 +5,6 @@ import { unstable_cache } from "next/cache";
 async function fn(slug: string) {
   return db.query.invitationCampaigns.findFirst({
     where: eq(invitationCampaigns.slug, slug),
-    with: {},
   });
 }
 

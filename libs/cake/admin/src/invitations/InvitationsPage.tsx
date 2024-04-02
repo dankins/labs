@@ -7,6 +7,7 @@ import {
 import { CreateCampaignModal } from "./CreateCampaignModal";
 import { InvitationCampaignsList } from "./InvitationCampaignsList";
 import { CreateInvitesModal } from "./CreateInvitesModal";
+import { TrancheDetailModal } from "./TrancheDetailModal";
 
 export async function InvitationsPage({
   searchParams,
@@ -24,15 +25,22 @@ export async function InvitationsPage({
           campaignSlug={searchParams["campaign"] as string}
         />
       )}
+      {searchParams && searchParams.action === "tranche_detail" && (
+        <TrancheDetailModal
+          campaignSlug={searchParams["campaign"] as string}
+          tranche={searchParams["tranche"] as string}
+          assign={searchParams["assign"] as string}
+        />
+      )}
       <PageContent>
         <div>
-          <AdminPageHeader>
+          <div className="mt-[90px] flex flex-row items-center p-6">
             <Heading1 className="text-3xl grow">Invitation Campaigns</Heading1>
 
             <PrimaryButton className="self-align-end" href={`?action=create`}>
-              Create
+              Create Campaign
             </PrimaryButton>
-          </AdminPageHeader>
+          </div>
         </div>
         <InvitationCampaignsList />
       </PageContent>

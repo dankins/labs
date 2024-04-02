@@ -1,10 +1,11 @@
 "use server";
 
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { admin, invitations } from "@danklabs/cake/services/admin-service";
 import { FormState } from "@danklabs/pattern-library/core";
 import { isPostgresError, isZodError, validateFormData } from "@danklabs/utils";
 import { redirect } from "next/navigation";
-import { ZodError, z } from "zod";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export async function createCampaignAction(
   previousState: FormState,
@@ -34,8 +35,7 @@ export async function createCampaignAction(
 
     console.log("Creating Campaign Invitation", previousState, data);
 
-    const campaign = await invitations.createCampaign(data);
-    redirect(`/admin/invitations`);
+    const campaign = await admin.invitations.createCampaign(data);
     return {
       status: "success",
       message: "Campaign Invitation Created",
@@ -100,7 +100,11 @@ export async function createCampaignInvitationsAction(
             .transform((value) => (value === "" ? undefined : value)),
         })
       );
-      await invitations.createCampaignInvitations(campaignSlug, mode, data);
+      await admin.invitations.createCampaignInvitations(
+        campaignSlug,
+        mode,
+        data
+      );
     } else {
       const data = validateFormData(
         formData,
@@ -113,7 +117,11 @@ export async function createCampaignInvitationsAction(
             .transform((value) => (value === "" ? undefined : value)),
         })
       );
-      await invitations.createCampaignInvitations(campaignSlug, mode, data);
+      await admin.invitations.createCampaignInvitations(
+        campaignSlug,
+        mode,
+        data
+      );
     }
     return {
       status: "success",
@@ -141,4 +149,42 @@ export async function createCampaignInvitationsAction(
   }
 
   return { status: "error", message: "Error processing input" };
+}
+
+export async function assignInvitationAction(
+  invitationId: string,
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  try {
+    const data = validateFormData(
+      formData,
+      zfd.formData({
+        name: zfd.text(),
+        code: zfd.text(),
+      })
+    );
+
+    await invitations.assignInvite(invitationId, data.name, data.code);
+    return { status: "success", message: "Invitation assigned" };
+  } catch (err) {
+    if (isZodError(err)) {
+      return {
+        status: "error",
+        message: "Input validation error",
+      };
+    }
+    if (isPostgresError(err)) {
+      return {
+        status: "error",
+        message: "Error creating campaign invitations",
+      };
+    }
+    console.error("error creating campaign invitations", err);
+
+    return {
+      status: "error",
+      message: "An unknown error occurred",
+    };
+  }
 }

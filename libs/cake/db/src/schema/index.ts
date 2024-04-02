@@ -228,6 +228,10 @@ export const invitationRelations = relations(invitations, ({ one }) => ({
     fields: [invitations.memberId],
     references: [members.id],
   }),
+  campaign: one(invitationCampaigns, {
+    fields: [invitations.campaignId],
+    references: [invitationCampaigns.id],
+  }),
 }));
 
 export const offerRelations = relations(offers, ({ one }) => ({

@@ -2,9 +2,7 @@ import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
 import { CMSBrand } from "./types";
 import {
   Badge,
-  Button,
   CircleButton,
-  FavoriteFilledIcon,
   FavoriteOutlineIcon,
   OutlineButton,
   PlayIcon,
@@ -38,10 +36,11 @@ export function Header({ brand }: { brand: CMSBrand }) {
       </div>
       <div className="grow flex flex-row items-center justify-center">
         {hasVideo ? (
-          <CircleButton size={24} background="black/50">
-            <PlayIcon className="fill-white text-2xl" />
-          </CircleButton>
+          <></>
         ) : (
+          // <CircleButton size={24} background="black/50">
+          //   <PlayIcon className="fill-white text-2xl" />
+          // </CircleButton>
           <div className="w-[88px] h-[88px]" />
         )}
       </div>
