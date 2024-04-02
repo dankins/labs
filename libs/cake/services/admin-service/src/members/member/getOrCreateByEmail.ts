@@ -8,7 +8,7 @@ export async function getOrCreateByEmail(email: string): Promise<Member> {
     const member = await getByEmail(email);
     return member;
   } catch (err: any) {
-    if (err.message !== "member not found") {
+    if (err.message === "member not found") {
       const newUser = await clerkClient.users.createUser({
         emailAddress: [email],
       });
