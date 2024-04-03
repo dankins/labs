@@ -79,11 +79,23 @@ const BrandType = defineType({
       title: "Pass Color",
       type: "color",
     }),
+    defineField({
+      name: "orderRank",
+      title: "Order Rank",
+      type: "string",
+    }),
+  ],
+  orderings: [
+    {
+      title: "Rank",
+      name: "rankDesc",
+      by: [{ field: "orderRank", direction: "desc" }],
+    },
   ],
   preview: {
     select: {
-      title: "name",
-      media: "image",
+      title: "slug.current",
+      media: "pass_logo",
     },
   },
 });
