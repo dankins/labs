@@ -1,6 +1,6 @@
 import { brandOfferTemplates, brands, db } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { clearCacheBrandOffers } from "../../brands/getBrandOffers";
+import { clearCacheBrandOffers } from "../brand/getBrandOffers";
 export async function createBrandPassOffer(
   brandSlug: string,
   input: Omit<

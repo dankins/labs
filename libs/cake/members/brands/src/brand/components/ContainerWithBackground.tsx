@@ -1,10 +1,10 @@
 import { SanityArtDirection } from "@danklabs/cake/pattern-library/core";
-import { CMSBrand } from "./types";
+import { Brand } from "@danklabs/cake/services/admin-service";
 
 type ContainerWithBackgroundProps =
   | {
       loading?: false;
-      brand?: CMSBrand;
+      brand?: Brand["cms"];
       children: React.ReactNode;
     }
   | { children: React.ReactNode; loading?: true; brand?: undefined };

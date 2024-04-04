@@ -1,6 +1,3 @@
-import { getBrandAdminData } from "@danklabs/cake/services/admin-service";
-import { OffersIcon, SettingsIcon } from "@danklabs/pattern-library/core";
-import { Widget } from "./Widget";
 import { Members } from "./Members";
 import { Settings } from "./Settings";
 import { Offers } from "./Offers";

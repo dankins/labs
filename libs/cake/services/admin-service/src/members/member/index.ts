@@ -8,6 +8,7 @@ import { update } from "./update";
 import { updateProfile } from "./updateProfile";
 import { claimPass } from "./claimPass";
 import { getOrCreateByEmail } from "./getOrCreateByEmail";
+import { favorites } from "./favorites";
 
 export const member = {
   get: cachedGetMember,
@@ -21,4 +22,7 @@ export const member = {
   claimPass,
   getOrCreateByEmail,
   DEFAULT_MAX_COLLECTION_ITEMS,
+  favorites,
 };
+
+export * from "./types";

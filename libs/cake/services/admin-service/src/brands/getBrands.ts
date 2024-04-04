@@ -1,7 +1,8 @@
-import { BrandListSelection, getBrandsNoCount } from "@danklabs/cake/cms";
 import { db, Brand, brands } from "@danklabs/cake/db";
 import { eq, inArray, sql } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
+import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
+import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export type CakeBrand = Brand & BrandListSelection;
 
@@ -82,3 +83,40 @@ export async function cachedGetBrands(
 }
 
 export const getBrands_tags = ["get-brands-admin", "get-brands-member"];
+
+const brandListSelection = {
+  name: q.string().nullable().optional(),
+  slug: q.slug("slug"),
+  logoSquare: sanityImage("logo_square").nullable(),
+  passLogo: sanityImage("pass_logo").nullable(),
+  passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  // https://www.sanity.io/plugins/color-input
+};
+
+type BrandListSelection = TypeFromSelection<typeof brandListSelection>;
+
+const runQuery = makeSafeQueryRunner(
+  (q: string, params: Record<string, number | string | string[]> = {}) =>
+    sanityClient.fetch(q, {
+      ...params,
+    })
+);
+
+type GetBrandsFilter = {
+  status?: string;
+  slugs?: string[];
+};
+
+async function getBrandsNoCount(filter?: GetBrandsFilter) {
+  let query = q(`*[_type=="brand"]|order(orderRank)`, { isArray: true });
+  if (filter?.slugs) {
+    // @ts-ignore
+    query = query.filter("slug.current in $slugs");
+  }
+
+  return runQuery(query.grab(brandListSelection), filter);
+}

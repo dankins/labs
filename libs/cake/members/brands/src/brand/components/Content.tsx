@@ -2,13 +2,13 @@ import {
   ChevronRightIcon,
   OutlineButton,
 } from "@danklabs/pattern-library/core";
-import { CMSBrand } from "./types";
 import { MemberBenefits, MemberBenefitsLoading } from "./MemberBenefits";
 import { Instagram, InstagramLoading } from "./Instagram";
 import { TikTok, TikTokLoading } from "./TikTok";
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { ToggleFavoriteButton } from "./ToggleFavoriteButton";
 import { addFavoriteAction, removeFavoriteAction } from "../actions";
+import { Brand } from "@danklabs/cake/services/admin-service";
 
 export function Content({
   memberId,
@@ -18,7 +18,7 @@ export function Content({
 }: {
   memberId: string;
   brandId: string;
-  brand: CMSBrand;
+  brand: Brand["cms"];
   isFavorite: boolean;
 }) {
   return (

@@ -8,7 +8,7 @@ import {
 
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
-export const contentSelection = {
+const contentSelection = {
   title: q.string(),
   slug: q.slug("slug"),
   image: sanityImage("image", {

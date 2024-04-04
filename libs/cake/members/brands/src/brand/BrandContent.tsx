@@ -42,6 +42,9 @@ async function Component({ slug }: { slug: string }) {
     cachedGetBrandDetail(slug),
     getMemberBrandStatus(userIAM, slug),
   ]);
+  console.log(
+    "hey dan - getMemberBrandStatus is not being cached at all, make sure you fix taht"
+  );
 
   return (
     <ContainerWithBackground brand={brand.cms}>

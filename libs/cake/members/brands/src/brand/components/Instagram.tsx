@@ -1,9 +1,8 @@
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
-import { CMSBrand } from "./types";
-import { SkeletonImage } from "@danklabs/pattern-library/core";
+import { Brand } from "@danklabs/cake/services/admin-service";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 
-export function Instagram({ brand }: { brand: CMSBrand }) {
+export function Instagram({ brand }: { brand: Brand["cms"] }) {
   return (
     <>
       <SectionHeading>{brand.name} on Instagram</SectionHeading>

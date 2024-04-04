@@ -1,5 +1,4 @@
 import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
-
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export const contentListSelection = {
@@ -38,7 +37,7 @@ export async function getContentList(filter?: GetContentListFilter) {
   const query = q("*", { isArray: false }).filterByType("content");
   return runQuery(
     q("").grab({
-      content: query.order("name").grab$(contentListSelection),
+      content: query.order("orderRank").grab$(contentListSelection),
       contentCount: q(`count(*[_type == "content"])`),
     }),
     { status: "any" }

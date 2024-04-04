@@ -1,5 +1,4 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { structureTool, StructureBuilder } from "sanity/structure";
 import site from "./site";
 import brand from "./brand";
 import content from "./content";

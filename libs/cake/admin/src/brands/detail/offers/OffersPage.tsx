@@ -1,10 +1,9 @@
-import { getBrandAdmin } from "@danklabs/cake/cms";
+import { admin } from "@danklabs/cake/services/admin-service";
 import {
   Heading3,
   Paragraph3,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
-import { cachedGetBrandOffers } from "libs/cake/services/admin-service/src/brands/getBrandOffers";
 import Link from "next/link";
 import { Suspense } from "react";
 import { CreateOfferModal } from "./CreateOfferModal";
@@ -34,7 +33,7 @@ async function Component({
   slug: string;
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const brandWithOffers = await cachedGetBrandOffers(slug);
+  const brandWithOffers = await admin.brand.getBrandOffers(slug);
   return (
     <div>
       {searchParams && searchParams.action === "create-offer" && (

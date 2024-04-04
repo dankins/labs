@@ -1,7 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { getBrands } from "@danklabs/cake/cms";
-import { SanityImage } from "@danklabs/cake/pattern-library/core";
-import { getFavorites } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import {
   AddIcon,
   Button,
@@ -22,20 +20,8 @@ export async function FavoritesPage() {
 async function Component() {
   const { userId } = auth().protect();
 
-  const faves = await getFavorites(userId);
-  const { brands: cmsBrands } = await getBrands();
-  const memberId = faves[0]?.members.id;
-
-  const cmsBrandMap: {
-    [slug: string]: Awaited<ReturnType<typeof getBrands>>["brands"][0];
-  } = {};
-  cmsBrands.forEach((b) => (cmsBrandMap[b.slug] = b));
-
-  let brands = faves.map((fave) => ({
-    brandId: fave.brands.id,
-    name: cmsBrandMap[fave.brands.slug].name,
-    passLogo: cmsBrandMap[fave.brands.slug].passLogo!,
-  }));
+  const faves = await members.member.favorites.getFavorites(userId);
+  const memberId = faves[0].memberId;
 
   if (faves.length === 0) {
     return <NoFavorites />;
@@ -51,7 +37,7 @@ async function Component() {
         </p>
       </div>
       <FavoritesGrid
-        brands={brands}
+        favorites={faves}
         removeMultipleFavorites={removeMultipleFavorites.bind(
           undefined,
           memberId

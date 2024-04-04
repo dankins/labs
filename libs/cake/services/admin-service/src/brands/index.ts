@@ -5,11 +5,10 @@ export * from "./getBrandDetail";
 export * from "./getPublicBrandDetail";
 export * from "./getBrands";
 
-import { cachedGetBrandOffers, clearCacheBrandOffers } from "./getBrandOffers";
+import { cachedGetBrandsBySlug } from "./getBrandsBySlug";
 
 export const brands = {
-  brand: {
-    cachedGetBrandOffers,
-    clearCacheBrandOffers,
-  },
+  cachedGetBrandsBySlug,
 };
+
+export * from "./types";

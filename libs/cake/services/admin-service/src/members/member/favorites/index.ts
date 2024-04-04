@@ -1,15 +1,9 @@
-import { Favorite, db, favorites, members, brands } from "@danklabs/cake/db";
+import { db, favorites as favoritesModel } from "@danklabs/cake/db";
 import { and, eq, inArray } from "drizzle-orm";
 
-type InsertFavorite = typeof favorites.$inferInsert;
+import { getFavorites } from "./getFavorites";
 
-export async function getFavorites(userId: string) {
-  return db
-    .select()
-    .from(members)
-    .innerJoin(favorites, eq(members.id, favorites.memberId))
-    .innerJoin(brands, eq(favorites.brandId, brands.id));
-}
+type InsertFavorite = typeof favoritesModel.$inferInsert;
 
 export async function addFavorite(
   memberId: string,
@@ -20,7 +14,7 @@ export async function addFavorite(
     memberId,
     brandId,
   };
-  await db.insert(favorites).values(record);
+  await db.insert(favoritesModel).values(record);
 }
 
 export async function removeFavorite(
@@ -36,13 +30,19 @@ export async function removeFavorites(
 ): Promise<void> {
   console.log("removeFavorites", memberId, brandIds);
   const result = await db
-    .delete(favorites)
+    .delete(favoritesModel)
     .where(
       and(
-        eq(favorites.memberId, memberId),
-        inArray(favorites.brandId, brandIds)
+        eq(favoritesModel.memberId, memberId),
+        inArray(favoritesModel.brandId, brandIds)
       )
     )
     .returning();
-  console.log("result", result);
 }
+
+export const favorites = {
+  getFavorites,
+  addFavorite,
+  removeFavorite,
+  removeFavorites,
+};

@@ -1,15 +1,14 @@
 export * from "./createBrandOfferCodes";
 
-export * from "./getBrandAdminData";
 export * from "./getBrandPassOffer";
 export * from "./getBrandPassOffers";
 export * from "./getOfferCodeUsage";
 export * from "./getMemberInvitationCounts";
 export * from "./getBrandsWithOffers";
+export * from "./getPage";
 
 export * from "./analytics";
 export * from "./brands";
-export * from "./favorites";
 export * from "./stories";
 export * from "./membership";
 export * from "./brand-admin";

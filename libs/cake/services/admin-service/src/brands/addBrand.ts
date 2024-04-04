@@ -1,7 +1,9 @@
-import { brandExists, getBrandAdmin } from "@danklabs/cake/cms";
+import { makeSafeQueryRunner, q, sanityImage, Selection } from "groqd";
+import { sanityClient } from "@danklabs/integrations/sanitycms";
+import { revalidateTag } from "next/cache";
+
 import { brands, db } from "@danklabs/cake/db";
 import { sanityWriteClient } from "@danklabs/integrations/sanitycms";
-import { revalidateTag } from "next/cache";
 
 export async function addBrand(slug: string) {
   console.log("add brand", slug);
@@ -29,4 +31,30 @@ export async function addBrand(slug: string) {
   revalidateTag("get-brands-admin");
 
   return slug;
+}
+
+const brandSelection = {
+  _id: q.string(),
+} satisfies Selection;
+
+const runQuery = makeSafeQueryRunner(
+  (q: string, params: Record<string, number | string> = {}) =>
+    sanityClient.fetch(q, {
+      ...params,
+    })
+);
+
+async function brandExists(slug: string): Promise<string | undefined> {
+  return runQuery(
+    q(`*[_type=="brand"][slug.current==$slug]`)
+      .filter(`_type == "brand"`)
+      .grab(brandSelection)
+      .slice(0, 1),
+    { slug }
+  ).then((x) => {
+    if (x.length === 0) {
+      return undefined;
+    }
+    return x[0]._id;
+  });
 }

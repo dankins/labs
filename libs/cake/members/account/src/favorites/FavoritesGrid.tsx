@@ -15,7 +15,7 @@ import { useState } from "react";
 import classNames from "classnames";
 
 export type FavoritesGridProps = {
-  brands: {
+  favorites: {
     brandId: string;
     name: string | null | undefined;
     passLogo: SanityImageType | null | undefined;
@@ -24,7 +24,7 @@ export type FavoritesGridProps = {
 };
 export function FavoritesGrid({
   removeMultipleFavorites,
-  brands,
+  favorites,
 }: FavoritesGridProps) {
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -73,7 +73,7 @@ export function FavoritesGrid({
         )}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {brands.map((b) => {
+        {favorites.map((b) => {
           return (
             <div
               key={b.brandId}

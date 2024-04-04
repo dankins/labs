@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getPage } from "@danklabs/cake/cms";
+import { getPage } from "@danklabs/cake/services/admin-service";
 import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
 import {
   TextInput,
