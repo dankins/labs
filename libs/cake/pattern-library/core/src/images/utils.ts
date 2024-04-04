@@ -113,7 +113,11 @@ export function landscapeCropBuilder(width: number) {
   return (
     imageUrlBuilder: ImageUrlBuilder,
     options: UseNextSanityImageBuilderOptions
-  ) => imageUrlBuilder.fit("crop");
+  ) =>
+    imageUrlBuilder
+      .width(width)
+      .height((width * 9) / 16)
+      .fit("crop");
 }
 export function squareCropBuilder(width: number) {
   return (

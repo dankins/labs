@@ -138,8 +138,8 @@ function GridItem({
             <SanityImageServer
               alt={`${brand.name} Logo`}
               image={brand.passBackground}
-              height={0}
-              width={0}
+              height={260}
+              width={isFeatured ? 447 : 215}
               style={{ height: "100%", width: "100%" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
             />
