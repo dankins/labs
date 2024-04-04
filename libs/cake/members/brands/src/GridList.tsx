@@ -141,6 +141,7 @@ function GridItem({
               height={0}
               width={0}
               style={{ height: "100%", width: "100%" }}
+              aspectRatio={isFeatured ? "landscape" : "portrait"}
             />
           )}
         </figure>
