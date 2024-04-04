@@ -63,15 +63,11 @@ const BrandType = defineType({
       },
     }),
     defineField({
-      name: "status",
+      name: "featured",
       type: "string",
-      initialValue: "draft",
-      title: "Status",
+      title: "Featured",
       options: {
-        list: [
-          { title: "Draft", value: "draft" },
-          { title: "Active", value: "active" },
-        ],
+        list: [{ title: "Featured", value: "featured" }],
       },
     }),
     defineField({

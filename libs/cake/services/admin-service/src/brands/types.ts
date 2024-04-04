@@ -12,6 +12,7 @@ export type Brand = {
     name?: string | null;
     summary?: string | null;
     website?: string | null;
+    featured?: string | null;
     logoSquare: SanityImageType | null;
     passBackgroundDesktop: SanityImageType | null;
     passBackground: SanityImageType | null;

@@ -96,6 +96,7 @@ const brandListSelection = {
     withHotspot: true,
     withCrop: true,
   }).nullable(),
+  featured: q.string().nullable(),
   // https://www.sanity.io/plugins/color-input
 };
 
