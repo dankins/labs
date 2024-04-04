@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       case "brand":
         // handle brand webhook
         brands.clearBrandCache(data.slug.current);
-        brands.clearBrandCache(data.slug.current);
+        brands.clearGetBrandsCache();
         break;
       case "content":
         // handle content webhook
