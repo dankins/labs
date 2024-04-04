@@ -6,11 +6,11 @@ import Link from "next/link";
 import { PrimaryButton } from "@danklabs/pattern-library/core";
 
 import {
-  CakeBrand,
   MemberCollection,
   MemberCollectionItem,
-  cachedGetBrands,
   members,
+  brands,
+  Brand,
 } from "@danklabs/cake/services/admin-service";
 import {
   LogoSpace,
@@ -48,7 +48,7 @@ export async function Loading() {
 }
 
 export async function Component({ perspective }: { perspective?: string }) {
-  let validatedSort: Parameters<typeof cachedGetBrands>[1] = "asc";
+  let validatedSort: Parameters<typeof brands.getBrands>[1] = "asc";
 
   const { userId } = auth().protect();
 
@@ -60,7 +60,10 @@ export async function Component({ perspective }: { perspective?: string }) {
     validatedPerspective = "admin";
   }
 
-  const brands = await cachedGetBrands(validatedPerspective, validatedSort);
+  const brandsResult = await brands.getBrands(
+    validatedPerspective,
+    validatedSort
+  );
 
   // const [brands, passes] = await Promise.all([
   //   getBrands(),
@@ -72,13 +75,13 @@ export async function Component({ perspective }: { perspective?: string }) {
   //   ),
   // ]);
 
-  if (!brands) {
+  if (!brandsResult) {
     return <div>error loading brands</div>;
   }
 
   return (
     <div>
-      <BrandGrid brands={brands} collection={member.collection} />
+      <BrandGrid brands={brandsResult} collection={member.collection} />
     </div>
   );
 }
@@ -87,7 +90,7 @@ function BrandGrid({
   brands,
   collection,
 }: {
-  brands: CakeBrand[];
+  brands: Brand[];
   collection: MemberCollection;
 }) {
   return (
@@ -105,7 +108,11 @@ function BrandGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5">
         {brands.map((b) => (
-          <GridItem key={b.id} brand={b} pass={collection.itemMap[b.slug]} />
+          <GridItem
+            key={b.db.id}
+            brand={b.cms!}
+            pass={collection.itemMap[b.db.slug]}
+          />
         ))}
       </div>
     </>
@@ -116,7 +123,7 @@ function GridItem({
   brand,
   pass,
 }: {
-  brand: CakeBrand;
+  brand: NonNullable<Brand["cms"]>;
   pass?: MemberCollectionItem;
 }) {
   return (

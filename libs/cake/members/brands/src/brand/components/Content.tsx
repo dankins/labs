@@ -18,7 +18,7 @@ export function Content({
 }: {
   memberId: string;
   brandId: string;
-  brand: Brand["cms"];
+  brand: NonNullable<Brand["cms"]>;
   isFavorite: boolean;
 }) {
   return (

@@ -11,7 +11,7 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import { Brand } from "@danklabs/cake/services/admin-service";
 
-export function Header({ brand }: { brand: Brand["cms"] }) {
+export function Header({ brand }: { brand: NonNullable<Brand["cms"]> }) {
   const hasVideo = false;
   const { aspectRatio } = getImageDimensions(getSanityRefId(brand.passLogo!));
   const imageSize =

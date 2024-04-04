@@ -3,10 +3,7 @@ import {
   Heading3,
   SectionHeading,
 } from "@danklabs/cake/pattern-library/core";
-import {
-  CakeBrand,
-  cachedGetBrandDetail,
-} from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 import {
   CancelIcon,
   CheckIcon,
@@ -16,7 +13,7 @@ import {
 import { updateBrandStatusAction } from "../../actions";
 
 export async function BrandStatus({ slug }: { slug: string }) {
-  const brand = await cachedGetBrandDetail(slug);
+  const brand = await brands.getBrand(slug);
   return (
     <div className="px-4 pt-2 pb-8 rounded-md shadow-md bg-white">
       <SectionHeading>Status</SectionHeading>
@@ -30,7 +27,7 @@ export async function BrandStatus({ slug }: { slug: string }) {
 export function DraftStatus({
   brand,
 }: {
-  brand: Awaited<ReturnType<typeof cachedGetBrandDetail>>;
+  brand: Awaited<ReturnType<typeof brands.getBrand>>;
 }) {
   return (
     <div className="flex flex-row gap-6">
@@ -65,7 +62,7 @@ export function DraftStatus({
 export function ActiveStatus({
   brand,
 }: {
-  brand: Awaited<ReturnType<typeof cachedGetBrandDetail>>;
+  brand: Awaited<ReturnType<typeof brands.getBrand>>;
 }) {
   return (
     <div className="flex flex-row gap-6">
@@ -92,7 +89,7 @@ export function ActiveStatus({
 export function PausedStatus({
   brand,
 }: {
-  brand: Awaited<ReturnType<typeof cachedGetBrandDetail>>;
+  brand: Awaited<ReturnType<typeof brands.getBrand>>;
 }) {
   return (
     <div className="flex flex-row gap-6">
@@ -131,9 +128,7 @@ export function ChecklistItem({
   );
 }
 
-function cmsReady(
-  brand: Awaited<ReturnType<typeof cachedGetBrandDetail>>
-): boolean {
+function cmsReady(brand: Awaited<ReturnType<typeof brands.getBrand>>): boolean {
   return !!(
     brand.cms.name &&
     brand.cms.passLogo &&

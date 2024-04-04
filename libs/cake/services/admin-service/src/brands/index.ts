@@ -1,14 +1,15 @@
-export * from "./addBrand";
-export * from "./getMemberBrandStatus";
-export * from "./getBrandsBySlug";
-export * from "./getBrandDetail";
-export * from "./getPublicBrandDetail";
-export * from "./getBrands";
+import { getBrandsBySlug } from "./getBrandsBySlug";
+import { getBrand, clearBrandCache } from "./getBrand";
+import { getBrands, clearGetBrandsCache } from "./getBrands";
 
-import { cachedGetBrandsBySlug } from "./getBrandsBySlug";
+export * from "./getMemberBrandStatus";
 
 export const brands = {
-  cachedGetBrandsBySlug,
+  getBrandsBySlug,
+  getBrand,
+  getBrands,
+  clearBrandCache,
+  clearGetBrandsCache,
 };
 
 export * from "./types";

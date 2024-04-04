@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import {
-  cachedGetBrandDetail,
+  brands,
   getMemberBrandStatus,
 } from "@danklabs/cake/services/admin-service";
 
@@ -39,15 +39,15 @@ async function Component({ slug }: { slug: string }) {
   }
 
   const [brand, { memberId, isFavorite, isInCollection }] = await Promise.all([
-    cachedGetBrandDetail(slug),
+    brands.getBrand(slug),
     getMemberBrandStatus(userIAM, slug),
   ]);
   console.log(
-    "hey dan - getMemberBrandStatus is not being cached at all, make sure you fix taht"
+    "hey dan - getMemberBrandStatus is not being cached at all, make sure you fix that"
   );
 
   return (
-    <ContainerWithBackground brand={brand.cms}>
+    <ContainerWithBackground brand={brand.cms!}>
       <MobileNavSpacer />
       <Header brand={brand.cms} />
       <Content

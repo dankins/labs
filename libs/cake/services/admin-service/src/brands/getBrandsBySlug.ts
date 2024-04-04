@@ -5,7 +5,7 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 import { brands, db } from "@danklabs/cake/db";
 
-export async function getBrandsBySlug(slugs: string[]) {
+export async function fn(slugs: string[]) {
   console.log("calling getBrandsBySlug", { slugs });
   const dbBrands = await db.query.brands.findMany({
     where: inArray(brands.slug, slugs),
@@ -38,13 +38,11 @@ export async function getBrandsBySlug(slugs: string[]) {
   return result;
 }
 
-export const cachedGetBrandsBySlug = unstable_cache(
-  getBrandsBySlug,
-  ["get-brands-by-slug"],
-  {
+export async function getBrandsBySlug(slugs: string[]) {
+  return unstable_cache(fn, ["get-brands-by-slug"], {
     revalidate: 60,
-  }
-);
+  })(slugs);
+}
 
 export const brandListSelection = {
   name: q.string().nullable().optional(),

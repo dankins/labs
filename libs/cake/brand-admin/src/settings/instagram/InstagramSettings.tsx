@@ -1,4 +1,4 @@
-import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 import { AuthorizeButton } from "./AuthorizeButton";
 import { RecentInstagramPosts } from "../../instagram/RecentInstagramPosts";
@@ -13,7 +13,7 @@ export function InstagramSettings({ slug }: { slug: string }) {
 }
 
 async function Component({ slug }: { slug: string }) {
-  const brand = await cachedGetBrandDetail(slug);
+  const brand = await brands.getBrand(slug);
 
   const instagramConfig = brand.db.settings.instagram;
 

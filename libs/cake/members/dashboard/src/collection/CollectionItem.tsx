@@ -4,7 +4,7 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import {
   MemberCollectionItem,
-  cachedGetPublicBrandInfo,
+  brands,
 } from "@danklabs/cake/services/admin-service";
 import { Badge } from "@danklabs/pattern-library/core";
 import Link from "next/link";
@@ -35,7 +35,7 @@ async function Component({
   item: MemberCollectionItem;
   idx: number;
 }) {
-  const brandDetail = await cachedGetPublicBrandInfo(item.slug);
+  const { cms: brandDetail } = await brands.getBrand(item.slug);
   return (
     <Shell
       idx={idx}
@@ -44,12 +44,12 @@ async function Component({
         {
           aspectRatio: "portrait",
           mediaQuery: "(min-width: 480px)",
-          image: brandDetail.heroPortrait,
+          image: brandDetail.passBackground,
         },
         {
           aspectRatio: "landscape",
           mediaQuery: "(max-width: 480px)",
-          image: brandDetail.heroLandscape,
+          image: brandDetail.passBackgroundDesktop,
         },
       ]}
     >
@@ -57,7 +57,7 @@ async function Component({
         <div>
           <SanityImageServer
             alt={`${brandDetail.name} Logo`}
-            image={brandDetail.logo!}
+            image={brandDetail.passLogo!}
             height={100}
             width={200}
             className="w-auto h-[26px] md:max-h-[32px]"

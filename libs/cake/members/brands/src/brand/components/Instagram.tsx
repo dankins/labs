@@ -2,7 +2,7 @@ import { SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { Brand } from "@danklabs/cake/services/admin-service";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 
-export function Instagram({ brand }: { brand: Brand["cms"] }) {
+export function Instagram({ brand }: { brand: NonNullable<Brand["cms"]> }) {
   return (
     <>
       <SectionHeading>{brand.name} on Instagram</SectionHeading>

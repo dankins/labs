@@ -3,7 +3,7 @@ import { SkeletonImage } from "@danklabs/pattern-library/core";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Brand } from "@danklabs/cake/services/admin-service";
 
-export function TikTok({ brand }: { brand: Brand["cms"] }) {
+export function TikTok({ brand }: { brand: NonNullable<Brand["cms"]> }) {
   return (
     <>
       <SectionHeading>{brand.name} on Tiktok</SectionHeading>

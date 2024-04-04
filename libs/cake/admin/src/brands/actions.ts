@@ -1,7 +1,7 @@
 "use server";
 
 import {
-  addBrand,
+  admin,
   createBrandOfferCodes,
   superadmin,
 } from "@danklabs/cake/services/admin-service";
@@ -32,7 +32,7 @@ export async function addBrandAction(formData: FormData) {
   const data = addBrandSchema.parse(form);
   console.log("addBrandAction", data);
 
-  await addBrand(data.slug);
+  await admin.brand.addBrand(data.slug);
 
   redirect(`/admin/brands/${data.slug}`);
 }

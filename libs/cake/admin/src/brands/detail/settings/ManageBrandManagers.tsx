@@ -1,8 +1,8 @@
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
-import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 
 export async function ManageBrandManagers({ slug }: { slug: string }) {
-  const brand = await cachedGetBrandDetail(slug);
+  const brand = await brands.getBrand(slug);
   return (
     <div className="px-4 py-2 rounded-md shadow-md bg-white">
       <SectionHeading>Brand Managers</SectionHeading>
