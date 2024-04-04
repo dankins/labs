@@ -90,7 +90,7 @@ const brandListSelection = {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,
     withCrop: true,
-  }),
+  }).nullable(),
   passBackgroundDesktop: sanityImage("pass_background_desktop", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,
