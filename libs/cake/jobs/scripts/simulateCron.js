@@ -1,7 +1,9 @@
 const http = require("http");
+const https = require("https");
 
 // Base URL for the endpoints
-const baseURL = "http://host.docker.internal:4300";
+const CRON_SECRET = process.env["CRON_SECRET"];
+const BASE_URL = process.env["BASE_URL"];
 
 // Simulating reading from vercel.json
 const vercelConfig = {
@@ -23,24 +25,36 @@ const vercelConfig = {
 
 // Function to call the REST endpoint
 const callEndpoint = (path) => {
-  const url = baseURL + path;
+  const url = BASE_URL + path;
   console.log(`Calling endpoint: ${url}`);
+
+  let call = url.startsWith("https") ? https : http;
+
   // Simulate an endpoint call
-  http
-    .get(url, (resp) => {
-      let data = "";
-      resp.on("data", (chunk) => {
-        data += chunk;
-      });
-      resp.on("end", () => {
-        console.log(data);
-      });
-    })
+  call
+    .get(
+      url,
+      {
+        headers: {
+          authorization: `Bearer ${CRON_SECRET}`,
+        },
+      },
+      (resp) => {
+        let data = "";
+        resp.on("data", (chunk) => {
+          data += chunk;
+        });
+        resp.on("end", () => {
+          console.log(data);
+        });
+      }
+    )
     .on("error", (err) => {
       console.log("Error: " + err.message);
     });
 };
 
+const intervals = [];
 // Function to schedule tasks based on cron pattern
 const scheduleTask = (task) => {
   let interval = null;
@@ -59,7 +73,8 @@ const scheduleTask = (task) => {
   }
 
   if (interval) {
-    setInterval(() => callEndpoint(task.path), interval);
+    const intervalId = setInterval(() => callEndpoint(task.path), interval);
+    intervals.push(intervalId);
   } else {
     console.log(`Schedule "${task.schedule}" not supported.`);
   }
@@ -71,3 +86,10 @@ const runCronJobs = () => {
 };
 
 runCronJobs();
+
+// Handle SIGTERM to stop the process gracefully
+process.on("SIGTERM", () => {
+  console.log("SIGTERM signal received. Shutting down gracefully...");
+  intervals.forEach(clearInterval);
+  process.exit(0);
+});
