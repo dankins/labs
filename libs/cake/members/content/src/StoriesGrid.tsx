@@ -1,4 +1,4 @@
-import { getContentList } from "@danklabs/cake/cms";
+import { members } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 import { ContentGrid } from "./ContentGrid";
 
@@ -15,7 +15,7 @@ function Loading() {
 }
 
 async function Component() {
-  const contentList = await getContentList();
+  const contentList = await members.content.getContentList();
 
   return <ContentGrid contentList={contentList.content} />;
 }

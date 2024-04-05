@@ -1,10 +1,13 @@
-import { ContentListSelection } from "@danklabs/cake/cms";
 import { SanityImage } from "@danklabs/cake/pattern-library/core";
+import { members } from "@danklabs/cake/services/admin-service";
 import classNames from "classnames";
 import Link from "next/link";
 
+type ContentList = Awaited<
+  ReturnType<typeof members.content.getContentList>
+>["content"];
 export type ContentGridProps = {
-  contentList: ContentListSelection[];
+  contentList: ContentList;
 };
 
 export function ContentGrid({ contentList }: ContentGridProps) {
@@ -17,7 +20,7 @@ export function ContentGrid({ contentList }: ContentGridProps) {
   );
 }
 
-function ContentItem({ content }: { content: ContentListSelection }) {
+function ContentItem({ content }: { content: ContentList[0] }) {
   return (
     <Link href={`/stories/${content.slug}`}>
       <div

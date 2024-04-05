@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { TypeFromSelection } from "groqd";
 import { sanityImageUrlBuilder } from "@danklabs/integrations/sanitycms";
 import {
   AdminPageHeader,
@@ -10,10 +9,7 @@ import {
   Paragraph3,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
-import {
-  CakeBrand,
-  cachedGetBrands,
-} from "@danklabs/cake/services/admin-service";
+import { Brand, brands } from "@danklabs/cake/services/admin-service";
 
 export function BrandsDashboard() {
   return (
@@ -28,17 +24,14 @@ function Loading() {
 }
 
 async function Component() {
-  const data = await cachedGetBrands("admin");
+  const data = await brands.getBrands("admin");
 
   return (
     <>
       <AdminPageHeader>
         <h1 className="text-3xl grow">All Brands</h1>
 
-        <PrimaryButton
-          className="self-align-end"
-          href={`/admin/brands?action=add`}
-        >
+        <PrimaryButton className="self-align-end" href={`?action=add`}>
           Add Brand
         </PrimaryButton>
       </AdminPageHeader>
@@ -53,7 +46,7 @@ async function Component() {
 }
 
 export type TableBodyProps = {
-  brands: CakeBrand[];
+  brands: Brand[];
 };
 
 async function TableBody({ brands }: TableBodyProps) {
@@ -68,7 +61,7 @@ async function TableBody({ brands }: TableBodyProps) {
       </thead>
       <tbody>
         {brands.map((b) => (
-          <BrandRow key={b.slug} brand={b} />
+          <BrandRow key={b.db.slug} brand={b} />
         ))}
       </tbody>
     </table>
@@ -76,14 +69,14 @@ async function TableBody({ brands }: TableBodyProps) {
 }
 
 type BrandRowProps = {
-  brand: CakeBrand;
+  brand: Brand;
 };
 function BrandRow({ brand }: BrandRowProps) {
   const cmsUrl =
     process.env[`NEXT_PUBLIC_SITE_URL`]! +
-    `/studio/structure/brand;${brand.cmsId}`;
-  const logoUrl = brand.logoSquare
-    ? sanityImageUrlBuilder.image(brand.logoSquare).width(200).url()
+    `/studio/structure/brand;${brand.db.cmsId}`;
+  const logoUrl = brand.cms?.logoSquare
+    ? sanityImageUrlBuilder.image(brand.cms.logoSquare).width(200).url()
     : "/images/missing-brand-logo.png";
   return (
     <tr className="group border-b dark:border-gray-600 hover:bg-gray-100">
@@ -92,20 +85,20 @@ function BrandRow({ brand }: BrandRowProps) {
         className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-row"
       >
         <Link
-          href={`/admin/brands/${brand.slug}`}
+          href={`/admin/brands/${brand.db.slug}`}
           className="grow flex flex-row items-center"
         >
           <Image
             src={logoUrl}
-            alt={`Logo for ${brand.name}`}
+            alt={`Logo for ${brand.cms?.name}`}
             width={64}
             height={64}
             className="w-auto h-14 w-14 mr-3"
           />
-          <Paragraph3>{brand.name || brand.slug}</Paragraph3>
+          <Paragraph3>{brand.cms?.name || brand.db.slug}</Paragraph3>
         </Link>
         <div className="hidden group-hover:block">
-          {brand.cmsId && (
+          {brand.db.cmsId && (
             <PrimaryButton
               href={cmsUrl}
               icon={<ExternalLinkIcon />}
@@ -116,7 +109,7 @@ function BrandRow({ brand }: BrandRowProps) {
           )}
         </div>
         <div className="w-16 ml-4 flex justify-center">
-          <Badge>{brand.status}</Badge>
+          <Badge>{brand.db.status}</Badge>
         </div>
       </th>
     </tr>

@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { invitations } from "@danklabs/cake/services/admin-service";
 import { InvitationListItem } from "./InvitationListItem";
 

@@ -1,5 +1,5 @@
 "use server";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { z } from "zod";
 
 export async function createBrandAction(formData: FormData): Promise<void> {

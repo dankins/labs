@@ -1,5 +1,5 @@
 import { Suspense, useState } from "react";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 import { ProfileToggle } from "./ProfileToggle";
 import { updateProfileAction } from "./actions";

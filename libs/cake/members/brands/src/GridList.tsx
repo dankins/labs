@@ -1,16 +1,21 @@
 import { Suspense } from "react";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
-import { PrimaryButton } from "@danklabs/pattern-library/core";
+import {
+  CollectionIcon,
+  PrimaryButton,
+  SecondaryButton,
+  SortIcon,
+} from "@danklabs/pattern-library/core";
 
 import {
-  CakeBrand,
   MemberCollection,
   MemberCollectionItem,
-  cachedGetBrands,
   members,
+  brands,
+  Brand,
 } from "@danklabs/cake/services/admin-service";
 import {
   LogoSpace,
@@ -37,7 +42,7 @@ export async function Loading() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-5">
       {blurHashes.map((blurHash) => (
-        <div className="w-full aspect-[2/3] relative group ">
+        <div key={blurHash} className="w-full aspect-[2/3] relative group ">
           <figure className="absolute top-0 w-full h-full">
             <Image src={blurHash} fill alt="placeholder" />
           </figure>
@@ -48,12 +53,9 @@ export async function Loading() {
 }
 
 export async function Component({ perspective }: { perspective?: string }) {
-  let validatedSort: Parameters<typeof cachedGetBrands>[1] = "asc";
+  let validatedSort: Parameters<typeof brands.getBrands>[1] = "asc";
 
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("userid not available");
-  }
+  const { userId } = auth().protect();
 
   const member = await members.member.get(userId);
   let validatedPerspective = "member";
@@ -63,25 +65,18 @@ export async function Component({ perspective }: { perspective?: string }) {
     validatedPerspective = "admin";
   }
 
-  const brands = await cachedGetBrands(validatedPerspective, validatedSort);
+  const brandsResult = await brands.getBrands(
+    validatedPerspective,
+    validatedSort
+  );
 
-  // const [brands, passes] = await Promise.all([
-  //   getBrands(),
-  //   getMemberByIAM(userId, { passport: true }).then((member) =>
-  //     member?.passport.passes.reduce((acc, cur) => {
-  //       acc[cur.brand.slug] = cur;
-  //       return acc;
-  //     }, {} as PassMap)
-  //   ),
-  // ]);
-
-  if (!brands) {
+  if (!brandsResult) {
     return <div>error loading brands</div>;
   }
 
   return (
     <div>
-      <BrandGrid brands={brands} collection={member.collection} />
+      <BrandGrid brands={brandsResult} collection={member.collection} />
     </div>
   );
 }
@@ -90,22 +85,30 @@ function BrandGrid({
   brands,
   collection,
 }: {
-  brands: CakeBrand[];
+  brands: Brand[];
   collection: MemberCollection;
 }) {
   return (
     <>
       <div className="my-5 flex flex-row items-center">
         <div className="grow">
-          <span>{Object.keys(collection).length} / 10</span> in Collections
+          <span>
+            <CollectionIcon /> {Object.keys(collection).length} /{" "}
+            {collection.maxCollectionItems}
+          </span>{" "}
+          in Collections
         </div>
         <div>
-          <PrimaryButton>Sort</PrimaryButton>
+          <SecondaryButton icon={<SortIcon />} />
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 md:gap-4">
         {brands.map((b) => (
-          <GridItem brand={b} pass={collection.itemMap[b.slug]} />
+          <GridItem
+            key={b.db.id}
+            brand={b.cms!}
+            pass={collection.itemMap[b.db.slug]}
+          />
         ))}
       </div>
     </>
@@ -116,20 +119,29 @@ function GridItem({
   brand,
   pass,
 }: {
-  brand: CakeBrand;
+  brand: NonNullable<Brand["cms"]>;
   pass?: MemberCollectionItem;
 }) {
+  const isFeatured = brand.featured === "featured";
+  let linkClass: string | undefined = undefined;
+
+  let cardClass = "w-full aspect-[215/260] relative group";
+  if (isFeatured) {
+    linkClass = "col-span-2";
+    cardClass = "w-full aspect-[447/260] relative group";
+  }
   return (
-    <Link href={`/brands/${brand.slug}`}>
-      <div className="w-full aspect-[2/3] relative group">
+    <Link className={linkClass} href={`/brands/${brand.slug}`}>
+      <div className={cardClass}>
         <figure className="absolute top-0 w-full h-full">
           {brand.passBackground && (
             <SanityImageServer
               alt={`${brand.name} Logo`}
               image={brand.passBackground}
-              height={0}
-              width={0}
+              height={260}
+              width={isFeatured ? 447 : 215}
               style={{ height: "100%", width: "100%" }}
+              aspectRatio={isFeatured ? "landscape" : "portrait"}
             />
           )}
         </figure>
@@ -153,9 +165,9 @@ function GridItem({
         </div>
         <div className="absolute top-0 w-full h-full p-4 flex flex-col items-end justify-end">
           {pass && (
-            <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-blue-700 bg-blue-100 border border-blue-300">
-              <div className="text-xs font-normal leading-none max-w-full flex-initial">
-                Member
+            <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-black/30 rounded-full">
+              <div className="text-xs text-white font-normal leading-none max-w-full flex-initial">
+                In My Collection
               </div>
             </div>
           )}

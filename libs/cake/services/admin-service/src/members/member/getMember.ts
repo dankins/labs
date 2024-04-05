@@ -1,9 +1,9 @@
-import { clerkClient } from "@clerk/nextjs";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { clerkClient } from "@clerk/nextjs/server";
+import { unstable_cache } from "next/cache";
 import { superadmin } from "../../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { create } from "./create";
+import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { Member, MemberCollection } from "./types";
 
 async function getMember(iam: string): Promise<Member> {
@@ -13,7 +13,7 @@ async function getMember(iam: string): Promise<Member> {
   }
   let dbMember = await getDbUser(iam);
   if (!dbMember) {
-    await create(iam, {});
+    await create(iam, { maxCollectionItems: DEFAULT_MAX_COLLECTION_ITEMS });
     dbMember = await getDbUser(iam);
   }
   if (!dbMember) {
@@ -25,6 +25,7 @@ async function getMember(iam: string): Promise<Member> {
     value: 0,
     count: 0,
     remaining: 0,
+    maxCollectionItems: dbMember.maxCollectionItems,
     itemMap: {},
   };
 
@@ -43,6 +44,8 @@ async function getMember(iam: string): Promise<Member> {
     };
   });
 
+  collection.remaining = collection.maxCollectionItems - collection.count;
+
   let id = dbMember?.id;
 
   if (!id) {
@@ -57,6 +60,7 @@ async function getMember(iam: string): Promise<Member> {
     firstName: iamMember.firstName,
     lastName: iamMember.lastName,
     stripeCustomerId: dbMember.stripeCustomerId || undefined,
+    stripeSubscriptionId: dbMember.stripeSubscriptionId || undefined,
     email: iamMember.emailAddresses.filter(
       (e) => e.id === iamMember.primaryEmailAddressId
     )[0].emailAddress!,

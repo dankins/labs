@@ -1,21 +1,13 @@
 "use server";
 
 import {
-  addBrand,
+  admin,
   createBrandOfferCodes,
-  createBrandPassOffer,
   superadmin,
 } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import type { brandStatus } from "@danklabs/cake/db";
-
-export async function createOffer(brandSlug: string, brandId: string) {
-  console.log("create offer", brandId);
-  await createBrandPassOffer(brandId, true);
-  revalidatePath(`/admin/brands/${brandSlug}/`);
-}
 
 export async function createCodes(
   brandSlug: string,
@@ -40,7 +32,7 @@ export async function addBrandAction(formData: FormData) {
   const data = addBrandSchema.parse(form);
   console.log("addBrandAction", data);
 
-  await addBrand(data.slug);
+  await admin.brand.addBrand(data.slug);
 
   redirect(`/admin/brands/${data.slug}`);
 }

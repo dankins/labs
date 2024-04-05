@@ -1,4 +1,3 @@
-import { clerkClient } from "@clerk/nextjs";
 import { members } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 

@@ -7,6 +7,11 @@ const ContentType = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "orderRank",
+      title: "Order Rank",
+      type: "string",
+    }),
+    defineField({
       name: "title",
       title: "title",
       type: "string",

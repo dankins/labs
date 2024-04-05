@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  addFavorite,
-  removeFavorite,
-  members,
-} from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 
 export async function addFavoriteAction(
@@ -13,7 +9,7 @@ export async function addFavoriteAction(
   brandSlug: string
 ) {
   console.log("addFavoriteAction", memberId, brandId);
-  await addFavorite(memberId, brandId);
+  await members.member.favorites.addFavorite(memberId, brandId);
   revalidatePath("/brands/" + brandSlug);
 }
 
@@ -22,7 +18,7 @@ export async function removeFavoriteAction(
   brandId: string,
   brandSlug: string
 ) {
-  await removeFavorite(memberId, brandId);
+  await members.member.favorites.removeFavorite(memberId, brandId);
   revalidatePath("/brands/" + brandSlug);
 }
 

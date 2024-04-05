@@ -14,6 +14,7 @@ import {
   Button,
   Paragraph1,
   PrimaryButton,
+  Spinner,
 } from "@danklabs/pattern-library/core";
 import { SubscriptionReturnType } from "./types";
 
@@ -86,13 +87,17 @@ export function Payment({
   }
 
   if (!clientSecret) {
-    return <div>loading {JSON.stringify(subscriptionData, null, 2)}</div>;
+    return <Spinner />;
+  }
+
+  if (!subscriptionData) {
+    return <Spinner />;
   }
 
   return (
     <StripeProvider key={clientSecret} options={options}>
       <CartSummary subscriptionData={subscriptionData} />
-      <PaymentForm />
+      <PaymentForm subscriptionId={subscriptionData.subscriptionId} />
     </StripeProvider>
   );
 }
@@ -128,7 +133,7 @@ export function CartSummary({
   );
 }
 
-export function PaymentForm() {
+export function PaymentForm({ subscriptionId }: { subscriptionId: string }) {
   const [loading, setLoading] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
   const stripe = useStripe();
@@ -138,6 +143,7 @@ export function PaymentForm() {
   if (typeof window !== "undefined" && window.location.href) {
     successURL = new URL(window.location.href);
     successURL.searchParams.set("success", "true");
+    successURL.searchParams.set("subscriptionId", subscriptionId);
   }
 
   const paymentElementOptions: StripePaymentElementOptions = {

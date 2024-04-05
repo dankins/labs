@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Tabs } from "./Tabs";
 import { Suspense } from "react";
-import { getBrandAdminData } from "@danklabs/cake/services/admin-service";
+import { admin } from "@danklabs/cake/services/admin-service";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
 import { AdminPageHeader, Heading1 } from "@danklabs/pattern-library/core";
 
@@ -30,7 +30,7 @@ async function LogoSection({ slug }: { slug: string }) {
   );
 }
 async function LogoSectionLoaded({ slug }: { slug: string }) {
-  const brand = await getBrandAdminData(slug);
+  const brand = await admin.brand.getBrand(slug);
 
   return (
     <AdminPageHeader>

@@ -1,21 +1,17 @@
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
-import { CMSBrand } from "./types";
 import {
   Badge,
-  Button,
-  CircleButton,
-  FavoriteFilledIcon,
   FavoriteOutlineIcon,
   OutlineButton,
-  PlayIcon,
 } from "@danklabs/pattern-library/core";
 import { FaHeart } from "react-icons/fa";
 import {
   getImageDimensions,
   getSanityRefId,
 } from "@danklabs/cake/pattern-library/core";
+import { Brand } from "@danklabs/cake/services/admin-service";
 
-export function Header({ brand }: { brand: CMSBrand }) {
+export function Header({ brand }: { brand: NonNullable<Brand["cms"]> }) {
   const hasVideo = false;
   const { aspectRatio } = getImageDimensions(getSanityRefId(brand.passLogo!));
   const imageSize =
@@ -38,10 +34,11 @@ export function Header({ brand }: { brand: CMSBrand }) {
       </div>
       <div className="grow flex flex-row items-center justify-center">
         {hasVideo ? (
-          <CircleButton size={24} background="black/50">
-            <PlayIcon className="fill-white text-2xl" />
-          </CircleButton>
+          <></>
         ) : (
+          // <CircleButton size={24} background="black/50">
+          //   <PlayIcon className="fill-white text-2xl" />
+          // </CircleButton>
           <div className="w-[88px] h-[88px]" />
         )}
       </div>

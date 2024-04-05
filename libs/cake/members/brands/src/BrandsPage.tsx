@@ -9,7 +9,7 @@ export async function BrandsPage({
 }) {
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="p-2 md:p-6 flex flex-col items-center">
         <div className="container">
           <div>
             <div>

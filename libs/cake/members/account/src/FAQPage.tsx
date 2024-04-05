@@ -1,4 +1,4 @@
-import { getPage } from "@danklabs/cake/cms";
+import { getPage } from "@danklabs/cake/services/admin-service";
 import { RenderContent } from "@danklabs/cake/cms-content";
 
 export async function FAQPage() {

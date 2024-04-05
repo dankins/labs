@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
 import { getStoriesForMember } from "@danklabs/cake/services/admin-service";
 import { RightArrow } from "@danklabs/pattern-library/core";
@@ -19,10 +19,7 @@ function Loading() {
 }
 
 async function Component() {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("not autheticated");
-  }
+  const { userId } = auth().protect();
   const stories = await getStoriesForMember(userId);
   return (
     <div className="w-full">

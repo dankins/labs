@@ -1,4 +1,4 @@
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { db } from "@danklabs/cake/db";
 import { unstable_cache } from "next/cache";
 
@@ -9,7 +9,7 @@ async function getSuperAdmins() {
   });
 
   const mergedData = superAdmins.map((admin) => {
-    const user = iamUsers.find((user) => user.id === admin.iam);
+    const user = iamUsers.data.find((user) => user.id === admin.iam);
     return { ...admin, user: user! };
   });
 

@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { cachedGetBrandAdminOptions } from "@danklabs/cake/services/admin-service";
 import { redirect } from "next/navigation";
 
@@ -7,10 +7,7 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const { userId } = auth();
-  if (!userId) {
-    redirect("/");
-  }
+  const { userId } = auth().protect();
 
   const brands = await cachedGetBrandAdminOptions(userId);
   if (brands.length < 1) {

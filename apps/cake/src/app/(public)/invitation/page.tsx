@@ -18,7 +18,6 @@ export async function generateMetadata(
   const metadata = await foyerGenerateMetadata(
     (searchParams["code"] as string) || undefined
   );
-  console.log("metadata", { searchParams, metadata });
   return metadata;
 }
 

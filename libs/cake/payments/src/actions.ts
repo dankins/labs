@@ -1,6 +1,6 @@
 "use server";
 import z from "zod";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import {
   AddressParam,
   StripeAddressElementChangeEvent,
@@ -161,38 +161,4 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   }
 
   return { status: "pending" };
-}
-
-export async function createAccount(
-  formData: FormData
-): Promise<
-  | { error?: undefined; userId: string; ticket: string }
-  | { error: "ACCOUNT_EXISTS" }
-> {
-  const form = Object.fromEntries(formData.entries());
-  const createAccountSchema = z.object({
-    email: z.string(),
-  });
-  const data = createAccountSchema.parse(form);
-
-  const request: Parameters<typeof clerkClient.users.createUser>[0] = {
-    externalId: data.email.toLowerCase(),
-    emailAddress: [data.email],
-  };
-
-  // clerkClient.users.getUser()
-  const users = await clerkClient.users.getUserList({
-    emailAddress: [data.email],
-  });
-
-  if (users.length > 0) {
-    return { error: "ACCOUNT_EXISTS" };
-  }
-  const result = await clerkClient.users.createUser(request);
-  const ticket = await clerkClient.signInTokens.createSignInToken({
-    userId: result.id,
-    expiresInSeconds: 60 * 60,
-  });
-
-  return { userId: result.id, ticket: ticket.token };
 }

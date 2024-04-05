@@ -1,4 +1,4 @@
-import { getContent } from "@danklabs/cake/cms";
+import { members } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 import { RenderContent } from "./RenderContent";
 
@@ -15,7 +15,7 @@ function Loading() {
 }
 
 async function Component({ slug }: { slug: string }) {
-  const content = await getContent(slug);
+  const content = await members.content.getContent(slug);
 
   return (
     <div className="flex flex-col items-center">

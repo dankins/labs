@@ -1,6 +1,6 @@
 "use server";
 
-import { removeFavorites } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 
 export async function removeMultipleFavorites(
@@ -8,6 +8,6 @@ export async function removeMultipleFavorites(
   brandIds: string[]
 ) {
   console.log("remove multiple", memberId, brandIds);
-  await removeFavorites(memberId, brandIds);
+  await members.member.favorites.removeFavorites(memberId, brandIds);
   revalidatePath("/account/favorites");
 }

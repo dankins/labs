@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Summary } from "./Summary";
 import { CardGrid } from "./CardGrid";
 import { members } from "@danklabs/cake/services/admin-service";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 export async function CollectionPanel() {
   return (
@@ -18,10 +18,7 @@ function Loading() {
 }
 
 async function Component() {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error("not authenticated");
-  }
+  const { userId } = auth().protect();
   const member = await members.member.get(userId);
   return (
     <div className="flex flex-col gap-4 md:gap-8">

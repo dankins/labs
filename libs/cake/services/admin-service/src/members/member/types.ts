@@ -7,6 +7,7 @@ export type MemberCollection = {
   value: number;
   count: number;
   remaining: number;
+  maxCollectionItems: number;
   itemMap: { [key: string]: MemberCollectionItem };
 };
 export type Member = {
@@ -19,5 +20,6 @@ export type Member = {
   isBrandManager: boolean;
   membershipStatus: "active" | "expired" | undefined;
   stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
   collection: MemberCollection;
 };

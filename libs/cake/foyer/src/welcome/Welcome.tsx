@@ -1,4 +1,4 @@
-import { getPage } from "@danklabs/cake/cms";
+import { getPage } from "@danklabs/cake/services/admin-service";
 import { ValueProp1 } from "./ValueProp1";
 import { ValueProp2 } from "./ValueProp2";
 import { ValueProp3 } from "./ValueProp3";

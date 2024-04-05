@@ -23,8 +23,8 @@ export async function assignInviteAction(
     })
   );
 
-  const invite = await invitations.assignInvite(inviteId, data.name);
-  redirect("/account/invites?action=share&invitationId=" + invite.id);
+  await invitations.assignInvite(inviteId, data.name);
+  redirect("/account/invites?action=share&invitationId=" + inviteId);
 }
 
 export async function emailInviteAction(

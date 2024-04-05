@@ -4,12 +4,12 @@ export const apris = localFont({
   variable: "--font-apris",
   src: [
     {
-      path: "./apris-v10-otps/Apris-Regular.otf",
+      path: "./apris-v10-woff/Apris-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./apris-v10-otps/Apris-Thin.otf",
+      path: "./apris-v10-woff/Apris-Thin.woff2",
       weight: "300",
       style: "normal",
     },

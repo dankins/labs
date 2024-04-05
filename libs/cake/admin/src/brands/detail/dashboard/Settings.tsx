@@ -6,7 +6,7 @@ import {
   SettingsIcon,
 } from "@danklabs/pattern-library/core";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
-import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 
 export async function Settings({ slug }: { slug: string }) {
   return (
@@ -39,7 +39,7 @@ function Body({ slug, children }: { slug: string; children: React.ReactNode }) {
 }
 
 async function Component({ slug }: { slug: string }) {
-  const brand = await cachedGetBrandDetail(slug);
+  const brand = await brands.getBrand(slug);
   let color = "text-gray-500";
   switch (brand.db.status) {
     case "active":

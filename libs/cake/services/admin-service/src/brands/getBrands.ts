@@ -1,23 +1,23 @@
-import { BrandListSelection, getBrandsNoCount } from "@danklabs/cake/cms";
-import { db, Brand, brands } from "@danklabs/cake/db";
+import { db, brands } from "@danklabs/cake/db";
 import { eq, inArray, sql } from "drizzle-orm";
-import { unstable_cache } from "next/cache";
-
-export type CakeBrand = Brand & BrandListSelection;
+import { revalidateTag, unstable_cache } from "next/cache";
+import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
+import { sanityClient } from "@danklabs/integrations/sanitycms";
+import { Brand } from "./types";
 
 export type GetBrandsSortOptions = "popular" | "asc" | "desc";
 
-async function getBrands(
+async function fn(
   perspective: "member" | "admin",
   sort: GetBrandsSortOptions = "popular"
-): Promise<CakeBrand[]> {
+): Promise<Brand[]> {
   console.log("get brands", perspective);
   let whereFilter = eq(brands.status, "active");
   if (perspective === "admin") {
     whereFilter = eq(sql`1`, sql`1`);
   }
 
-  let dbBrands: Brand[];
+  let dbBrands: (typeof brands.$inferSelect)[];
   dbBrands = await db.query.brands.findMany({
     where: whereFilter,
   });
@@ -26,59 +26,100 @@ async function getBrands(
   const dbBrandMap = dbBrands.reduce((acc, brand) => {
     acc[brand.slug] = brand;
     return acc;
-  }, {} as { [slug: string]: Brand });
+  }, {} as { [slug: string]: typeof brands.$inferSelect });
 
   const cmsBrands = await cmsBrandsPromise;
 
-  let rtn: CakeBrand[] = [];
-  cmsBrands.forEach((brand) => {
-    const dbBrand = dbBrandMap[brand.slug];
+  let rtn: Brand[] = [];
+  cmsBrands.forEach((cmsBrand) => {
+    const dbBrand = dbBrandMap[cmsBrand.slug];
     if (dbBrand) {
-      rtn.push({ ...brand, ...dbBrand });
+      rtn.push({ db: dbBrand, cms: cmsBrand });
     }
-    delete dbBrandMap[brand.slug];
+    delete dbBrandMap[cmsBrand.slug];
   });
 
   // these exist in the DB but not the CMS
   Object.keys(dbBrandMap).forEach((slug) => {
     rtn.push({
-      ...dbBrandMap[slug],
-      logoSquare: null,
-      passLogo: null,
-      passBackground: null,
+      db: dbBrandMap[slug],
     });
   });
 
   return rtn;
 }
 
-export async function cachedGetBrands(
+export async function getBrands(
   perspective: string,
   sort: "asc" | "desc" = "asc",
   managerBrands?: string[]
 ) {
   if (perspective === "admin") {
-    const fn = unstable_cache(getBrands, [`get-brands-admin`], {
+    return unstable_cache(fn, [`get-brands-admin`], {
       tags: [`get-brands-admin`],
-    });
-
-    return fn("admin", sort);
+    })("admin", sort);
   } else if (perspective === "brand-manager" && managerBrands) {
-    const fn = unstable_cache(getBrands, [`get-brands-admin`], {
+    const brandAdminFn = unstable_cache(fn, [`get-brands-admin`], {
       tags: [`get-brands-admin`],
     });
 
-    const brands = await fn("admin", sort);
+    const brands = await brandAdminFn("admin", sort);
     return brands.filter(
-      (brand) => brand.status === "active" || managerBrands.includes(brand.slug)
+      (brand) =>
+        brand.db.status === "active" || managerBrands.includes(brand.db.slug)
     );
   }
 
-  const fn = unstable_cache(getBrands, [`get-brands-member`], {
+  return unstable_cache(fn, [`get-brands-member`], {
     tags: [`get-brands-member`],
-  });
-
-  return fn("member", sort);
+  })("member", sort);
 }
 
-export const getBrands_tags = ["get-brands-admin", "get-brands-member"];
+const getBrands_tags = ["get-brands-admin", "get-brands-member"];
+
+export function clearGetBrandsCache() {
+  getBrands_tags.forEach(revalidateTag);
+}
+
+const brandListSelection = {
+  name: q.string().nullable().optional(),
+  slug: q.slug("slug"),
+  logoSquare: sanityImage("logo_square").nullable(),
+  passLogo: sanityImage("pass_logo").nullable(),
+  passBackground: sanityImage("pass_background", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  passBackgroundDesktop: sanityImage("pass_background_desktop", {
+    withAsset: ["base", "dimensions", "lqip"],
+    withHotspot: true,
+    withCrop: true,
+  }).nullable(),
+  featured: q.string().nullable(),
+  // https://www.sanity.io/plugins/color-input
+};
+
+type BrandListSelection = TypeFromSelection<typeof brandListSelection>;
+
+const runQuery = makeSafeQueryRunner(
+  (q: string, params: Record<string, number | string | string[]> = {}) =>
+    sanityClient.fetch(q, {
+      ...params,
+    })
+);
+
+type GetBrandsFilter = {
+  status?: string;
+  slugs?: string[];
+};
+
+async function getBrandsNoCount(filter?: GetBrandsFilter) {
+  let query = q(`*[_type=="brand"]|order(orderRank)`, { isArray: true });
+  if (filter?.slugs) {
+    // @ts-ignore
+    query = query.filter("slug.current in $slugs");
+  }
+
+  return runQuery(query.grab(brandListSelection), filter);
+}

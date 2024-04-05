@@ -8,6 +8,7 @@ import {
   MembersIcon,
   OffersIcon,
   SettingsIcon,
+  TicketIcon,
   UserIcon,
 } from "@danklabs/pattern-library/core";
 import nav from "./Nav.module.scss";
@@ -20,12 +21,9 @@ export function Nav() {
   const isBrandDetail = segments[0] === "brands" && !!segments[1];
 
   return (
-    <nav className="flex flex-col min-h-screen min-w-[275px]">
-      <div className="h-[64px] ">
-        <Link
-          href="/admin"
-          className="p-4 flex flex-row items-center gap-2 text-white"
-        >
+    <nav className="flex flex-col min-h-screen bg-[#f3ece6] min-w-[275px]">
+      <div className="h-[100px]">
+        <Link href="/admin" className="p-4 flex flex-col gap-2 text-white">
           <Image
             alt="Cake Logo"
             src="/images/logo.svg"
@@ -33,8 +31,7 @@ export function Nav() {
             height={100}
             width={100}
           />
-          <span className="text-sm text-secondary">admin</span>
-          <span className="grow" />
+          <span className="text-sm text-secondary uppercase">admin</span>
         </Link>
       </div>
       <div className="grow flex flex-col">
@@ -81,19 +78,26 @@ export function Nav() {
             )}
           </NavItem>
           <NavItem
+            href="/admin/invitations"
+            title="Invitations"
+            icon={TicketIcon}
+            activeSection={segments[0] === "invitations"}
+            activePage={segments.length === 1 && segments[0] === "invitations"}
+          />
+          <NavItem
             href="/admin/members"
             title="Members"
             icon={UserIcon}
             activeSection={segments[0] === "members"}
             activePage={segments.length === 1 && segments[0] === "members"}
-          ></NavItem>
+          />
           <NavItem
             href="/admin/settings"
             title="Settings"
             icon={SettingsIcon}
             activeSection={segments[0] === "settings"}
             activePage={segments.length === 1 && segments[0] === "settings"}
-          ></NavItem>
+          />
         </nav>
       </div>
       <div className="p-4">

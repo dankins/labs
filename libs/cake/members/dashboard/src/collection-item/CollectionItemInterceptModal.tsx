@@ -2,16 +2,13 @@ import {
   SanityArtDirection,
   SanityImageServer,
 } from "@danklabs/cake/pattern-library/core";
-import { cachedGetBrandDetail } from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 import {
   InterceptModal,
-  LeftArrow,
   Paragraph3,
-  PrimaryButton,
   RightArrow,
   SecondaryButton,
 } from "@danklabs/pattern-library/core";
-import { ContainerWithBackground } from "libs/cake/members/brands/src/brand/components/ContainerWithBackground";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Suspense } from "react";
 
@@ -34,10 +31,7 @@ export function Loading() {
 }
 
 export async function Component({ slug }: { slug: string }) {
-  const [collectionItem, brand] = await Promise.all([
-    Promise.resolve(-1),
-    cachedGetBrandDetail(slug),
-  ]);
+  const brand = await brands.getBrand(slug);
 
   return (
     <Shell>

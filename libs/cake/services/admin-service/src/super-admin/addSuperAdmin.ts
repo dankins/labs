@@ -1,30 +1,20 @@
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { db, superAdmins } from "@danklabs/cake/db";
 import { revalidateTag } from "next/cache";
+import { members } from "../members";
 
 export async function addSuperAdmin(email: string) {
   console.log("addSuperAdmin", email);
 
-  let iam: string;
-  const clerkUserByEmail = await clerkClient.users.getUserList({
-    emailAddress: [email],
-  });
-
-  if (clerkUserByEmail.length === 0) {
-    const newUser = await clerkClient.users.createUser({
-      emailAddress: [email],
-    });
-    iam = newUser.id;
-  } else {
-    iam = clerkUserByEmail[0].id;
-  }
+  const member = await members.member.getOrCreateByEmail(email);
 
   await db.insert(superAdmins).values([
     {
-      iam,
+      iam: member.iam,
       role: "super_admin",
     },
   ]);
 
+  members.member.clearCache(member.iam);
   revalidateTag("get-super-admins");
 }

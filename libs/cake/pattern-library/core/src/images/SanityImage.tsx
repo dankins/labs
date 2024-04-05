@@ -1,30 +1,12 @@
 "use client";
 import Image from "next/image";
 import {
-  ImageUrlBuilder,
   UseNextSanityImageBuilder,
-  UseNextSanityImageBuilderOptions,
   useNextSanityImage,
 } from "next-sanity-image";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 import { useMemo } from "react";
-import { portraitCropBuilder } from "./utils";
-
-export type SanityImageType = {
-  readonly _key: string | null;
-  readonly _type: string;
-  asset: {
-    _type: "reference" | "sanity.imageAsset" | "sanity.fileAsset";
-    metadata?: {
-      lqip?: any;
-    };
-  };
-};
-
-type ImageBuilderFactory = (
-  imageUrlBuilder: ImageUrlBuilder,
-  options: UseNextSanityImageBuilderOptions
-) => ImageUrlBuilder;
+import { SanityImageType, portraitCropBuilder } from "./utils";
 
 export type SanityImageProps = {
   image: SanityImageType;

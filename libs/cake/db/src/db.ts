@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { QueryResult, sql } from "@vercel/postgres";
 import {
   drizzle as VercelDrizzle,
   VercelPgDatabase,
