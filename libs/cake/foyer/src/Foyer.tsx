@@ -93,7 +93,12 @@ export async function FoyerView({
     // case "summary":
     //   return <Summary />;
     case "checkout":
-      return <MembershipCheckout invitation={invitation} />;
+      return (
+        <MembershipCheckout
+          invitation={invitation}
+          searchParams={searchParams || {}}
+        />
+      );
     default:
       return <ErrorScreen error={"INVALID_STATE"} />;
   }

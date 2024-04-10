@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { cachedGetMember } from "./getMember";
+import { getMember } from "./getMember";
 import { Member } from "./types";
 
 async function getByID(memberId: string): Promise<Member> {
@@ -11,7 +11,7 @@ async function getByID(memberId: string): Promise<Member> {
   if (!dbMember) {
     throw new Error(`Member not found`);
   }
-  return cachedGetMember(dbMember.iam);
+  return getMember(dbMember.iam);
 }
 
 export async function cachedGetById(memberId: string) {

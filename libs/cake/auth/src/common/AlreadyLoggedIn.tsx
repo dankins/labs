@@ -19,7 +19,15 @@ export function AlreadyLoggedIn({
       <div className="flex flex-row justify-center gap-4 my-5">
         {primaryCta}
         <div>
-          <SecondaryButton onClick={() => signOut()}>Sign Out</SecondaryButton>
+          <SecondaryButton
+            onClick={() =>
+              signOut(() => {
+                console.log("signed out");
+              })
+            }
+          >
+            Sign Out
+          </SecondaryButton>
         </div>
       </div>
     </div>

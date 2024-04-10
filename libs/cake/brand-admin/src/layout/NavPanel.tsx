@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import {
   cachedGetBrandAdminOptions,
   brands,
+  admin,
 } from "@danklabs/cake/services/admin-service";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
 import Image from "next/image";
@@ -61,16 +62,19 @@ async function BrandSwitcherComponent() {
   const adminBrands = await brands.getBrandsBySlug(orgs);
   return (
     <div className="h-[64px] w-full flex flex-row items-center invert p-3">
-      {Object.keys(brands).map((brandSlug) => (
-        <SanityImageServer
-          key={brandSlug}
-          alt={`${adminBrands[brandSlug].cms?.name} Logo`}
-          image={adminBrands[brandSlug].cms?.passLogo!}
-          width={257}
-          height={48}
-          style={{ height: "48px", width: "auto" }}
-        />
-      ))}
+      {Object.keys(adminBrands).map((brandSlug) => {
+        console.log("bleep", brandSlug, adminBrands, adminBrands[brandSlug]);
+        return (
+          <SanityImageServer
+            key={brandSlug}
+            alt={`${adminBrands[brandSlug].cms?.name} Logo`}
+            image={adminBrands[brandSlug].cms?.passLogo!}
+            width={257}
+            height={48}
+            style={{ height: "48px", width: "auto" }}
+          />
+        );
+      })}
     </div>
   );
 }

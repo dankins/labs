@@ -6,15 +6,14 @@ import { eq } from "drizzle-orm";
 import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { Member, MemberCollection } from "./types";
 
-async function getMember(iam: string): Promise<Member> {
+async function fn(iam: string): Promise<Member> {
   const iamMember = await clerkClient.users.getUser(iam);
   if (!iamMember) {
     throw new Error("user not found");
   }
   let dbMember = await getDbUser(iam);
   if (!dbMember) {
-    await create(iam, { maxCollectionItems: DEFAULT_MAX_COLLECTION_ITEMS });
-    dbMember = await getDbUser(iam);
+    throw new Error("member not found");
   }
   if (!dbMember) {
     throw new Error("invalid state");
@@ -71,12 +70,10 @@ async function getMember(iam: string): Promise<Member> {
   };
 }
 
-export async function cachedGetMember(iam: string) {
-  const fn = unstable_cache(getMember, [`get-member-${iam}`], {
+export async function getMember(iam: string) {
+  return unstable_cache(fn, [`get-member-${iam}`], {
     tags: [`get-member-${iam}`],
-  });
-
-  return fn(iam);
+  })(iam);
 }
 
 function getDbUser(iam: string) {

@@ -7,6 +7,7 @@ export async function create(
   iam: string,
   data: Omit<typeof members.$inferInsert, "iam" | "createdAt" | "updatedAt">
 ) {
+  console.log("creating member", iam, data);
   const result = await db
     .insert(members)
     .values({

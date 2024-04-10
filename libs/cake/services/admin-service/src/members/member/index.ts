@@ -1,4 +1,4 @@
-import { cachedGetMember } from "./getMember";
+import { getMember } from "./getMember";
 import { cachedGetById } from "./getByID";
 import { getBySubscriptionId } from "./getBySubscriptionId";
 import { clearCache } from "./clearCache";
@@ -9,9 +9,10 @@ import { updateProfile } from "./updateProfile";
 import { claimPass } from "./claimPass";
 import { getOrCreateByEmail } from "./getOrCreateByEmail";
 import { favorites } from "./favorites";
+import { getOrCreateByIAM } from "./getOrCreateByIAM";
 
 export const member = {
-  get: cachedGetMember,
+  get: getMember,
   getById: cachedGetById,
   getBySubscriptionId,
   clearCache,
@@ -21,6 +22,7 @@ export const member = {
   updateProfile,
   claimPass,
   getOrCreateByEmail,
+  getOrCreateByIAM,
   DEFAULT_MAX_COLLECTION_ITEMS,
   favorites,
 };

@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { cachedGetMember } from "./getMember";
+import { getMember } from "./getMember";
 import { db, members } from "@danklabs/cake/db";
 import { Member } from "./types";
 
@@ -12,5 +12,5 @@ export async function getBySubscriptionId(
   if (!dbMember) {
     throw new Error(`Member not found`);
   }
-  return cachedGetMember(dbMember.iam);
+  return getMember(dbMember.iam);
 }

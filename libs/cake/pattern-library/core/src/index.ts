@@ -6,3 +6,4 @@ export * from "./text";
 export * from "./icons";
 export * from "./logos";
 export * from "./fonts";
+export * from "./admin";

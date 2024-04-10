@@ -4,7 +4,9 @@ import { eq } from "drizzle-orm";
 
 export async function update(
   iam: string,
-  data: Omit<typeof members.$inferInsert, "iam" | "createdAt" | "updatedAt">
+  data: Partial<
+    Omit<typeof members.$inferInsert, "iam" | "createdAt" | "updatedAt">
+  >
 ) {
   const change: Partial<typeof members.$inferInsert> = {
     updatedAt: new Date(),
