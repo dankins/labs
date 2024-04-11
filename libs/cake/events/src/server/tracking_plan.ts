@@ -8,7 +8,8 @@ export type ServerTrackingEvent =
   | TrackCheckoutComplete
   | TrackSendInvitationEmailInviter
   | TrackSendInvitationEmailRecipient
-  | TrackInvitationActivated;
+  | TrackInvitationActivated
+  | TrackShopifyRawCheckoutCompletedEvent;
 
 export type TrackInvitationCodeSubmittedEvent = {
   name: "Invitation Code Submitted";
@@ -37,6 +38,12 @@ export type TrackBrandAddedToCollection = {
   name: "Brand Added To Collection";
   brand: string;
   collection: string[];
+};
+
+export type TrackShopifyRawCheckoutCompletedEvent = {
+  name: "Shopify Raw Checkout Complete Event";
+  brand: string;
+  payload: any;
 };
 
 export type Profile = {

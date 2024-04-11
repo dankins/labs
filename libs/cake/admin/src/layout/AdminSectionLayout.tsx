@@ -22,7 +22,7 @@ export function AdminSectionLayout({
   return (
     <ClerkProvider>
       <div className="flex flex-row">
-        <AdminNav>
+        <AdminNav subheading="admin">
           <NavItem
             href={"/admin/brands"}
             title="Brands"

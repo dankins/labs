@@ -143,6 +143,8 @@ export const offers = pgTable("offers", {
     .references(() => brandOfferTemplates.id)
     .notNull(),
   status: offerStatus("status").notNull(),
+  orderId: text("order_id"),
+  redemptionDate: timestamp("redeption_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -247,6 +249,13 @@ export const offerRelations = relations(offers, ({ one }) => ({
   pass: one(passes, {
     fields: [offers.passId],
     references: [passes.id],
+  }),
+}));
+
+export const offerCodesRelations = relations(offerCodes, ({ one }) => ({
+  offer: one(offers, {
+    fields: [offerCodes.offerId],
+    references: [offers.id],
   }),
 }));
 

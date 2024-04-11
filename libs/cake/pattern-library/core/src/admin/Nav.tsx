@@ -6,9 +6,11 @@ import { NavLink } from "./NavLink";
 import { UserSection } from "./UserSection";
 
 export function AdminNav({
+  subheading,
   children,
   switcher,
 }: {
+  subheading: string;
   children?: React.ReactNode;
   switcher?: React.ReactNode;
 }) {
@@ -23,7 +25,7 @@ export function AdminNav({
             height={100}
             width={100}
           />
-          <span className="text-sm text-secondary uppercase">admin</span>
+          <span className="text-sm text-secondary uppercase">{subheading}</span>
         </Link>
       </div>
       {switcher}

@@ -17,7 +17,10 @@ export function SectionLayout({
 
   return (
     <div className="flex flex-row">
-      <AdminNav switcher={<BrandSwitcher currentBrand={slug} />}>
+      <AdminNav
+        subheading="manager"
+        switcher={<BrandSwitcher currentBrand={slug} />}
+      >
         <NavItem
           href={`${baseRoute}`}
           title="Home"

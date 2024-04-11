@@ -1,4 +1,4 @@
-import { admin } from "@danklabs/cake/services/admin-service";
+import { admin, shopify } from "@danklabs/cake/services/admin-service";
 
 const commonToken = process.env["SHOPIFY_COMMON_TOKEN"]!;
 
@@ -20,8 +20,9 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const payload = await req.text();
-  console.log("received shopify payload", payload);
+  const payload = await req.json();
+
+  await shopify.handleCheckoutCompletedEvent(slug, payload);
   return new Response("ok", {
     status: 200,
     headers: {

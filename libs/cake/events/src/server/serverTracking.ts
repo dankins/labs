@@ -31,6 +31,20 @@ export async function track(userId: string, event: ServerTrackingEvent) {
   });
 }
 
+export function trackSystem(event: ServerTrackingEvent) {
+  const { name: eventName, ...properties } = event;
+  return new Promise((resolve) => {
+    analytics.track(
+      {
+        anonymousId: "system",
+        event: eventName,
+        properties,
+      },
+      resolve
+    );
+  });
+}
+
 export function trackAnon(event: ServerTrackingEvent) {
   const anonymousId = getAnonymousId();
   if (!anonymousId) {
