@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "./Button";
 import { ButtonProps } from "./BaseButton";
+import { PrimaryButton } from "./PrimaryButton";
 
 export type ActionButtonProps = { action(): Promise<any> };
 export function ActionButton({
@@ -17,8 +18,8 @@ export function ActionButton({
     setLoading(false);
   }
   return (
-    <Button {...rest} onClick={handleClick} loading={loading}>
+    <PrimaryButton {...rest} onClick={handleClick} loading={loading}>
       {children}
-    </Button>
+    </PrimaryButton>
   );
 }

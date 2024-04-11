@@ -1,25 +1,17 @@
-"use client";
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { IconBaseProps } from "react-icons/lib";
-import { useSelectedLayoutSegments } from "next/navigation";
-import classNames from "classnames";
 import Image from "next/image";
-
-import { WalletIcon } from "@danklabs/cake/pattern-library/core";
-import {
-  BrandIcon,
-  MembersIcon,
-  OffersIcon,
-  SettingsIcon,
-  TicketIcon,
-  UserIcon,
-} from "@danklabs/pattern-library/core";
 import nav from "./AdminNav.module.scss";
+import { NavLink } from "./NavLink";
+import { UserSection } from "./UserSection";
 
-export function AdminNav({ children }: { children?: React.ReactNode }) {
-  const segments = useSelectedLayoutSegments();
-
+export function AdminNav({
+  children,
+  switcher,
+}: {
+  children?: React.ReactNode;
+  switcher?: React.ReactNode;
+}) {
   return (
     <nav className="flex flex-col min-h-screen bg-[#f3ece6] min-w-[275px]">
       <div className="h-[100px]">
@@ -34,12 +26,11 @@ export function AdminNav({ children }: { children?: React.ReactNode }) {
           <span className="text-sm text-secondary uppercase">admin</span>
         </Link>
       </div>
+      {switcher}
       <div className="grow flex flex-col">
         <nav className={nav.Nav}>{children}</nav>
       </div>
-      <div className="p-4">
-        <UserButton afterSignOutUrl={"/"} />
-      </div>
+      <UserSection />
     </nav>
   );
 }
@@ -48,30 +39,28 @@ export function NavItem({
   title,
   href,
   icon: Icon,
-  activeSection,
-  activePage,
+  match,
   children,
 }: {
   title: string;
   href: string;
   icon: React.FC<IconBaseProps>;
-  activeSection: boolean;
-  activePage: boolean;
+  match: string[];
   children?: React.ReactNode;
 }) {
   return (
     <>
-      <Link
+      <NavLink
         href={href}
-        className={classNames(
-          nav.NavItem,
-          activeSection && nav.activeSection,
-          activePage && nav.activePage
-        )}
+        match={match}
+        linkInner={
+          <>
+            <Icon /> {title}
+          </>
+        }
       >
-        <Icon /> {title}
-      </Link>
-      {children ? <div>{children}</div> : undefined}
+        {children ? <div>{children}</div> : undefined}
+      </NavLink>
     </>
   );
 }

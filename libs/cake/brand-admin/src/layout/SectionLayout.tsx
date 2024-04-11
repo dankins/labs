@@ -1,14 +1,10 @@
-"use client";
 import { AdminNav, NavItem } from "@danklabs/cake/pattern-library/core";
 import {
-  BrandIcon,
   HomeIcon,
   MembersIcon,
-  OffersIcon,
   SettingsIcon,
-  UserIcon,
 } from "@danklabs/pattern-library/core";
-import { useSelectedLayoutSegments } from "next/navigation";
+import { BrandSwitcher } from "./BrandSwitcher";
 
 export function SectionLayout({
   slug,
@@ -18,31 +14,27 @@ export function SectionLayout({
   children?: React.ReactNode;
 }) {
   const baseRoute = `/brand-admin/${slug}`;
-  const segments = useSelectedLayoutSegments();
 
   return (
     <div className="flex flex-row">
-      <AdminNav>
+      <AdminNav switcher={<BrandSwitcher currentBrand={slug} />}>
         <NavItem
           href={`${baseRoute}`}
           title="Home"
           icon={HomeIcon}
-          activeSection={!segments[0]}
-          activePage={!segments[0]}
+          match={[]}
         ></NavItem>
         <NavItem
           href={`${baseRoute}/members`}
           title="Members"
           icon={MembersIcon}
-          activeSection={segments[0] === "members"}
-          activePage={segments[0] === "members"}
+          match={["members"]}
         ></NavItem>
         <NavItem
           href={`${baseRoute}/settings`}
           title="Settings"
           icon={SettingsIcon}
-          activeSection={segments[0] === "settings"}
-          activePage={segments[0] === "settings"}
+          match={["settings"]}
         ></NavItem>
       </AdminNav>
       <div className="px-4 grow">{children}</div>
