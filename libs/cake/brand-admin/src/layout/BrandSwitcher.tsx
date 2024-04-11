@@ -14,7 +14,7 @@ export async function BrandSwitcher({
 }) {
   return (
     <Suspense>
-      <BrandSwitcherComponent />
+      <BrandSwitcherComponent currentBrand={currentBrand} />
     </Suspense>
   );
 }
@@ -23,24 +23,30 @@ function BrandSwitcherLoading() {
   return;
 }
 
-async function BrandSwitcherComponent() {
+async function BrandSwitcherComponent({
+  currentBrand,
+}: {
+  currentBrand: string;
+}) {
   const { userId } = auth();
   const orgs = await cachedGetBrandAdminOptions(userId!);
   const adminBrands = await brands.getBrandsBySlug(orgs);
   return (
     <div className="h-[64px] w-full flex flex-row items-center p-3 bg-black">
-      {Object.keys(adminBrands).map((brandSlug) => {
-        return (
-          <SanityImageServer
-            key={brandSlug}
-            alt={`${adminBrands[brandSlug].cms?.name} Logo`}
-            image={adminBrands[brandSlug].cms?.passLogo!}
-            width={257}
-            height={48}
-            style={{ height: "48px", width: "auto" }}
-          />
-        );
-      })}
+      {Object.keys(adminBrands)
+        .filter((brandSlug) => brandSlug === currentBrand)
+        .map((brandSlug) => {
+          return (
+            <SanityImageServer
+              key={brandSlug}
+              alt={`${adminBrands[brandSlug].cms?.name} Logo`}
+              image={adminBrands[brandSlug].cms?.passLogo!}
+              width={257}
+              height={48}
+              style={{ height: "48px", width: "auto" }}
+            />
+          );
+        })}
     </div>
   );
 }
