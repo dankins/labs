@@ -1,0 +1,11 @@
+import classNames from "classnames";
+
+export function Caption3({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <span className={classNames("p4", className)}>{children}</span>;
+}

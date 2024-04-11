@@ -89,7 +89,7 @@ function Shell({
 }) {
   return (
     <Link
-      href={`/collection/${slug}`}
+      href={`/collection?collectionItem=${slug}`}
       className={`col-start-1 row-start-1 mt-[${
         idx * 3
       }rem] p-4 rounded-md bg-dark max-w-[360px] md:w-full md:h-full md:mt-0 aspect-[3/2] md:aspect-[4/5] relative overflow-hidden`}

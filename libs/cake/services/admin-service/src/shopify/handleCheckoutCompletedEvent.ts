@@ -19,10 +19,10 @@ export async function handleCheckoutCompletedEvent(
 
   const parsed = shopifyCheckoutCompleteSchema.parse(event);
 
-  // find the discount code that was used that starts with "CAKE" (case-insensitive)
+  // find the discount code that was used that starts with "CAKE"
   const discountCode = parsed.data?.checkout?.discountApplications
-    ?.map((discount) => discount.title?.toLowerCase())
-    ?.find((code) => code?.startsWith("cake"));
+    ?.map((discount) => discount.title)
+    ?.find((code) => code?.startsWith("CAKE") || code?.startsWith("cake"));
 
   if (!discountCode) {
     console.log("No discount code found", parsed);
@@ -76,6 +76,7 @@ export async function handleCheckoutCompletedEvent(
       orderId,
       redemptionDate: new Date(timestamp),
       status: "redeemed",
+      updatedAt: new Date(),
     })
     .where(eq(offers.id, code.offerId));
 

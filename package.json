@@ -54,6 +54,7 @@
     "pg": "^8.11.3",
     "postgres": "^3.4.3",
     "react": "18.2.0",
+    "react-barcode": "^1.5.1",
     "react-charts": "^3.0.0-beta.57",
     "react-cookie": "^7.0.2",
     "react-dom": "18.2.0",

@@ -11,6 +11,7 @@ import {
 } from "@danklabs/pattern-library/core";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Suspense } from "react";
+import { CollectionItemOffers } from "./CollectionItemOffers";
 
 export async function CollectionItemInterceptModal({ slug }: { slug: string }) {
   return (
@@ -44,7 +45,7 @@ export async function Component({ slug }: { slug: string }) {
                 images={[
                   /*  DESKTOP */
                   {
-                    aspectRatio: "landscape",
+                    aspectRatio: "portrait",
                     mediaQuery: "(min-width:  764px)",
                     image: brand.cms.passBackground,
                   },
@@ -81,6 +82,7 @@ export async function Component({ slug }: { slug: string }) {
                 Visit {brand.cms.name}
               </SecondaryButton>
             </div>
+            <CollectionItemOffers slug={slug} />
           </div>
         </div>
       </div>

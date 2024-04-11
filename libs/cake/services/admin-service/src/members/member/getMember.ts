@@ -40,6 +40,15 @@ async function fn(iam: string): Promise<Member> {
     collection.itemMap[collectionItem.brand.slug] = {
       slug: collectionItem.brand.slug,
       value: itemValue,
+      offers: collectionItem.offers.map((offer) => {
+        return {
+          name: offer.template.name || undefined,
+          offerType: offer.template.offerType,
+          offerValue: parseFloat(offer.template.offerValue),
+          status: offer.status,
+          code: offer.code?.code || undefined,
+        };
+      }),
     };
   });
 
@@ -88,6 +97,7 @@ function getDbUser(iam: string) {
               offers: {
                 with: {
                   template: true,
+                  code: true,
                 },
               },
             },

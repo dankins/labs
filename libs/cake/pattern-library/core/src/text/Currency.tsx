@@ -12,7 +12,7 @@ export function Currency({
   return (
     <div
       className={classNames(
-        "inline-blockfont-light text-red-300 flex flex-row items-top gap-1",
+        "inline-blockfont-light flex flex-row items-top gap-1",
         className
       )}
     >
