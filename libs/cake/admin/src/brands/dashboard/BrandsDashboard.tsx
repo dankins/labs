@@ -74,7 +74,7 @@ type BrandRowProps = {
 function BrandRow({ brand }: BrandRowProps) {
   const cmsUrl =
     process.env[`NEXT_PUBLIC_SITE_URL`]! +
-    `/studio/structure/brand;${brand.db.cmsId}`;
+    `/studio/structure/orderable-brand;${brand.db.cmsId}`;
   const logoUrl = brand.cms?.logoSquare
     ? sanityImageUrlBuilder.image(brand.cms.logoSquare).width(200).url()
     : "/images/missing-brand-logo.png";
