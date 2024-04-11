@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   }
 
   const payload = await req.text();
-  console.log("shopify payload", payload);
+  console.log("received shopify payload", payload);
   return new Response("ok", {
     status: 200,
     headers: {
