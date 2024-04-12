@@ -8,6 +8,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import { FormState } from "@danklabs/pattern-library/core";
 
 export async function createCodes(
   brandSlug: string,
@@ -42,4 +43,19 @@ export async function updateBrandStatusAction(
   newStatus: "active" | "draft" | "paused" | "deactivated"
 ) {
   await superadmin.updateBrandStatus(slug, newStatus);
+}
+
+export async function addManagerAction(
+  brandSlug: string,
+  state: FormState,
+  data: FormData
+): Promise<FormState> {
+  const form = Object.fromEntries(data.entries());
+  const addManagerSchema = z.object({
+    email: z.string().email(),
+  });
+  const parsed = addManagerSchema.parse(form);
+  await admin.brand.addManager(brandSlug, parsed.email);
+
+  return state;
 }
