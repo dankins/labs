@@ -1,6 +1,6 @@
 import { brands, db } from "@danklabs/cake/db";
 import { members } from "../../members";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { clearBrandCache } from "../../brands/getBrand";
 
 export async function addManager(brandSlug: string, email: string) {
@@ -18,7 +18,7 @@ export async function addManager(brandSlug: string, email: string) {
   await db
     .update(brands)
     .set({
-      admins: brand.admins,
+      admins: sql`admins || ${[{ email, role: "admin" }]}::jsonb`,
       updatedAt: new Date(),
     })
     .where(eq(brands.slug, brandSlug));
