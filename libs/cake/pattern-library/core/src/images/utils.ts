@@ -22,6 +22,7 @@ export type AspectRatioChoices =
   | "portrait"
   | "landscape"
   | "square"
+  | "wallet"
   | undefined;
 
 export type SanityImageType = {
@@ -109,6 +110,17 @@ export function portraitCropBuilder(width: number) {
       .fit("crop");
 }
 
+export function walletCropBuilder(width: number) {
+  return (
+    imageUrlBuilder: ImageUrlBuilder,
+    options: UseNextSanityImageBuilderOptions
+  ) =>
+    imageUrlBuilder
+      .width(width)
+      .height(Math.round((width * 2) / 3))
+      .fit("crop");
+}
+
 export function landscapeCropBuilder(width: number) {
   return (
     imageUrlBuilder: ImageUrlBuilder,
@@ -149,17 +161,6 @@ export function sanityImageHelper(
     originalImageDimensions
   );
 
-  const loader: ImageLoader = ({ width, quality }) => {
-    return (
-      imageBuilder(imageUrlBuilder(sanityClient).image(image).auto("format"), {
-        width,
-        originalImageDimensions,
-        croppedImageDimensions,
-        quality: quality || null,
-      }).url() || ""
-    );
-  };
-
   const baseImgBuilderInstance = imageBuilder(
     imageUrlBuilder(sanityClient).image(image).auto("format"),
     {
@@ -188,6 +189,17 @@ export function sanityImageHelper(
         )
       : Math.round(width / croppedImageDimensions.aspectRatio));
 
+  const loader: ImageLoader = ({ width, quality }) => {
+    return (
+      imageBuilder(imageUrlBuilder(sanityClient).image(image).auto("format"), {
+        width,
+        originalImageDimensions,
+        croppedImageDimensions,
+        quality: quality || null,
+      }).url() || ""
+    );
+  };
+
   return {
     loader,
     src: baseImgBuilderInstance.url() as string,
@@ -198,22 +210,36 @@ export function sanityImageHelper(
 
 export function buildImageProps(
   aspectRatio: AspectRatioChoices,
-  image: SanityImageSource
+  image: SanityImageSource,
+  width?: number | `${number}` | undefined
 ) {
   const options: Parameters<typeof sanityImageHelper>[2] = {
-    imageBuilder: imageBuilderFactory(aspectRatio),
+    imageBuilder: imageBuilderFactory(aspectRatio, width),
   };
   return sanityImageHelper(sanityClient, image, options) as any;
 }
 
-function imageBuilderFactory(aspectRatio: AspectRatioChoices) {
+function imageBuilderFactory(
+  aspectRatio: AspectRatioChoices,
+  width?: number | `${number}` | undefined
+) {
   switch (aspectRatio) {
     case "portrait":
-      return portraitCropBuilder(768);
+      return portraitCropBuilder(
+        typeof width === "string" ? parseInt(width) : width || 768
+      );
     case "landscape":
-      return landscapeCropBuilder(2880);
+      return landscapeCropBuilder(
+        typeof width === "string" ? parseInt(width) : width || 2880
+      );
     case "square":
-      return squareCropBuilder(500);
+      return squareCropBuilder(
+        typeof width === "string" ? parseInt(width) : width || 500
+      );
+    case "wallet":
+      return walletCropBuilder(
+        typeof width === "string" ? parseInt(width) : width || 500
+      );
     default:
       return undefined;
   }

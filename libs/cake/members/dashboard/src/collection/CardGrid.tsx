@@ -37,11 +37,11 @@ export function CardGrid({ member }: CardGridProps) {
   }
 
   return (
-    <div className="grid md:flex md:flex-row md:gap-6">
+    <div className="grid justify-items-center">
       {collection.brandSlugs.map((slug, idx) => (
         <CollectionItem idx={idx} key={slug} item={collection.itemMap[slug]} />
       ))}
-      {infoPanel}
+      {/* {infoPanel} */}
     </div>
   );
 }

@@ -21,7 +21,7 @@ async function Component() {
   const { userId } = auth().protect();
   const member = await members.member.get(userId);
   return (
-    <div className="flex flex-col gap-4 md:gap-8">
+    <div className="flex flex-col gap-4 w-full md:bg-[#EDE4DA] md:rounded-md md:p-4">
       <Summary collectionValue={member.collection.value} />
       <CardGrid member={member} />
     </div>

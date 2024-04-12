@@ -1,6 +1,7 @@
 import {
   SanityArtDirection,
   SanityImageServer,
+  SanityImageType,
 } from "@danklabs/cake/pattern-library/core";
 import {
   MemberCollectionItem,
@@ -25,7 +26,7 @@ export async function CollectionItem({
 }
 
 function Loading({ item, idx }: { item: MemberCollectionItem; idx: number }) {
-  return <Shell idx={idx} slug={item.slug} images={[]}></Shell>;
+  return <Shell idx={idx} slug={item.slug}></Shell>;
 }
 
 async function Component({
@@ -40,20 +41,9 @@ async function Component({
     <Shell
       idx={idx}
       slug={item.slug}
-      images={[
-        {
-          aspectRatio: "portrait",
-          mediaQuery: "(min-width: 480px)",
-          image: brandDetail.passBackground,
-        },
-        {
-          aspectRatio: "landscape",
-          mediaQuery: "(max-width: 480px)",
-          image: brandDetail.passBackgroundDesktop,
-        },
-      ]}
+      image={brandDetail.passBackground || undefined}
     >
-      <div className="md:h-full flex flex-row md:flex-col text-dark-content">
+      <div className="flex flex-row md:flex-col text-dark-content">
         <div>
           <SanityImageServer
             alt={`${brandDetail.name} Logo`}
@@ -76,29 +66,33 @@ function Shell({
   children,
   idx,
   slug,
-  images,
+  image,
 }: {
   children?: React.ReactNode;
   idx: number;
   slug: string;
-  images: {
-    aspectRatio: "landscape" | "portrait";
-    mediaQuery: string;
-    image: any;
-  }[];
+  image?: SanityImageType;
 }) {
   return (
     <Link
       href={`/collection?collectionItem=${slug}`}
-      className={`col-start-1 row-start-1 mt-[${
+      className={`col-start-1 row-start-1 block mt-[${
         idx * 3
-      }rem] p-4 rounded-md bg-dark max-w-[360px] md:w-full md:h-full md:mt-0 aspect-[3/2] md:aspect-[4/5] relative overflow-hidden`}
+      }rem] p-4 w-full rounded-md bg-dark aspect-[3/2] relative overflow-hidden md:max-w-[455px] border border-[#9D9C9B] hover:z-40`}
     >
-      <div className="absolute top-0 left-0 w-full md:aspect-[4/5]">
-        <SanityArtDirection alt={`${slug} background image`} images={images} />
+      <div className="absolute top-0 left-0">
+        {image && (
+          <SanityImageServer
+            alt={`${slug} background image`}
+            image={image}
+            aspectRatio="wallet"
+            width={455}
+            height={(455 * 3) / 2}
+          />
+        )}
       </div>
-      <div className="md:h-full w-full absolute top-0 left-0">
-        <div className="p-4 md:p-[24px] md:h-full w-full">{children}</div>
+      <div className="w-full absolute top-0 left-0">
+        <div className="p-4 w-full">{children}</div>
       </div>
     </Link>
   );

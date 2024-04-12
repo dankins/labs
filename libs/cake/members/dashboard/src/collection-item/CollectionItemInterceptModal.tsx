@@ -82,7 +82,10 @@ export async function Component({ slug }: { slug: string }) {
                 Visit {brand.cms.name}
               </SecondaryButton>
             </div>
-            <CollectionItemOffers slug={slug} />
+            <CollectionItemOffers
+              slug={slug}
+              shopLinkTemplate={brand.cms.website || undefined}
+            />
           </div>
         </div>
       </div>

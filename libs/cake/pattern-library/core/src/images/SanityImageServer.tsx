@@ -2,6 +2,7 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 import Image from "next/image";
 import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
+import next from "next";
 
 type SanityImageProps = {
   image: SanityImageType;
@@ -14,7 +15,7 @@ export function SanityImageServer({
   aspectRatio,
   ...nextImageProps
 }: SanityImageProps) {
-  const imageProps = buildImageProps(aspectRatio, image);
+  const imageProps = buildImageProps(aspectRatio, image, nextImageProps.width);
 
   return (
     <Image
