@@ -21,10 +21,17 @@ export function OfferCard({ offer }: { offer: MemberCollectionItemOffer }) {
       <Currency className="text-dark" amount={offer.offerValue} size="5xl" />
       <Caption3 className="text-secondary uppercase">{offer.name}</Caption3>
       <Caption3 className="text-[#9D9C9B] uppercase">Valid FIXME</Caption3>
+      {offer.status === "redeemed" && (
+        <SecondaryButton className="text-black" disabled>
+          Redeemed
+        </SecondaryButton>
+      )}
 
-      {redeemMode ? (
+      {offer.status !== "redeemed" && redeemMode === true && (
         <Redemption offer={offer} />
-      ) : (
+      )}
+
+      {offer.status !== "redeemed" && redeemMode === false && (
         <SecondaryButton
           className="text-black"
           onClick={() => setRedeemMode(true)}
