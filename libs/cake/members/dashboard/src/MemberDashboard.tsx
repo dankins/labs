@@ -20,12 +20,10 @@ export async function MemberDashboard({
         />
       )}
       <div className="p-4 flex flex-col items-center">
-        <div className="container flex flex-col md:flex-row gap-6">
-          <MobileNavSpacer />
-          <div className="mb-[20px] md:mt-[48px] md:w-full">
-            <CollectionPanel />
-          </div>
-          <div className="md:mt-[46px] md:w-[1/3] flex flex-col md:justify-evenly gap-10">
+        <MobileNavSpacer />
+        <div className="container flex flex-col md:flex-row md:justify-center md:flex-wrap gap-6">
+          <CollectionPanel />
+          <div className="md:mt-[46px] md:w-[350px] flex flex-col md:justify-evenly gap-10">
             <InvitationsPanel />
             <RewardsPanel />
             <StoriesPanel />

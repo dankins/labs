@@ -7,7 +7,11 @@ import {
   MemberCollectionItem,
   brands,
 } from "@danklabs/cake/services/admin-service";
-import { Badge } from "@danklabs/pattern-library/core";
+import {
+  Badge,
+  Heading4,
+  SecondaryButton,
+} from "@danklabs/pattern-library/core";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -43,7 +47,7 @@ async function Component({
       slug={item.slug}
       image={brandDetail.passBackground || undefined}
     >
-      <div className="flex flex-row md:flex-col text-dark-content">
+      <div className="flex flex-row items-center justify-center text-dark-content">
         <div>
           <SanityImageServer
             alt={`${brandDetail.name} Logo`}
@@ -54,9 +58,7 @@ async function Component({
           />
         </div>
         <div className="grow"></div>
-        <div>
-          <Badge>${item.value}</Badge>
-        </div>
+        <Heading4>${item.value}</Heading4>
       </div>
     </Shell>
   );
@@ -73,27 +75,38 @@ function Shell({
   slug: string;
   image?: SanityImageType;
 }) {
+  const mt = idx * 3;
   return (
-    <Link
-      href={`/collection?collectionItem=${slug}`}
-      className={`col-start-1 row-start-1 block mt-[${
-        idx * 3
-      }rem] p-4 w-full rounded-md bg-dark aspect-[3/2] relative overflow-hidden md:max-w-[455px] border border-[#9D9C9B] hover:z-40`}
+    <div
+      className={`col-start-1 row-start-1 block  mt-[${mt}rem] md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full`}
     >
-      <div className="absolute top-0 left-0">
-        {image && (
-          <SanityImageServer
-            alt={`${slug} background image`}
-            image={image}
-            aspectRatio="wallet"
-            width={455}
-            height={(455 * 3) / 2}
-          />
-        )}
+      <Link
+        href={`/collection?collectionItem=${slug}`}
+        className={`p-4 block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
+      >
+        <div className="absolute top-0 left-0">
+          {image && (
+            <SanityImageServer
+              alt={`${slug} background image`}
+              image={image}
+              aspectRatio="wallet"
+              sizes="(max-width: 425px) 425px, 768px"
+              width={768}
+              height={(768 * 3) / 2}
+            />
+          )}
+        </div>
+        <div className="w-full h-full absolute top-0 left-0 bg-black/30"></div>
+        <div className="w-full absolute top-0 left-0">
+          <div className="p-4 w-full">{children}</div>
+        </div>
+      </Link>
+      <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-center gap-3">
+        <p>
+          The link below will apply your Cake Card automatically at checkout.
+        </p>
+        <SecondaryButton>Shop Brand</SecondaryButton>
       </div>
-      <div className="w-full absolute top-0 left-0">
-        <div className="p-4 w-full">{children}</div>
-      </div>
-    </Link>
+    </div>
   );
 }
