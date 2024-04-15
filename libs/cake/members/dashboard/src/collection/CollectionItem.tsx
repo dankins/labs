@@ -54,7 +54,7 @@ async function Component({
             image={brandDetail.passLogo!}
             height={100}
             width={200}
-            className="w-auto h-[26px] md:max-h-[32px]"
+            className="w-auto h-[26px] md:max-h-[32px] invert"
           />
         </div>
         <div className="grow"></div>

@@ -29,6 +29,7 @@ export function Header({ brand }: { brand: NonNullable<Brand["cms"]> }) {
             width={aspectRatio >= 1 ? 245 : 245 * aspectRatio} // 70% of 350px is 245px
             height={aspectRatio >= 1 ? 245 / aspectRatio : 245}
             style={imageSize}
+            className="invert"
           />
         </div>
       </div>

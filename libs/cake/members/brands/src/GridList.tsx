@@ -155,6 +155,7 @@ function GridItem({
                 height={0}
                 width={0}
                 style={{ height: "2.5rem", width: "auto" }}
+                className="invert"
               />
             ) : (
               <h1 className="text-white text-5xl">
