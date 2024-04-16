@@ -1,6 +1,6 @@
 "use server";
 
-import { getTikTokAuthorizeLink } from "@danklabs/cake/services/admin-service";
+import { brandAdmin } from "@danklabs/cake/services/admin-service";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -15,7 +15,7 @@ export async function startTikTokAuthorization(slug: string) {
     expires: 120 * 1000,
   });
 
-  const link = getTikTokAuthorizeLink(slug, csrfState);
+  const link = brandAdmin.tiktok.getTikTokAuthorizeLink(slug, csrfState);
 
   redirect(link);
 }

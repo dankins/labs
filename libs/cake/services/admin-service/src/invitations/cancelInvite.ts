@@ -2,6 +2,7 @@ import { db, invitations as invitationsTable } from "@danklabs/cake/db";
 import { invitations } from "@danklabs/cake/services/admin-service";
 import { eq } from "drizzle-orm";
 import { getInvitation } from "./getInvitation";
+import { member } from "../members/member";
 
 export async function cancelInvite(iam: string, id: string) {
   const invitation = await getInvitation.cached(id);
@@ -19,5 +20,5 @@ export async function cancelInvite(iam: string, id: string) {
     .where(eq(invitationsTable.id, id));
 
   invitations.getInvitation.clearCache(id);
-  invitations.getMemberInvitations.clearCache(iam);
+  member.invitations.clearInvitationsCache(iam);
 }

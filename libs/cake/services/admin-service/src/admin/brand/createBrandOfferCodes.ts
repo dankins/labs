@@ -1,4 +1,5 @@
 import { db, offerCodes } from "@danklabs/cake/db";
+import { clearCacheBrandOffers } from "./getBrandOffers";
 
 export async function createBrandOfferCodes(
   templateId: string,
@@ -12,4 +13,5 @@ export async function createBrandOfferCodes(
   }));
 
   const result = await db.insert(offerCodes).values(values);
+  clearCacheBrandOffers(templateId);
 }

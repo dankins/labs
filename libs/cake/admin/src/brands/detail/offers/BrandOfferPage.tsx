@@ -1,4 +1,4 @@
-import { getBrandPassOffer } from "@danklabs/cake/services/admin-service";
+import { admin } from "@danklabs/cake/services/admin-service";
 import Link from "next/link";
 import { Suspense } from "react";
 import { UploadCodes } from "./UploadCodes";
@@ -19,7 +19,7 @@ async function Loading() {
 }
 
 async function Component({ brandSlug, templateId }: OfferPageProps) {
-  const offer = await getBrandPassOffer(templateId);
+  const offer = await admin.brand.getBrandPassOffer(templateId);
   if (!offer) {
     throw new Error("no offer");
   }
@@ -27,12 +27,6 @@ async function Component({ brandSlug, templateId }: OfferPageProps) {
     <div>
       <div>
         <h1>Offer: {offer?.offerType}</h1>
-        <h3>
-          Brand:{" "}
-          <Link href={`/admin/brands/${offer.brand.slug}`}>
-            {offer.brand.slug}
-          </Link>
-        </h3>
       </div>
       <div>
         <CodeUsage templateId={templateId} />

@@ -44,6 +44,7 @@ async function BrandSwitcherComponent({
               width={257}
               height={48}
               style={{ height: "48px", width: "auto" }}
+              className="invert"
             />
           );
         })}

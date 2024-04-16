@@ -1,6 +1,5 @@
 import { db, Offer, offerCodes } from "@danklabs/cake/db";
 import { and, eq, isNull } from "drizzle-orm";
-import { DbTransactiontype } from "./types";
 
 export async function assignOfferCode(tx: typeof db, offer: Offer) {
   const offerCode = await tx.query.offerCodes.findFirst({

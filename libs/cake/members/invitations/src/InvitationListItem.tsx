@@ -13,10 +13,10 @@ import {
   SecondaryButton,
   TicketIcon,
 } from "@danklabs/pattern-library/core";
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { invitations, members } from "@danklabs/cake/services/admin-service";
 
 type Invite = Awaited<
-  ReturnType<typeof invitations.getMemberInvitations.cached>
+  ReturnType<typeof members.member.invitations.getInvitations>
 >["0"];
 type InvitationListItemProps = {
   invite: Invite;

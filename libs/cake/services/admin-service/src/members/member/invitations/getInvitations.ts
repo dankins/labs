@@ -8,7 +8,7 @@ import {
 import { and, sql, eq, desc, isNull, count, max } from "drizzle-orm";
 import { revalidateTag, unstable_cache } from "next/cache";
 
-async function getMemberInvitations_nocache(iam: string) {
+async function fn(iam: string) {
   console.log("getMemberInvitations", iam);
   return db.query.members
     .findFirst({
@@ -33,23 +33,21 @@ async function getMemberInvitations_nocache(iam: string) {
       if (!member) {
         throw new Error("member not found");
       }
+      console.log("result", member);
       return member.invitations;
     });
 }
 
-export const getMemberInvitations = {
-  cached(iam: string) {
-    const fn = unstable_cache(
-      getMemberInvitations_nocache,
-      [`get-member-invitations-${iam}`],
-      {
-        tags: [`get-member-invitations-${iam}`],
-      }
-    );
+function tag(iam: string) {
+  return `member-invitations-${iam}`;
+}
 
-    return fn(iam);
-  },
-  clearCache(iam: string) {
-    revalidateTag(`get-member-invitations-${iam}`);
-  },
-};
+export async function getInvitations(iam: string) {
+  return unstable_cache(fn, [tag(iam)], {
+    tags: [tag(iam)],
+  })(iam);
+}
+
+export async function clearInvitationsCache(iam: string) {
+  revalidateTag(tag(iam));
+}

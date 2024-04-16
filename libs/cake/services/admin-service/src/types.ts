@@ -1,5 +1,6 @@
-import { db } from "@danklabs/cake/db";
+export type { InstagramPost } from "./brands/instagram/getInstagramPosts";
+import { members } from "./members";
 
-export type DbTransactiontype = Parameters<
-  Parameters<typeof db.transaction>[0]
+export type MemberInvitation = Awaited<
+  ReturnType<typeof members.member.invitations.getInvitations>
 >[0];

@@ -5,7 +5,11 @@ import {
 } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import dayjs from "dayjs";
-import { admin, invitations } from "@danklabs/cake/services/admin-service";
+import {
+  admin,
+  invitations,
+  members,
+} from "@danklabs/cake/services/admin-service";
 import { member as memberAPI } from "../members/member";
 import { trackInvitationActivated } from "@danklabs/cake/events";
 import { generateInviteCode } from "./generateInviteCode";
@@ -56,7 +60,7 @@ export async function assignInvite(
       recipientName: name,
     });
 
-    invitations.getMemberInvitations.clearCache(member.iam);
+    members.member.invitations.clearInvitationsCache(member.iam);
   }
 
   invitations.getInvitation.clearCache(invitation.id);

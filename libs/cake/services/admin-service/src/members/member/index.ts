@@ -8,8 +8,10 @@ import { update } from "./update";
 import { updateProfile } from "./updateProfile";
 import { claimPass } from "./claimPass";
 import { getOrCreateByEmail } from "./getOrCreateByEmail";
-import { favorites } from "./favorites";
 import { getOrCreateByIAM } from "./getOrCreateByIAM";
+
+import { favorites } from "./favorites";
+import { invitations } from "./invitations";
 
 export const member = {
   get: getMember,
@@ -25,6 +27,7 @@ export const member = {
   getOrCreateByIAM,
   DEFAULT_MAX_COLLECTION_ITEMS,
   favorites,
+  invitations,
 };
 
 export * from "./types";

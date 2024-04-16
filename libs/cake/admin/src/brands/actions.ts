@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  admin,
-  createBrandOfferCodes,
-  superadmin,
-} from "@danklabs/cake/services/admin-service";
+import { admin, superadmin } from "@danklabs/cake/services/admin-service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { redirect } from "next/navigation";
@@ -21,8 +17,7 @@ export async function createCodes(
   });
   const data = codesSchema.parse(form);
   const codes = data.codes.split(/\r?\n|\r|\n/g);
-  await createBrandOfferCodes(templateId, codes);
-  revalidatePath(`/admin/brands/${brandSlug}/offers/${templateId}`);
+  await admin.brand.createBrandOfferCodes(templateId, codes);
 }
 
 export async function addBrandAction(formData: FormData) {

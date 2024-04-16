@@ -1,6 +1,7 @@
 import { BrandSettings, brands, db } from "@danklabs/cake/db";
 import { eq, sql } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
+import { clearBrandCache } from "../../brands/getBrand";
 
 export async function disconnectInstagram(slug: string) {
   const path = `{"instagram"}`;
@@ -11,5 +12,6 @@ export async function disconnectInstagram(slug: string) {
       settings: sql`jsonb_set(settings, ${path}, ${value}, true)`,
     })
     .where(eq(brands.slug, slug));
-  revalidateTag(`get-brand-detail-${slug}`);
+
+  clearBrandCache(slug);
 }

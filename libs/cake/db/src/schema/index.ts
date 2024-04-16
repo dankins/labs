@@ -66,11 +66,22 @@ export type BrandSettings = {
     accessToken?: string;
     userId?: string;
   };
-  tiktok?: {
-    status: "active" | "pending";
-    accessToken?: string;
-    userId?: string;
-  };
+  tiktok?:
+    | {
+        status: "pending";
+      }
+    | {
+        status: "deactivated";
+      }
+    | {
+        status: "active";
+        accessToken: string;
+        expiresIn: number;
+        openId: string;
+        refreshToken: string;
+        refreshExpiresIn: number;
+        scope: string;
+      };
 };
 
 export const brandStatus = pgEnum("brand_statuses", [

@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
-import { refreshInstagramToken } from "./refreshInstagramToken";
+// import { refreshInstagramToken } from "./refreshInstagramToken";
+import { fonts } from "@danklabs/cake/pattern-library/core";
 
 export type InstagramPost = {
   id: string;
@@ -20,7 +21,7 @@ export type InstagramResponse<T> = {
   };
 };
 
-export async function getInstagramPosts(
+export async function fn(
   accessToken: string
 ): Promise<InstagramResponse<InstagramPost[]>> {
   console.log("calling getInstagramPosts");
@@ -42,24 +43,18 @@ export async function getInstagramPosts(
       console.log("error parsing json", err);
     }
 
-    if (body.error.code === 190) {
-      const newToken = await refreshInstagramToken(accessToken);
-      return getInstagramPosts(newToken);
-    }
+    // if (body.error.code === 190) {
+    //   const newToken = await refreshInstagramToken(accessToken);
+    //   return fn(newToken);
+    // }
     console.log("Error fetching Instagram posts:", body);
     throw new Error("Error loading Instagram posts");
   }
   return response.json();
 }
 
-export async function cachedGetInstagramPosts(accessToken: string) {
-  const fn = unstable_cache(
-    getInstagramPosts,
-    [`get-instagram-posts-${accessToken}`],
-    {
-      revalidate: 360,
-    }
-  );
-
-  return fn(accessToken);
+export async function getInstagramPosts(accessToken: string) {
+  return unstable_cache(fn, [`get-instagram-posts-${accessToken}`], {
+    revalidate: 360,
+  })(accessToken);
 }

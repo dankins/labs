@@ -23,10 +23,10 @@ export async function MemberDashboard({
         <MobileNavSpacer />
         <div className="container flex flex-col md:flex-row md:justify-center md:flex-wrap gap-6">
           <CollectionPanel />
-          <div className="md:mt-[46px] md:w-[350px] flex flex-col md:justify-evenly gap-10">
+          <div className="md:mt-[146px] md:w-[350px] flex flex-col md:justify-evenly gap-10">
+            {/* <RewardsPanel /> */}
             <InvitationsPanel />
-            <RewardsPanel />
-            <StoriesPanel />
+            {/* <StoriesPanel /> */}
           </div>
         </div>
       </div>
