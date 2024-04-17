@@ -54,6 +54,7 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <>
+      <AddPassActionBar action={claimPassAction.bind(undefined, iam, slug)} />
       <div className="flex flex-row justify-center">
         <div className="container max-w-[1280px]">
           <SanityImageServer

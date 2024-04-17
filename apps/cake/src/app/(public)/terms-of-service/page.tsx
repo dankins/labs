@@ -11,14 +11,14 @@ export default async function Page() {
       <div className="container max-w-[740px]">
         <div
           id="policy"
-          data-policy-key="U25GRE9IUnFObFF6Um05dk1XYzlQUT09"
+          data-policy-key="YWpCVmNETnBlbWRRWjBKNGNuYzlQUT09"
           data-extra="h-align=left&table-style=accordion"
         >
           {" "}
           Please wait while the policy is loaded. If it does not load, please{" "}
           <a
             rel="nofollow"
-            href="https://app.termageddon.com/api/policy/U25GRE9IUnFObFF6Um05dk1XYzlQUT09?h-align=left&table-style=accordion"
+            href="https://app.termageddon.com/api/policy/YWpCVmNETnBlbWRRWjBKNGNuYzlQUT09?h-align=left&table-style=accordion"
             target="_blank"
           >
             click here
