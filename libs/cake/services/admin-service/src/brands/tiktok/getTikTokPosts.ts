@@ -34,7 +34,7 @@ export async function getTikTokPosts(slug: string) {
     brand.db.settings.tiktok.status !== "active" ||
     !brand.db.settings.tiktok.accessToken
   ) {
-    return { configured: false };
+    throw new Error("TikTok not configured");
   }
   const accessToken = brand.db.settings.tiktok.accessToken;
   const result = await fetch(
@@ -61,8 +61,5 @@ export async function getTikTokPosts(slug: string) {
   }
   const parsed = postSchema.parse(data);
 
-  return {
-    configured: true,
-    posts: parsed.data,
-  };
+  return parsed.data;
 }

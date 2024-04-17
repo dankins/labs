@@ -23,10 +23,10 @@ export async function Instagram({ brand }: { brand: NonNullable<Brand> }) {
       <div className="flex flex-row items-center">
         <Heading4 className="grow">{brand.cms?.name} on Instagram</Heading4>
         <SecondaryButton size="sm" icon={<InstagramIcon />}>
-          View on Instgram
+          <span className="hidden md:block">View on Instagram</span>
         </SecondaryButton>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {data.map((post) => (
           <Item post={post} />
         ))}

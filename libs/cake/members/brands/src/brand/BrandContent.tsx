@@ -24,6 +24,7 @@ import { claimPassAction } from "./actions";
 import { Caption3, RightArrow } from "@danklabs/pattern-library/core";
 import { TikTok } from "./components/TikTok";
 import { Instagram } from "./components/Instagram";
+import { FriendsWhoFollow } from "./FriendsWhoFollow";
 
 export async function BrandContent({ slug }: { slug: string }) {
   return (
@@ -53,7 +54,6 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <>
-      <MobileNavSpacer />
       <div className="flex flex-row justify-center">
         <div className="container max-w-[1280px]">
           <SanityImageServer
@@ -79,8 +79,8 @@ async function Component({ slug }: { slug: string }) {
 
   function BrandDetails({ brand }: { brand: NonNullable<Brand> }) {
     return (
-      <div className="lg:max-w-[320px] pb-4">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-2 lg:flex-col">
+      <div className="lg:max-w-[420px] pb-4">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-4 lg:flex-col">
           <div>
             {brand.cms?.passLogo && (
               <SanityImageServer
@@ -92,67 +92,25 @@ async function Component({ slug }: { slug: string }) {
               />
             )}
           </div>
-          <div className="my-4 flex flex-col gap-4">
+          <div className="my-4 flex flex-col gap-4 md:max-w-[350px] grow">
             <Heading4>About {brand.cms?.name}</Heading4>
             <Paragraph2>{brand.cms?.summary}</Paragraph2>
           </div>
+          <div>
+            <SecondaryButton
+              icon={<RightArrow />}
+              iconPosition="right"
+              className="uppercase"
+              href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
+              target="_blank"
+            >
+              Visit {brand.cms?.name}
+            </SecondaryButton>
+          </div>
         </div>
-        <div>
-          <SecondaryButton
-            icon={<RightArrow />}
-            iconPosition="right"
-            className="uppercase"
-          >
-            Visit {brand.cms?.name}
-          </SecondaryButton>
-        </div>
+
         <FriendsWhoFollow slug={brand.db.slug} />
       </div>
     );
   }
-
-  async function FriendsWhoFollow({ slug }: { slug: string }) {
-    const palette = [
-      "bg-[#EF6447]",
-      "bg-[#EB3D19]",
-      "bg-[#615155]",
-      "bg-[#F781CB]",
-    ];
-
-    return (
-      <div className="my-6">
-        <Heading4>Friends who follow</Heading4>
-        <div className="pt-2 flex flex-row -space-x-2">
-          <div
-            className={`${palette[0]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
-          >
-            FU
-          </div>
-          <div
-            className={`${palette[1]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
-          >
-            CK
-          </div>
-          <div
-            className={`${palette[2]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
-          >
-            YO
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // return (
-  //   <ContainerWithBackground brand={brand.cms!}>
-  //     <MobileNavSpacer />
-  //     <Header brand={brand.cms} />
-  //     <Content memberId={memberId} brand={brand} isFavorite={isFavorite} />
-  //     <div className="fixed bottom-5 px-3 left-0 flex flex-col justify-center w-full flex flex-col items-center z-20">
-  //       <AddPassActionBar
-  //         action={claimPassAction.bind(undefined, userIAM, brand.db.slug)}
-  //       />
-  //     </div>
-  //   </ContainerWithBackground>
-  // );
 }

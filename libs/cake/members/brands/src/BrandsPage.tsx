@@ -1,14 +1,19 @@
+import { InterceptModal } from "@danklabs/pattern-library/core";
 import { GridList } from "./GridList";
+import { BrandContentModal } from "./brand/BrandContentModal";
 
 export async function BrandsPage({
-  perspective,
-  sort,
+  searchParams,
 }: {
-  perspective?: string;
-  sort?: string;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const perspective = searchParams?.perspective as string;
+  const sort = searchParams?.sort;
+  const brand = searchParams?.brand;
+
   return (
     <>
+      {brand && <BrandContentModal slug={brand as string} />}
       <div className="p-2 md:p-6 flex flex-col items-center">
         <div className="container">
           <div>

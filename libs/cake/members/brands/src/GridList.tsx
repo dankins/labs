@@ -131,7 +131,7 @@ function GridItem({
     cardClass = "w-full aspect-[447/260] relative group";
   }
   return (
-    <Link className={linkClass} href={`/brands/${brand.slug}`}>
+    <Link className={linkClass} href={`?brand=${brand.slug}`}>
       <div className={cardClass}>
         <figure className="absolute top-0 w-full h-full">
           {brand.passBackground && (
@@ -152,8 +152,8 @@ function GridItem({
               <SanityImageServer
                 alt={`${brand.name} Logo`}
                 image={brand.passLogo}
-                height={0}
-                width={0}
+                height={100}
+                width={100}
                 style={{ height: "2.5rem", width: "auto" }}
                 className="invert"
               />

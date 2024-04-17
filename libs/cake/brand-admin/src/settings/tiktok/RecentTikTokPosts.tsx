@@ -1,10 +1,9 @@
 import { brands } from "@danklabs/cake/services/admin-service";
-import { TikTokEmbed } from "./TikTokEmbed";
 
 export async function RecentTikTokPosts({ slug }: { slug: string }) {
-  const { configured, posts } = await brands.getTikTokPosts(slug);
+  const posts = await brands.getTikTokPosts(slug);
 
-  if (!configured || !posts) {
+  if (!posts) {
     return (
       <div>
         <div>TikTok not configured</div>
@@ -30,14 +29,12 @@ function Post({
   post,
 }: {
   post: NonNullable<
-    Awaited<ReturnType<typeof brands.getTikTokPosts>>["posts"]
+    Awaited<ReturnType<typeof brands.getTikTokPosts>>
   >["videos"][0];
 }) {
   return (
     <div>
       <img src={post.cover_image_url} alt={post.title} />
-      {/* <div>{JSON.stringify(post, null, 2)}</div>
-      <div dangerouslySetInnerHTML={{ __html: post.embed_html }} /> */}
     </div>
   );
 }

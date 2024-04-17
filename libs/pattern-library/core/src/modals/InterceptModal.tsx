@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styles from "./InterceptModal.module.scss";
-import { BackLink } from "./BackLink";
 
 export function InterceptModal({
   returnHref,

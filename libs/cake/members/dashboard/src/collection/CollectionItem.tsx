@@ -9,6 +9,7 @@ import {
 } from "@danklabs/cake/services/admin-service";
 import {
   Badge,
+  ChevronDoubleRight,
   Heading4,
   SecondaryButton,
 } from "@danklabs/pattern-library/core";
@@ -105,7 +106,9 @@ function Shell({
         <p>
           The link below will apply your Cake Card automatically at checkout.
         </p>
-        <SecondaryButton>Shop Brand</SecondaryButton>
+        <SecondaryButton icon={<ChevronDoubleRight />} iconPosition="right">
+          Shop Brand
+        </SecondaryButton>
       </div>
     </div>
   );
