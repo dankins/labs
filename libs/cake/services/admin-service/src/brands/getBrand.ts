@@ -60,6 +60,17 @@ export const brandSelection = {
     withCrop: true,
   }).nullable(),
   featured: q.string().nullable(),
+  products: q(`*[_type == "product" && references(^._id)]`, {
+    isArray: true,
+  }).grab({
+    name: q.string(),
+    pdpLink: q.string(),
+    image: sanityImage("image", {
+      withAsset: ["base", "dimensions", "lqip"],
+      withHotspot: true,
+      withCrop: true,
+    }),
+  }),
   // https://www.sanity.io/plugins/color-input
   pass_color: q
     .object({

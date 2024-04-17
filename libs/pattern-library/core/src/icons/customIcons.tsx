@@ -22,8 +22,8 @@ export function CloseIcon(props: IconBaseProps) {
   return (
     <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="M6 18 18 6M6 6l12 12"
       />
     </IconBase>
@@ -303,7 +303,7 @@ export function LeftArrow(props: IconBaseProps) {
     <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
       <path
         strokeLinecap="round"
-        stroke-Linejoin="round"
+        strokeLinejoin="round"
         strokeWidth="2"
         d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
       />

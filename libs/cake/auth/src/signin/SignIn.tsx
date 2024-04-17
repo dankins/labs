@@ -33,7 +33,7 @@ export function SignIn({
     </Paragraph1>
   ),
   verifyCodeHeading = (
-    <h1 className="text-xl font-normal text-primary">Create Cake Account</h1>
+    <h1 className="text-xl font-normal text-primary">Verify Email Address</h1>
   ),
   verifyCodeParagraph,
   alreadyLoggedInButton = (

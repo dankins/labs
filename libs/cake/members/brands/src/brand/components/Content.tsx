@@ -9,6 +9,7 @@ import { SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { ToggleFavoriteButton } from "./ToggleFavoriteButton";
 import { addFavoriteAction, removeFavoriteAction } from "../actions";
 import { Brand } from "@danklabs/cake/services/admin-service";
+import { Products } from "./Products";
 
 export function Content({
   memberId,
@@ -51,6 +52,7 @@ export function Content({
       </div>
       <div className="md:w-2/3 flex flex-col gap-4">
         <MemberBenefits />
+        <Products brand={brand} />
         <Instagram brand={brand} />
         <TikTok brand={brand} />
       </div>

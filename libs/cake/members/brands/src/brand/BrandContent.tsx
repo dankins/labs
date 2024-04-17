@@ -25,6 +25,8 @@ import { Caption3, RightArrow } from "@danklabs/pattern-library/core";
 import { TikTok } from "./components/TikTok";
 import { Instagram } from "./components/Instagram";
 import { FriendsWhoFollow } from "./FriendsWhoFollow";
+import { Products } from "./components/Products";
+import { MemberBenefits } from "./components/MemberBenefits";
 
 export async function BrandContent({ slug }: { slug: string }) {
   return (
@@ -69,6 +71,8 @@ async function Component({ slug }: { slug: string }) {
           <div className="p-6 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
             <BrandDetails brand={brand} />
             <div className="flex flex-col gap-4">
+              <MemberBenefits brand={brand} member={member} />
+              <Products brand={brand} />
               <Instagram brand={brand} />
               <TikTok brand={brand} />
             </div>

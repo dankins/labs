@@ -1,5 +1,9 @@
 "use client";
 import { defineField, defineType } from "sanity";
+import {
+  orderRankField,
+  orderRankOrdering,
+} from "@sanity/orderable-document-list";
 
 const BrandType = defineType({
   name: "brand",
@@ -75,19 +79,12 @@ const BrandType = defineType({
       title: "Pass Color",
       type: "color",
     }),
-    defineField({
-      name: "orderRank",
-      title: "Order Rank",
-      type: "string",
+    orderRankField({
+      type: "product",
+      newItemPosition: "after",
     }),
   ],
-  orderings: [
-    {
-      title: "Rank",
-      name: "rankDesc",
-      by: [{ field: "orderRank", direction: "desc" }],
-    },
-  ],
+  orderings: [orderRankOrdering],
   preview: {
     select: {
       title: "slug.current",

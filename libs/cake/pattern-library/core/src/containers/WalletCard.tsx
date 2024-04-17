@@ -15,7 +15,7 @@ export function WalletCard({
 }) {
   const cardGradient = darken ? `rgba(0,0,0,0.5)` : ``;
   return (
-    <div className="bg-white aspect-[2/1] min-w-[200px] w-full rounded-lg shadow-lg  justify-start items-start inline-flex cursor-pointer overflow-hidden">
+    <div className="bg-white aspect-[2/1] min-w-[200px] w-full rounded-lg shadow-sm  justify-start items-start inline-flex cursor-pointer overflow-hidden">
       <div className="w-full h-full relative max-w-[600px] aspect-wallet">
         {backgroundImage && (
           <SanityImage

@@ -19,5 +19,10 @@ export type Brand = {
     passBackgroundDesktop: SanityImageType | null;
     passBackground: SanityImageType | null;
     passLogo: SanityImageType | null;
+    products?: {
+      name: string;
+      pdpLink: string;
+      image: SanityImageType;
+    }[];
   };
 };
