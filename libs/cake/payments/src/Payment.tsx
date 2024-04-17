@@ -16,8 +16,6 @@ import {
   PrimaryButton,
   Spinner,
 } from "@danklabs/pattern-library/core";
-import { SubscriptionReturnType } from "./types";
-import { Success } from "./Success";
 
 export function Payment({
   active,

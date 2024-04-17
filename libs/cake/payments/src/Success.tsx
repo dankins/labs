@@ -1,3 +1,4 @@
+"use client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useInterval } from "usehooks-ts";
 
