@@ -1,4 +1,4 @@
-import { cachedGetMember } from "./getMember";
+import { getMember } from "./getMember";
 import { Member } from "./types";
 import { clerkClient } from "@clerk/nextjs/server";
 
@@ -11,5 +11,5 @@ export async function getByEmail(email: string): Promise<Member> {
     throw new Error("member not found");
   }
 
-  return cachedGetMember(clerkUserByEmail.data[0].id);
+  return getMember(clerkUserByEmail.data[0].id);
 }

@@ -37,11 +37,6 @@ LEFT JOIN (
 ) data ON data.join_date = dates.the_date
 order by the_date
 `);
-  console.log("getAnalyticsDailyMemberCount result", {
-    result,
-    // @ts-ignore not safe, I know
-    resultRows: result?.rows,
-  });
 
   if (Array.isArray(result)) {
     // @ts-ignore not safe, I know

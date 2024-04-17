@@ -1,22 +1,22 @@
-import {
-  cachedGetInstagramPosts,
-  getInstagramPosts,
-  InstagramPost,
-} from "@danklabs/cake/services/admin-service";
+import { brands } from "@danklabs/cake/services/admin-service";
 
-export async function RecentTikTokPosts({
-  accessToken,
-}: {
-  accessToken: string;
-}) {
-  const posts = await cachedGetInstagramPosts(accessToken);
+export async function RecentTikTokPosts({ slug }: { slug: string }) {
+  const posts = await brands.getTikTokPosts(slug);
+
+  if (!posts) {
+    return (
+      <div>
+        <div>TikTok not configured</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="container">
         <h1>Recent Posts</h1>
         <div className="grid grid-cols-4 gap-4">
-          {posts.data.map((post) => (
+          {posts.videos.map((post) => (
             <Post key={post.id} post={post} />
           ))}
         </div>
@@ -25,10 +25,16 @@ export async function RecentTikTokPosts({
   );
 }
 
-function Post({ post }: { post: InstagramPost }) {
+function Post({
+  post,
+}: {
+  post: NonNullable<
+    Awaited<ReturnType<typeof brands.getTikTokPosts>>
+  >["videos"][0];
+}) {
   return (
     <div>
-      <img src={post.media_url} style={{ width: "100%" }} />
+      <img src={post.cover_image_url} alt={post.title} />
     </div>
   );
 }

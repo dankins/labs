@@ -4,7 +4,7 @@ import { sql } from "drizzle-orm";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 export async function getBrandAdminOptions(iam: string): Promise<string[]> {
-  console.log("calling getBrandAdminOptions");
+  console.log("calling getBrandAdminOptions", iam);
   const user = await clerkClient.users.getUser(iam);
   const emails = user.emailAddresses.find(
     (e) => e.id === user.primaryEmailAddressId
@@ -14,10 +14,14 @@ export async function getBrandAdminOptions(iam: string): Promise<string[]> {
   }
   const email = emails!.emailAddress;
 
+  console.log("about to query", email);
   const result = await db.select({ slug: brands.slug }).from(brands).where(sql`
     EXISTS (
       SELECT 1
-      FROM jsonb_array_elements(admins) AS elem
+      FROM jsonb_array_elements(case jsonb_typeof(admins) 
+      when 'array' then admins 
+      else '[]' end
+  ) AS elem
       WHERE elem->>'email' = ${email}
   )
     `);

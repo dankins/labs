@@ -1,6 +1,15 @@
+export type MemberCollectionItemOffer = {
+  name?: string;
+  offerType: "voucher";
+  offerValue: number;
+  status: "new" | "redeemed" | "archived";
+  redemptionDate?: Date;
+  code?: string;
+};
 export type MemberCollectionItem = {
   slug: string;
   value: number;
+  offers: MemberCollectionItemOffer[];
 };
 export type MemberCollection = {
   brandSlugs: string[];

@@ -1,6 +1,9 @@
 import { brands } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 import { AuthorizeButton } from "./AuthorizeButton";
+import { RecentTikTokPosts } from "./RecentTikTokPosts";
+import { TikTokProfile } from "./TikTokProfile";
+import { DisconnectButton } from "./DisconnectButton";
 
 export function TikTokSettings({ slug }: { slug: string }) {
   return (
@@ -15,7 +18,7 @@ async function Component({ slug }: { slug: string }) {
 
   const tiktokConfig = brand.db.settings.tiktok;
 
-  if (!tiktokConfig) {
+  if (!tiktokConfig || tiktokConfig.status !== "active") {
     return (
       <div>
         <div>TikTok not configured</div>
@@ -28,8 +31,10 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <div>
-      <div>Instagram successfully configured</div>
-      {/* <Recent accessToken={tiktokConfig.accessToken!} /> */}
+      <div>TikTok successfully configured</div>
+      <TikTokProfile slug={slug} />
+      <RecentTikTokPosts slug={slug} />
+      <DisconnectButton slug={slug} />
     </div>
   );
 }

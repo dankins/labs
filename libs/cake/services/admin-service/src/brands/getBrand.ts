@@ -6,7 +6,8 @@ import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 export async function fn(slug: string) {
   console.log(
-    "calling getBrandDetail - this is aggresively cached so you should not see this very often"
+    "calling getBrandDetail - this is aggresively cached so you should not see this very often",
+    slug
   );
   const [db, cms] = await Promise.all([getDbBrand(slug), getBrandAdmin(slug)]);
   return { db, cms };

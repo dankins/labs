@@ -14,23 +14,20 @@ const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
 // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements#create-customer
 export async function createSubscription(
-  cartId: string,
   priceId: string,
   coupon: string | undefined,
   metadata: any,
   customerId: string
 ): Promise<SubscriptionReturnType> {
-  console.log("creating subscription", {
+  console.log("checking subscription", {
     priceId,
     metadata,
     coupon,
     customerId,
-    cartId,
   });
 
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
-    status: "active",
     expand: ["data.latest_invoice.payment_intent"],
     // additional filters can be applied if necessary to find the specific subscription
   });
@@ -38,12 +35,19 @@ export async function createSubscription(
   let subscription: Stripe.Subscription | undefined;
   if (subscriptions.data.length > 0) {
     subscription = subscriptions.data[0];
+    console.log("found subscription", subscription.id);
   }
 
   if (!subscription) {
     // Create the subscription. Note we're expanding the Subscription's
     // latest invoice and that invoice's payment_intent
     // so we can pass it to the front end to confirm the payment
+    console.log("creating subscription", {
+      priceId,
+      metadata,
+      coupon,
+      customerId,
+    });
     subscription = await stripe.subscriptions.create(
       {
         customer: customerId,
@@ -64,7 +68,6 @@ export async function createSubscription(
     );
   }
 
-  console.log("this is the subscription", subscription);
   if (!subscription) {
     throw new Error("no subscription");
   } else if (!subscription.latest_invoice) {
@@ -98,32 +101,6 @@ export async function createSubscription(
       (t) => t.amount
     ),
   };
-}
-
-export async function createStripeCustomer(
-  customerCreatedCallback: (id: string) => void,
-  email: string | undefined,
-  billing: StripeAddressElementChangeEvent["value"],
-  shipping?: StripeAddressElementChangeEvent["value"]
-) {
-  if (!email) {
-    throw new Error("email or name not supplied");
-  }
-  const input: Stripe.CustomerCreateParams = {
-    email,
-    name: billing.name,
-    address: billing.address as AddressParam,
-  };
-  if (shipping) {
-    input.shipping = {
-      name: shipping.name,
-      address: shipping.address as AddressParam,
-    };
-  }
-
-  const customer = await stripe.customers.create(input);
-
-  return { customerId: customer.id };
 }
 
 export async function getCustomer(customerId: string) {

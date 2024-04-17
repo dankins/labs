@@ -66,11 +66,22 @@ export type BrandSettings = {
     accessToken?: string;
     userId?: string;
   };
-  tiktok?: {
-    status: "active" | "pending";
-    accessToken?: string;
-    userId?: string;
-  };
+  tiktok?:
+    | {
+        status: "pending";
+      }
+    | {
+        status: "deactivated";
+      }
+    | {
+        status: "active";
+        accessToken: string;
+        expiresIn: number;
+        openId: string;
+        refreshToken: string;
+        refreshExpiresIn: number;
+        scope: string;
+      };
 };
 
 export const brandStatus = pgEnum("brand_statuses", [
@@ -143,6 +154,8 @@ export const offers = pgTable("offers", {
     .references(() => brandOfferTemplates.id)
     .notNull(),
   status: offerStatus("status").notNull(),
+  orderId: text("order_id"),
+  redemptionDate: timestamp("redeption_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -247,6 +260,13 @@ export const offerRelations = relations(offers, ({ one }) => ({
   pass: one(passes, {
     fields: [offers.passId],
     references: [passes.id],
+  }),
+}));
+
+export const offerCodesRelations = relations(offerCodes, ({ one }) => ({
+  offer: one(offers, {
+    fields: [offerCodes.offerId],
+    references: [offers.id],
   }),
 }));
 

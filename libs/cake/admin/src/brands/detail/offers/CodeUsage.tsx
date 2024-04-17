@@ -1,4 +1,4 @@
-import { getOfferCodeUsage } from "@danklabs/cake/services/admin-service";
+import { admin } from "@danklabs/cake/services/admin-service";
 import { Suspense } from "react";
 
 export function CodeUsage({ templateId }: { templateId: string }) {
@@ -14,7 +14,7 @@ function Loading() {
 }
 
 async function Component({ templateId }: { templateId: string }) {
-  const data = await getOfferCodeUsage(templateId);
+  const data = await admin.brand.getOfferCodeUsage(templateId);
   const display = `${data.used} / ${data.total}`;
   return <div>Codes Used: {display}</div>;
 }

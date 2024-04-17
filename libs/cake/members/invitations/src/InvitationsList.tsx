@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { members } from "@danklabs/cake/services/admin-service";
 import { InvitationListItem } from "./InvitationListItem";
 
 export async function InvitationsList() {
@@ -8,7 +8,7 @@ export async function InvitationsList() {
     throw new Error("not authenticated");
   }
 
-  const list = await invitations.getMemberInvitations.cached(userId);
+  const list = await members.member.invitations.getInvitations(userId);
 
   return (
     <div className="flex flex-row flex-wrap gap-4">

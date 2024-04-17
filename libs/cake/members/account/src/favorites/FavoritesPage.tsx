@@ -4,6 +4,7 @@ import {
   AddIcon,
   Button,
   FavoriteFilledIcon,
+  PrimaryButton,
 } from "@danklabs/pattern-library/core";
 import { Suspense } from "react";
 import { FavoritesGrid } from "./FavoritesGrid";
@@ -21,11 +22,11 @@ async function Component() {
   const { userId } = auth().protect();
 
   const faves = await members.member.favorites.getFavorites(userId);
-  const memberId = faves[0].memberId;
-
   if (faves.length === 0) {
     return <NoFavorites />;
   }
+
+  const memberId = faves[0].memberId;
 
   return (
     <>
@@ -66,7 +67,7 @@ function NoFavorites() {
           </p>
         </div>
         <div className="flex flex-row justify-center">
-          <Button>View Brands</Button>
+          <PrimaryButton href={`/brands`}>View Brands</PrimaryButton>
         </div>
       </div>
     </div>

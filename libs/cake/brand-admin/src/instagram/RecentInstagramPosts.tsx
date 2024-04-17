@@ -1,16 +1,8 @@
-import {
-  cachedGetInstagramPosts,
-  getInstagramPosts,
-  InstagramPost,
-} from "@danklabs/cake/services/admin-service";
+import { InstagramPost, brands } from "@danklabs/cake/services/admin-service";
 
-export async function RecentInstagramPosts({
-  accessToken,
-}: {
-  accessToken: string;
-}) {
+export async function RecentInstagramPosts({ slug }: { slug: string }) {
   try {
-    const posts = await cachedGetInstagramPosts(accessToken);
+    const posts = await brands.getInstagramPosts(slug);
 
     return (
       <div className="flex flex-col items-center justify-center">

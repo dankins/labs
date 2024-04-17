@@ -59,14 +59,11 @@ export function AccountStep({ email }: { email: string }) {
   const [state, setState] = useState<State>({ step: "name" });
 
   function handleAccountCreated() {
-    if (state.step !== "createAccount") {
-      throw new Error("invalid state");
-    }
-    setState({
-      step: "contact",
-      name: state.name,
-      address: state.address,
-    });
+    // setState({
+    //   step: "contact",
+    //   name: state.name,
+    //   address: state.address,
+    // });
   }
 
   return (

@@ -15,7 +15,7 @@ export function AppFooter() {
             Contact Cake
           </Link>
           <Spacer />
-          <Link className="pt-2 pb-1" href="/account/terms-and-conditions">
+          <Link className="pt-2 pb-1" href="/account/terms-of-service">
             Terms of Use
           </Link>
           <Spacer />

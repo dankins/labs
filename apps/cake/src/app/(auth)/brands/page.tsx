@@ -9,10 +9,7 @@ export default function Page({
   return (
     <>
       <MobileNavSpacer />
-      <BrandsPage
-        sort={searchParams && (searchParams["sort"] as string)}
-        perspective={searchParams && (searchParams["perspective"] as string)}
-      />
+      <BrandsPage searchParams={searchParams} />
     </>
   );
 }

@@ -3,22 +3,25 @@ import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
 import { getCartIfAvailable } from "../cookie";
 import { members, stripe } from "@danklabs/cake/services/admin-service";
+import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
 
 const CAKE_MEMBERSHIP_PRICE_ID = process.env["CAKE_MEMBERSHIP_PRICE_ID"]!;
 
 export async function MembershipCheckout({
   invitation,
+  searchParams,
 }: {
   invitation: Invitation;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { userId } = auth().protect();
-  const user = await members.member.get(userId);
-
-  const cart = getCartIfAvailable();
-
-  if (!cart) {
-    throw new Error("cart not available");
-  }
+  const user = await members.member.getOrCreateByIAM(userId, {
+    invitationId: invitation.id,
+    maxCollectionItems:
+      invitation.collectionItemsGranted ||
+      invitation.collectionItemsGranted ||
+      DEFAULT_MAX_COLLECTION_ITEMS,
+  });
 
   if (user.membershipStatus === "active") {
     return <div>You already have an active membership!</div>;
@@ -44,7 +47,7 @@ export async function MembershipCheckout({
   return (
     <div className="max-w-[500px]">
       <Checkout
-        cartId={cart.id}
+        searchParams={searchParams}
         priceId={CAKE_MEMBERSHIP_PRICE_ID}
         stripeCustomerId={stripeCustomerId}
         metadata={subscriptionMetadata}

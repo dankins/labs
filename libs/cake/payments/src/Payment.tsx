@@ -17,51 +17,22 @@ import {
   Spinner,
 } from "@danklabs/pattern-library/core";
 import { SubscriptionReturnType } from "./types";
+import { Success } from "./Success";
 
 export function Payment({
   active,
   stripeCustomerId,
-  createSubscriptionAction,
+  subscriptionId,
+  invoiceStatus,
+  clientSecret,
 }: {
   active: boolean;
-  stripeCustomerId?: string;
-  createSubscriptionAction(customerId: string): Promise<SubscriptionReturnType>;
+  stripeCustomerId: string;
+  subscriptionId: string;
+  invoiceStatus: string | null;
+  clientSecret: string;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const sp = useSearchParams();
-  const [subscriptionData, setSubscriptionData] = useState<
-    SubscriptionReturnType | undefined
-  >();
-  const [clientSecret, setClientSecret] = useState<string | undefined>();
-
-  useEffect(() => {
-    // don't run if there is no customer object yet
-    if (!stripeCustomerId) {
-      return;
-    }
-
-    // if there is already a payment intent then we can return early
-    if (sp.get("payment_intent_client_secret")) {
-      setClientSecret(sp.get("payment_intent_client_secret")!);
-      return;
-    }
-
-    createSubscriptionAction(stripeCustomerId).then((data) => {
-      console.log("setting subscription data", data);
-      setSubscriptionData(data);
-      if (data.clientSecret) {
-        setClientSecret(data.clientSecret);
-      }
-    });
-  }, [stripeCustomerId]);
-
-  const options = useMemo(() => {
-    if (clientSecret) {
-      return { clientSecret };
-    }
-    return {};
-  }, [clientSecret]);
+  const options = { clientSecret };
 
   if (!active) {
     return <div>payment (not active)</div>;
@@ -70,7 +41,7 @@ export function Payment({
     return <div>error: no customer id</div>;
   }
 
-  if (subscriptionData && subscriptionData.invoiceStatus === "paid") {
+  if (invoiceStatus === "paid") {
     return (
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <Paragraph1 className="text-lg">
@@ -78,7 +49,7 @@ export function Payment({
           charge!
         </Paragraph1>
         <PrimaryButton
-          href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${subscriptionData.subscriptionId}`}
+          href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${subscriptionId}`}
         >
           Continue
         </PrimaryButton>
@@ -90,46 +61,10 @@ export function Payment({
     return <Spinner />;
   }
 
-  if (!subscriptionData) {
-    return <Spinner />;
-  }
-
   return (
     <StripeProvider key={clientSecret} options={options}>
-      <CartSummary subscriptionData={subscriptionData} />
-      <PaymentForm subscriptionId={subscriptionData.subscriptionId} />
+      <PaymentForm subscriptionId={subscriptionId} />
     </StripeProvider>
-  );
-}
-
-export function CartSummary({
-  subscriptionData,
-}: {
-  subscriptionData?: SubscriptionReturnType;
-}) {
-  if (!subscriptionData) {
-    return <></>;
-  }
-  return (
-    <div>
-      <div>Total: {subscriptionData.total}</div>
-      <div>Total excluding tax: {subscriptionData.total_excluding_tax}</div>
-      <div>
-        Total excluding tax:{" "}
-        {subscriptionData.total_discount_amounts?.map(
-          (d) => `${d.discount} -> ${d.amount}`
-        )}
-      </div>
-      <div>
-        Total Tax:
-        {subscriptionData.total_tax_amounts.map((tax) => tax.toLocaleString())}
-      </div>
-      <div>
-        Total:
-        {subscriptionData.total.toLocaleString()}
-      </div>
-      <div></div>
-    </div>
   );
 }
 
@@ -138,6 +73,9 @@ export function PaymentForm({ subscriptionId }: { subscriptionId: string }) {
   const [formComplete, setFormComplete] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+
+  const sp = useSearchParams();
+  let active = "payment";
 
   let successURL: URL;
   if (typeof window !== "undefined" && window.location.href) {

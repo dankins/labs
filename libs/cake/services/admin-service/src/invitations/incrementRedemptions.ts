@@ -1,7 +1,7 @@
-import { db, invitations, members } from "@danklabs/cake/db";
+import { db, invitations, members as membersModel } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import { getInvitation } from "./getInvitation";
-import { getMemberInvitations } from "./getMemberInvitations";
+import { members } from "../members";
 
 export async function incrementRedemptions(invitationId: string) {
   const invitation = await getInvitation.nocache(invitationId);
@@ -17,12 +17,12 @@ export async function incrementRedemptions(invitationId: string) {
     .where(eq(invitations.id, invitationId));
 
   const member = await db.query.members.findFirst({
-    where: eq(members.id, invitation.memberId),
+    where: eq(membersModel.id, invitation.memberId),
   });
   if (!member) {
     throw new Error("member not found");
   }
 
   getInvitation.clearCache(invitationId);
-  getMemberInvitations.clearCache(member.iam);
+  members.member.invitations.clearInvitationsCache(member.iam);
 }

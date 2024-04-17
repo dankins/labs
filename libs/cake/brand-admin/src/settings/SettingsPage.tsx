@@ -2,6 +2,7 @@ import { SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { InstagramSettings } from "./instagram/InstagramSettings";
 import { AdminPageHeader } from "@danklabs/pattern-library/core";
 import { TikTokSettings } from "./tiktok/TikTokSettings";
+import { ShopifySettings } from "./shopify/ShopifySettings";
 
 export async function SettingsPage({ slug }: { slug: string }) {
   return (
@@ -15,6 +16,10 @@ export async function SettingsPage({ slug }: { slug: string }) {
         <div className="p-3 bg-white rounded-md">
           <SectionHeading>TikTok</SectionHeading>
           <TikTokSettings slug={slug} />
+        </div>
+        <div className="p-3 bg-white rounded-md">
+          <SectionHeading>Shopify</SectionHeading>
+          <ShopifySettings slug={slug} />
         </div>
       </div>
     </div>

@@ -2,12 +2,12 @@ import { brands, passports, db } from "@danklabs/cake/db";
 import { trackBrandAddedToCollection } from "@danklabs/cake/events";
 import { revalidatePath } from "next/cache";
 import { createBrandPass } from "../../createBrandPass";
-import { cachedGetMember } from "./getMember";
+import { getMember } from "./getMember";
 import { eq } from "drizzle-orm";
 import { clearCache } from "./clearCache";
 
 export async function claimPass(iam: string, brandSlug: string) {
-  const member = await cachedGetMember(iam);
+  const member = await getMember(iam);
   if (!member) {
     throw new Error("could not find member");
   }

@@ -28,6 +28,9 @@ export async function Component() {
       <div>
         <div>
           <h1 className="text-primary text-xl font-normal">Member Profile</h1>
+          <h3 className="text-primary/50 text-lg font-normal">
+            {user.emailAddresses[0].emailAddress}
+          </h3>
           <p className="text-base font-normal">
             Manage your personal settings associated to your Cake account.
           </p>

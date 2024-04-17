@@ -28,3 +28,15 @@ services:
       - ./libs/cake/jobs/scripts/simulateCron.js:/usr/src/app/script.js
     working_dir: /usr/src/app
     command: node script.js
+    environment:
+      - BASE_URL=http://host.docker.internal:4300
+      - CRON_SECRET=meatballs
+  cron-simulator-staging:
+    image: node:14
+    volumes:
+      - ./libs/cake/jobs/scripts/simulateCron.js:/usr/src/app/script.js
+    environment:
+      - BASE_URL=https://staging.cakemembers.com
+      - CRON_SECRET=meatballs
+    working_dir: /usr/src/app
+    command: node script.js

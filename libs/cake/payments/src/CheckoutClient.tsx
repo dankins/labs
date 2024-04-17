@@ -1,38 +1,22 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-
 import { StripeProvider } from "./StripeProvider";
-import { CheckoutSection } from "./CheckoutSection";
 import { Payment } from "./Payment";
-import { StripeAddressElementChangeEvent } from "@stripe/stripe-js";
-import { Success } from "./Success";
-import { SubscriptionReturnType } from "./types";
 
 export type CheckoutProps = {
   stripeCustomerId: string;
-  createSubscriptionAction(customerId: string): Promise<SubscriptionReturnType>;
-  checkSubscriptionStatus(subscriptionId: string): Promise<{
-    status: "incomplete" | "pending" | "complete";
-  }>;
-};
-
-export type StripeCustomer = {
-  stripeCustomerId: string;
-  billingAddress: StripeAddressElementChangeEvent["value"];
+  subscriptionId: string;
+  invoiceStatus: string;
+  clientSecret: string;
 };
 
 export function CheckoutClient({
+  subscriptionId,
   stripeCustomerId,
-  createSubscriptionAction,
-  checkSubscriptionStatus,
+  invoiceStatus,
+  clientSecret,
 }: CheckoutProps) {
-  const sp = useSearchParams();
   let active = "payment";
-
-  if (sp.get("redirect_status") && sp.get("redirect_status") === "succeeded") {
-    return <Success checkSubscriptionStatus={checkSubscriptionStatus} />;
-  }
 
   return (
     <StripeProvider
@@ -46,30 +30,15 @@ export function CheckoutClient({
         },
       }}
     >
-      {/* <CheckoutSection>
-        <Account
-          active={active === "account"}
-          userId={userId}
-          userEmailAddress={userEmailAddress}
-          createAccount={createAccount}
-        />
-      </CheckoutSection> */}
-      {/* <CheckoutSection>
-        <Address
-          mode={"billing"}
-          active={active === "billing"}
-          emailAddress={userEmailAddress}
-          stripeCustomer={stripeCustomer}
-          onSubmit={handleAddressSubmit}
-        />
-      </CheckoutSection> */}
-      <CheckoutSection>
+      <div className="m-3 p-5 border">
         <Payment
           active={active === "payment"}
+          clientSecret={clientSecret}
           stripeCustomerId={stripeCustomerId}
-          createSubscriptionAction={createSubscriptionAction}
+          subscriptionId={subscriptionId}
+          invoiceStatus={invoiceStatus}
         />
-      </CheckoutSection>
+      </div>
     </StripeProvider>
   );
 }

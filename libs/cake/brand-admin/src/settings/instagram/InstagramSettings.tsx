@@ -31,7 +31,7 @@ async function Component({ slug }: { slug: string }) {
   return (
     <div>
       <div>Instagram successfully configured</div>
-      <RecentInstagramPosts accessToken={instagramConfig.accessToken!} />
+      <RecentInstagramPosts slug={slug} />
       <div>
         <DisconnectButton slug={slug} />
       </div>
