@@ -73,7 +73,7 @@ async function Component({ slug }: { slug: string }) {
 
           <div className="p-6 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
             <BrandDetails brand={brand} />
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 grow">
               <MemberBenefits brand={brand} member={member} />
               <Products brand={brand} />
               <Instagram brand={brand} />
