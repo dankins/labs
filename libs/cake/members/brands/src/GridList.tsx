@@ -93,7 +93,7 @@ function BrandGrid({
       <div className="my-5 flex flex-row items-center">
         <div className="grow">
           <span>
-            <CollectionIcon /> {Object.keys(collection).length} /{" "}
+            <CollectionIcon /> {collection.count} /{" "}
             {collection.maxCollectionItems}
           </span>{" "}
           in Collections
