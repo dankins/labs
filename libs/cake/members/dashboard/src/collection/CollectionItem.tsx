@@ -78,7 +78,7 @@ function Shell({
   const mt = idx * 3;
   return (
     <div
-      className={`col-start-1 row-start-1 block  mt-[${mt}rem] md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full`}
+      className={`block md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full`}
     >
       <Link
         href={`/collection?collectionItem=${slug}`}
