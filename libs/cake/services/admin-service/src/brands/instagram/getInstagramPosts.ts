@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 // import { refreshInstagramToken } from "./refreshInstagramToken";
 import { fonts } from "@danklabs/cake/pattern-library/core";
+import { getBrand } from "../getBrand";
 
 export type InstagramPost = {
   id: string;
@@ -22,8 +23,18 @@ export type InstagramResponse<T> = {
 };
 
 export async function fn(
-  accessToken: string
+  slug: string
 ): Promise<InstagramResponse<InstagramPost[]>> {
+  const brand = await getBrand(slug);
+  if (
+    !brand.db.settings.instagram ||
+    brand.db.settings.instagram.status !== "active" ||
+    !brand.db.settings.instagram.accessToken
+  ) {
+    throw new Error("instagram not available");
+  }
+  const accessToken = brand.db.settings.instagram.accessToken;
+
   console.log("calling getInstagramPosts");
   const fields = "id,caption,media_type,media_url,permalink";
   const limit = 6; // Number of posts to fetch
@@ -34,6 +45,7 @@ export async function fn(
     let body: any;
     try {
       const bodyText = await response.text();
+      console.log("bodyText", bodyText, response.status, response.statusText);
       if (bodyText === "Sorry, this content isn't available right now") {
         throw new Error("Error loading Instagram posts");
       }

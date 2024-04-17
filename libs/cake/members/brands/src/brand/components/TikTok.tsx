@@ -1,12 +1,22 @@
 import { SectionHeading } from "@danklabs/cake/pattern-library/core";
-import { SkeletonImage } from "@danklabs/pattern-library/core";
+import {
+  Heading4,
+  SecondaryButton,
+  SkeletonImage,
+  TikTokIcon,
+} from "@danklabs/pattern-library/core";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Brand } from "@danklabs/cake/services/admin-service";
 
-export function TikTok({ brand }: { brand: NonNullable<Brand["cms"]> }) {
+export function TikTok({ brand }: { brand: NonNullable<Brand> }) {
   return (
     <>
-      <SectionHeading>{brand.name} on Tiktok</SectionHeading>
+      <div className="flex flex-row items-center">
+        <Heading4 className="grow">{brand.cms?.name} on Tiktok</Heading4>
+        <SecondaryButton size="sm" icon={<TikTokIcon />}>
+          View on TikTok
+        </SecondaryButton>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Item />
         <Item />
@@ -28,7 +38,7 @@ function Item() {
 export function TikTokLoading() {
   return (
     <>
-      <SectionHeading>... on Tiktok</SectionHeading>
+      <Heading4>... on Tiktok</Heading4>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <ItemLoading />
         <ItemLoading />

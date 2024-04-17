@@ -1,3 +1,4 @@
+import { BrandSettings } from "@danklabs/cake/db";
 import { SanityImageType } from "@danklabs/cake/pattern-library/core";
 
 export type Brand = {
@@ -6,6 +7,7 @@ export type Brand = {
     slug: string;
     cmsId: string | null;
     status: "active" | "paused" | "draft" | "deactivated";
+    settings: BrandSettings;
   };
   cms?: {
     slug: string;

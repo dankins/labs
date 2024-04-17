@@ -23,6 +23,7 @@ export type AspectRatioChoices =
   | "landscape"
   | "square"
   | "wallet"
+  | "ultrawide"
   | undefined;
 
 export type SanityImageType = {
@@ -128,7 +129,7 @@ export function landscapeCropBuilder(width: number) {
   ) =>
     imageUrlBuilder
       .width(width)
-      .height((width * 9) / 16)
+      .height(Math.round((width * 9) / 16))
       .fit("crop");
 }
 export function squareCropBuilder(width: number) {
@@ -136,6 +137,17 @@ export function squareCropBuilder(width: number) {
     imageUrlBuilder: ImageUrlBuilder,
     options: UseNextSanityImageBuilderOptions
   ) => imageUrlBuilder.width(width).height(width).fit("crop");
+}
+
+export function ultrawideCropBuilder(width: number) {
+  return (
+    imageUrlBuilder: ImageUrlBuilder,
+    options: UseNextSanityImageBuilderOptions
+  ) =>
+    imageUrlBuilder
+      .width(options.width || width)
+      .height(Math.round((options.width || width * 9) / 21))
+      .fit("crop");
 }
 
 export function sanityImageHelper(
@@ -239,6 +251,10 @@ function imageBuilderFactory(
     case "wallet":
       return walletCropBuilder(
         typeof width === "string" ? parseInt(width) : width || 500
+      );
+    case "ultrawide":
+      return ultrawideCropBuilder(
+        typeof width === "string" ? parseInt(width) : width || 1440
       );
     default:
       return undefined;

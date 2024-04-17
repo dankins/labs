@@ -12,41 +12,41 @@ import { Brand } from "@danklabs/cake/services/admin-service";
 
 export function Content({
   memberId,
-  brandId,
   brand,
   isFavorite,
 }: {
   memberId: string;
-  brandId: string;
-  brand: NonNullable<Brand["cms"]>;
+  brand: NonNullable<Brand>;
   isFavorite: boolean;
 }) {
+  const brandId = brand.db.id;
+
   return (
     <div className="flex flex-col md:flex-row gap-8">
       <div className="md:w-1/3 flex flex-col gap-4">
-        <SectionHeading>About {brand.name}</SectionHeading>
+        <SectionHeading>About {brand.cms?.name}</SectionHeading>
         <div className="text-base font-normal text-[#D5D5D5]">
-          {brand.summary}
+          {brand.cms?.summary}
         </div>
         {/** SHOP */}
         <div className="flex flex-row gap-4">
           <ToggleFavoriteButton
-            slug={brand.slug}
+            slug={brand.db.slug}
             addFavoriteAction={addFavoriteAction.bind(
               undefined,
               memberId,
               brandId,
-              brand.slug
+              brand.db.slug
             )}
             removeFavoriteAction={removeFavoriteAction.bind(
               undefined,
               memberId,
               brandId,
-              brand.slug
+              brand.db.slug
             )}
             isFavorite={isFavorite}
           />
-          <ShopButton name={brand.name!} website={brand.website!} />
+          <ShopButton name={brand.cms?.name!} website={brand.cms?.website!} />
         </div>
       </div>
       <div className="md:w-2/3 flex flex-col gap-4">
