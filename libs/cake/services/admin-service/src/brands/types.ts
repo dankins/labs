@@ -22,6 +22,7 @@ export type Brand = {
     products?: {
       name: string;
       pdpLink: string;
+      price?: string;
       image: SanityImageType;
     }[];
   };

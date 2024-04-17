@@ -7,8 +7,11 @@ import { BrandContent } from "./BrandContent";
 
 export async function BrandContentModal({ slug }: { slug: string }) {
   return (
-    <DrawerModal returnHref="/brands">
-      <div className="rounded-md">
+    <DrawerModal
+      returnHref="/brands"
+      className="darkSection bg-neutral text-neutral-content md:lightSection"
+    >
+      <div className="rounded-md h-full">
         <div className="absolute w-full text-3xl md:mb-4 flex flex-row justify-end lg:static">
           <GhostButton icon={<CloseIcon />} href={"/brands"}></GhostButton>
         </div>

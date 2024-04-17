@@ -65,6 +65,7 @@ export const brandSelection = {
   }).grab({
     name: q.string(),
     pdpLink: q.string(),
+    price: q.string().optional(),
     image: sanityImage("image", {
       withAsset: ["base", "dimensions", "lqip"],
       withHotspot: true,

@@ -16,7 +16,7 @@ import { SanityReference } from "next-sanity";
 import Image, { ImageLoader, getImageProps } from "next/image";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
-const DEFAULT_FALLBACK_IMAGE_QUALITY = 75;
+const DEFAULT_FALLBACK_IMAGE_QUALITY = 100;
 
 export type AspectRatioChoices =
   | "portrait"

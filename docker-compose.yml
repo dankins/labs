@@ -11,17 +11,17 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-  stripe:
-    image: "stripe/stripe-cli"
-    command:
-      [
-        "listen",
-        "--forward-to",
-        "http://host.docker.internal:4300/api/webhooks/stripe",
-      ]
-    environment:
-      - STRIPE_DEVICE_NAME=docker-compose
-      - STRIPE_API_KEY=sk_test_51On1nRHnJcBv7Ja08ShGqHkahbBh8iz6XLdSdzrBYzG2AIWqSSloIeM5TdMqscSe6dcmeqvlGa6HT4yHM6ErwS5Y0065jnHXnn
+  # stripe:
+  #   image: "stripe/stripe-cli"
+  #   command:
+  #     [
+  #       "listen",
+  #       "--forward-to",
+  #       "http://host.docker.internal:4300/api/webhooks/stripe",
+  #     ]
+  #   environment:
+  #     - STRIPE_DEVICE_NAME=docker-compose
+  #     - STRIPE_API_KEY=sk_test_51On1nRHnJcBv7Ja08ShGqHkahbBh8iz6XLdSdzrBYzG2AIWqSSloIeM5TdMqscSe6dcmeqvlGa6HT4yHM6ErwS5Y0065jnHXnn
   cron-simulator:
     image: node:14
     volumes:

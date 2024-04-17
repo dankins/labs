@@ -5,7 +5,6 @@ import {
   Heading1,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
-import Link from "next/link";
 
 export function Summary({
   items,

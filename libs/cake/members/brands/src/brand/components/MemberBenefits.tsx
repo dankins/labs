@@ -22,9 +22,6 @@ export function MemberBenefits({
     <>
       <div className="flex flex-row items-center">
         <Heading4 className="grow">Cake Member Benefits</Heading4>
-        <SecondaryButton size="sm" icon={<CollectionIcon />}>
-          <span className="hidden md:block">Add to Collection</span>
-        </SecondaryButton>
       </div>
       <div className="w-full max-w-[300px] min-h-32 flex flex-col gap-4 items-center justify-center">
         <BenefitCard amount={100} />

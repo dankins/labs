@@ -5,6 +5,7 @@ import {
   Heading4,
   MobileNavSpacer,
   Paragraph2,
+  SanityArtDirection,
   SanityImageServer,
   SecondaryButton,
 } from "@danklabs/cake/pattern-library/core";
@@ -15,7 +16,13 @@ import { ContainerWithBackground } from "./components/ContainerWithBackground";
 import { AddPassActionBar } from "./AddPassActionBar";
 
 import { claimPassAction } from "./actions";
-import { Caption3, RightArrow, Spinner } from "@danklabs/pattern-library/core";
+import {
+  AddIcon,
+  Caption3,
+  PrimaryButton,
+  RightArrow,
+  Spinner,
+} from "@danklabs/pattern-library/core";
 import { TikTok } from "./components/TikTok";
 import { Instagram } from "./components/Instagram";
 import { FriendsWhoFollow } from "./FriendsWhoFollow";
@@ -32,11 +39,9 @@ export async function BrandContent({ slug }: { slug: string }) {
 
 function Loading() {
   return (
-    <ContainerWithBackground loading>
-      <MobileNavSpacer />
-      <HeaderLoading />
-      <ContentLoading />
-    </ContainerWithBackground>
+    <div className="w-full h-full min-h-screen flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
+      <Spinner />
+    </div>
   );
 }
 
@@ -54,25 +59,36 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <>
-      <AddPassActionBar action={claimPassAction.bind(undefined, iam, slug)} />
-      <div className="flex flex-row justify-center">
+      <div className="w-full h-full min-h-screen flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
         <div className="container max-w-[1280px]">
-          <SanityImageServer
-            image={brand.cms.passBackgroundDesktop!}
-            alt={`Background image for ${brand.cms.name}`}
-            aspectRatio="ultrawide"
-            width={1280}
-            height={549}
-            className="rounded-sm overlfow-hidden"
-          />
-
-          <div className="p-6 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
-            <BrandDetails brand={brand} />
-            <div className="flex flex-col gap-4 grow">
-              <MemberBenefits brand={brand} member={member} />
-              <Products brand={brand} />
-              <Instagram brand={brand} />
-              <TikTok brand={brand} />
+          <div className="relative z-1">
+            <SanityArtDirection
+              alt="Background image for brand page"
+              className="absolute top-0 left-0 md:static w-full h-full"
+              images={[
+                {
+                  image: brand.cms?.passBackgroundDesktop,
+                  aspectRatio: "ultrawide",
+                  mediaQuery: "(min-width: 426px)",
+                },
+                {
+                  image: brand.cms?.passBackground,
+                  aspectRatio: "portrait",
+                  mediaQuery: "(max-width: 425px)",
+                },
+              ]}
+            />
+            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3] bg-gradient-to-t from-neutral to-neutral/50"></div>
+            <div className="relative  w-full h-full">
+              <div className="p-6 pt-[180px] md:pt-0 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
+                <BrandDetails brand={brand} />
+                <div className="flex flex-col gap-6 grow">
+                  <MemberBenefits brand={brand} member={member} />
+                  <Products brand={brand} />
+                  <Instagram brand={brand} />
+                  <TikTok brand={brand} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -83,7 +99,7 @@ async function Component({ slug }: { slug: string }) {
   function BrandDetails({ brand }: { brand: NonNullable<Brand> }) {
     return (
       <div className="lg:max-w-[420px] pb-4">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-4 lg:flex-col">
+        <div className="flex flex-col gap-6">
           <div>
             {brand.cms?.passLogo && (
               <SanityImageServer
@@ -92,24 +108,29 @@ async function Component({ slug }: { slug: string }) {
                 width={760}
                 height={760}
                 style={{ width: "auto", height: "64px" }}
+                className="invert md:invert-0"
               />
             )}
           </div>
-          <div className="my-4 flex flex-col gap-4 md:max-w-[350px] grow">
-            <Heading4>About {brand.cms?.name}</Heading4>
-            <Paragraph2>{brand.cms?.summary}</Paragraph2>
-          </div>
-          <div>
-            <SecondaryButton
-              icon={<RightArrow />}
-              iconPosition="right"
-              className="uppercase"
-              href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
-              target="_blank"
-            >
-              Visit {brand.cms?.name}
-            </SecondaryButton>
-          </div>
+          <Paragraph2>{brand.cms?.summary}</Paragraph2>
+          <PrimaryButton
+            href={`?brand=${brand.db.slug}&action=add-to-collection`}
+            className="uppercase w-[240px]"
+            icon={<AddIcon />}
+          >
+            Add to Collection
+          </PrimaryButton>
+          <SecondaryButton
+            iconPosition="right"
+            className="uppercase w-[240px]"
+            href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
+            target="_blank"
+          >
+            <div className="w-full flex flex-row items-center">
+              <span className="grow">Visit {brand.cms?.name}</span>
+              <RightArrow />
+            </div>
+          </SecondaryButton>
         </div>
 
         <FriendsWhoFollow slug={brand.db.slug} />

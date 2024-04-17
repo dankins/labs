@@ -4,7 +4,10 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import { Brand } from "@danklabs/cake/services/admin-service";
 import {
+  Caption1,
   Heading4,
+  Paragraph1,
+  Paragraph3,
   SecondaryButton,
   Spinner,
 } from "@danklabs/pattern-library/core";
@@ -21,7 +24,12 @@ export async function Products({ brand }: { brand: NonNullable<Brand> }) {
         <Heading4 className="grow">
           Latest styles from {brand.cms.name}
         </Heading4>
-        <SecondaryButton size="sm" icon={<BagIcon className="fill-dark" />}>
+        <SecondaryButton
+          href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
+          target="_blank"
+          size="sm"
+          icon={<BagIcon />}
+        >
           <span className="hidden md:block">Visit Store</span>
         </SecondaryButton>
       </div>
@@ -40,8 +48,12 @@ function Item({
   product: NonNullable<NonNullable<Brand["cms"]>["products"]>[0];
 }) {
   return (
-    <div className="rounded-md overflow-hidden bg-[#111] w-full max-w-[300px] flex flex-col gap-2 items-center justify-center">
-      <Link href={product.pdpLink} target="_blank">
+    <Link
+      href={product.pdpLink}
+      target="_blank"
+      className="rounded-md overflow-hidden w-full max-w-[300px] flex flex-col gap-2 items-start justify-center"
+    >
+      <div className="">
         <SanityImageServer
           image={product.image}
           alt={product.name}
@@ -49,8 +61,10 @@ function Item({
           width={290}
           aspectRatio="portrait"
         />
-      </Link>
-    </div>
+      </div>
+      <Paragraph3>{product.name}</Paragraph3>
+      {product.price && <Caption1>{product.price}</Caption1>}
+    </Link>
   );
 }
 

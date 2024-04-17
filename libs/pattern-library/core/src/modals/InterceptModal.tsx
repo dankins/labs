@@ -17,13 +17,3 @@ export function InterceptModal({
     </div>
   );
 }
-
-export function Modal({
-  children,
-  returnHref,
-}: {
-  children: React.ReactNode;
-  returnHref: string;
-}) {
-  return <div>{children}</div>;
-}

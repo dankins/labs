@@ -78,7 +78,8 @@ export async function getBrands(
 const getBrands_tags = ["get-brands-admin", "get-brands-member"];
 
 export function clearGetBrandsCache() {
-  getBrands_tags.forEach(revalidateTag);
+  revalidateTag("get-brands-admin");
+  revalidateTag("get-brands-member");
 }
 
 const brandListSelection = {

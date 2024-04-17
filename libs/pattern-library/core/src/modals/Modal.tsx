@@ -1,8 +1,8 @@
 import Link from "next/link";
-import styles from "./DrawerModal.module.scss";
+import styles from "./Modal.module.scss";
 import classNames from "classnames";
 
-export function DrawerModal({
+export function Modal({
   returnHref,
   children,
   className,
@@ -12,7 +12,7 @@ export function DrawerModal({
   className?: string;
 }) {
   return (
-    <div className={styles.DrawerModal}>
+    <div className={styles.Modal}>
       <Link href={returnHref} className="cursor-default">
         <div></div>
       </Link>

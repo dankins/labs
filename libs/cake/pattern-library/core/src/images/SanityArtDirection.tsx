@@ -1,10 +1,10 @@
 import { getImageProps } from "next/image";
 
-import { SanityImageType, buildImageProps } from "./utils";
+import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
 
 export type ImageProps = {
   image: SanityImageType | null;
-  aspectRatio: "portrait" | "landscape" | undefined;
+  aspectRatio: AspectRatioChoices;
   mediaQuery: string;
 };
 
