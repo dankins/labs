@@ -16,12 +16,11 @@ import {
 } from "@danklabs/cake/services/admin-service";
 
 import { Header, HeaderLoading } from "./components/Header";
-import { Content, ContentLoading } from "./components/Content";
 import { ContainerWithBackground } from "./components/ContainerWithBackground";
 import { AddPassActionBar } from "./AddPassActionBar";
 
 import { claimPassAction } from "./actions";
-import { Caption3, RightArrow } from "@danklabs/pattern-library/core";
+import { Caption3, RightArrow, Spinner } from "@danklabs/pattern-library/core";
 import { TikTok } from "./components/TikTok";
 import { Instagram } from "./components/Instagram";
 import { FriendsWhoFollow } from "./FriendsWhoFollow";
@@ -44,6 +43,10 @@ function Loading() {
       <ContentLoading />
     </ContainerWithBackground>
   );
+}
+
+function ContentLoading() {
+  return <Spinner />;
 }
 
 async function Component({ slug }: { slug: string }) {

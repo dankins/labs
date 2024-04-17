@@ -45,13 +45,16 @@ export async function updateTikTokAccessToken(brandSlug: string, code: string) {
   console.log("successfully retrieved tiktok token", data);
 
   const result = tiktokResponseSchema.parse(data);
+  const tokenExpirationDate = new Date(
+    Date.now() + result.expires_in * 1000
+  ).toISOString();
 
   const path = `{"tiktok"}`;
   const value: BrandSettings["tiktok"] = {
     status: "active",
     accessToken: result.access_token,
     refreshToken: result.refresh_token,
-    expiresIn: result.expires_in,
+    tokenExpirationDate,
     openId: result.open_id,
     refreshExpiresIn: result.refresh_expires_in,
     scope: result.scope,

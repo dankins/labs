@@ -6,13 +6,15 @@ import { clearBrandCache } from "../../brands/getBrand";
 export async function updateInstagramConfig(
   slug: string,
   accessToken: string,
-  userId: string
+  userId: string,
+  tokenExpirationDate: Date
 ) {
   const path = `{"instagram"}`;
   const value: BrandSettings["instagram"] = {
     status: "active",
     accessToken,
     userId,
+    tokenExpirationDate: tokenExpirationDate.toISOString(),
   };
   await db
     .update(brands)

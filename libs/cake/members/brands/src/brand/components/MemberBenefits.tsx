@@ -4,7 +4,7 @@ import {
   SectionHeading,
   WalletCard,
 } from "@danklabs/cake/pattern-library/core";
-import { Brand } from "@danklabs/cake/services/admin-service";
+import { Brand, brands } from "@danklabs/cake/services/admin-service";
 import {
   Caption3,
   CollectionIcon,

@@ -61,11 +61,16 @@ export const invitations = pgTable("invitations", {
 });
 
 export type BrandSettings = {
-  instagram?: {
-    status: "active" | "pending" | "deactivated";
-    accessToken?: string;
-    userId?: string;
-  };
+  instagram?:
+    | {
+        status: "deactivated";
+      }
+    | {
+        status: "active";
+        accessToken: string;
+        userId: string;
+        tokenExpirationDate: string;
+      };
   tiktok?:
     | {
         status: "pending";
@@ -76,7 +81,7 @@ export type BrandSettings = {
     | {
         status: "active";
         accessToken: string;
-        expiresIn: number;
+        tokenExpirationDate: string;
         openId: string;
         refreshToken: string;
         refreshExpiresIn: number;
