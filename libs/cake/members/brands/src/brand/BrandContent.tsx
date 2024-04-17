@@ -8,12 +8,7 @@ import {
   SanityImageServer,
   SecondaryButton,
 } from "@danklabs/cake/pattern-library/core";
-import {
-  Brand,
-  brands,
-  getMemberBrandStatus,
-  members,
-} from "@danklabs/cake/services/admin-service";
+import { Brand, brands, members } from "@danklabs/cake/services/admin-service";
 
 import { Header, HeaderLoading } from "./components/Header";
 import { ContainerWithBackground } from "./components/ContainerWithBackground";
