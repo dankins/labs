@@ -24,8 +24,13 @@ const ContentType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "descriptor",
+      title: "Descriptor",
+      type: "string",
+    }),
+    defineField({
       name: "image",
-      title: "Hero Image",
+      title: "Product Image",
       type: "image",
       options: {
         hotspot: true,
@@ -33,10 +38,14 @@ const ContentType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "price",
+      title: "Price",
+      type: "string",
+    }),
+    defineField({
       name: "excerpt",
       title: "Excerpt",
       type: "string",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "pdpLink",
@@ -48,12 +57,6 @@ const ContentType = defineType({
       name: "productId",
       title: "Product ID",
       type: "string",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "featured",
-      title: "Featured",
-      type: "boolean",
     }),
     orderRankField({
       type: "product",
