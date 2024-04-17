@@ -11,6 +11,7 @@ export type CardGridProps = {
 export function CardGrid({ member }: CardGridProps) {
   const collection = member.collection;
   if (collection.brandSlugs.length === 0) {
+    return <Helper0 memberFirstName={member.firstName} />;
   } else if (collection.brandSlugs.length === 1) {
   } else if (collection.brandSlugs.length === 2) {
   }
