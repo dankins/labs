@@ -65,7 +65,7 @@ export async function Component({ slug }: { slug: string }) {
         </div>
 
         <div className="relative top-0 left-0 flex flex-row justify-center">
-          <div className="mt-[400px] p-4 container">
+          <div className="mt-[250px] p-4 container">
             <div></div>
             <div>
               <SanityImageServer
