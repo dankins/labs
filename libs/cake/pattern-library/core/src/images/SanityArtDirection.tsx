@@ -6,6 +6,7 @@ export type ImageProps = {
   image: SanityImageType | null;
   aspectRatio: AspectRatioChoices;
   mediaQuery: string;
+  width?: number;
 };
 
 export function SanityArtDirection({
@@ -21,7 +22,11 @@ export function SanityArtDirection({
   const preparedImages = images
     .filter((i) => i.image)
     .map((image) => {
-      const sanityProps = buildImageProps(image.aspectRatio, image.image!);
+      const sanityProps = buildImageProps(
+        image.aspectRatio,
+        image.image!,
+        image.width
+      );
       const {
         props: { srcSet, ...rest },
       } = getImageProps({

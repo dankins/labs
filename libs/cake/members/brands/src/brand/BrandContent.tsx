@@ -70,11 +70,13 @@ async function Component({ slug }: { slug: string }) {
                   image: brand.cms?.passBackgroundDesktop,
                   aspectRatio: "ultrawide",
                   mediaQuery: "(min-width: 426px)",
+                  width: 2560,
                 },
                 {
                   image: brand.cms?.passBackground,
                   aspectRatio: "portrait",
                   mediaQuery: "(max-width: 425px)",
+                  width: 1080,
                 },
               ]}
             />
