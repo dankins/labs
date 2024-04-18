@@ -1,22 +1,20 @@
 .DrawerModal {
-  background-color: purple;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
 
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 
   > a {
-    top: 0;
-    left: 0;
+    display: block;
     flex-grow: 0;
     z-index: 1000;
     height: 100px;
+    width: 100%;
 
     // Desktop devices
     @media (min-width: 768px) {
@@ -25,6 +23,7 @@
   }
 
   > div {
+    height: calc(100vh - 100px); // Subtract the height of the header
     overflow-y: auto;
     background-color: rgb(var(--color-neutral));
     border-radius: 0.375rem;

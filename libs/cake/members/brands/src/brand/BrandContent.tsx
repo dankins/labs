@@ -39,7 +39,7 @@ export async function BrandContent({ slug }: { slug: string }) {
 
 function Loading() {
   return (
-    <div className="w-full h-full min-h-screen flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
+    <div className="w-full h-full flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
       <Spinner />
     </div>
   );
@@ -59,7 +59,7 @@ async function Component({ slug }: { slug: string }) {
 
   return (
     <>
-      <div className="w-full h-full min-h-screen flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
+      <div className="w-full h-full flex flex-row justify-center darkSection bg-neutral text-neutral-content md:lightSection">
         <div className="container max-w-[1280px]">
           <div className="relative z-1">
             <SanityArtDirection
