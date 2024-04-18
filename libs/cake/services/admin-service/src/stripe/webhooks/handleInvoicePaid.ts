@@ -10,17 +10,8 @@ import dayjs from "dayjs";
 
 export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   console.log("invoice paid", event, event.data.object.subscription);
-  const subscriptionId = (event.data.object.subscription as Stripe.Subscription)
-    .id;
-  const member = await members.member.getBySubscriptionId(subscriptionId);
-  if (!member) {
-    console.error(
-      "could not find member associated with subscription",
-      subscriptionId
-    );
-    throw new Error("could not find member associated with subscription");
-  }
-  // retrieve the invitationId from the subscription
+
+  // retrieve the metadata from the subscription
   const subscriptionMetadata = event.data.object.subscription_details?.metadata;
   if (!subscriptionMetadata) {
     console.error("received invoice paid event with no subscription metadata");
@@ -29,6 +20,16 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
 
   // get the invitation from the database
   const invitationId = subscriptionMetadata["invitationId"];
+  const memberIam = subscriptionMetadata["userId"];
+  const member = await members.member.get(memberIam);
+  if (!member) {
+    console.error(
+      "could not find member associated with subscription",
+      event,
+      subscriptionMetadata
+    );
+    throw new Error("could not find member associated with subscription");
+  }
 
   const invitation = await invitations.getInvitation.cached(invitationId);
 
