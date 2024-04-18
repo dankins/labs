@@ -36,7 +36,7 @@ export async function Component({ slug }: { slug: string }) {
 
   return (
     <Shell>
-      <div className="bg-black text-white min-h-screen relative w-full h-full relative">
+      <div className="bg-black text-white relative w-full h-full relative">
         <div className="absolute w-full top-0 left-0">
           <div className="relative">
             {brand && (
@@ -64,8 +64,8 @@ export async function Component({ slug }: { slug: string }) {
           </div>
         </div>
 
-        <div className="relative top-0 left-0 flex flex-row justify-center">
-          <div className="mt-[250px] p-4 container">
+        <div className="h-full relative top-0 left-0 flex flex-row justify-center">
+          <div className="p-4 w-full h-full flex flex-col justify-end container">
             <div></div>
             <div>
               <SanityImageServer
@@ -94,5 +94,7 @@ export async function Component({ slug }: { slug: string }) {
 }
 
 export function Shell({ children }: { children: React.ReactNode }) {
-  return <div className="darkSection h-full">{children}</div>;
+  return (
+    <div className="darkSection h-full flex flex-col items-end">{children}</div>
+  );
 }
