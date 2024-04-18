@@ -162,8 +162,8 @@ function GridItem({
                 style={{
                   height: "auto",
                   width: "100%",
-                  maxHeight: "80px",
-                  maxWidth: "175px",
+                  maxHeight: "75%",
+                  maxWidth: "75%",
                 }}
                 className="invert"
               />
