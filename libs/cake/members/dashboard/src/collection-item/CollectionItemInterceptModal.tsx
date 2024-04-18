@@ -60,7 +60,7 @@ export async function Component({ slug }: { slug: string }) {
               />
             )}
             {/* GRADIENT OVERLAY */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-black/50"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-black/20"></div>
           </div>
         </div>
 
