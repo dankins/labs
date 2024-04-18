@@ -54,15 +54,13 @@ function BenefitCard({
   name?: string | null;
 }) {
   return (
-    <div className="bg-[#292725] text-white rounded-md aspect-wallet h-[180px] ">
-      <div className=" rounded-lg h-full flex flex-col justify-center items-center font-pizzaz gap-6">
-        {amount ? (
-          <Currency amount={parseInt(amount)} size={"5xl"} />
-        ) : (
-          <span className="text-5xl">-</span>
-        )}
-        <Caption3 className="uppercase">{name || "Cake Card"}</Caption3>
-      </div>
+    <div className="rounded-lg bg-[#292725] max-w-[300px] text-white rounded-md aspect-wallet flex flex-col justify-center items-center gap-6">
+      {amount ? (
+        <Currency amount={parseInt(amount)} size={"5xl"} />
+      ) : (
+        <span className="text-5xl">-</span>
+      )}
+      <Caption3 className="uppercase">{name || "Cake Card"}</Caption3>
     </div>
   );
 }
