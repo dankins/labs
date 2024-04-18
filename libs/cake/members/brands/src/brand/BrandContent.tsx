@@ -69,18 +69,16 @@ async function Component({ slug }: { slug: string }) {
                 {
                   image: brand.cms?.passBackgroundDesktop,
                   aspectRatio: "ultrawide",
-                  mediaQuery: "(min-width: 426px)",
-                  width: 2560,
+                  mediaQuery: "(min-width: 765px)",
                 },
                 {
                   image: brand.cms?.passBackground,
                   aspectRatio: "portrait",
-                  mediaQuery: "(max-width: 425px)",
-                  width: 1080,
+                  mediaQuery: "(max-width: 765px)",
                 },
               ]}
             />
-            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3] bg-gradient-to-t from-neutral to-neutral/50"></div>
+            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral to-neutral/70"></div>
             <div className="relative  w-full h-full">
               <div className="p-6 pt-[180px] md:pt-0 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
                 <BrandDetails brand={brand} />
