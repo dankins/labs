@@ -8,7 +8,7 @@ export type Brand = {
     cmsId: string | null;
     status: "active" | "paused" | "draft" | "deactivated";
     settings: BrandSettings;
-    offerTemplates: BrandOfferTemplate[];
+    offerTemplates?: BrandOfferTemplate[];
   };
   cms?: {
     slug: string;

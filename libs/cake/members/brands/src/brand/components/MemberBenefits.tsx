@@ -5,11 +5,7 @@ import {
   WalletCard,
 } from "@danklabs/cake/pattern-library/core";
 import { Brand, brands } from "@danklabs/cake/services/admin-service";
-import {
-  Caption3,
-  CollectionIcon,
-  SecondaryButton,
-} from "@danklabs/pattern-library/core";
+import { Caption3 } from "@danklabs/pattern-library/core";
 
 export function MemberBenefits({
   brand,
@@ -23,7 +19,7 @@ export function MemberBenefits({
       <div className="flex flex-row items-center">
         <Heading4 className="grow">Cake Member Benefits</Heading4>
       </div>
-      <div className="w-full max-w-[300px] min-h-32 flex flex-col gap-4 items-center justify-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 items-start">
         {brand.db.offerTemplates?.map((template) => (
           <OfferTemplate key={template.id} offerTemplate={template} />
         ))}
@@ -35,7 +31,7 @@ export function MemberBenefits({
 function OfferTemplate({
   offerTemplate,
 }: {
-  offerTemplate: Brand["db"]["offerTemplates"][0];
+  offerTemplate: NonNullable<Brand["db"]["offerTemplates"]>[0];
 }) {
   if (
     offerTemplate.offerType === "voucher" &&
