@@ -94,12 +94,12 @@ function Redemption({
       </div>
       <div className="mt-6 mt-6 border-t border-t-[#EAE9E9]">
         <div className="w-full flex flex-col items-center justify-center overflow-x-hidden">
-          <Barcode
+          {/* <Barcode
             value={offer.code!}
             background="transparent"
             displayValue={false}
             width={2}
-          />
+          /> */}
         </div>
         <div className="flex flex-row items-center">
           <Caption3 className="grow">{offer.code}</Caption3>
