@@ -25,7 +25,6 @@ function getBrand_tag(slug: string) {
 
 export function clearBrandCache(slug: string) {
   revalidateTag(getBrand_tag(slug));
-  getBrand(slug);
 }
 
 async function getDbBrand(slug: string) {
