@@ -1,4 +1,4 @@
-import { admin, shopify } from "@danklabs/cake/services/admin-service";
+import { brands, shopify } from "@danklabs/cake/services/admin-service";
 
 const commonToken = process.env["SHOPIFY_COMMON_TOKEN"]!;
 
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   }
   const { slug, token } = result;
 
-  const brand = await admin.brand.getBrand(slug);
+  const brand = await brands.getBrand(slug);
   if (!brand) {
     console.log("could not find brand", slug);
     return new Response("Unauthorized", { status: 401 });

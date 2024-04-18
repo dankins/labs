@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Tabs } from "./Tabs";
 import { Suspense } from "react";
-import { admin } from "@danklabs/cake/services/admin-service";
+import { admin, brands } from "@danklabs/cake/services/admin-service";
 import { SanityImageServer } from "@danklabs/cake/pattern-library/core";
 import { AdminPageHeader, Heading1 } from "@danklabs/pattern-library/core";
 
@@ -30,22 +30,22 @@ async function LogoSection({ slug }: { slug: string }) {
   );
 }
 async function LogoSectionLoaded({ slug }: { slug: string }) {
-  const brand = await admin.brand.getBrand(slug);
+  const brand = await brands.getBrand(slug);
 
   return (
     <AdminPageHeader>
-      {brand.cmsData.passLogo ? (
+      {brand.cms.passLogo ? (
         <SanityImageServer
           alt="Brand Logo"
           className="my-2"
-          image={brand.cmsData.passLogo!}
+          image={brand.cms.passLogo!}
           width={200}
           height={100}
           style={{ height: "100%", width: "auto" }}
         />
       ) : (
         <Heading1 className="text-xl">
-          {brand.cmsData.name || brand.slug}
+          {brand.cms.name || brand.db.slug}
         </Heading1>
       )}
     </AdminPageHeader>
