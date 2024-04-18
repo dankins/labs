@@ -53,8 +53,8 @@ async function Component({
           <SanityImageServer
             alt={`Logo for ${brandDetail.name}`}
             image={brandDetail.passLogo}
-            width={250}
-            height={250}
+            width={750}
+            height={750}
             style={{
               height: "100%",
               width: "auto",
