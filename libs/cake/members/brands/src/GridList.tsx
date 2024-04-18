@@ -97,7 +97,7 @@ function BrandGrid({
             <CollectionIcon /> {collection.count} /{" "}
             {collection.maxCollectionItems}
           </span>{" "}
-          in Collections
+          in Collection
         </div>
         <div>
           <SecondaryButton icon={<SortIcon />} />
