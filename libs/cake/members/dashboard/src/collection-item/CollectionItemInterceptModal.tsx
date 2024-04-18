@@ -71,7 +71,7 @@ export async function Component({ slug }: { slug: string }) {
               <SanityImageServer
                 alt="Brand logo"
                 image={brand.cms.passLogo!}
-                className="w-20 h-auto"
+                className="w-20 h-auto invert"
                 width={200}
                 height={100}
               />
