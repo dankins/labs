@@ -25,10 +25,10 @@ export function Summary({
           <WalletIcon className="text-4xl fill-accent" /> {items} / {maxItems}
           <BagIcon className="text-4xl fill-accent" /> ${collectionValue}
           <span className="grow"></span>
-          <Button
+          <PrimaryButton
             icon={<AddIcon className="text-dark-content" />}
-            background="dark"
-          ></Button>
+            href={`/brands`}
+          ></PrimaryButton>
         </div>
       </div>
     </div>
