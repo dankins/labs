@@ -65,23 +65,26 @@ export async function Component({ slug }: { slug: string }) {
         </div>
 
         <div className="h-full relative top-0 left-0 flex flex-row justify-center">
-          <div className="p-4 w-full h-full flex flex-col justify-end container">
-            <div></div>
-            <div>
+          <div className="p-4 w-full h-full flex flex-col justify-end container gap-6">
+            {brand.cms?.passLogo && (
               <SanityImageServer
-                alt="Brand logo"
-                image={brand.cms.passLogo!}
-                className="w-20 h-auto invert"
-                width={200}
-                height={100}
+                alt={`Logo for ${brand.cms.name}`}
+                image={brand.cms?.passLogo}
+                width={250}
+                height={250}
+                style={{
+                  height: "auto",
+                  width: "100%",
+                  maxHeight: "80px",
+                  maxWidth: "175px",
+                }}
+                className="invert"
               />
-              <div className="my-10">
-                <Paragraph3>{brand.cms.summary}</Paragraph3>
-              </div>
-              <SecondaryButton icon={<RightArrow />}>
-                Visit {brand.cms.name}
-              </SecondaryButton>
-            </div>
+            )}
+            <Paragraph3>{brand.cms.summary}</Paragraph3>
+            <SecondaryButton icon={<RightArrow />}>
+              Visit {brand.cms.name}
+            </SecondaryButton>
             <CollectionItemOffers
               slug={slug}
               shopLinkTemplate={brand.cms.website || undefined}

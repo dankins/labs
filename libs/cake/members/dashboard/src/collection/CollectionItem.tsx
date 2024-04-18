@@ -50,13 +50,21 @@ async function Component({
     >
       <div className="flex flex-row items-center justify-center text-dark-content">
         <div>
-          <SanityImageServer
-            alt={`${brandDetail.name} Logo`}
-            image={brandDetail.passLogo!}
-            height={100}
-            width={200}
-            className="w-auto h-[26px] md:max-h-[32px] invert"
-          />
+          {brandDetail.passLogo && (
+            <SanityImageServer
+              alt={`Logo for ${brandDetail.name}`}
+              image={brandDetail.passLogo}
+              width={250}
+              height={250}
+              style={{
+                height: "auto",
+                width: "100%",
+                maxHeight: "80px",
+                maxWidth: "45%",
+              }}
+              className="invert"
+            />
+          )}
         </div>
         <div className="grow"></div>
         <Heading4>${item.value}</Heading4>
