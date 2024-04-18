@@ -17,16 +17,18 @@ async function fn(
     whereFilter = eq(sql`1`, sql`1`);
   }
 
-  let dbBrands: (typeof brands.$inferSelect)[];
-  dbBrands = await db.query.brands.findMany({
+  const dbBrands = await db.query.brands.findMany({
     where: whereFilter,
+    with: {
+      offerTemplates: true,
+    },
   });
 
   const cmsBrandsPromise = getBrandsNoCount();
   const dbBrandMap = dbBrands.reduce((acc, brand) => {
     acc[brand.slug] = brand;
     return acc;
-  }, {} as { [slug: string]: typeof brands.$inferSelect });
+  }, {} as { [slug: string]: typeof dbBrands[0] });
 
   const cmsBrands = await cmsBrandsPromise;
 

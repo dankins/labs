@@ -11,18 +11,25 @@ import {
 } from "@danklabs/pattern-library/core";
 import { claimPassAction } from "./actions";
 import { AddToCollectionButton } from "./AddToCollectionButton";
+import { brands } from "@danklabs/cake/services/admin-service";
 
 export async function AddToCollectionModal({ slug }: { slug: string }) {
   const { userId: iam } = auth().protect();
+  const brand = await brands.getBrand(slug);
+  const cakeCards = brand.db.offerTemplates
+    .filter((ot) => ot.applyOnPassCreation && ot.offerType === "voucher")
+    .reduce((acc, ot) => acc + parseInt(ot.offerValue), 0);
+
   return (
     <Modal returnHref="">
-      <div className="mt-[42px] p-6 flex flex-col text-center items-center justify-center ga">
-        <div>
-          <Currency amount={200} size="5xl" className="" />
+      <div className="mt-[42px] p-6 flex flex-col text-center items-center justify-center gap-4">
+        <div className="flex flex-col gap-4">
+          <Currency amount={cakeCards} size="5xl" className="" />
           <div>Collection value</div>
           <Heading3>Tasteful addition.</Heading3>
           <Paragraph2>
-            Add Johanna Ortiz to your collection to receive a $200 CAKE card.
+            Add {brand.cms.name} to your collection to receive a ${cakeCards}{" "}
+            CAKE card.
           </Paragraph2>
         </div>
         <div className="mt-[42px] flex flex-row gap-4">

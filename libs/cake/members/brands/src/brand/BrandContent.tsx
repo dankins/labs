@@ -113,13 +113,8 @@ async function Component({ slug }: { slug: string }) {
             )}
           </div>
           <Paragraph2>{brand.cms?.summary}</Paragraph2>
-          <PrimaryButton
-            href={`?brand=${brand.db.slug}&action=add-to-collection`}
-            className="uppercase w-[240px]"
-            icon={<AddIcon />}
-          >
-            Add to Collection
-          </PrimaryButton>
+
+          <AddToCollection brand={brand} />
           <SecondaryButton
             iconPosition="right"
             className="uppercase w-[240px]"
@@ -137,4 +132,49 @@ async function Component({ slug }: { slug: string }) {
       </div>
     );
   }
+}
+
+async function AddToCollection({ brand }: { brand: Brand }) {
+  return (
+    <Suspense
+      fallback={
+        <PrimaryButton
+          disabled
+          className="uppercase w-[240px]"
+          icon={<AddIcon />}
+        >
+          Add to Collection
+        </PrimaryButton>
+      }
+    >
+      <AddToCollectionLoaded brand={brand} />
+    </Suspense>
+  );
+}
+
+async function AddToCollectionLoaded({ brand }: { brand: Brand }) {
+  const member = await members.member.get(auth().protect().userId);
+  const isInCollection = !!member.collection.itemMap[brand.db.slug];
+
+  if (isInCollection) {
+    return (
+      <SecondaryButton
+        disabled
+        className="uppercase w-[240px]"
+        icon={<AddIcon />}
+      >
+        In Your Collection
+      </SecondaryButton>
+    );
+  }
+
+  return (
+    <PrimaryButton
+      href={`?brand=${brand.db.slug}&action=add-to-collection`}
+      className="uppercase w-[240px]"
+      icon={<AddIcon />}
+    >
+      Add to Collection
+    </PrimaryButton>
+  );
 }
