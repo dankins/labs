@@ -33,7 +33,7 @@ export async function Products({ brand }: { brand: NonNullable<Brand> }) {
           <span className="hidden md:block">Visit Store</span>
         </SecondaryButton>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-start">
         {brand.cms.products.map((product) => (
           <Item key={product.pdpLink} product={product} />
         ))}
