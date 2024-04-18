@@ -49,23 +49,21 @@ async function Component({
       image={brandDetail.passBackground || undefined}
     >
       <div className="flex flex-row items-center justify-center text-dark-content">
-        <div>
-          {brandDetail.passLogo && (
-            <SanityImageServer
-              alt={`Logo for ${brandDetail.name}`}
-              image={brandDetail.passLogo}
-              width={250}
-              height={250}
-              style={{
-                height: "auto",
-                width: "100%",
-                maxHeight: "80px",
-                maxWidth: "45%",
-              }}
-              className="invert"
-            />
-          )}
-        </div>
+        {brandDetail.passLogo && (
+          <SanityImageServer
+            alt={`Logo for ${brandDetail.name}`}
+            image={brandDetail.passLogo}
+            width={250}
+            height={250}
+            style={{
+              height: "100%",
+              width: "auto",
+              maxWidth: "45%",
+              maxHeight: "44px",
+            }}
+            className="invert"
+          />
+        )}
         <div className="grow"></div>
         <Heading4>${item.value}</Heading4>
       </div>
