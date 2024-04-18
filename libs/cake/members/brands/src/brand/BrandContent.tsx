@@ -70,6 +70,7 @@ async function Component({ slug }: { slug: string }) {
                   image: brand.cms?.passBackgroundDesktop,
                   aspectRatio: "ultrawide",
                   mediaQuery: "(min-width: 765px)",
+                  width: 2840,
                 },
                 {
                   image: brand.cms?.passBackground,

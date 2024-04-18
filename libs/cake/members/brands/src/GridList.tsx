@@ -131,9 +131,12 @@ function GridItem({
     cardClass = "w-full aspect-[447/260] relative group";
   }
   return (
-    <Link className={linkClass} href={`?brand=${brand.slug}`}>
+    <Link
+      className={linkClass + " group hover:drop-shadow-xl"}
+      href={`?brand=${brand.slug}`}
+    >
       <div className={cardClass}>
-        <figure className="absolute top-0 w-full h-full group overflow-hidden">
+        <figure className="absolute top-0 w-full h-full ">
           {brand.passBackground && (
             <SanityImageServer
               alt={`${brand.name} Logo`}
@@ -142,11 +145,11 @@ function GridItem({
               width={isFeatured ? 894 : 430}
               style={{ height: "100%", width: "100%" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
-              className="group-hover:scale-105  transition-transform duration-300 ease-in-out"
+              className="group-hover:scale-[102%]  transition-transform duration-300 ease-in-out"
             />
           )}
         </figure>
-        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 group-hover:bg-transparent group-hover:scale-105 transition-transform duration-300 ease-in-out"></div>
+        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/25 group-hover:bg-transparent group-hover:scale-[102%] transition-transform duration-300 ease-in-out"></div>
         <div className="absolute top-0 w-full h-full p-4">
           <LogoSpace>
             {brand.passLogo ? (
