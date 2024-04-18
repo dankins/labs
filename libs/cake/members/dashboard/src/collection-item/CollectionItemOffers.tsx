@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { SectionHeading } from "@danklabs/cake/pattern-library/core";
+import { Heading4, SectionHeading } from "@danklabs/cake/pattern-library/core";
 import { members } from "@danklabs/cake/services/admin-service";
 import { Spinner } from "libs/pattern-library/core/src/icons/Spinner";
 import { Suspense } from "react";
@@ -39,7 +39,7 @@ async function Component({
   const collectionItem = member.collection.itemMap[slug];
   return (
     <div>
-      <SectionHeading>Brand Benefits</SectionHeading>
+      <Heading4>Brand Benefits</Heading4>
       <div className="py-2 px-6">
         {collectionItem.offers.map((offer) => (
           <OfferCard offer={offer} shopLinkTemplate={shopLinkTemplate} />
