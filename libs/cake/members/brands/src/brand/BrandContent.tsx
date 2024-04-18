@@ -105,8 +105,8 @@ async function Component({ slug }: { slug: string }) {
               <SanityImageServer
                 alt={`Logo for ${brand.cms.name}`}
                 image={brand.cms?.passLogo}
-                width={760}
-                height={760}
+                width={120}
+                height={120}
                 style={{ width: "auto", height: "64px" }}
                 className="invert md:invert-0"
               />

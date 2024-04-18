@@ -295,3 +295,4 @@ export type Passport = typeof passports.$inferSelect;
 export type Offer = typeof offers.$inferSelect;
 export type OfferCode = typeof offerCodes.$inferSelect;
 export type Favorite = typeof favorites.$inferSelect;
+export type BrandOfferTemplate = typeof brandOfferTemplates.$inferSelect;

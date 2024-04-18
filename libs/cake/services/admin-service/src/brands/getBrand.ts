@@ -31,6 +31,9 @@ export function clearBrandCache(slug: string) {
 async function getDbBrand(slug: string) {
   const brand = await db.query.brands.findFirst({
     where: eq(brands.slug, slug),
+    with: {
+      offerTemplates: true,
+    },
   });
   if (!brand) {
     throw new Error("not found");

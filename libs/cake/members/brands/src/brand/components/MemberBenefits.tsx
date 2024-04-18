@@ -24,22 +24,48 @@ export function MemberBenefits({
         <Heading4 className="grow">Cake Member Benefits</Heading4>
       </div>
       <div className="w-full max-w-[300px] min-h-32 flex flex-col gap-4 items-center justify-center">
-        <BenefitCard amount={100} />
+        {brand.db.offerTemplates.map((template) => (
+          <OfferTemplate key={template.id} offerTemplate={template} />
+        ))}
       </div>
     </>
   );
 }
 
-function BenefitCard({ amount }: { amount?: number }) {
+function OfferTemplate({
+  offerTemplate,
+}: {
+  offerTemplate: Brand["db"]["offerTemplates"][0];
+}) {
+  if (
+    offerTemplate.offerType === "voucher" &&
+    offerTemplate.applyOnPassCreation
+  ) {
+    return (
+      <BenefitCard
+        amount={offerTemplate.offerValue}
+        name={offerTemplate.name}
+      />
+    );
+  }
+}
+
+function BenefitCard({
+  amount,
+  name,
+}: {
+  amount?: string;
+  name?: string | null;
+}) {
   return (
     <div className="bg-[#292725] text-white rounded-md aspect-wallet h-[180px] ">
-      <div className=" rounded-lg h-full flex flex-col justify-center items-center font-pizzaz gap-4">
+      <div className=" rounded-lg h-full flex flex-col justify-center items-center font-pizzaz gap-6">
         {amount ? (
-          <Currency amount={amount} size={"5xl"} />
+          <Currency amount={parseInt(amount)} size={"5xl"} />
         ) : (
           <span className="text-5xl">-</span>
         )}
-        <Caption3 className="uppercase">cake card</Caption3>
+        <Caption3 className="uppercase">{name || "Cake Card"}</Caption3>
       </div>
     </div>
   );
@@ -49,9 +75,6 @@ export function MemberBenefitsLoading() {
   return (
     <>
       <SectionHeading>Cake Member Benefits</SectionHeading>
-      <p className="text-base font-normal">
-        Something about the benefits and some other content etc..
-      </p>
       <div className="rounded-md w-full max-w-[300px] min-h-32 flex flex-col gap-4 items-center justify-center">
         <WalletCard
           content={
