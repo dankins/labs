@@ -35,6 +35,7 @@ export function SanityArtDirection({
         height: sanityProps.height,
         quality: 100,
         src: sanityProps.src,
+        blurDataURL: sanityProps.blurDataURL,
       });
 
       imageProps = rest;

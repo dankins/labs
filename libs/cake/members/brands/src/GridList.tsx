@@ -21,6 +21,7 @@ import {
   LogoSpace,
   SanityImageServer,
 } from "@danklabs/cake/pattern-library/core";
+import classNames from "classnames";
 
 export async function GridList({ perspective }: { perspective?: string }) {
   return (
@@ -132,7 +133,7 @@ function GridItem({
   }
   return (
     <Link
-      className={linkClass + " group hover:drop-shadow-xl"}
+      className={classNames(linkClass, " group hover:drop-shadow-xl")}
       href={`?brand=${brand.slug}`}
     >
       <div className={cardClass}>
@@ -158,7 +159,12 @@ function GridItem({
                 image={brand.passLogo}
                 height={250}
                 width={250}
-                style={{ height: "2.5rem", width: "auto" }}
+                style={{
+                  height: "auto",
+                  width: "100%",
+                  maxHeight: "80px",
+                  maxWidth: "175px",
+                }}
                 className="invert"
               />
             ) : (
