@@ -9,6 +9,9 @@ export function AppHeaderLink({
   ...props
 }: React.ComponentProps<typeof Link>) {
   const pathname = usePathname();
+  function handleClick() {
+    document.getElementById("side-menu")?.click();
+  }
   return (
     <Link
       className={classNames(
@@ -16,6 +19,7 @@ export function AppHeaderLink({
         pathname.startsWith(props.href.toString()) ? styles.active : undefined
       )}
       {...props}
+      onClick={handleClick}
     >
       {children}
     </Link>
