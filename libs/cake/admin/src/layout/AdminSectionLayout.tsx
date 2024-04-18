@@ -20,7 +20,7 @@ export function AdminSectionLayout({
   const isBrandDetail = segments[0] === "brands" && !!segments[1];
   return (
     <ClerkProvider>
-      <div className="flex flex-row">
+      <main className="flex flex-row">
         <AdminNav subheading="admin">
           <NavItem
             href={"/admin/brands"}
@@ -79,7 +79,7 @@ export function AdminSectionLayout({
         </AdminNav>
         <div className="px-4 grow">{children}</div>
         <div className="my-10"></div>
-      </div>
+      </main>
     </ClerkProvider>
   );
 }

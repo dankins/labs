@@ -40,7 +40,7 @@ export function SectionLayout({
           match={["settings"]}
         ></NavItem>
       </AdminNav>
-      <div className="px-4 grow">{children}</div>
+      <main className="px-4 grow">{children}</main>
     </div>
   );
 }
