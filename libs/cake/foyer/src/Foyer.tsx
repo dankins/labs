@@ -24,14 +24,6 @@ const Step = z.enum([
 type Step = z.infer<typeof Step>;
 
 export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
-  return <FoyerView searchParams={searchParams} />;
-}
-
-export async function FoyerView({
-  searchParams,
-}: {
-  searchParams?: SearchParams;
-}) {
   const cart = getCartIfAvailable();
   const codeSearchParam =
     typeof searchParams?.code === "string" ? searchParams.code : undefined;

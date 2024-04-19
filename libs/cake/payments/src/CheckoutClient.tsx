@@ -30,15 +30,13 @@ export function CheckoutClient({
         },
       }}
     >
-      <div className="m-3 p-5 border">
-        <Payment
-          active={active === "payment"}
-          clientSecret={clientSecret}
-          stripeCustomerId={stripeCustomerId}
-          subscriptionId={subscriptionId}
-          invoiceStatus={invoiceStatus}
-        />
-      </div>
+      <Payment
+        active={active === "payment"}
+        clientSecret={clientSecret}
+        stripeCustomerId={stripeCustomerId}
+        subscriptionId={subscriptionId}
+        invoiceStatus={invoiceStatus}
+      />
     </StripeProvider>
   );
 }

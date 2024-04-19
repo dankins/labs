@@ -33,7 +33,7 @@ export async function submitEmail(formData: FormData): Promise<void> {
   }
 
   trackInvitationEmailSubmitted(data.email);
-  redirect(`/invitation?step=welcome`);
+  redirect(`/invitation?step=account`);
 }
 
 export async function submitInviteCode(
