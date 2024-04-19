@@ -6,7 +6,9 @@ const NEW_MEMBER_MAX_REDEMPTIONS = 1;
 
 export async function create(memberId: string, amount?: number) {
   type NewInvitation = typeof invitations.$inferInsert;
-  const newInvitatations: NewInvitation[] = new Array(NEW_MEMBER_INVITATIONS)
+  const newInvitatations: NewInvitation[] = new Array(
+    amount || NEW_MEMBER_INVITATIONS
+  )
     .fill(undefined)
     .map((_) => ({
       memberId,
