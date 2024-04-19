@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Cake",
     description: "Shopping is about to get sweeter.",
     start_url: "/",
-    display: "standalone",
+    display: "fullscreen",
     dir: "ltr",
     lang: "en_US",
     background_color: "#fff",
