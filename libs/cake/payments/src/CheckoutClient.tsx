@@ -6,14 +6,12 @@ import { Payment } from "./Payment";
 export type CheckoutProps = {
   stripeCustomerId: string;
   subscriptionId: string;
-  invoiceStatus: string;
   clientSecret: string;
 };
 
 export function CheckoutClient({
   subscriptionId,
   stripeCustomerId,
-  invoiceStatus,
   clientSecret,
 }: CheckoutProps) {
   let active = "payment";
@@ -35,7 +33,6 @@ export function CheckoutClient({
         clientSecret={clientSecret}
         stripeCustomerId={stripeCustomerId}
         subscriptionId={subscriptionId}
-        invoiceStatus={invoiceStatus}
       />
     </StripeProvider>
   );

@@ -53,10 +53,6 @@ export async function Component({
 
   console.log("render checkout", result);
 
-  if (!result.clientSecret && !result.invoiceStatus) {
-    throw new Error("invalid state - no client secret or invoice");
-  }
-
   if (result.invoiceStatus === "paid") {
     return (
       <div className="flex flex-col gap-4 items-center justify-center text-center">
@@ -71,6 +67,10 @@ export async function Component({
         </PrimaryButton>
       </div>
     );
+  }
+
+  if (!result.clientSecret) {
+    throw new Error("invalid state - no client secret");
   }
 
   return (
@@ -94,7 +94,6 @@ export async function Component({
           clientSecret={result.clientSecret}
           stripeCustomerId={stripeCustomerId}
           subscriptionId={result.subscriptionId}
-          invoiceStatus={result.invoiceStatus}
         />
       </div>
     </>
