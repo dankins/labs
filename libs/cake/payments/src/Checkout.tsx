@@ -55,17 +55,20 @@ export async function Component({
 
   if (result.invoiceStatus === "paid") {
     return (
-      <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <Paragraph1 className="text-lg">
-          Good news! Your subscription has been fully comped and will be free of
-          charge!
-        </Paragraph1>
-        <PrimaryButton
-          href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${result.subscriptionId}`}
-        >
-          Continue
-        </PrimaryButton>
-      </div>
+      <>
+        <Summary totalPrice={result.total} />
+        <div className="mt-8 flex flex-col gap-4 items-center justify-center text-center">
+          <Paragraph1 className="text-lg">
+            Good news! Your subscription has been fully comped and will be free
+            of charge!
+          </Paragraph1>
+          <PrimaryButton
+            href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${result.subscriptionId}`}
+          >
+            Continue
+          </PrimaryButton>
+        </div>
+      </>
     );
   }
 
@@ -75,19 +78,7 @@ export async function Component({
 
   return (
     <>
-      <div className="flex flex-row gap-3 border border-[#E4D6C8] p-3">
-        <div className="p-3 h-12 w-12 rounded-full bg-dark ">
-          <LogoMark className="h-6 w-6" />
-        </div>
-        <div className="flex flex-col grow">
-          <div className="uppercase font-supreme text-xl">Cake Membership</div>
-          <div className="font-apris text-lg">12 month Membership</div>
-        </div>
-        <div className="flex flex-col items-end font-apris">
-          <div>${(result.total / 100).toLocaleString()}/yr.</div>
-          <div className="text-secondary">FREE</div>
-        </div>
-      </div>
+      <Summary totalPrice={result.total} />
 
       <div className="mt-8">
         <CheckoutClient
@@ -97,5 +88,23 @@ export async function Component({
         />
       </div>
     </>
+  );
+}
+
+function Summary({ totalPrice }: { totalPrice: number }) {
+  return (
+    <div className="flex flex-row gap-3 border border-[#E4D6C8] p-3">
+      <div className="p-3 h-12 w-12 rounded-full bg-dark ">
+        <LogoMark className="h-6 w-6" />
+      </div>
+      <div className="flex flex-col grow">
+        <div className="uppercase font-supreme text-xl">Cake Membership</div>
+        <div className="font-apris text-lg">12 month Membership</div>
+      </div>
+      <div className="flex flex-col items-end font-apris">
+        <div>${(totalPrice / 100).toLocaleString()}/yr.</div>
+        <div className="text-secondary">FREE</div>
+      </div>
+    </div>
   );
 }
