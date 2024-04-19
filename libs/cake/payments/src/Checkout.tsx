@@ -51,9 +51,9 @@ export async function Component({
     return <Success checkSubscriptionStatus={checkSubscriptionStatus} />;
   }
 
-  console.log("render checkout", result.clientSecret);
+  console.log("render checkout", result);
 
-  if (!result.clientSecret || !result.invoiceStatus) {
+  if (!result.clientSecret && !result.invoiceStatus) {
     throw new Error("invalid state - no client secret or invoice");
   }
 
