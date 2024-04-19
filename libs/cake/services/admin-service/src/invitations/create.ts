@@ -1,4 +1,5 @@
 import { db, invitations } from "@danklabs/cake/db";
+import { members } from "../members";
 
 const NEW_MEMBER_INVITATIONS = 2;
 const NEW_MEMBER_MAX_REDEMPTIONS = 1;
@@ -13,4 +14,6 @@ export async function create(memberId: string, amount?: number) {
       maxRedemptions: NEW_MEMBER_MAX_REDEMPTIONS,
     }));
   await db.insert(invitations).values(newInvitatations);
+
+  members.member.invitations.clearInvitationsCache(memberId);
 }
