@@ -4,6 +4,7 @@ import { Checkout } from "@danklabs/cake/payments";
 import { members, stripe } from "@danklabs/cake/services/admin-service";
 import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
 import { FoyerContainer } from "../FoyerContainer";
+import { invitations } from "@danklabs/cake/services/admin-service";
 
 const CAKE_MEMBERSHIP_PRICE_ID = process.env["CAKE_MEMBERSHIP_PRICE_ID"]!;
 
@@ -11,7 +12,9 @@ export async function MembershipCheckout({
   invitation,
   searchParams,
 }: {
-  invitation: Invitation;
+  invitation: NonNullable<
+    Awaited<ReturnType<typeof invitations.getInvitation.cached>>
+  >;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { userId } = auth().protect();
@@ -44,6 +47,8 @@ export async function MembershipCheckout({
     throw new Error("invalid state");
   }
 
+  const coupon = invitation.coupon || invitation.campaign?.coupon || undefined;
+
   return (
     <FoyerContainer>
       <div className="mt-[20px] w-full max-w-[500px]">
@@ -52,7 +57,7 @@ export async function MembershipCheckout({
           priceId={CAKE_MEMBERSHIP_PRICE_ID}
           stripeCustomerId={stripeCustomerId}
           metadata={subscriptionMetadata}
-          couponId={invitation.coupon ? invitation.coupon : undefined}
+          couponId={coupon}
         />
       </div>
     </FoyerContainer>

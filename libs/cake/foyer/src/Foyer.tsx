@@ -9,6 +9,7 @@ import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Landing } from "./landing/Landing";
 import { getCartIfAvailable } from "./cookie";
 import { AccountStep } from "./account/AccountStep";
+import { getInvitation } from "libs/cake/services/admin-service/src/invitations/getInvitation";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -54,9 +55,7 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
   }
 
   const code = cart.code;
-  const invitation = await db.query.invitations.findFirst({
-    where: eq(invitations.code, code),
-  });
+  const invitation = await getInvitation.cached(code);
 
   if (!invitation) {
     return <ErrorScreen error="INVALID_INVITE_CODE" />;
