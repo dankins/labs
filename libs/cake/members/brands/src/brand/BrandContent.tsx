@@ -63,6 +63,7 @@ async function Component({ slug }: { slug: string }) {
         <div className="container max-w-[1280px]">
           <div className="relative z-1">
             <SanityArtDirection
+              priority
               alt="Background image for brand page"
               className="absolute top-0 left-0 md:static w-full h-full"
               images={[

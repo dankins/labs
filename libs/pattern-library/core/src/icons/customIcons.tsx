@@ -20,7 +20,7 @@ export function ClockIcon(props: IconBaseProps) {
 
 export function CloseIcon(props: IconBaseProps) {
   return (
-    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="1.5" {...props}>
+    <IconBase viewBox="0 0 24 24" fill="none" strokeWidth="2.5" {...props}>
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

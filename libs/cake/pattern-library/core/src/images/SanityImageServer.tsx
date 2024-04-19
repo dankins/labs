@@ -23,6 +23,7 @@ export function SanityImageServer({
       sizes={sizes}
       placeholder={image?.asset?.metadata?.lqip ? "blur" : undefined}
       blurDataURL={image ? image.asset.metadata?.lqip : undefined}
+      quality={nextImageProps.quality || 100}
       {...nextImageProps}
     />
   );

@@ -13,10 +13,12 @@ export function SanityArtDirection({
   alt,
   images,
   className,
+  priority,
 }: {
   alt: string;
   images: ImageProps[];
   className?: string;
+  priority?: boolean;
 }) {
   let imageProps = {};
   const preparedImages = images
@@ -36,6 +38,7 @@ export function SanityArtDirection({
         quality: 100,
         src: sanityProps.src,
         blurDataURL: sanityProps.blurDataURL,
+        priority,
       });
 
       imageProps = rest;

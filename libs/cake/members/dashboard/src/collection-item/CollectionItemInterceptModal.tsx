@@ -4,6 +4,8 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import { brands } from "@danklabs/cake/services/admin-service";
 import {
+  CloseIcon,
+  GhostButton,
   InterceptModal,
   Paragraph3,
   RightArrow,
@@ -41,6 +43,7 @@ export async function Component({ slug }: { slug: string }) {
           <div className="relative">
             {brand && (
               <SanityArtDirection
+                priority
                 alt="Brand background image"
                 images={[
                   /*  DESKTOP */
@@ -66,6 +69,16 @@ export async function Component({ slug }: { slug: string }) {
 
         <div className="h-full relative top-0 left-0 flex flex-row justify-center">
           <div className="p-4 w-full h-full flex flex-col justify-end container gap-6">
+            {/* Close Button */}
+            <div className="flex flex-row justify-end text-2xl">
+              <GhostButton
+                icon={<CloseIcon />}
+                href={`/collection`}
+                background="black/20"
+                className="bg-black/20 rounded-full"
+              ></GhostButton>
+            </div>
+            <div className="grow"></div>
             {brand.cms?.passLogo && (
               <SanityImageServer
                 alt={`Logo for ${brand.cms.name}`}
