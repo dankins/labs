@@ -1,15 +1,13 @@
 import z from "zod";
 import dayjs from "dayjs";
-import { Invitation, db, invitations } from "@danklabs/cake/db";
 
+import { invitations } from "@danklabs/cake/services/admin-service";
 import { ErrorScreen } from "./error/ErrorScreen";
-import { eq } from "drizzle-orm";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Landing } from "./landing/Landing";
 import { getCartIfAvailable } from "./cookie";
 import { AccountStep } from "./account/AccountStep";
-import { getInvitation } from "libs/cake/services/admin-service/src/invitations/getInvitation";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -55,7 +53,7 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
   }
 
   const code = cart.code;
-  const invitation = await getInvitation.cached(code);
+  const invitation = await invitations.getByCode.cached(code);
 
   if (!invitation) {
     return <ErrorScreen error="INVALID_INVITE_CODE" />;
