@@ -19,15 +19,12 @@ export function Success({
     if (subscriptionId && !working) {
       setWorking(true);
       const result = await checkSubscriptionStatus(subscriptionId);
-      console.log("result", result);
       if (result.status === "complete") {
         router.push("/collection");
       }
       setWorking(false);
     }
   }, 3000);
-
-  // payment_intent_client_secret, payment_intent, redirect_status=succeeded, success=true
 
   return (
     <div>

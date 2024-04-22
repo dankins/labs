@@ -15,60 +15,50 @@ export async function activateMembership(
   subscriptionId: string,
   renewalDate: Date
 ) {
-  await db.transaction(
-    async (db) => {
-      const memberRecord = await db.query.members.findFirst({
-        where: eq(memberModel.iam, iam),
-      });
-      if (!memberRecord) {
-        throw new Error("No member record found for iam");
-      }
-      if (memberRecord.membershipStatus === "active") {
-        console.log("member already active", iam);
-        return;
-      }
-      await updateMembershipStatus(iam, subscriptionId, "active");
+  const memberRecord = await db.query.members.findFirst({
+    where: eq(memberModel.iam, iam),
+  });
+  if (!memberRecord) {
+    throw new Error("No member record found for iam");
+  }
+  if (memberRecord.membershipStatus === "active") {
+    console.log("member already active", iam);
+    return;
+  }
+  await updateMembershipStatus(iam, subscriptionId, "active");
 
-      const invitationId = memberRecord.invitationId;
-      if (!invitationId) {
-        throw new Error("No invitationId associated with member");
-      }
+  const invitationId = memberRecord.invitationId;
+  if (!invitationId) {
+    throw new Error("No invitationId associated with member");
+  }
 
-      const invitation = await invitations.getInvitation.cached(invitationId);
+  const invitation = await invitations.getInvitation.cached(invitationId);
 
-      // something went wrong if we couldn't find the invitation
-      if (!invitation) {
-        console.error(
-          "could not find invitation for subscription",
-          invitationId
-        );
-        return;
-      }
+  // something went wrong if we couldn't find the invitation
+  if (!invitation) {
+    console.error("could not find invitation for subscription", invitationId);
+    return;
+  }
 
-      // increment the number of redemptions on the invite
-      await invitations.incrementRedemptions(invitation.id);
+  // increment the number of redemptions on the invite
+  await invitations.incrementRedemptions(invitation.id);
 
-      // create invitations for the member
-      await invitations.create(
-        memberRecord.id,
-        invitation.invitationsGranted ||
-          invitation.campaign?.invitationsGranted ||
-          undefined
-      );
-
-      const memberCached = await members.member.get(iam);
-      await trackEvent(
-        memberRecord.iam,
-        memberCached.email,
-        invitation,
-        renewalDate
-      );
-      members.member.clearCache(iam);
-    },
-    {
-      isolationLevel: "read uncommitted",
-    }
+  // create invitations for the member
+  await invitations.create(
+    memberRecord.id,
+    invitation.invitationsGranted ||
+      invitation.campaign?.invitationsGranted ||
+      undefined
   );
+
+  const memberCached = await members.member.get(iam);
+  await trackEvent(
+    memberRecord.iam,
+    memberCached.email,
+    invitation,
+    renewalDate
+  );
+  members.member.clearCache(iam);
 }
 
 async function trackEvent(

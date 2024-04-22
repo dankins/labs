@@ -17,7 +17,6 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   }
 
   // get the invitation from the database
-  const invitationId = subscriptionMetadata["invitationId"];
   const memberIam = subscriptionMetadata["userId"];
 
   const renewalDate = determineRenewalDate(event);
