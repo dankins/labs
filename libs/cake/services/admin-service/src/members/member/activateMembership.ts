@@ -16,8 +16,6 @@ export async function activateMembership(
   subscriptionId: string,
   renewalDate: Date
 ) {
-  const memberCached = await members.member.get(iam);
-
   const memberRecord = await db.query.members.findFirst({
     where: eq(memberModel.iam, iam),
   });
@@ -48,9 +46,12 @@ export async function activateMembership(
   // create invitations for the member
   await invitations.create(
     memberRecord.id,
-    invitation.invitationsGranted || undefined
+    invitation.invitationsGranted ||
+      invitation.campaign?.invitationsGranted ||
+      undefined
   );
 
+  const memberCached = await members.member.get(iam);
   await trackEvent(
     memberRecord.iam,
     memberCached.email,
