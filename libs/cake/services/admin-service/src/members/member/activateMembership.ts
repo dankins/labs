@@ -16,8 +16,16 @@ export async function activateMembership(
   subscriptionId: string,
   renewalDate: Date
 ) {
-  const memberRecord = await members.member.get(iam);
+  const memberCached = await members.member.get(iam);
+
+  const memberRecord = await db.query.members.findFirst({
+    where: eq(memberModel.iam, iam),
+  });
+  if (!memberRecord) {
+    throw new Error("No member record found for iam");
+  }
   if (memberRecord.membershipStatus === "active") {
+    console.log("member already active", iam);
     return;
   }
 
@@ -45,7 +53,7 @@ export async function activateMembership(
 
   await trackEvent(
     memberRecord.iam,
-    memberRecord.email,
+    memberCached.email,
     invitation,
     renewalDate
   );
