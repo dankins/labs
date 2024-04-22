@@ -26,7 +26,7 @@ export async function MembershipCheckout({
       DEFAULT_MAX_COLLECTION_ITEMS,
   });
 
-  if (user.membershipStatus === "active") {
+  if (user.membershipStatus === "active" && !searchParams["redirect_status"]) {
     return <div>You already have an active membership!</div>;
   }
 
