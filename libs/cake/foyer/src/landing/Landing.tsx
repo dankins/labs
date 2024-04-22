@@ -138,7 +138,7 @@ function InvitationEmail({
         </p>
 
         <form
-          key="code-form"
+          key="email-form"
           id="email-form"
           action={submitEmail}
           className="mb-4 w-full flex flex-col items-end gap-2"

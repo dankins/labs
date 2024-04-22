@@ -1,15 +1,13 @@
-import { Invitation, db, members as membersTable } from "@danklabs/cake/db";
-import { invitations, members } from "@danklabs/cake/services/admin-service";
 import { Stripe } from "stripe";
-import { eq } from "drizzle-orm";
-import {
-  TrackCheckoutComplete,
-  trackCheckoutComplete,
-} from "@danklabs/cake/events";
+import { activateMembership } from "../../members/member/activateMembership";
 import dayjs from "dayjs";
 
 export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   console.log("invoice paid", event, event.data.object.subscription);
+  const subscriptionId = event.data.object.subscription as string;
+  if (!subscriptionId) {
+    throw new Error("received invoice paid event with no subscription id");
+  }
 
   // retrieve the metadata from the subscription
   const subscriptionMetadata = event.data.object.subscription_details?.metadata;
@@ -21,56 +19,10 @@ export async function handleInvoicePaid(event: Stripe.InvoicePaidEvent) {
   // get the invitation from the database
   const invitationId = subscriptionMetadata["invitationId"];
   const memberIam = subscriptionMetadata["userId"];
-  const member = await members.member.get(memberIam);
-  if (!member) {
-    console.error(
-      "could not find member associated with subscription",
-      event,
-      subscriptionMetadata
-    );
-    throw new Error("could not find member associated with subscription");
-  }
-
-  const invitation = await invitations.getInvitation.cached(invitationId);
-
-  // something went wrong if we couldn't find the invitation
-  if (!invitation) {
-    console.error("could not find invitation for subscription", invitationId);
-    return;
-  }
-
-  // increment the number of redemptions on the invite
-  await invitations.incrementRedemptions(invitation.id);
-
-  // create invitations for the member
-  await invitations.create(
-    member.id,
-    invitation.invitationsGranted || undefined
-  );
 
   const renewalDate = determineRenewalDate(event);
-  await trackEvent(member.iam, member.email, invitation, renewalDate);
-}
 
-async function trackEvent(
-  iam: string,
-  email: string,
-  invitation: Invitation,
-  renewalDate: Date
-) {
-  const event: Omit<TrackCheckoutComplete, "name"> = {
-    email,
-    invitationId: invitation.id,
-    renewalDate: renewalDate.toISOString(),
-  };
-  if (invitation.memberId) {
-    const inviter = await members.member.getById(invitation.memberId);
-    if (inviter.firstName) {
-      event.inviterFirstName = inviter.firstName;
-    }
-  }
-
-  return trackCheckoutComplete(iam, event);
+  await activateMembership(memberIam, subscriptionId, renewalDate);
 }
 
 function determineRenewalDate(event: Stripe.InvoicePaidEvent): Date {

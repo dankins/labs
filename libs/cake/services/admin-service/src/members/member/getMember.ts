@@ -69,6 +69,7 @@ async function fn(iam: string): Promise<Member> {
     lastName: iamMember.lastName,
     stripeCustomerId: dbMember.stripeCustomerId || undefined,
     stripeSubscriptionId: dbMember.stripeSubscriptionId || undefined,
+    invitationId: dbMember.invitationId || undefined,
     email: iamMember.emailAddresses.filter(
       (e) => e.id === iamMember.primaryEmailAddressId
     )[0].emailAddress!,

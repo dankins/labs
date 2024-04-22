@@ -9,6 +9,7 @@ import Stripe from "stripe";
 import { SubscriptionReturnType } from "./types";
 import { v4 as uuid } from "uuid";
 import { members } from "@danklabs/cake/services/admin-service";
+import dayjs from "dayjs";
 
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
@@ -123,10 +124,11 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
     console.log("subscription is active", member.iam, subscriptionId);
 
     if (member.stripeCustomerId !== subscriptionId) {
-      await members.member.updateMembershipStatus(
+      const renewalDate = dayjs.unix(sub.current_period_end).toDate();
+      await members.member.activateMembership(
         member.iam,
         subscriptionId,
-        "active"
+        renewalDate
       );
       console.log("updated user membership status");
       return { status: "complete" };

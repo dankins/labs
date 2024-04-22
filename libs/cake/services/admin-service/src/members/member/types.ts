@@ -25,6 +25,7 @@ export type Member = {
   firstName: string | null;
   lastName: string | null;
   email: string;
+  invitationId?: string;
   isSuperAdmin: boolean;
   isBrandManager: boolean;
   membershipStatus: "active" | "expired" | undefined;
