@@ -8,7 +8,6 @@ import {
   trackCheckoutComplete,
 } from "@danklabs/cake/events";
 import { invitations } from "../../invitations";
-import Stripe from "stripe";
 import { members } from "..";
 
 export async function activateMembership(

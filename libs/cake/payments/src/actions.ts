@@ -112,31 +112,22 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   status: "incomplete" | "pending" | "complete";
 }> {
   const userAuth = auth();
-  console.log("checking subscription", subscriptionId);
-  const sub = await stripe.subscriptions.retrieve(subscriptionId);
-
   if (!userAuth.userId) {
     return { status: "incomplete" };
   }
 
-  if (sub.status === "active") {
-    const member = await members.member.get(userAuth.userId);
-    console.log("subscription is active", member.iam, subscriptionId);
+  console.log("checking subscription", subscriptionId);
+  const sub = await stripe.subscriptions.retrieve(subscriptionId);
 
-    if (member.stripeCustomerId !== subscriptionId) {
-      const renewalDate = dayjs.unix(sub.current_period_end).toDate();
-      await members.member.activateMembership(
-        member.iam,
-        subscriptionId,
-        renewalDate
-      );
-      console.log("updated user membership status");
-      return { status: "complete" };
-    }
-    if (member.membershipStatus === "active") {
-      console.log("status is already complete, not doing anything");
-      return { status: "complete" };
-    }
+  if (sub.status === "active") {
+    const renewalDate = dayjs.unix(sub.current_period_end).toDate();
+    await members.member.activateMembership(
+      userAuth.userId,
+      subscriptionId,
+      renewalDate
+    );
+    console.log("updated user membership status");
+    return { status: "complete" };
   }
 
   return { status: "pending" };
