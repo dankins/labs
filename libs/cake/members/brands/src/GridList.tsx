@@ -20,6 +20,7 @@ import {
 import {
   LogoSpace,
   SanityImageServer,
+  SanityImageType,
 } from "@danklabs/cake/pattern-library/core";
 import classNames from "classnames";
 
@@ -142,8 +143,8 @@ function GridItem({
             <SanityImageServer
               alt={`${brand.name} Logo`}
               image={brand.passBackground}
-              height={520}
-              width={isFeatured ? 894 : 430}
+              height={1080}
+              width={1080}
               style={{ height: "100%", width: "100%" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
               className="group-hover:scale-[102%]  transition-transform duration-300 ease-in-out"
@@ -157,13 +158,12 @@ function GridItem({
               <SanityImageServer
                 alt={`${brand.name} Logo`}
                 image={brand.passLogo}
-                height={250}
-                width={250}
+                height={500}
+                width={500}
                 style={{
-                  height: "auto",
-                  width: "100%",
-                  maxHeight: "75%",
-                  maxWidth: "75%",
+                  maxHeight: "50%",
+                  maxWidth: "70%",
+                  objectFit: "contain",
                 }}
                 className="invert"
               />
@@ -186,4 +186,33 @@ function GridItem({
       </div>
     </Link>
   );
+}
+
+function buildLogoStyle(image: SanityImageType) {
+  // image.asset.metadata.dimensions.
+  const aspectRatio = image.asset?.metadata?.dimensions?.aspectRatio;
+  if (!aspectRatio) {
+    return {
+      height: "auto",
+      width: "100%",
+      maxHeight: "75%",
+      maxWidth: "75%",
+    };
+  }
+
+  if (aspectRatio > 2) {
+    return {
+      height: "auto",
+      width: "100%",
+      maxHeight: "75%",
+      maxWidth: "75%",
+    };
+  }
+
+  return {
+    height: "auto",
+    width: "100%",
+    maxHeight: "75%",
+    maxWidth: "75%",
+  };
 }

@@ -45,7 +45,9 @@ export const brandSelection = {
   name: q.string().optional().nullable(),
   website: q.string().optional().nullable(),
   summary: q.string().optional().nullable(),
-  passLogo: sanityImage("pass_logo").nullable(),
+  passLogo: sanityImage("pass_logo", {
+    withAsset: ["base", "dimensions"],
+  }).nullable(),
   logoSquare: sanityImage("logo_square", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,

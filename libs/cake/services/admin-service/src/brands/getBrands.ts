@@ -28,10 +28,9 @@ async function fn(
   const dbBrandMap = dbBrands.reduce((acc, brand) => {
     acc[brand.slug] = brand;
     return acc;
-  }, {} as { [slug: string]: typeof dbBrands[0] });
+  }, {} as { [slug: string]: (typeof dbBrands)[0] });
 
   const cmsBrands = await cmsBrandsPromise;
-
   let rtn: Brand[] = [];
   cmsBrands.forEach((cmsBrand) => {
     const dbBrand = dbBrandMap[cmsBrand.slug];
@@ -88,7 +87,9 @@ const brandListSelection = {
   name: q.string().nullable().optional(),
   slug: q.slug("slug"),
   logoSquare: sanityImage("logo_square").nullable(),
-  passLogo: sanityImage("pass_logo").nullable(),
+  passLogo: sanityImage("pass_logo", {
+    withAsset: ["base", "dimensions"],
+  }).nullable(),
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,

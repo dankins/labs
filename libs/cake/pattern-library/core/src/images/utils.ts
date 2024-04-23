@@ -32,6 +32,12 @@ export type SanityImageType = {
   asset: {
     _type: "reference" | "sanity.imageAsset" | "sanity.fileAsset";
     metadata?: {
+      dimensions: {
+        height: number;
+        width: number;
+        aspectRatio: number;
+        _type?: "sanity.imageDimensions" | undefined;
+      } | null;
       lqip?: any;
     };
   };

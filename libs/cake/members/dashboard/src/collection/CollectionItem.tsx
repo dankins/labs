@@ -48,7 +48,7 @@ async function Component({
       slug={item.slug}
       image={brandDetail.passBackground || undefined}
     >
-      <div className="flex flex-row items-center justify-center text-dark-content">
+      <div className="flex flex-row items-center justify-start text-dark-content h-[36px] md:h-[48px]">
         {brandDetail.passLogo && (
           <SanityImageServer
             alt={`Logo for ${brandDetail.name}`}
@@ -57,9 +57,9 @@ async function Component({
             height={750}
             style={{
               height: "100%",
-              width: "auto",
               maxWidth: "45%",
-              maxHeight: "44px",
+              objectFit: "contain",
+              objectPosition: "left center",
             }}
             className="invert"
           />
@@ -105,7 +105,7 @@ function Shell({
         </div>
         <div className="w-full h-full absolute top-0 left-0 bg-black/30"></div>
         <div className="w-full absolute top-0 left-0">
-          <div className="p-4 w-full">{children}</div>
+          <div className="py-2 px-4 w-full">{children}</div>
         </div>
       </Link>
       <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-center gap-3">
