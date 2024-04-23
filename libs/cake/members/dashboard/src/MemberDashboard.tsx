@@ -1,9 +1,8 @@
 import { CollectionPanel } from "./collection/CollectionPanel";
 import { InvitationsPanel } from "./invitations/InvitationsPanel";
-import { RewardsPanel } from "./rewards/RewardsPanel";
-import { StoriesPanel } from "./stories/StoriesPanel";
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import { CollectionItemInterceptModal } from "./collection-item";
+import { ShareInvitationModal } from "@danklabs/cake/members/invitations";
 
 export async function MemberDashboard({
   searchParams,
@@ -17,6 +16,15 @@ export async function MemberDashboard({
           slug={searchParams["collectionItem"] as string}
         />
       )}
+      {searchParams &&
+        searchParams["action"] &&
+        searchParams["action"] === "share-invite" && (
+          <ShareInvitationModal
+            returnHref="/collection"
+            inviteId={searchParams["inviteId"] as string}
+            screen={(searchParams["screen"] as string) || "assign"}
+          />
+        )}
       <div className="p-4 flex flex-col items-center">
         <MobileNavSpacer />
         <div className="container flex flex-col md:flex-row md:justify-center md:items-start md:flex-wrap gap-6">

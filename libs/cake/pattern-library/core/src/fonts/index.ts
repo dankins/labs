@@ -37,4 +37,25 @@ export const supreme = localFont({
   ],
 });
 
-export const fonts = [supreme, apris];
+export const selva = localFont({
+  variable: "--font-selva",
+  src: [
+    {
+      path: "./selva-script/selva-script-regular-pro.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./selva-script/selva-script-light-pro.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./selva-script/selva-script-medium-pro.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+});
+
+export const fonts = [supreme, apris, selva];

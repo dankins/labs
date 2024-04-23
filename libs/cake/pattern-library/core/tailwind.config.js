@@ -22,6 +22,7 @@ module.exports = {
       fontFamily: {
         supreme: ["var(--font-supreme)"],
         apris: ["var(--font-apris)"],
+        selva: ["var(--font-selva)"],
       },
       colors: {
         dark: "rgb(var(--color-dark) / <alpha-value>)",

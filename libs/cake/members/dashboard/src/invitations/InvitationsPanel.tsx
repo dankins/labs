@@ -10,6 +10,8 @@ import {
   Spinner,
 } from "@danklabs/pattern-library/core";
 import { InvitationCard } from "./InvitationCard";
+import { AvailableInviteCard } from "./AvailableInviteCard";
+import dayjs from "dayjs";
 
 export async function InvitationsPanel() {
   return (
@@ -26,29 +28,53 @@ function Loading() {
 async function Component() {
   const { userId: iam } = auth().protect();
   const invitations = await members.member.invitations.getInvitations(iam);
+  const groupedInvitation = invitations.reduce(
+    (acc, invitation) => {
+      if (invitation.status === "UNUSED") {
+        acc.available++;
+        acc.availableId = invitation.id;
+      } else if (
+        invitation.status === "PENDING" ||
+        invitation.status === "EXPIRED" ||
+        (invitation.status === "ACCEPTED" &&
+          invitation.expiration &&
+          dayjs().subtract(1, "day").isBefore(invitation.expiration))
+      ) {
+        acc.active.push(invitation);
+        return acc;
+      }
+      return acc;
+    },
+    { available: 0, active: [] } as {
+      available: number;
+      availableId?: string;
+      active: typeof invitations;
+    }
+  );
   return (
-    <div className="w-full">
-      <div className="flex flex-col">
-        <Heading4>My Invitations</Heading4>
-        <Paragraph2>
-          Share the exclusivity that is being a Cake member. Invite your friends
-          to join you in and enjoy all of the benefits that come with being a
-          member.
-        </Paragraph2>
-        <div className="my-5 flex flex-row justify-start">
-          <SecondaryButton href={`/account/invites`}>
-            View All Invites
-          </SecondaryButton>
-        </div>
+    <div className="w-full flex flex-col gap-4">
+      <div className="flex flex-col my-2">
+        <Heading4>Invitations</Heading4>
       </div>
-      {invitations.length === 0 && <div>You have no invitations</div>}
-      {invitations.length > 0 && (
+      {groupedInvitation.available > 0 && (
+        <AvailableInviteCard
+          availableCount={groupedInvitation.available}
+          totalCount={invitations.length}
+          availableId={groupedInvitation.availableId!}
+        />
+      )}
+      {groupedInvitation.active.length > 0 && (
         <div className="flex flex-col gap-4">
-          {invitations.map((invitation) => (
+          {groupedInvitation.active.map((invitation) => (
             <InvitationCard key={invitation.id} invitation={invitation} />
           ))}
         </div>
       )}
+      <div className="flex flex-row justify-start">
+        <SecondaryButton href={`/account/invites`}>
+          View All Invites
+        </SecondaryButton>
+      </div>
     </div>
   );
 }

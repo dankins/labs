@@ -15,6 +15,7 @@ module.exports = {
     fontFamily: {
       apris: ["var(--font-apris)"],
       supreme: ["var(--font-supreme)"],
+      selva: ["var(--font-selva)"],
     },
     extend: {
       borderRadius: {

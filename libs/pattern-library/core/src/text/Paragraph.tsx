@@ -1,5 +1,17 @@
 import classNames from "classnames";
 
+export function Paragraph({
+  children,
+  className,
+  size = "medium",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  size?: "small" | "medium" | "large";
+}) {
+  return <p className="font-apris">{children}</p>;
+}
+
 export function Paragraph1({
   children,
   className,
