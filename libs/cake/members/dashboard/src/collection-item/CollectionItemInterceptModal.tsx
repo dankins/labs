@@ -86,10 +86,10 @@ export async function Component({ slug }: { slug: string }) {
                 width={250}
                 height={250}
                 style={{
-                  height: "auto",
-                  width: "100%",
                   maxHeight: "80px",
                   maxWidth: "175px",
+                  objectFit: "contain",
+                  objectPosition: "left bottom",
                 }}
                 className="invert"
               />
