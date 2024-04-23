@@ -2,7 +2,10 @@ import { CollectionPanel } from "./collection/CollectionPanel";
 import { InvitationsPanel } from "./invitations/InvitationsPanel";
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import { CollectionItemInterceptModal } from "./collection-item";
-import { ShareInvitationModal } from "@danklabs/cake/members/invitations";
+import {
+  CancelInvitationModal,
+  ShareInvitationModal,
+} from "@danklabs/cake/members/invitations";
 
 export async function MemberDashboard({
   searchParams,
@@ -25,6 +28,12 @@ export async function MemberDashboard({
             screen={(searchParams["screen"] as string) || "assign"}
           />
         )}
+      {searchParams && searchParams["action"] === "cancel-invite" && (
+        <CancelInvitationModal
+          returnHref="/collection"
+          inviteId={searchParams["inviteId"] as string}
+        />
+      )}
       <div className="p-4 flex flex-col items-center">
         <MobileNavSpacer />
         <div className="container flex flex-col md:flex-row md:justify-center md:items-start md:flex-wrap gap-6">

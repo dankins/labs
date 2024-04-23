@@ -7,6 +7,7 @@ import { isPostgresError, isZodError, validateFormData } from "@danklabs/utils";
 
 import { redirect } from "next/navigation";
 import { FormState } from "@danklabs/pattern-library/core";
+import { auth } from "@clerk/nextjs/server";
 
 export async function shareInviteAction(
   inviteId: string,
@@ -45,9 +46,15 @@ export async function shareInviteAction(
   }
 }
 
-export async function cancelInviteAction(iam: string, id: string) {
-  await invitations.cancelInvite(iam, id);
-  redirect("/account/invites");
+export async function cancelInviteAction(
+  inviteId: string,
+  returnHref: string,
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { userId: iam } = auth().protect();
+  await invitations.cancelInvite(iam, inviteId);
+  redirect(returnHref);
 }
 
 export async function assignInviteAction(
