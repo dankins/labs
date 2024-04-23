@@ -47,9 +47,35 @@
       --color-dark-content: 247 242 238;
       --color-accent: 233 134 200;
 
-      background-color: #3a262a;
-      color: rgb(var(--color-neutral-content));
+      // background-color: #3a262a;
+      // color: rgb(var(--color-neutral-content));
     }
+
+    .md\:lightSection {
+      --color-form-background: 233 222 211;
+      --color-form-background-disabled: 233 222 211;
+      --color-form-text: 233 222 211;
+      --color-form-text-disabled: 233 222 211;
+
+      --color-primary: 58 38 42;
+      --color-primary-content: 255 255 255;
+
+      --color-dark: 56 53 50;
+      --color-dark-content: 247 242 238;
+
+      --color-secondary: 235 61 25;
+
+      /* --color-neutral: 244 235 230; */
+      --color-neutral: 247 244 239;
+      --color-neutral-content: 41 39 37;
+
+      --color-accent: 233 134 200;
+
+      // background-color: rgb(var(--color-neutral));
+      color: rgb(var(--color-neutral-content));
+      background-color: red;
+    }
+
     .lightSection {
       --color-form-background: 233 222 211;
       --color-form-background-disabled: 233 222 211;

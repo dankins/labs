@@ -123,7 +123,7 @@ function AcceptedInvitation({ invitation }: { invitation: MemberInvitation }) {
 
 function Container({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full border darkSection bg-black rounded-sm p-4 flex flex-col gap-2">
+    <div className="w-full border darkSection bg-neutral text-neutral-content rounded-sm p-4 flex flex-col gap-2">
       {children}
     </div>
   );

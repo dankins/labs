@@ -1,6 +1,7 @@
 import { brandOfferTemplates, brands, db } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import { clearCacheBrandOffers } from "../brand/getBrandOffers";
+import { clearBrandCache } from "../../brands/getBrand";
 export async function createBrandPassOffer(
   brandSlug: string,
   input: Omit<
@@ -24,4 +25,5 @@ export async function createBrandPassOffer(
   const result = await db.insert(brandOfferTemplates).values(template);
 
   clearCacheBrandOffers(brandSlug);
+  clearBrandCache(brandSlug);
 }

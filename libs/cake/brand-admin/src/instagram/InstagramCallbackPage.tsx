@@ -38,30 +38,7 @@ function Loading({ slug }: { slug: string }) {
 }
 
 async function Component({ slug, code }: { slug: string; code: string }) {
-  // Exchange the code for a token
-  const request = {
-    client_id: process.env["INSTAGRAM_APP_ID"]!,
-    client_secret: process.env["INSTAGRAM_APP_SECRET"]!,
-    grant_type: "authorization_code",
-    redirect_uri: brandAdmin.instagram.getInstagramRedirectUrl(),
-    code,
-  };
-  console.log("requesting oauth token", request);
-  const response = await fetch("https://api.instagram.com/oauth/access_token", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams(request),
-  });
-
-  const data = await response.json();
-
-  await brandAdmin.instagram.updateInstagramConfig(
-    slug,
-    data.access_token,
-    data.user_id
-  );
+  await brandAdmin.instagram.getLongLivedAccessToken(slug, code);
 
   // Redirect or inform the user of a successful authentication
   return redirect(`/brand-admin/${slug}/settings`);

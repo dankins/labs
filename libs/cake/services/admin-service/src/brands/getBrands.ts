@@ -17,19 +17,20 @@ async function fn(
     whereFilter = eq(sql`1`, sql`1`);
   }
 
-  let dbBrands: (typeof brands.$inferSelect)[];
-  dbBrands = await db.query.brands.findMany({
+  const dbBrands = await db.query.brands.findMany({
     where: whereFilter,
+    with: {
+      offerTemplates: true,
+    },
   });
 
   const cmsBrandsPromise = getBrandsNoCount();
   const dbBrandMap = dbBrands.reduce((acc, brand) => {
     acc[brand.slug] = brand;
     return acc;
-  }, {} as { [slug: string]: typeof brands.$inferSelect });
+  }, {} as { [slug: string]: (typeof dbBrands)[0] });
 
   const cmsBrands = await cmsBrandsPromise;
-
   let rtn: Brand[] = [];
   cmsBrands.forEach((cmsBrand) => {
     const dbBrand = dbBrandMap[cmsBrand.slug];
@@ -78,14 +79,17 @@ export async function getBrands(
 const getBrands_tags = ["get-brands-admin", "get-brands-member"];
 
 export function clearGetBrandsCache() {
-  getBrands_tags.forEach(revalidateTag);
+  revalidateTag("get-brands-admin");
+  revalidateTag("get-brands-member");
 }
 
 const brandListSelection = {
   name: q.string().nullable().optional(),
   slug: q.slug("slug"),
   logoSquare: sanityImage("logo_square").nullable(),
-  passLogo: sanityImage("pass_logo").nullable(),
+  passLogo: sanityImage("pass_logo", {
+    withAsset: ["base", "dimensions"],
+  }).nullable(),
   passBackground: sanityImage("pass_background", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,

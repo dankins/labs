@@ -1,12 +1,31 @@
-export async function refreshInstagramToken(accessToken: string) {
-  console.log("refreshing instagram token");
+import { updateInstagramConfig } from "./updateInstagramConfig";
+
+export async function refreshInstagramToken(
+  slug: string,
+  accessToken: string,
+  userId: string
+) {
+  console.log("refreshing instagram token", slug);
   const url = `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${accessToken}`;
 
   const response = await fetch(url);
   const data = await response.json();
-  console.log("Refreshed token data:", data);
-  if (data.error.code === 190) {
-    throw new Error("unable to refresh token - expired");
+  if (data.error) {
+    console.error("unable to refresh token", data.error);
+    if (data.error.code === 190) {
+      throw new Error("unable to refresh token - expired");
+    }
+    throw new Error("unable to refresh token");
   }
-  return data.access_token; // This is your refreshed long-lived token
+  console.log("Refreshed token data:", data);
+
+  const expiresInSeconds = data.expires_in;
+  const tokenExpirationDate = new Date(Date.now() + expiresInSeconds * 1000);
+
+  await updateInstagramConfig(
+    slug,
+    data.access_token,
+    userId,
+    tokenExpirationDate
+  );
 }

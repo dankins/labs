@@ -17,7 +17,7 @@ export async function CreateOfferModal({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   return (
-    <InterceptModal returnHref={`/admin/${slug}/offers`}>
+    <InterceptModal returnHref={`/admin/brands/${slug}/offers`}>
       <FormAction
         action={createOfferAction.bind(undefined, slug)}
         cta={"Create Offer"}

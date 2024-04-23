@@ -4,16 +4,6 @@
   "sourceRoot": "libs/cake/jobs/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/cake/jobs",
-        "main": "libs/cake/jobs/src/index.ts",
-        "tsConfig": "libs/cake/jobs/tsconfig.lib.json",
-        "assets": ["libs/cake/jobs/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },

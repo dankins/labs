@@ -1,9 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
-import { getCartIfAvailable } from "../cookie";
 import { members, stripe } from "@danklabs/cake/services/admin-service";
 import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
+import { FoyerContainer } from "../FoyerContainer";
+import { invitations } from "@danklabs/cake/services/admin-service";
 
 const CAKE_MEMBERSHIP_PRICE_ID = process.env["CAKE_MEMBERSHIP_PRICE_ID"]!;
 
@@ -11,7 +12,9 @@ export async function MembershipCheckout({
   invitation,
   searchParams,
 }: {
-  invitation: Invitation;
+  invitation: NonNullable<
+    Awaited<ReturnType<typeof invitations.getInvitation.cached>>
+  >;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { userId } = auth().protect();
@@ -23,7 +26,7 @@ export async function MembershipCheckout({
       DEFAULT_MAX_COLLECTION_ITEMS,
   });
 
-  if (user.membershipStatus === "active") {
+  if (user.membershipStatus === "active" && !searchParams["redirect_status"]) {
     return <div>You already have an active membership!</div>;
   }
 
@@ -44,16 +47,20 @@ export async function MembershipCheckout({
     throw new Error("invalid state");
   }
 
+  const coupon = invitation.coupon || invitation.campaign?.coupon || undefined;
+
   return (
-    <div className="max-w-[500px]">
-      <Checkout
-        searchParams={searchParams}
-        priceId={CAKE_MEMBERSHIP_PRICE_ID}
-        stripeCustomerId={stripeCustomerId}
-        metadata={subscriptionMetadata}
-        couponId={invitation.coupon ? invitation.coupon : undefined}
-      />
-    </div>
+    <FoyerContainer>
+      <div className="mt-[20px] w-full max-w-[500px]">
+        <Checkout
+          searchParams={searchParams}
+          priceId={CAKE_MEMBERSHIP_PRICE_ID}
+          stripeCustomerId={stripeCustomerId}
+          metadata={subscriptionMetadata}
+          couponId={coupon}
+        />
+      </div>
+    </FoyerContainer>
   );
 }
 

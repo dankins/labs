@@ -1,4 +1,4 @@
-import { getCampaigns } from "./getCampaigns";
+import { getCampaigns, getCampaigns_clearCache } from "./getCampaigns";
 import { clearCampaignInvitesListCache } from "./clearCampaignInvitesListCache";
 import { createCampaign } from "./createCampaign";
 import { getCampaign } from "./getCampaign";
@@ -11,6 +11,7 @@ import {
 export const invitations = {
   getCampaign,
   getCampaigns,
+  getCampaigns_clearCache,
   getTrancheInvitations,
   clearTrancheCache,
   clearCampaignInvitesListCache,

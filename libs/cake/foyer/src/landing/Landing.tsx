@@ -1,14 +1,18 @@
 import Link from "next/link";
 
 import { getPage } from "@danklabs/cake/services/admin-service";
-import { FeatureImageContainer } from "@danklabs/cake/pattern-library/core";
 import {
   TextInput,
   TicketIcon,
   EmailIcon,
   SecondaryButton,
+  Heading1,
+  Paragraph1,
+  PrimaryButton,
 } from "@danklabs/pattern-library/core";
 import { submitEmail, submitInviteCode } from "./actions";
+import { FoyerContainer } from "../FoyerContainer";
+import Image from "next/image";
 
 export async function Landing({
   code,
@@ -26,24 +30,17 @@ export async function Landing({
   const page = await getPage("foyer");
 
   return (
-    <div className="max-w-[500px]">
-      <FeatureImageContainer
-        image={page.heroImage!}
-        overlay={
-          <div className="w-full h-full absolute top-0 bg-neutral/70"></div>
-        }
-      >
-        {validated ? (
-          <InvitationEmail
-            error={error}
-            cookieEmail={cookieEmail}
-            jwtEmail={jwtEmail}
-          />
-        ) : (
-          <InvitationStart code={code} error={error} />
-        )}
-      </FeatureImageContainer>
-    </div>
+    <FoyerContainer>
+      {validated ? (
+        <InvitationEmail
+          error={error}
+          cookieEmail={cookieEmail}
+          jwtEmail={jwtEmail}
+        />
+      ) : (
+        <InvitationStart code={code} error={error} />
+      )}
+    </FoyerContainer>
   );
 }
 
@@ -55,40 +52,43 @@ function InvitationStart({
   error: string | string[] | undefined;
 }) {
   return (
-    <div className="h-full flex flex-col px-5">
+    <div className="max-w-[430px] flex flex-col">
       {/** WELCOME MESSAGE */}
-      <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-6xl font-fancy">Oh, Cake.</h1>
-        <span className="text-base font-normal leading-6">
-          Why do I need an invitation? Like any truly special thing in the
-          universe, Cake is not unlimited. Our partners are among the most loved
-          brands in the world, so we're just not able to offer Cake Member
-          access to every person who wants it.
-        </span>
-        <span>
-          How can I get an invitation? Cake members control the Cake membership.
-          Only a Cake member can invite you to join.”
-        </span>
-        <div></div>
-      </div>
-      {/** INVITE CODE */}
-      <div>
+      <div className="mb-5 flex flex-col justify-center items-center pt-[20px] text-center gap-6">
+        <Image
+          src="/images/foyer/imagestack_entry_betaFPOk.png"
+          width={691}
+          height={605}
+          alt="Cake Vibes"
+          className="w-auto h-full max-h-[250px] md:max-h-full"
+        />
+        <Heading1 className="text-xl lg:text-[30px]">
+          CAKE was created for people like us, who are obsessed with brands that
+          we feel are truly special.
+        </Heading1>
+
+        <p className="text-xl lg:text-2xl font-apris">
+          Enter your invitation code to begin.
+        </p>
+
         <form
           key="code-form"
           action={submitInviteCode}
-          className="flex flex-row items-end gap-2"
+          className="mb-4 w-full flex flex-col items-end gap-2"
         >
           <TextInput
             id="code-input"
             key="code"
             name="code"
             placeholder="Enter Invitation Code"
-            label="Invitation Code"
             icon={<TicketIcon />}
             defaultValue={code && code.length > 0 ? code : undefined}
+            inputSize="xl"
           />
 
-          <SecondaryButton type="submit">Submit</SecondaryButton>
+          <PrimaryButton type="submit" className="my-1 w-full uppercase">
+            Become a Member
+          </PrimaryButton>
         </form>
         {error && error === "invalid" && (
           <div className="mt-5">
@@ -100,7 +100,10 @@ function InvitationStart({
             <span className="text-red-500">Invitation has expired</span>
           </div>
         )}
-        <div className="mt-4">
+      </div>
+      {/** INVITE CODE */}
+      <div>
+        <div className="mt-4 text-neutral-content/70">
           Already a member?{" "}
           <Link
             href="/sign-in"
@@ -125,52 +128,33 @@ function InvitationEmail({
   jwtEmail?: string;
 }) {
   return (
-    <div className="h-full flex flex-col px-5">
+    <div className="max-w-[430px] flex flex-col">
       {/** WELCOME MESSAGE */}
-      <div className="mb-5 flex flex-col justify-center items-center gap-4 pt-[50px]">
-        <h1 className="text-dark text-6xl font-fancy">You’re in!</h1>
-        <span className="text-base font-normal leading-6">
+      <div className="mb-5 flex flex-col justify-center items-center pt-[50px] text-center gap-6">
+        <Heading1 className="text-xl lg:text-[30px]">You're in!</Heading1>
+
+        <p className="text-xl lg:text-2xl font-apris">
           Almost there, we’ll need an email address to setup your account.
-        </span>
-      </div>
-      {/** Email */}
-      <div>
+        </p>
+
         <form
           key="email-form"
           id="email-form"
           action={submitEmail}
-          className="flex flex-row items-end gap-2"
+          className="mb-4 w-full flex flex-col items-end gap-2"
         >
           <TextInput
             name="email"
             placeholder="Enter Email Address"
-            label="Email Address"
             icon={<EmailIcon />}
             defaultValue={cookieEmail || jwtEmail}
+            inputSize="lg"
           />
 
-          <SecondaryButton type="submit">Continue</SecondaryButton>
+          <PrimaryButton type="submit" className="my-1 w-full uppercase">
+            Continue
+          </PrimaryButton>
         </form>
-        {error && error === "invalid" && (
-          <div className="mt-5">
-            <span className="text-red-500">Invalid email</span>
-          </div>
-        )}
-        {error && error === "expired" && (
-          <div className="mt-5">
-            <span className="text-red-500">Invitation has expired</span>
-          </div>
-        )}
-        <div className="mt-4">
-          Already a member?{" "}
-          <Link
-            href="/sign-in"
-            prefetch={false}
-            className="underline text-primary"
-          >
-            Sign In
-          </Link>
-        </div>
       </div>
     </div>
   );

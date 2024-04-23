@@ -27,6 +27,7 @@ export type FirstFactorResult =
     }
   | { status: "email_verification_sent" }
   | { status: "error"; error: typeof ERROR_EMAIL_EXISTS | any }
+  | { status: "account_not_found" }
   | { status: "unknown" };
 
 export type FirstFactorProps = {
@@ -71,6 +72,7 @@ export function LoginShell({
 
   async function handleEmailSubmit(formData: FormData) {
     console.log("starting sign in");
+    setError(undefined);
 
     const data = validateFormData(
       formData,
@@ -100,6 +102,8 @@ export function LoginShell({
       if (result.error === ERROR_EMAIL_EXISTS) {
         return startAuthentication(email, "signin");
       } else setError("Error logging in");
+    } else if (result.status === "account_not_found") {
+      setError("Account not found");
     }
 
     setLoading(false);
@@ -172,8 +176,15 @@ export function LoginShell({
         };
       }
       return { status: "unknown" };
-    } catch (err) {
+    } catch (err: any) {
       console.log("error with signin", (err as any).errors, err);
+      if (
+        err &&
+        Array.isArray(err.errors) &&
+        err.errors[0].code === "form_identifier_not_found"
+      ) {
+        return { status: "account_not_found" };
+      }
       throw err;
     }
   }

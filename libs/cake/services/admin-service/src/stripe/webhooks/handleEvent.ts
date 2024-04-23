@@ -13,12 +13,12 @@ export async function handleEvent(event: Stripe.Event) {
     case "invoice.paid":
       return await handleInvoicePaid(event);
     default:
-      console.log(
-        "Unhandled event:",
-        event.type,
-        event.id,
-        JSON.stringify(event)
-      );
+      // console.log(
+      //   "Unhandled event:",
+      //   event.type,
+      //   event.id,
+      //   JSON.stringify(event)
+      // );
       return;
   }
 }

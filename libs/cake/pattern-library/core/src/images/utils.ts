@@ -16,7 +16,7 @@ import { SanityReference } from "next-sanity";
 import Image, { ImageLoader, getImageProps } from "next/image";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
-const DEFAULT_FALLBACK_IMAGE_QUALITY = 75;
+const DEFAULT_FALLBACK_IMAGE_QUALITY = 100;
 
 export type AspectRatioChoices =
   | "portrait"
@@ -32,6 +32,12 @@ export type SanityImageType = {
   asset: {
     _type: "reference" | "sanity.imageAsset" | "sanity.fileAsset";
     metadata?: {
+      dimensions: {
+        height: number;
+        width: number;
+        aspectRatio: number;
+        _type?: "sanity.imageDimensions" | undefined;
+      } | null;
       lqip?: any;
     };
   };

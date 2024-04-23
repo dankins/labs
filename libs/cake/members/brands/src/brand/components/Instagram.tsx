@@ -28,7 +28,7 @@ export async function Instagram({ brand }: { brand: NonNullable<Brand> }) {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {data.map((post) => (
-          <Item post={post} />
+          <Item key={post.id} post={post} />
         ))}
       </div>
     </>

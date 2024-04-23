@@ -37,6 +37,12 @@ export default defineConfig({
               S,
               context,
             }),
+            orderableDocumentListDeskItem({
+              type: "product",
+              title: "Product",
+              S,
+              context,
+            }),
             S.documentTypeListItem("faq"),
             S.documentTypeListItem("page"),
             S.documentTypeListItem("site"),

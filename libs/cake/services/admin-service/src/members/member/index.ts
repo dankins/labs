@@ -2,7 +2,7 @@ import { getMember } from "./getMember";
 import { cachedGetById } from "./getByID";
 import { getBySubscriptionId } from "./getBySubscriptionId";
 import { clearCache } from "./clearCache";
-import { updateMembershipStatus } from "./updateMembershipStatus";
+import { activateMembership } from "./activateMembership";
 import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { update } from "./update";
 import { updateProfile } from "./updateProfile";
@@ -14,11 +14,11 @@ import { favorites } from "./favorites";
 import { invitations } from "./invitations";
 
 export const member = {
+  activateMembership,
   get: getMember,
   getById: cachedGetById,
   getBySubscriptionId,
   clearCache,
-  updateMembershipStatus,
   create,
   update,
   updateProfile,

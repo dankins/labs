@@ -1,4 +1,3 @@
-import { PageWithNavbar } from "@danklabs/pattern-library/core";
 import {
   Foyer,
   generateMetadata as foyerGenerateMetadata,
@@ -31,11 +30,7 @@ export default async function Page({
   return (
     <ClerkProvider>
       <PageView tags={[]} />
-      <PageWithNavbar>
-        <div>
-          <Foyer searchParams={searchParams} />
-        </div>
-      </PageWithNavbar>
+      <Foyer searchParams={searchParams} />
     </ClerkProvider>
   );
 }

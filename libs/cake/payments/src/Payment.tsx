@@ -16,20 +16,16 @@ import {
   PrimaryButton,
   Spinner,
 } from "@danklabs/pattern-library/core";
-import { SubscriptionReturnType } from "./types";
-import { Success } from "./Success";
 
 export function Payment({
   active,
   stripeCustomerId,
   subscriptionId,
-  invoiceStatus,
   clientSecret,
 }: {
   active: boolean;
   stripeCustomerId: string;
   subscriptionId: string;
-  invoiceStatus: string | null;
   clientSecret: string;
 }) {
   const options = { clientSecret };
@@ -39,22 +35,6 @@ export function Payment({
   }
   if (!stripeCustomerId) {
     return <div>error: no customer id</div>;
-  }
-
-  if (invoiceStatus === "paid") {
-    return (
-      <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <Paragraph1 className="text-lg">
-          Good news! Your subscription has been fully comped and will be free of
-          charge!
-        </Paragraph1>
-        <PrimaryButton
-          href={`/invitation?step=checkout&redirect_status=succeeded&subscriptionId=${subscriptionId}`}
-        >
-          Continue
-        </PrimaryButton>
-      </div>
-    );
   }
 
   if (!clientSecret) {

@@ -29,7 +29,6 @@ export async function POST(req: Request) {
       .parse(payload);
 
     console.log("sanity webhook payload", data);
-
     switch (data._type) {
       case "brand":
         // handle brand webhook

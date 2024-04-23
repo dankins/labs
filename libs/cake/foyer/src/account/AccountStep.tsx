@@ -4,7 +4,13 @@ import { useState } from "react";
 import { z } from "zod";
 import { completeAccountStepAction } from "./action";
 import { Signup } from "@danklabs/cake/auth";
-import { PrimaryButton } from "@danklabs/pattern-library/core";
+import {
+  Centered,
+  PageContent,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
+import { FoyerContainer } from "../FoyerContainer";
+import { useRouter } from "next/navigation";
 
 export const nameSchema = z.object({
   firstname: z.string(),
@@ -56,28 +62,30 @@ type ContactMethodState = {
 type State = NameState | AddressState | CreateAccountState | ContactMethodState;
 
 export function AccountStep({ email }: { email: string }) {
-  const [state, setState] = useState<State>({ step: "name" });
+  const router = useRouter();
 
   function handleAccountCreated() {
-    // setState({
-    //   step: "contact",
-    //   name: state.name,
-    //   address: state.address,
-    // });
+    router.push("/invitation?step=checkout");
   }
 
   return (
-    <div className="p-4 max-w-[400px]">
-      <Signup
-        onSignUpSuccess={handleAccountCreated}
-        alreadyLoggedInButton={
-          <PrimaryButton href={`/invitation?step=checkout`}>
-            Continue
-          </PrimaryButton>
-        }
-        socialRedirectUrl="/invitation?step=account"
-        defaultEmail={email}
-      />
-    </div>
+    <FoyerContainer>
+      <PageContent>
+        <Centered>
+          <div className="max-w-[400px]">
+            <Signup
+              onSignUpSuccess={handleAccountCreated}
+              alreadyLoggedInButton={
+                <PrimaryButton href={`/invitation?step=checkout`}>
+                  Continue
+                </PrimaryButton>
+              }
+              socialRedirectUrl="/invitation?step=account"
+              defaultEmail={email}
+            />
+          </div>
+        </Centered>
+      </PageContent>
+    </FoyerContainer>
   );
 }

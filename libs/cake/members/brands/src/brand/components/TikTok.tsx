@@ -25,7 +25,7 @@ export async function TikTok({ brand }: { brand: NonNullable<Brand> }) {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {result.videos.map((video) => (
-          <Item video={video} />
+          <Item key={video.id} video={video} />
         ))}
       </div>
     </>

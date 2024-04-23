@@ -15,17 +15,17 @@ export async function FriendsWhoFollow({ slug }: { slug: string }) {
         <div
           className={`${palette[0]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
         >
-          FU
+          CA
         </div>
         <div
           className={`${palette[1]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
         >
-          CK
+          KE
         </div>
         <div
           className={`${palette[2]} rounded-full h-[46px] w-[46px] flex flex-col items-center justify-center text-white`}
         >
-          U
+          PLS
         </div>
       </div>
     </div>

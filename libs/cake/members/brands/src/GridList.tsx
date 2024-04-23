@@ -20,7 +20,9 @@ import {
 import {
   LogoSpace,
   SanityImageServer,
+  SanityImageType,
 } from "@danklabs/cake/pattern-library/core";
+import classNames from "classnames";
 
 export async function GridList({ perspective }: { perspective?: string }) {
   return (
@@ -93,10 +95,10 @@ function BrandGrid({
       <div className="my-5 flex flex-row items-center">
         <div className="grow">
           <span>
-            <CollectionIcon /> {Object.keys(collection).length} /{" "}
+            <CollectionIcon /> {collection.count} /{" "}
             {collection.maxCollectionItems}
           </span>{" "}
-          in Collections
+          in Collection
         </div>
         <div>
           <SecondaryButton icon={<SortIcon />} />
@@ -131,30 +133,38 @@ function GridItem({
     cardClass = "w-full aspect-[447/260] relative group";
   }
   return (
-    <Link className={linkClass} href={`?brand=${brand.slug}`}>
+    <Link
+      className={classNames(linkClass, " group hover:drop-shadow-xl")}
+      href={`?brand=${brand.slug}`}
+    >
       <div className={cardClass}>
-        <figure className="absolute top-0 w-full h-full">
+        <figure className="absolute top-0 w-full h-full ">
           {brand.passBackground && (
             <SanityImageServer
               alt={`${brand.name} Logo`}
               image={brand.passBackground}
-              height={260}
-              width={isFeatured ? 447 : 215}
+              height={1080}
+              width={1080}
               style={{ height: "100%", width: "100%" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
+              className="group-hover:scale-[102%]  transition-transform duration-300 ease-in-out"
             />
           )}
         </figure>
-        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/50 group-hover:bg-transparent"></div>
+        <div className="w-full h-full absolute top-0 margin-top-auto bg-black/25 group-hover:bg-transparent group-hover:scale-[102%] transition-transform duration-300 ease-in-out"></div>
         <div className="absolute top-0 w-full h-full p-4">
           <LogoSpace>
             {brand.passLogo ? (
               <SanityImageServer
                 alt={`${brand.name} Logo`}
                 image={brand.passLogo}
-                height={100}
-                width={100}
-                style={{ height: "2.5rem", width: "auto" }}
+                height={500}
+                width={500}
+                style={{
+                  maxHeight: "33%",
+                  maxWidth: "66%",
+                  objectFit: "contain",
+                }}
                 className="invert"
               />
             ) : (
@@ -176,4 +186,33 @@ function GridItem({
       </div>
     </Link>
   );
+}
+
+function buildLogoStyle(image: SanityImageType) {
+  // image.asset.metadata.dimensions.
+  const aspectRatio = image.asset?.metadata?.dimensions?.aspectRatio;
+  if (!aspectRatio) {
+    return {
+      height: "auto",
+      width: "100%",
+      maxHeight: "75%",
+      maxWidth: "75%",
+    };
+  }
+
+  if (aspectRatio > 2) {
+    return {
+      height: "auto",
+      width: "100%",
+      maxHeight: "75%",
+      maxWidth: "75%",
+    };
+  }
+
+  return {
+    height: "auto",
+    width: "100%",
+    maxHeight: "75%",
+    maxWidth: "75%",
+  };
 }

@@ -6,13 +6,13 @@ export function Currency({
   className,
 }: {
   amount: number;
-  size: "5xl";
+  size: "5xl" | string;
   className?: string;
 }) {
   return (
     <div
       className={classNames(
-        "inline-blockfont-light flex flex-row items-top gap-1",
+        "inline-blockfont-light flex flex-row justify-center items-top gap-1",
         className
       )}
     >

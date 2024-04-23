@@ -25,12 +25,14 @@ function getBrand_tag(slug: string) {
 
 export function clearBrandCache(slug: string) {
   revalidateTag(getBrand_tag(slug));
-  getBrand(slug);
 }
 
 async function getDbBrand(slug: string) {
   const brand = await db.query.brands.findFirst({
     where: eq(brands.slug, slug),
+    with: {
+      offerTemplates: true,
+    },
   });
   if (!brand) {
     throw new Error("not found");
@@ -43,7 +45,9 @@ export const brandSelection = {
   name: q.string().optional().nullable(),
   website: q.string().optional().nullable(),
   summary: q.string().optional().nullable(),
-  passLogo: sanityImage("pass_logo").nullable(),
+  passLogo: sanityImage("pass_logo", {
+    withAsset: ["base", "dimensions"],
+  }).nullable(),
   logoSquare: sanityImage("logo_square", {
     withAsset: ["base", "dimensions", "lqip"],
     withHotspot: true,
@@ -60,6 +64,18 @@ export const brandSelection = {
     withCrop: true,
   }).nullable(),
   featured: q.string().nullable(),
+  products: q(`*[_type == "product" && references(^._id)]`, {
+    isArray: true,
+  }).grab({
+    name: q.string(),
+    pdpLink: q.string(),
+    price: q.string().nullish(),
+    image: sanityImage("image", {
+      withAsset: ["base", "dimensions", "lqip"],
+      withHotspot: true,
+      withCrop: true,
+    }),
+  }),
   // https://www.sanity.io/plugins/color-input
   pass_color: q
     .object({

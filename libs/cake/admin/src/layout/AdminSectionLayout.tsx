@@ -10,7 +10,6 @@ import {
   TicketIcon,
   UserIcon,
 } from "@danklabs/pattern-library/core";
-import { WalletIcon } from "@danklabs/cake/pattern-library/core";
 
 export function AdminSectionLayout({
   children,
@@ -26,7 +25,7 @@ export function AdminSectionLayout({
           <NavItem
             href={"/admin/brands"}
             title="Brands"
-            icon={WalletIcon}
+            icon={BrandIcon}
             match={["brands"]}
           >
             {isBrandDetail && (
@@ -78,7 +77,7 @@ export function AdminSectionLayout({
             match={["settings"]}
           />
         </AdminNav>
-        <div className="px-4 grow">{children}</div>
+        <main className="px-4 grow">{children}</main>
         <div className="my-10"></div>
       </div>
     </ClerkProvider>

@@ -1,4 +1,4 @@
-import { BrandSettings } from "@danklabs/cake/db";
+import { BrandOfferTemplate, BrandSettings } from "@danklabs/cake/db";
 import { SanityImageType } from "@danklabs/cake/pattern-library/core";
 
 export type Brand = {
@@ -8,6 +8,7 @@ export type Brand = {
     cmsId: string | null;
     status: "active" | "paused" | "draft" | "deactivated";
     settings: BrandSettings;
+    offerTemplates?: BrandOfferTemplate[];
   };
   cms?: {
     slug: string;
@@ -19,5 +20,11 @@ export type Brand = {
     passBackgroundDesktop: SanityImageType | null;
     passBackground: SanityImageType | null;
     passLogo: SanityImageType | null;
+    products?: {
+      name: string;
+      pdpLink: string;
+      price?: string | null;
+      image: SanityImageType;
+    }[];
   };
 };

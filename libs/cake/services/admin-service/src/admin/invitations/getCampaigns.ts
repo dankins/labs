@@ -5,7 +5,7 @@ import {
   members,
 } from "@danklabs/cake/db";
 import { eq, isNotNull, max, sql, sum } from "drizzle-orm";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 async function fn() {
   const results = await db
@@ -86,4 +86,8 @@ export async function getCampaigns() {
   return unstable_cache(fn, [getCampaignsTag()], {
     tags: [getCampaignsTag()],
   })();
+}
+
+export async function getCampaigns_clearCache() {
+  revalidateTag(getCampaignsTag());
 }

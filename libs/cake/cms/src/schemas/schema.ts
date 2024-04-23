@@ -5,7 +5,8 @@ import content from "./content";
 import page from "./page";
 import faq from "./faq";
 import orderRank from "./orderRank";
+import product from "./product";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [site, brand, content, page, faq, orderRank],
+  types: [site, brand, content, page, faq, product, orderRank],
 };

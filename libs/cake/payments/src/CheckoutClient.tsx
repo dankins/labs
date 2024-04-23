@@ -6,14 +6,12 @@ import { Payment } from "./Payment";
 export type CheckoutProps = {
   stripeCustomerId: string;
   subscriptionId: string;
-  invoiceStatus: string;
   clientSecret: string;
 };
 
 export function CheckoutClient({
   subscriptionId,
   stripeCustomerId,
-  invoiceStatus,
   clientSecret,
 }: CheckoutProps) {
   let active = "payment";
@@ -30,15 +28,12 @@ export function CheckoutClient({
         },
       }}
     >
-      <div className="m-3 p-5 border">
-        <Payment
-          active={active === "payment"}
-          clientSecret={clientSecret}
-          stripeCustomerId={stripeCustomerId}
-          subscriptionId={subscriptionId}
-          invoiceStatus={invoiceStatus}
-        />
-      </div>
+      <Payment
+        active={active === "payment"}
+        clientSecret={clientSecret}
+        stripeCustomerId={stripeCustomerId}
+        subscriptionId={subscriptionId}
+      />
     </StripeProvider>
   );
 }

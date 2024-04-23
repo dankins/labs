@@ -1,9 +1,8 @@
 import z from "zod";
 import dayjs from "dayjs";
-import { Invitation, db, invitations } from "@danklabs/cake/db";
 
+import { invitations } from "@danklabs/cake/services/admin-service";
 import { ErrorScreen } from "./error/ErrorScreen";
-import { eq } from "drizzle-orm";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { Landing } from "./landing/Landing";
@@ -24,14 +23,6 @@ const Step = z.enum([
 type Step = z.infer<typeof Step>;
 
 export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
-  return <FoyerView searchParams={searchParams} />;
-}
-
-export async function FoyerView({
-  searchParams,
-}: {
-  searchParams?: SearchParams;
-}) {
   const cart = getCartIfAvailable();
   const codeSearchParam =
     typeof searchParams?.code === "string" ? searchParams.code : undefined;
@@ -62,9 +53,7 @@ export async function FoyerView({
   }
 
   const code = cart.code;
-  const invitation = await db.query.invitations.findFirst({
-    where: eq(invitations.code, code),
-  });
+  const invitation = await invitations.getByCode.cached(code);
 
   if (!invitation) {
     return <ErrorScreen error="INVALID_INVITE_CODE" />;

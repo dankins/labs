@@ -1,27 +1,34 @@
 import { getImageProps } from "next/image";
 
-import { SanityImageType, buildImageProps } from "./utils";
+import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
 
 export type ImageProps = {
   image: SanityImageType | null;
-  aspectRatio: "portrait" | "landscape" | undefined;
+  aspectRatio: AspectRatioChoices;
   mediaQuery: string;
+  width?: number;
 };
 
 export function SanityArtDirection({
   alt,
   images,
   className,
+  priority,
 }: {
   alt: string;
   images: ImageProps[];
   className?: string;
+  priority?: boolean;
 }) {
   let imageProps = {};
   const preparedImages = images
     .filter((i) => i.image)
     .map((image) => {
-      const sanityProps = buildImageProps(image.aspectRatio, image.image!);
+      const sanityProps = buildImageProps(
+        image.aspectRatio,
+        image.image!,
+        image.width
+      );
       const {
         props: { srcSet, ...rest },
       } = getImageProps({
@@ -30,6 +37,8 @@ export function SanityArtDirection({
         height: sanityProps.height,
         quality: 100,
         src: sanityProps.src,
+        blurDataURL: sanityProps.blurDataURL,
+        priority,
       });
 
       imageProps = rest;
