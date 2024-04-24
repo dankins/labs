@@ -1,23 +1,22 @@
 "use client";
 import {
-  CopyButton,
-  MotionDiv,
-  useToast,
-} from "@danklabs/pattern-library/motion";
-import {
   Checkbox,
   CopyIcon,
   EmailIcon,
+  FormAction,
+  Heading4,
+  Paragraph,
   PrimaryButton,
   TextArea,
   TextInput,
 } from "@danklabs/pattern-library/core";
-import { ShareButton } from "./ShareButton";
+import { CopyButton, useToast } from "@danklabs/pattern-library/motion";
+import { ShareButton } from "../ShareButton";
 import { useMemo, useRef, useState } from "react";
-import { isWebShareAvailable } from "@danklabs/utils";
 import { redirect } from "next/navigation";
+import { isWebShareAvailable } from "@danklabs/utils";
 
-export function ShareInviteClient({
+export function ShareScreen({
   inviteCode,
   recipientName,
   emailInviteAction,
@@ -48,23 +47,19 @@ ${link}
   }
 
   return (
-    <MotionDiv
-      initial={{ translateX: "100vw" }}
-      animate={{ translateX: "0" }}
-      transition={{ duration: 0.2 }}
-      className="p-4"
-    >
-      <p>
+    <div className="p-4 flex flex-col gap-2">
+      <Heading4 key="title">Share Invite</Heading4>
+      <Paragraph>
         Almost done! Personalize your invite or just select share invite to
         send!
-      </p>
+      </Paragraph>
       <form action={handleSubmit}>
         <div className="my-3 w-full">
           <TextArea
             ref={ref}
             rows={7}
             name="message"
-            label="Invite Message"
+            label="YOUR MESSAGE"
             defaultValue={defaultMessage}
           />
         </div>
@@ -100,12 +95,16 @@ ${link}
               text={() => ref.current?.value.replace(link, "") || ""}
             />
           ) : (
-            <CopyButton text={() => ref.current?.value || ""}>
-              Copy Invitation <CopyIcon />
+            <CopyButton
+              text={() => ref.current?.value || ""}
+              icon={<CopyIcon />}
+              iconPosition="right"
+            >
+              Copy Invitation
             </CopyButton>
           )}
         </div>
       )}
-    </MotionDiv>
+    </div>
   );
 }

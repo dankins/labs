@@ -34,9 +34,6 @@ export async function shareInviteAction(
 
   try {
     await invitations.assignInvite(inviteId, data.name);
-    redirect(
-      `/collection?action=share-invite&inviteId=${inviteId}&screen=share`
-    );
   } catch (err) {
     console.error("Error creating offer", err);
     if (err === isPostgresError) {
@@ -44,6 +41,10 @@ export async function shareInviteAction(
     }
     return { status: "error", message: "Unknown error occurred" };
   }
+
+  return redirect(
+    `/collection?action=share-invite&inviteId=${inviteId}&screen=share`
+  );
 }
 
 export async function cancelInviteAction(
@@ -54,7 +55,7 @@ export async function cancelInviteAction(
 ): Promise<FormState> {
   const { userId: iam } = auth().protect();
   await invitations.cancelInvite(iam, inviteId);
-  redirect(returnHref);
+  return redirect(returnHref);
 }
 
 export async function assignInviteAction(

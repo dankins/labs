@@ -14,7 +14,9 @@ import {
   TextInput,
   UserIcon,
 } from "@danklabs/pattern-library/core";
-import { shareInviteAction } from "../actions";
+import { emailInviteAction, shareInviteAction } from "../actions";
+import { ShareScreen } from "./ShareScreen";
+import { invitations } from "@danklabs/cake/services/admin-service";
 export async function ShareInvitationModal({
   returnHref,
   inviteId,
@@ -32,12 +34,9 @@ export async function ShareInvitationModal({
     );
   }
   if (screen === "share") {
-    return (
-      <InterceptModal returnHref={returnHref}>
-        invite share screen
-      </InterceptModal>
-    );
+    return <ShareScreenModal returnHref={returnHref} inviteId={inviteId} />;
   }
+
   return (
     <InterceptModal returnHref={returnHref}>
       <div className="mt-4 flex flex-row justify-end">
@@ -69,5 +68,47 @@ export async function ShareInvitationModal({
         />
       </FormAction>
     </InterceptModal>
+  );
+}
+
+async function ShareScreenModal({
+  returnHref,
+  inviteId,
+}: {
+  returnHref: string;
+  inviteId: string;
+}) {
+  return (
+    <InterceptModal returnHref={returnHref}>
+      <div className="mt-4 flex flex-row justify-end">
+        <GhostButton size="lg" href={returnHref}>
+          <CancelIcon />
+        </GhostButton>
+      </div>
+      <ShareScreenModalComponent inviteId={inviteId} />
+    </InterceptModal>
+  );
+}
+
+async function ShareScreenModalComponent({ inviteId }: { inviteId: string }) {
+  const invitation = await invitations.getInvitation.cached(inviteId);
+  if (!invitation || !invitation.code || !invitation.recipientName) {
+    return (
+      <InterceptModal returnHref="/account/invites">
+        Invalid invite
+      </InterceptModal>
+    );
+  }
+  return (
+    <ShareScreen
+      inviteCode={invitation.code}
+      recipientName={invitation.recipientName}
+      emailInviteAction={emailInviteAction.bind(
+        undefined,
+        invitation.memberId!,
+        invitation.id,
+        invitation.recipientName
+      )}
+    />
   );
 }
