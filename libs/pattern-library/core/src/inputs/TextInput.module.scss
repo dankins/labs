@@ -5,11 +5,13 @@
   > label {
     display: block;
     font-family: var(--font-input-label);
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
-    font-weight: 300;
-    line-height: 155%; /* 21.7px */
-    letter-spacing: 0.28px;
+    font-weight: 500;
+    line-height: 150%; /* 18px */
+    letter-spacing: 0.96px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
     /* className="block mb-2 text-sm font-medium" */
   }
 
