@@ -16,6 +16,7 @@ export const TertiaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }
         activeClass={"border-b active:text-secondary active:border-b-secondary"}
         hoverClass="border-b hover:border-b-primary/80 hover:text-primary/80"
+        uppercase
       >
         {children}
       </BaseButton>

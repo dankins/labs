@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { LoginShell } from "../common/LoginShell";
 import {
   Heading3,
+  Heading4,
   Paragraph1,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
@@ -26,15 +27,13 @@ export type SignInClientProps = {
 export function SignIn({
   emailCta = "Sign In",
   redirectUrl,
-  startHeading = <Heading3>Verify My Account</Heading3>,
+  startHeading = <Heading4>Verify My Account</Heading4>,
   startParagraph = (
     <Paragraph1>
-      Enter your name and email or sign in with your social account to continue.
+      Enter email or sign in with your social account to continue.
     </Paragraph1>
   ),
-  verifyCodeHeading = (
-    <h1 className="text-xl font-normal text-primary">Verify Email Address</h1>
-  ),
+  verifyCodeHeading = <Heading4>Verify Email Address</Heading4>,
   verifyCodeParagraph,
   alreadyLoggedInButton = (
     <PrimaryButton href="/collection">Continue to Collection</PrimaryButton>

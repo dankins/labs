@@ -29,6 +29,8 @@ export type ButtonPropsCommon = {
   simulateHover?: boolean;
   simulateActive?: boolean;
   size?: "sm" | "md" | "lg";
+  uppercase?: boolean;
+  align?: "left" | "center" | "right";
 };
 
 export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
@@ -55,6 +57,8 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       icon,
       iconPosition = "left",
       size = "md",
+      uppercase,
+      align,
       ...props
     },
     ref
@@ -91,7 +95,9 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabledClass,
       "font-button inline-block flex flex-row items-center gap-2",
       loading && "bg-slate-500 text-slate-300 cursor-default",
-      props.className
+      props.className,
+      uppercase && "uppercase",
+      align && align === "center" ? "justify-center" : "justify-start"
     );
 
     if (props.href) {
@@ -101,7 +107,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={className}
         >
           {loading ? <Spinner /> : iconPosition === "left" && icon}
-          {children}
+          <div>{children}</div>
           {icon && iconPosition === "right" && icon}
         </Link>
       );
@@ -113,7 +119,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={className}
       >
         {loading ? <Spinner /> : iconPosition === "left" && icon}
-        {children}
+        <div>{children}</div>
         {icon && iconPosition === "right" && (
           <div className="self-end">{icon}</div>
         )}

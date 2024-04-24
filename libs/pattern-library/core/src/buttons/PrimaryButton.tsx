@@ -13,6 +13,7 @@ export const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabledClass={"disabled:bg-primary/30 disabled:text-white"}
         activeClass={"border active:bg-secondary active:text-white"}
         hoverClass="hover:bg-primary/80 hover:text-primary-content"
+        uppercase
       >
         {children}
       </BaseButton>

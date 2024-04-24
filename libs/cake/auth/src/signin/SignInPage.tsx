@@ -11,7 +11,7 @@ export async function SignInPage({
     <ClerkProvider>
       <PageContent>
         <Centered>
-          <div className="max-w-[400px]">
+          <div className="p-4">
             <SignIn
               redirectUrl={
                 (searchParams["redirect_url"] as string) || "/collection"
