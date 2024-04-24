@@ -5,5 +5,9 @@ import { Menu } from "./Menu";
 import { ProfilePage } from "./profile/ProfilePage";
 
 export function AccountPage() {
-  return <ProfilePage />;
+  return (
+    <div className="hidden md:block">
+      <ProfilePage />
+    </div>
+  );
 }

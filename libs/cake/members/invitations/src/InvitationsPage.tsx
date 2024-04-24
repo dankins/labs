@@ -1,5 +1,6 @@
 import {
   Heading1,
+  Heading4,
   InterceptModal,
   Paragraph1,
 } from "@danklabs/pattern-library/core";
@@ -12,8 +13,8 @@ export async function InvitationsPage({
 }) {
   return (
     <>
-      <div className="px-5 container mb-24">
-        <Heading1 className="text-2xl">Cake Invitations</Heading1>
+      <div className="container mb-24">
+        <Heading4>Cake Invitations</Heading4>
         <Paragraph1>
           You start with two invitations, make sure you use them wisely and
           invite others you know will love Cake as much as you do!
