@@ -4,6 +4,7 @@ import {
   SanityImageType,
 } from "@danklabs/cake/pattern-library/core";
 import {
+  Member,
   MemberCollectionItem,
   brands,
 } from "@danklabs/cake/services/admin-service";
@@ -19,13 +20,17 @@ import { Suspense } from "react";
 export async function CollectionItem({
   idx,
   item,
+  member,
 }: {
   idx: number;
   item: MemberCollectionItem;
+  member: Member;
 }) {
+  const discountCode = item.offers.find((o) => o.offerType === "voucher")?.code;
+
   return (
     <Suspense fallback={<Loading item={item} idx={idx} />}>
-      <Component item={item} idx={idx} />
+      <Component item={item} idx={idx} discountCode={discountCode} />
     </Suspense>
   );
 }
@@ -37,22 +42,26 @@ function Loading({ item, idx }: { item: MemberCollectionItem; idx: number }) {
 async function Component({
   item,
   idx,
+  discountCode,
 }: {
   item: MemberCollectionItem;
   idx: number;
+  discountCode?: string;
 }) {
-  const { cms: brandDetail } = await brands.getBrand(item.slug);
+  const brand = await brands.getBrand(item.slug);
   return (
     <Shell
       idx={idx}
       slug={item.slug}
-      image={brandDetail.passBackground || undefined}
+      image={brand.cms.passBackground || undefined}
+      website={brand.cms.website || undefined}
+      discountCode={discountCode}
     >
       <div className="flex flex-row items-center justify-start text-dark-content h-[36px] md:h-[48px]">
-        {brandDetail.passLogo && (
+        {brand.cms.passLogo && (
           <SanityImageServer
-            alt={`Logo for ${brandDetail.name}`}
-            image={brandDetail.passLogo}
+            alt={`Logo for ${brand.cms.name}`}
+            image={brand.cms.passLogo}
             width={750}
             height={750}
             style={{
@@ -76,13 +85,16 @@ function Shell({
   idx,
   slug,
   image,
+  website,
+  discountCode,
 }: {
   children?: React.ReactNode;
   idx: number;
   slug: string;
   image?: SanityImageType;
+  website?: string;
+  discountCode?: string;
 }) {
-  const mt = idx * 3;
   return (
     <div
       className={`block md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full`}
@@ -112,7 +124,12 @@ function Shell({
         <p>
           The link below will apply your Cake Card automatically at checkout.
         </p>
-        <SecondaryButton icon={<ChevronDoubleRight />} iconPosition="right">
+        <SecondaryButton
+          icon={<ChevronDoubleRight />}
+          iconPosition="right"
+          href={website?.replace("{DISCOUNT_CODE}", discountCode || "cake")}
+          target="_blank"
+        >
           Shop Brand
         </SecondaryButton>
       </div>
