@@ -137,7 +137,7 @@ export async function CreateMultiUse({
         name="code"
         label="Invite Code"
         required
-        helperText="Number of single-use codes to generate"
+        helperText="Code that will be used to access the invitation"
       />
       <NumericInput
         name="maxRedemptions"

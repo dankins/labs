@@ -1,14 +1,61 @@
 "use server";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 import { invitations } from "@danklabs/cake/services/admin-service";
-import { validateFormData } from "@danklabs/utils";
+import { isPostgresError, isZodError, validateFormData } from "@danklabs/utils";
 
 import { redirect } from "next/navigation";
+import { FormState } from "@danklabs/pattern-library/core";
+import { auth } from "@clerk/nextjs/server";
 
-export async function cancelInviteAction(iam: string, id: string) {
-  await invitations.cancelInvite(iam, id);
-  redirect("/account/invites");
+export async function shareInviteAction(
+  inviteId: string,
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  console.log("shareInviteAction", inviteId, previousState, formData);
+  let data: { name: string; showBrandSelections: boolean } | undefined;
+  try {
+    data = validateFormData(
+      formData,
+      zfd.formData({
+        name: zfd.text(),
+        showBrandSelections: zfd.checkbox(),
+      })
+    );
+  } catch (err) {
+    if (err === isZodError(err)) {
+      return { status: "error", message: "Error validating input" };
+    }
+    console.error("Error sharing invite", err);
+    return { status: "error", message: "Unknown error occurred" };
+  }
+
+  try {
+    await invitations.assignInvite(inviteId, data.name);
+  } catch (err) {
+    console.error("Error creating offer", err);
+    if (err === isPostgresError) {
+      return { status: "error", message: "Error sharing invite" };
+    }
+    return { status: "error", message: "Unknown error occurred" };
+  }
+
+  return redirect(
+    `/collection?action=share-invite&inviteId=${inviteId}&screen=share`
+  );
+}
+
+export async function cancelInviteAction(
+  inviteId: string,
+  returnHref: string,
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { userId: iam } = auth().protect();
+  await invitations.cancelInvite(iam, inviteId);
+  return redirect(returnHref);
 }
 
 export async function assignInviteAction(

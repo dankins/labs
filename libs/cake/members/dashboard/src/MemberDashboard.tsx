@@ -1,9 +1,11 @@
 import { CollectionPanel } from "./collection/CollectionPanel";
 import { InvitationsPanel } from "./invitations/InvitationsPanel";
-import { RewardsPanel } from "./rewards/RewardsPanel";
-import { StoriesPanel } from "./stories/StoriesPanel";
 import { MobileNavSpacer } from "@danklabs/cake/pattern-library/core";
 import { CollectionItemInterceptModal } from "./collection-item";
+import {
+  CancelInvitationModal,
+  ShareInvitationModal,
+} from "@danklabs/cake/members/invitations";
 
 export async function MemberDashboard({
   searchParams,
@@ -15,6 +17,21 @@ export async function MemberDashboard({
       {searchParams && searchParams["collectionItem"] && (
         <CollectionItemInterceptModal
           slug={searchParams["collectionItem"] as string}
+        />
+      )}
+      {searchParams &&
+        searchParams["action"] &&
+        searchParams["action"] === "share-invite" && (
+          <ShareInvitationModal
+            returnHref="/collection"
+            inviteId={searchParams["inviteId"] as string}
+            screen={(searchParams["screen"] as string) || "assign"}
+          />
+        )}
+      {searchParams && searchParams["action"] === "cancel-invite" && (
+        <CancelInvitationModal
+          returnHref="/collection"
+          inviteId={searchParams["inviteId"] as string}
         />
       )}
       <div className="p-4 flex flex-col items-center">

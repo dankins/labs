@@ -32,4 +32,5 @@ export type Member = {
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   collection: MemberCollection;
+  favorites: string[];
 };

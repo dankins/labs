@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { z } from "zod";
 import { completeAccountStepAction } from "./action";
@@ -11,6 +11,7 @@ import {
 } from "@danklabs/pattern-library/core";
 import { FoyerContainer } from "../FoyerContainer";
 import { useRouter } from "next/navigation";
+import { useAuth, useClerk } from "@clerk/nextjs";
 
 export const nameSchema = z.object({
   firstname: z.string(),
@@ -62,6 +63,8 @@ type ContactMethodState = {
 type State = NameState | AddressState | CreateAccountState | ContactMethodState;
 
 export function AccountStep({ email }: { email: string }) {
+  const { isSignedIn, isLoaded } = useAuth();
+  const auth = useClerk();
   const router = useRouter();
 
   function handleAccountCreated() {

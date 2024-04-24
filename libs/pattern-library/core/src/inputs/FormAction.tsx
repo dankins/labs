@@ -48,6 +48,13 @@ export function FormAction({
     return result;
   }
 
+  useEffect(() => {
+    // check if form is valid on mount
+    if (formRef && formRef.current) {
+      setFormValid(formRef.current.checkValidity());
+    }
+  }, [formRef]);
+
   function handleChange() {
     if (formRef && formRef.current) {
       const newFormValid = formRef.current.checkValidity();

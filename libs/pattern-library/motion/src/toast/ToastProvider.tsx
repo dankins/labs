@@ -69,7 +69,7 @@ function ToastContainer({ config }: { config: ToastConfig }) {
 
 export function Toaster({ toasts }: { toasts: ToastMap }) {
   return (
-    <div className="fixed bottom-0 right-0">
+    <div className="fixed bottom-0 right-0 z-[1001]">
       <AnimatePresence>
         {Object.keys(toasts).map((id, idx) => (
           <ToastContainer key={idx} config={toasts[id]} />

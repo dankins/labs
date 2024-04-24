@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 
 import { ProfileToggle } from "./ProfileToggle";
 import { updateProfileAction } from "./actions";
+import { Heading4 } from "@danklabs/pattern-library/core";
 
 export function ProfilePage() {
   return (
@@ -27,7 +28,7 @@ export async function Component() {
     <div className="max-w-[764px]">
       <div>
         <div>
-          <h1 className="text-primary text-xl font-normal">Member Profile</h1>
+          <Heading4>Member Profile</Heading4>
           <h3 className="text-primary/50 text-lg font-normal">
             {user.emailAddresses[0].emailAddress}
           </h3>

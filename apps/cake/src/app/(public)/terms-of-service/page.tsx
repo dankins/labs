@@ -1,8 +1,5 @@
 import { LogoIcon } from "@danklabs/cake/pattern-library/core";
-import { getPage } from "@danklabs/cake/services/admin-service";
 export default async function Page() {
-  const page = await getPage("terms-and-conditions");
-
   return (
     <div className="p-6 flex flex-col items-center w-full">
       <div className="mb-10">
