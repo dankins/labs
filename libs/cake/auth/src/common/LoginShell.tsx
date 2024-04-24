@@ -1,7 +1,7 @@
 import {
   EmailIcon,
   GhostButton,
-  Heading3,
+  Heading4,
   LoginFacebookIcon,
   LoginGoogleIcon,
   Paragraph1,
@@ -46,7 +46,7 @@ export type FirstFactorProps = {
 export function LoginShell({
   mode,
   emailCta,
-  startHeading = <Heading3>Verify My Account</Heading3>,
+  startHeading = <Heading4>Verify My Account</Heading4>,
   startParagraph = (
     <Paragraph1>
       Enter your email or sign up with your social account to create your Cake
@@ -309,11 +309,11 @@ export function LoginShell({
 
   return (
     <div className="max-w-[425px] flex flex-col gap-4">
-      <div>
+      <div className="flex flex-col gap-2">
         {startHeading}
         {startParagraph}
       </div>
-      <form action={handleEmailSubmit} className="my-5">
+      <form action={handleEmailSubmit}>
         <TextInput
           icon={<EmailIcon />}
           name={"email"}
@@ -326,12 +326,13 @@ export function LoginShell({
         {error && (
           <Paragraph3 className="mt-3 text-secondary">{error}</Paragraph3>
         )}
-        <div className="my-10 flex flex-row items-center justify-center">
+        <div className="my-5 flex flex-row items-center justify-center">
           <PrimaryButton
-            className="uppercase"
+            className="min-w-[200px]"
             type="submit"
             disabled={loading || !isSignInLoaded}
             loading={loading}
+            align="center"
           >
             {emailCta}
           </PrimaryButton>

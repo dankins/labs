@@ -12,7 +12,7 @@ export function ValidateCode({
   loading,
   error,
   heading,
-  paragraph = <p>Check your inbox and paste in the 6 digit code.</p>,
+  paragraph = <p>Check your email inbox for your 6 digit verification code.</p>,
   onCodeEntered,
 }: {
   heading?: React.ReactNode;

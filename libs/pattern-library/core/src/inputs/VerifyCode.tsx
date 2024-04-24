@@ -93,16 +93,20 @@ export function VerifyCode({
             rounded-lg
             border-2
             border-grey-600
+            h-12
+            w-12
             px-2
             py-2
             mx-0.5
             text-center
             bg-white
             text-black
-            text-2xl
+            text-[24px]
             font-bold
             lg:mx-1
-            lg:text-3xl
+            focus:outline-none
+            focus:border-3
+            focus:border-dark
             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
       ))}
