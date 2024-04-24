@@ -11,11 +11,6 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import { Brand, brands, members } from "@danklabs/cake/services/admin-service";
 
-import { Header, HeaderLoading } from "./components/Header";
-import { ContainerWithBackground } from "./components/ContainerWithBackground";
-import { AddPassActionBar } from "./AddPassActionBar";
-
-import { claimPassAction } from "./actions";
 import {
   AddIcon,
   Caption3,
@@ -43,10 +38,6 @@ function Loading() {
       <Spinner />
     </div>
   );
-}
-
-function ContentLoading() {
-  return <Spinner />;
 }
 
 async function Component({ slug }: { slug: string }) {

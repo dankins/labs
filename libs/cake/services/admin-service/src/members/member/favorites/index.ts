@@ -2,34 +2,46 @@ import { db, favorites as favoritesModel } from "@danklabs/cake/db";
 import { and, eq, inArray } from "drizzle-orm";
 
 import { getFavorites } from "./getFavorites";
+import { members } from "../..";
+import { brands } from "../../../brands";
+import { clearCache } from "../clearCache";
 
 type InsertFavorite = typeof favoritesModel.$inferInsert;
 
 export async function addFavorite(
-  memberId: string,
-  brandId: string
+  iam: string,
+  brandSlug: string
 ): Promise<void> {
-  console.log("addFavorite", brandId, memberId);
+  const [member, brand] = await Promise.all([
+    members.member.get(iam),
+    brands.getBrand(brandSlug),
+  ]);
   const record: InsertFavorite = {
-    memberId,
-    brandId,
+    memberId: member.id,
+    brandId: brand.db.id,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
   await db.insert(favoritesModel).values(record);
+  clearCache(member.iam);
 }
 
 export async function removeFavorite(
-  memberId: string,
-  brandId: string
+  iam: string,
+  brandSlug: string
 ): Promise<void> {
-  return removeFavorites(memberId, [brandId]);
+  const brand = await brands.getBrand(brandSlug);
+
+  return removeFavorites(iam, [brand.db.id]);
 }
 
 export async function removeFavorites(
-  memberId: string,
+  iam: string,
   brandIds: string[]
 ): Promise<void> {
-  console.log("removeFavorites", memberId, brandIds);
-  const result = await db
+  const member = await members.member.get(iam);
+  const memberId = member.id;
+  await db
     .delete(favoritesModel)
     .where(
       and(
@@ -38,6 +50,7 @@ export async function removeFavorites(
       )
     )
     .returning();
+  clearCache(member.iam);
 }
 
 export const favorites = {

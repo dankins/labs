@@ -3,7 +3,6 @@ import { unstable_cache } from "next/cache";
 import { superadmin } from "../../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
-import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { Member, MemberCollection } from "./types";
 
 async function fn(iam: string): Promise<Member> {
@@ -28,7 +27,7 @@ async function fn(iam: string): Promise<Member> {
     itemMap: {},
   };
 
-  dbMember?.passport.passes.forEach((collectionItem) => {
+  dbMember.passport.passes.forEach((collectionItem) => {
     const itemValue = collectionItem.offers.reduce((totalValue, offer) => {
       return totalValue + parseFloat(offer.template.offerValue);
     }, 0);
@@ -50,6 +49,11 @@ async function fn(iam: string): Promise<Member> {
         };
       }),
     };
+  });
+
+  const favorites: string[] = [];
+  dbMember.favorites.forEach((favorite) => {
+    favorites.push(favorite.brand.slug);
   });
 
   collection.remaining = collection.maxCollectionItems - collection.count;
@@ -77,6 +81,7 @@ async function fn(iam: string): Promise<Member> {
     isBrandManager: false,
     membershipStatus: dbMember?.membershipStatus || undefined,
     collection,
+    favorites,
   };
 }
 
@@ -90,6 +95,11 @@ function getDbUser(iam: string) {
   return db.query.members.findFirst({
     where: eq(members.iam, iam),
     with: {
+      favorites: {
+        with: {
+          brand: true,
+        },
+      },
       passport: {
         with: {
           passes: {
