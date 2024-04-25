@@ -10,11 +10,11 @@
   top: 0;
   z-index: 1000;
   color: white;
+  padding: 1rem;
   width: 100%;
   @media screen and (min-width: 480px) {
     position: inherit;
     color: var(--text-primary-content);
-    padding: 20px 0 20px;
   }
 
   > div {
@@ -23,8 +23,6 @@
       flex-direction: row;
     }
     .navContainer {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
       display: flex;
       align-items: center;
 
@@ -51,7 +49,6 @@
         }
         cursor: pointer;
         float: right;
-        padding: 40px 20px;
         z-index: 39;
       }
       .hamburgerLine {
