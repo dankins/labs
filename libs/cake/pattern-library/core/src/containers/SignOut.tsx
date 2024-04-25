@@ -16,8 +16,10 @@ export function SignOut({
     if (!isLoaded) {
       return;
     }
-    signOut();
-    router.push("/");
+    signOut(() => {
+      router.refresh();
+      router.push("/");
+    });
   }
   return (
     <a onClick={onClick} className={className}>
