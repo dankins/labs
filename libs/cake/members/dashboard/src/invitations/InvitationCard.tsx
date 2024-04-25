@@ -40,8 +40,10 @@ function PendingInvitation({ invitation }: { invitation: MemberInvitation }) {
   return (
     <div className="p-4 border border-[#E1DED9] bg-[#FBFAF8] flex flex-col items-center justify-center  ">
       <LogoMark className="text-xl fill-dark" />
-      <Heading3 className="uppercase">Invite Shared</Heading3>
-      <Paragraph3 className="text-lg font-selva">
+      <Heading3 className="uppercase font-supreme font-normal text-dark">
+        Invite Shared
+      </Heading3>
+      <Paragraph3 className="text-lg font-selva py-[8px]">
         {invitation.recipientName}
       </Paragraph3>
       <Caption1 className="uppercase text-secondary">
@@ -69,8 +71,10 @@ function ExpiredInvitation({ invitation }: { invitation: MemberInvitation }) {
   return (
     <div className="p-4 border border-[#E1DED9] bg-[#FBFAF8] flex flex-col items-center justify-center  ">
       <LogoMark className="text-xl fill-dark" />
-      <Heading3 className="uppercase">Invite Shared</Heading3>
-      <Paragraph3 className="text-lg font-selva">
+      <Heading3 className="uppercase font-supreme font-normal text-dark ">
+        Invite Shared
+      </Heading3>
+      <Paragraph3 className="text-lg font-selva py-[8px]">
         {invitation.recipientName}
       </Paragraph3>
       <Caption1 className="uppercase text-secondary">
