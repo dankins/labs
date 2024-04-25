@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --input-border-radius: 8px;
+    --input-border-radius: 2px;
     --input-border-color: #e9ded3;
     --input-border-color-focus: red;
     --input-text-color: #292725;
@@ -33,6 +33,8 @@
     --color-accent: 228 214 200;
 
     font-family: var(--font-supreme);
+
+    --font-input-label: var(--font-supreme);
 
     .darkSection {
       --color-primary: 255 255 255;
