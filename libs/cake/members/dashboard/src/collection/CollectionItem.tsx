@@ -101,7 +101,7 @@ function Shell({
     >
       <Link
         href={`/collection?collectionItem=${slug}`}
-        className={`p-4 block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
+        className={`p-6 block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
       >
         <div className="absolute top-0 left-0">
           {image && (
