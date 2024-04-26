@@ -71,7 +71,7 @@ async function Component({ slug }: { slug: string }) {
                 },
               ]}
             />
-            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral to-neutral/70"></div>
+            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral to-neutral/20"></div>
             <div className="relative  w-full h-full">
               <div className="p-6 pt-[180px] md:pt-0 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
                 <BrandDetails brand={brand} />
