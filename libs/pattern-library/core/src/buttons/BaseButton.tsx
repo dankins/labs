@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { Children } from "react";
 import { Spinner } from "../icons/Spinner";
 import Link from "next/link";
 
@@ -95,11 +95,21 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       hoverClass,
       activeClass,
       disabledClass,
-      "font-button inline-block flex flex-row items-center",
+      "font-button inline-block flex flex-row items-center gap-2",
       loading && "bg-slate-500 text-slate-300 cursor-default",
       props.className,
       uppercase && "uppercase",
       align && align === "center" ? "justify-center" : "justify-start"
+    );
+
+    const inside = (
+      <>
+        {loading ? <Spinner /> : iconPosition === "left" && icon}
+        {children}
+        {icon && iconPosition === "right" && (
+          <div className="self-end">{icon}</div>
+        )}
+      </>
     );
 
     if (props.href) {
@@ -108,9 +118,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
           className={className}
         >
-          {loading ? <Spinner /> : iconPosition === "left" && icon}
-          <div>{children}</div>
-          {icon && iconPosition === "right" && icon}
+          {inside}
         </Link>
       );
     }
@@ -120,11 +128,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...(props as React.ComponentPropsWithoutRef<"button">)}
         className={className}
       >
-        {loading ? <Spinner /> : iconPosition === "left" && icon}
-        {children && <div>{children}</div>}
-        {icon && iconPosition === "right" && (
-          <div className="self-end">{icon}</div>
-        )}
+        {inside}
       </button>
     );
   }

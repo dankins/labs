@@ -11,12 +11,12 @@ export function CircleButton({
       {...props}
       rounded="full"
       background={props.background || "primary"}
-      textColor={props.textColor || "primary-content"}
+      textColor={props.textColor || "text-primary-content"}
       border={props.border || "primary"}
-      className={classNames(
-        props.className,
-        `flex flex-row justify-center items-center`
-      )}
+      disabledClass={"disabled:bg-primary/30 disabled:text-white"}
+      activeClass={"border active:bg-secondary active:text-white"}
+      hoverClass="hover:bg-primary/80 hover:text-primary-content"
+      uppercase
       padding={props.padding || "p-2"}
     >
       {children}

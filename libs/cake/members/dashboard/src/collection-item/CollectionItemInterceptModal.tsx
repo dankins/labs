@@ -95,7 +95,11 @@ export async function Component({ slug }: { slug: string }) {
               />
             )}
             <Paragraph3>{brand.cms.summary}</Paragraph3>
-            <SecondaryButton icon={<RightArrow />}>
+            <SecondaryButton
+              icon={<RightArrow />}
+              iconPosition="right"
+              href={brand.cms.website?.replace("{DISCOUNT_CODE}", "cake")}
+            >
               Visit {brand.cms.name}
             </SecondaryButton>
             <CollectionItemOffers
