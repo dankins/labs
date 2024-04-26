@@ -2,6 +2,7 @@
 
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { signOutAction } from "./actions";
 
 export function SignOut({
   className,
@@ -12,11 +13,13 @@ export function SignOut({
 }) {
   const router = useRouter();
   const { isLoaded, signOut } = useAuth();
+
   function onClick() {
     if (!isLoaded) {
       return;
     }
-    signOut(() => {
+    signOut(async () => {
+      await signOutAction();
       router.refresh();
       router.push("/");
     });
