@@ -2,6 +2,7 @@ import { BagIcon, WalletIcon } from "@danklabs/cake/pattern-library/core";
 import {
   AddIcon,
   Button,
+  CircleButton,
   Heading1,
   PrimaryButton,
 } from "@danklabs/pattern-library/core";
@@ -22,13 +23,13 @@ export function Summary({
           My Collection
         </Heading1>
         <div className="flex flex-row items-center gap-2 text-base md:text-xl font-medium md:font-bold">
-          <WalletIcon className="text-4xl fill-primary" /> {items} / {maxItems}
-          <BagIcon className="text-4xl fill-primary" /> ${collectionValue}
+          <WalletIcon className="text-2xl fill-primary" /> {items} / {maxItems}
+          <BagIcon className="text-2xl fill-primary" /> ${collectionValue}
           <span className="grow"></span>
-          <PrimaryButton
-            icon={<AddIcon className="text-dark-content" />}
+          <CircleButton
             href={`/brands`}
-          ></PrimaryButton>
+            icon={<AddIcon className="text-dark-content" />}
+          />
         </div>
       </div>
     </div>

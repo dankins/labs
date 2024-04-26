@@ -57,7 +57,7 @@ async function Component({
       website={brand.cms.website || undefined}
       discountCode={discountCode}
     >
-      <div className="flex flex-row items-center justify-start text-dark-content h-[36px] md:h-[48px]">
+      <div className="p-4 flex flex-row items-center justify-start text-dark-content h-[25%] md:h-[33%]">
         {brand.cms.passLogo && (
           <SanityImageServer
             alt={`Logo for ${brand.cms.name}`}
@@ -101,7 +101,7 @@ function Shell({
     >
       <Link
         href={`/collection?collectionItem=${slug}`}
-        className={`p-6 block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
+        className={`block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
       >
         <div className="absolute top-0 left-0">
           {image && (
@@ -116,9 +116,7 @@ function Shell({
           )}
         </div>
         <div className="w-full h-full absolute top-0 left-0 bg-black/30"></div>
-        <div className="w-full absolute top-0 left-0">
-          <div className="py-2 px-4 w-full">{children}</div>
-        </div>
+        <div className="w-full h-full absolute top-0 left-0">{children}</div>
       </Link>
       <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-center gap-3">
         <p>

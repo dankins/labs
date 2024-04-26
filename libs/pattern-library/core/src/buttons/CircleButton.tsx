@@ -15,8 +15,9 @@ export function CircleButton({
       border={props.border || "primary"}
       className={classNames(
         props.className,
-        `w-20 h-20 flex flex-row justify-center items-center`
+        `flex flex-row justify-center items-center`
       )}
+      padding={props.padding || "p-2"}
     >
       {children}
     </BaseButton>

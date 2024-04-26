@@ -31,6 +31,7 @@ export type ButtonPropsCommon = {
   size?: "sm" | "md" | "lg";
   uppercase?: boolean;
   align?: "left" | "center" | "right";
+  padding?: string;
 };
 
 export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
@@ -59,6 +60,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       uppercase,
       align,
+      padding: paddingInput,
       ...props
     },
     ref
@@ -75,11 +77,11 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       borderClass = hoverClass?.replace("hover:border-", "border-");
       textClass = hoverClass?.replace("hover:text-", "text-")!;
     }
-    let padding = "py-2 px-4";
+    let padding = paddingInput || "py-2 px-4";
     let fontSize = "text-md";
     if (size === "sm") {
       fontSize = "text-sm";
-      padding = "py-1 px-2";
+      padding = paddingInput || "py-1 px-2";
     }
 
     const className = classNames(
@@ -89,11 +91,11 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textClass,
       borderClass,
       props.fontWeight && `font-${props.fontWeight}`,
-      "rounded",
+      rounded && `rounded-${rounded}`,
       hoverClass,
       activeClass,
       disabledClass,
-      "font-button inline-block flex flex-row items-center gap-2",
+      "font-button inline-block flex flex-row items-center",
       loading && "bg-slate-500 text-slate-300 cursor-default",
       props.className,
       uppercase && "uppercase",
@@ -119,7 +121,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={className}
       >
         {loading ? <Spinner /> : iconPosition === "left" && icon}
-        <div>{children}</div>
+        {children && <div>{children}</div>}
         {icon && iconPosition === "right" && (
           <div className="self-end">{icon}</div>
         )}

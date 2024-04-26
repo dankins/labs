@@ -38,7 +38,7 @@ export function CardGrid({ member }: CardGridProps) {
   }
 
   return (
-    <div className="flex flex-col -space-y-[53%] md:-space-y-0 justify-items-center md:justify-items-start md:gap-4">
+    <div className="flex flex-col -space-y-[50%] md:-space-y-0 justify-items-center md:justify-items-start md:gap-4">
       {collection.brandSlugs.map((slug, idx) => (
         <CollectionItem
           idx={idx}
