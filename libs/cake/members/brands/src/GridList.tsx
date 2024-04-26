@@ -145,7 +145,7 @@ function GridItem({
               image={brand.passBackground}
               height={1080}
               width={1080}
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "100%", width: "100%", objectFit: "cover" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
               className="group-hover:scale-[102%]  transition-transform duration-300 ease-in-out"
             />
