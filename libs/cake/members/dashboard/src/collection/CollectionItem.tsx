@@ -101,7 +101,7 @@ function Shell({
     >
       <Link
         href={`/collection?collectionItem=${slug}`}
-        className={`block rounded-md bg-dark aspect-[3/2] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
+        className={`block rounded-md bg-dark aspect-[3.370/2.125] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
       >
         <div className="absolute top-0 left-0">
           {image && (
@@ -118,7 +118,7 @@ function Shell({
         <div className="w-full h-full absolute top-0 left-0 bg-black/30"></div>
         <div className="w-full h-full absolute top-0 left-0">{children}</div>
       </Link>
-      <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-center gap-3">
+      <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-start gap-3">
         <p>
           The link below will apply your Cake Card automatically at checkout.
         </p>
