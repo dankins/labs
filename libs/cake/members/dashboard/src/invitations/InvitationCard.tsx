@@ -15,7 +15,9 @@ import {
 import dayjs from "dayjs";
 
 import relativeTime from "dayjs/plugin/relativeTime";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
 
 export async function InvitationCard({
   invitation,
@@ -99,27 +101,21 @@ function ExpiredInvitation({ invitation }: { invitation: MemberInvitation }) {
 }
 function AcceptedInvitation({ invitation }: { invitation: MemberInvitation }) {
   return (
-    <Container>
-      <div className="flex flex-row items-center gap-1">
-        <ClockIcon className="fill-primary text-xl" />
-        <span className="text-xs">accept</span>
-      </div>
-      <div>
-        <SectionHeading>Pending invitations</SectionHeading>
-        <div className="text-xs font-medium mt-1">
-          Track invitations you have sent to join Cake.
-        </div>
-      </div>
-      <div>
-        <SecondaryButton>Manage</SecondaryButton>
-      </div>
-    </Container>
+    <div className="p-4 border border-[#E1DED9] bg-[#FBFAF8] flex flex-col items-center justify-center  ">
+      <LogoMark className="text-xl fill-dark" />
+      <Paragraph3 className="text-lg font-selva py-[8px]">
+        {invitation.recipientName}
+      </Paragraph3>
+      <Caption1 className="uppercase text-secondary">
+        Joined {dayjs(invitation.expiration).format("LL")}
+      </Caption1>
+    </div>
   );
 }
 
 function Container({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full border darkSection bg-neutral text-neutral-content rounded-sm p-4 flex flex-col gap-2">
+    <div className="p-4 border border-[#E1DED9] bg-[#FBFAF8] flex flex-col items-center justify-center  ">
       {children}
     </div>
   );
