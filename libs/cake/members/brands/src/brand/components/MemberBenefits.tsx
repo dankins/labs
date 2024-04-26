@@ -54,7 +54,7 @@ function BenefitCard({
   name?: string | null;
 }) {
   return (
-    <div className="rounded-lg bg-[#292725] max-w-[300px] text-white rounded-md aspect-wallet flex flex-col justify-center items-center gap-6">
+    <div className="rounded-lg bg-[#292725] max-w-[300px] border border-[#686664] text-white rounded-md aspect-wallet flex flex-col justify-center items-center gap-6">
       {amount ? (
         <Currency amount={parseInt(amount)} size={"5xl"} />
       ) : (
