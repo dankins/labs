@@ -101,7 +101,7 @@ function ExpiredInvitation({ invitation }: { invitation: MemberInvitation }) {
 }
 function AcceptedInvitation({ invitation }: { invitation: MemberInvitation }) {
   return (
-    <div className="p-4 border border-[#E1DED9] bg-[#FBFAF8] flex flex-col items-center justify-center  ">
+    <div className="p-4 border border-[#E1DED9] bg-[#F9F6F2] flex flex-col items-center justify-center  ">
       <LogoMark className="text-xl fill-dark" />
       <Paragraph3 className="text-lg font-selva py-[8px]">
         {invitation.recipientName}
