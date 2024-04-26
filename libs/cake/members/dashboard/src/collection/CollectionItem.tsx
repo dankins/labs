@@ -97,11 +97,11 @@ function Shell({
 }) {
   return (
     <div
-      className={`block md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full`}
+      className={`block md:mt-0 md:col-start-auto md:row-start-auto flex flex-row justify-center md:justify-start md:gap-4 w-full group duration-300 ease-in-out`}
     >
       <Link
         href={`/collection?collectionItem=${slug}`}
-        className={`block rounded-md bg-dark aspect-[3.370/2.125] w-full md:w-auto md:h-[200px] relative overflow-hidden  border border-[#9D9C9B] `}
+        className={`block rounded-md bg-dark aspect-[3.370/2.125] w-full md:w-auto md:h-[200px] relative overflow-hidden border border-[#9D9C9B] group-hover:scale-[102%] transition-transform duration-300 ease-in-out`}
       >
         <div className="absolute top-0 left-0">
           {image && (
@@ -112,10 +112,11 @@ function Shell({
               sizes="(max-width: 425px) 425px, 768px"
               width={768}
               height={(768 * 3) / 2}
+              className="group-hover:scale-[102%] transition-transform duration-300 ease-in-out"
             />
           )}
         </div>
-        <div className="w-full h-full absolute top-0 left-0 bg-black/30"></div>
+        <div className="w-full h-full absolute top-0 left-0 bg-black/30 hover:drop-shadow-xl group-hover:scale-[102%] transition-transform duration-300 ease-in-out"></div>
         <div className="w-full h-full absolute top-0 left-0">{children}</div>
       </Link>
       <div className="hidden md:h-[210px] max-w-[220px] md:flex flex-col justify-start gap-3">
