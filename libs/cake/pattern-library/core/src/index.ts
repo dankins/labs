@@ -7,3 +7,4 @@ export * from "./icons";
 export * from "./logos";
 export * from "./fonts";
 export * from "./admin";
+export * from "./offers";

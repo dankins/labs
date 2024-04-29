@@ -1,6 +1,10 @@
 "use client";
 
-import { Currency, SecondaryButton } from "@danklabs/cake/pattern-library/core";
+import {
+  CakeCard,
+  Currency,
+  SecondaryButton,
+} from "@danklabs/cake/pattern-library/core";
 import {
   CancelIcon,
   Caption3,
@@ -14,6 +18,8 @@ import { useState } from "react";
 import Barcode from "react-barcode";
 import { CopyButton } from "@danklabs/pattern-library/motion";
 import classNames from "classnames";
+import { BaseCard } from "libs/cake/pattern-library/core/src/offers/BaseCard";
+import dayjs from "dayjs";
 
 export function OfferCard({
   offer,
@@ -22,48 +28,21 @@ export function OfferCard({
   offer: MemberCollectionItemOffer;
   shopLinkTemplate?: string;
 }) {
-  const [redeemMode, setRedeemMode] = useState(false);
+  // const [redeemMode, setRedeemMode] = useState(false);
 
-  return (
-    <div
-      className={classNames(
-        "lightSection bg-[#FEFEFD] p-2 rounded-lg flex flex-col items-center justify-center",
-        !redeemMode && "aspect-[293/178]"
-      )}
-    >
-      <div className="flex flex-row w-full justify-end align-end">
-        {redeemMode && (
-          <GhostButton
-            icon={<CancelIcon />}
-            onClick={() => setRedeemMode(false)}
-          />
-        )}
-      </div>
-      <Currency className="text-dark" amount={offer.offerValue} size="5xl" />
-      <Caption3 className="text-secondary uppercase">{offer.name}</Caption3>
-      <Caption3 className="text-[#9D9C9B] uppercase text-xs">
-        Valid until 4/20
-      </Caption3>
-      {offer.status === "redeemed" && (
-        <SecondaryButton className="text-black" disabled>
-          Redeemed
-        </SecondaryButton>
-      )}
-
-      {offer.status !== "redeemed" && redeemMode === true && (
-        <Redemption offer={offer} shopLinkTemplate={shopLinkTemplate} />
-      )}
-
-      {offer.status !== "redeemed" && redeemMode === false && (
-        <SecondaryButton
-          className="text-black"
-          onClick={() => setRedeemMode(true)}
-        >
-          Redeem
-        </SecondaryButton>
-      )}
-    </div>
-  );
+  switch (offer.offerType) {
+    case "voucher":
+      return (
+        <CakeCard
+          shopLinkTemplate={shopLinkTemplate}
+          code={offer.code!}
+          amount={offer.offerValue}
+          expiration={dayjs().add(1, "year").toDate()}
+        />
+      );
+    default:
+      return <BaseCard name={offer.name!} />;
+  }
 }
 
 function Redemption({
