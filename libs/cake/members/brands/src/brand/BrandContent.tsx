@@ -2,8 +2,6 @@ import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
 
 import {
-  Heading4,
-  MobileNavSpacer,
   Paragraph2,
   SanityArtDirection,
   SanityImageServer,
@@ -13,7 +11,6 @@ import { Brand, brands, members } from "@danklabs/cake/services/admin-service";
 
 import {
   AddIcon,
-  Caption3,
   PrimaryButton,
   RightArrow,
   Spinner,
@@ -71,7 +68,7 @@ async function Component({ slug }: { slug: string }) {
                 },
               ]}
             />
-            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral to-neutral/20"></div>
+            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral via-neutral/90 via-30% to-neutral/20"></div>
             <div className="relative  w-full h-full">
               <div className="p-6 pt-[180px] md:pt-0 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
                 <BrandDetails brand={brand} />
