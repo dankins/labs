@@ -106,9 +106,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <>
         {loading ? <Spinner /> : iconPosition === "left" && icon}
         {children}
-        {icon && iconPosition === "right" && (
-          <div className="self-end">{icon}</div>
-        )}
+        {icon && iconPosition === "right" && icon}
       </>
     );
 

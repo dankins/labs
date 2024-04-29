@@ -4,6 +4,15 @@
 
 @layer base {
   :root {
+    --brand-brown: 58 38 42; // #3A262A
+    --brand-beige-500: 228 214 200; // #E4D6C8
+    --brand-cream-600: 225 222 217; // #E1DED9
+    --brand-cream-500: 247 244 239; // #F7F4EF
+    --brand-cream-50: 254 254 253; // #FEFEFD
+    --brand-cream-light: 247 242 238; // #F7F2EE
+    --brand-dark: 23 23 23; // #171717
+    --brand-black-400: 84 82 81; // #545251
+
     --input-border-radius: 2px;
     --input-border-color: #e9ded3;
     --input-border-color-focus: red;
@@ -21,7 +30,7 @@
     --color-primary: 58 38 42;
     --color-primary-content: 255 255 255;
 
-    --color-dark: 56 53 50;
+    --color-dark: var(--brand-dark);
     --color-dark-content: 247 242 238;
 
     --color-secondary: 235 61 25;
@@ -35,6 +44,9 @@
     font-family: var(--font-supreme);
 
     --font-input-label: var(--font-supreme);
+
+    --color-button-active: var(--brand-dark);
+    --color-button-active-content: var(--brand-cream-50);
 
     .darkSection {
       --color-primary: 255 255 255;

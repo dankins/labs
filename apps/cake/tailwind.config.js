@@ -25,6 +25,9 @@ module.exports = {
         wallet: "1.586 / 1",
       },
       colors: {
+        "button-active": "rgb(var(--color-button-active) / <alpha-value>)",
+        "button-active-content":
+          "rgb(var(--color-button-active-content) / <alpha-value>)",
         dark: "rgb(var(--color-dark) / <alpha-value>)",
         "dark-content": "rgb(var(--color-dark-content) / <alpha-value>)",
         primary: "rgb(var(--color-primary) / <alpha-value>)",
