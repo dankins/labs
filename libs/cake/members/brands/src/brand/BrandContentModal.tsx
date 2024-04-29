@@ -22,7 +22,11 @@ export async function BrandContentModal({ slug }: { slug: string }) {
       <div className="rounded-md h-full">
         <div className="absolute top-0 left-0 p-4 z-40 w-full text-3xl md:mb-4 flex flex-row justify-end lg:static">
           <ToggleFavoriteButton slug={slug} />
-          <GhostButton icon={<CloseIcon />} href={"/brands"}></GhostButton>
+          <GhostButton
+            size="lg"
+            icon={<CloseIcon />}
+            href={"/brands"}
+          ></GhostButton>
         </div>
         <BrandContent slug={slug} />
       </div>
@@ -50,6 +54,7 @@ export async function ToggleFavoriteButtonLoaded({ slug }: { slug: string }) {
         action={removeFavoriteAction.bind(undefined, slug)}
       >
         <GhostButton
+          size="lg"
           icon={
             <IconLoading>
               <FavoriteFilledIcon />
@@ -64,6 +69,7 @@ export async function ToggleFavoriteButtonLoaded({ slug }: { slug: string }) {
   return (
     <form key="add-favorite" action={addFavoriteAction.bind(undefined, slug)}>
       <GhostButton
+        size="lg"
         icon={
           <IconLoading>
             <FavoriteOutlineIcon />
