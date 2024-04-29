@@ -14,7 +14,9 @@ export function CircleButton({
       textColor={props.textColor || "text-primary-content"}
       border={props.border || "primary"}
       disabledClass={"disabled:bg-primary/30 disabled:text-white"}
-      activeClass={"border active:bg-secondary active:text-white"}
+      activeClass={
+        "border active:bg-button-active active:text-button-active-content"
+      }
       hoverClass="hover:bg-primary/80 hover:text-primary-content"
       uppercase
       padding={props.padding || "p-2"}
