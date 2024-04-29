@@ -104,7 +104,7 @@ function BrandGrid({
           <SecondaryButton icon={<SortIcon />} />
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-4">
         {brands.map((b) => (
           <GridItem
             key={b.db.id}
