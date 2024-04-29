@@ -68,7 +68,7 @@ export async function Component({ slug }: { slug: string }) {
         </div>
 
         <div className="h-full relative top-0 left-0 flex flex-row justify-center">
-          <div className="p-4 w-full h-full flex flex-col justify-end container gap-6">
+          <div className="p-4 w-full h-full flex flex-col container">
             {/* Close Button */}
             <div className="flex flex-row justify-end text-2xl">
               <GhostButton
@@ -79,34 +79,36 @@ export async function Component({ slug }: { slug: string }) {
                 size="lg"
               ></GhostButton>
             </div>
-            <div className="grow"></div>
-            {brand.cms?.passLogo && (
-              <SanityImageServer
-                alt={`Logo for ${brand.cms.name}`}
-                image={brand.cms?.passLogo}
-                width={250}
-                height={250}
-                style={{
-                  maxHeight: "80px",
-                  maxWidth: "175px",
-                  objectFit: "contain",
-                  objectPosition: "left bottom",
-                }}
-                className="invert"
+            <div className="overflow-y-auto flex flex-col gap-6">
+              <div className="mt-[180px]" />
+              {brand.cms?.passLogo && (
+                <SanityImageServer
+                  alt={`Logo for ${brand.cms.name}`}
+                  image={brand.cms?.passLogo}
+                  width={250}
+                  height={250}
+                  style={{
+                    maxHeight: "80px",
+                    maxWidth: "175px",
+                    objectFit: "contain",
+                    objectPosition: "left bottom",
+                  }}
+                  className="invert"
+                />
+              )}
+              <Paragraph3>{brand.cms.summary}</Paragraph3>
+              <SecondaryButton
+                icon={<RightArrow />}
+                iconPosition="right"
+                href={brand.cms.website?.replace("{DISCOUNT_CODE}", "cake")}
+              >
+                Visit {brand.cms.name}
+              </SecondaryButton>
+              <CollectionItemOffers
+                slug={slug}
+                shopLinkTemplate={brand.cms.website || undefined}
               />
-            )}
-            <Paragraph3>{brand.cms.summary}</Paragraph3>
-            <SecondaryButton
-              icon={<RightArrow />}
-              iconPosition="right"
-              href={brand.cms.website?.replace("{DISCOUNT_CODE}", "cake")}
-            >
-              Visit {brand.cms.name}
-            </SecondaryButton>
-            <CollectionItemOffers
-              slug={slug}
-              shopLinkTemplate={brand.cms.website || undefined}
-            />
+            </div>
           </div>
         </div>
       </div>
