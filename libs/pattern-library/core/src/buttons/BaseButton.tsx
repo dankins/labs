@@ -78,9 +78,13 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textClass = hoverClass?.replace("hover:text-", "text-")!;
     }
     let padding = paddingInput || "py-2 px-4";
-    let fontSize = "text-md";
+    let fontSize = "text-sm";
     if (size === "sm") {
-      fontSize = "text-sm";
+      fontSize = "text-xs";
+      padding = paddingInput || "py-1 px-2";
+    }
+    if (size === "lg") {
+      fontSize = "text-md";
       padding = paddingInput || "py-1 px-2";
     }
 
