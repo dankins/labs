@@ -76,6 +76,7 @@ export async function Component({ slug }: { slug: string }) {
                 href={`/collection`}
                 background="black/20"
                 className="bg-black/20 rounded-full"
+                size="lg"
               ></GhostButton>
             </div>
             <div className="grow"></div>
