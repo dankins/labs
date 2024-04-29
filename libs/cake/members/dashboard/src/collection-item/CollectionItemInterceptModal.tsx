@@ -4,6 +4,7 @@ import {
 } from "@danklabs/cake/pattern-library/core";
 import { brands } from "@danklabs/cake/services/admin-service";
 import {
+  CircleButton,
   CloseIcon,
   GhostButton,
   InterceptModal,
@@ -38,7 +39,7 @@ export async function Component({ slug }: { slug: string }) {
 
   return (
     <Shell>
-      <div className="bg-black text-white relative w-full h-full relative">
+      <div className="bg-neutral text-white relative w-full h-full relative">
         <div className="absolute w-full top-0 left-0">
           <div className="relative">
             {brand && (
@@ -63,7 +64,13 @@ export async function Component({ slug }: { slug: string }) {
               />
             )}
             {/* GRADIENT OVERLAY */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-black/20"></div>
+            <div
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(41, 39, 37,1) 0%, rgba(41, 39, 37,1) 5%, rgba(41, 39, 37,0) 100%)",
+              }}
+              className="absolute top-0 left-0 w-full aspect-[2/3]"
+            />
           </div>
         </div>
 
@@ -71,13 +78,14 @@ export async function Component({ slug }: { slug: string }) {
           <div className="p-4 w-full h-full flex flex-col container">
             {/* Close Button */}
             <div className="flex flex-row justify-end text-2xl">
-              <GhostButton
+              <CircleButton
                 icon={<CloseIcon />}
                 href={`/collection`}
-                background="black/20"
-                className="bg-black/20 rounded-full"
+                background="black/50"
+                className="bg-black/50 rounded-full"
+                textColor="white"
                 size="lg"
-              ></GhostButton>
+              ></CircleButton>
             </div>
             <div className="overflow-y-auto flex flex-col gap-6">
               <div className="mt-[180px]" />

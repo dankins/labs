@@ -12,7 +12,7 @@ export function CircleButton({
       rounded="full"
       background={props.background || "primary"}
       textColor={props.textColor || "text-primary-content"}
-      border={props.border || "primary"}
+      border={props.border || "border-none"}
       disabledClass={"disabled:bg-primary/30 disabled:text-white"}
       activeClass={
         "border active:bg-button-active active:text-button-active-content"

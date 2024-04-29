@@ -1,4 +1,5 @@
 import {
+  CircleButton,
   CloseIcon,
   DrawerModal,
   FavoriteFilledIcon,
@@ -20,13 +21,15 @@ export async function BrandContentModal({ slug }: { slug: string }) {
       className="darkSection bg-neutral text-neutral-content md:lightSection"
     >
       <div className="rounded-md h-full">
-        <div className="absolute top-0 left-0 p-4 z-40 w-full text-3xl md:mb-4 flex flex-row justify-end lg:static">
+        <div className="absolute top-0 left-0 p-4 z-40 w-full text-3xl md:mb-4 flex flex-row justify-end gap-2 lg:static">
           <ToggleFavoriteButton slug={slug} />
-          <GhostButton
+          <CircleButton
             size="lg"
             icon={<CloseIcon />}
             href={"/brands"}
-          ></GhostButton>
+            background="black/50"
+            className="bg-black/50 text-white"
+          ></CircleButton>
         </div>
         <BrandContent slug={slug} />
       </div>
@@ -53,7 +56,7 @@ export async function ToggleFavoriteButtonLoaded({ slug }: { slug: string }) {
         key="remove-favorite"
         action={removeFavoriteAction.bind(undefined, slug)}
       >
-        <GhostButton
+        <CircleButton
           size="lg"
           icon={
             <IconLoading>
@@ -61,14 +64,16 @@ export async function ToggleFavoriteButtonLoaded({ slug }: { slug: string }) {
             </IconLoading>
           }
           type="submit"
-        ></GhostButton>
+          background="black/50"
+          className="bg-black/50 text-white"
+        ></CircleButton>
       </form>
     );
   }
 
   return (
     <form key="add-favorite" action={addFavoriteAction.bind(undefined, slug)}>
-      <GhostButton
+      <CircleButton
         size="lg"
         icon={
           <IconLoading>
@@ -76,7 +81,9 @@ export async function ToggleFavoriteButtonLoaded({ slug }: { slug: string }) {
           </IconLoading>
         }
         type="submit"
-      ></GhostButton>
+        background="black/50"
+        className="bg-black/50 text-white"
+      ></CircleButton>
     </form>
   );
 }
