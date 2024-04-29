@@ -133,5 +133,5 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 const ThrowAway = (
-  <div className="bg-primary text-primary-content border-b-primary border-primary/80 border-b-secondary bg-secondary bg-black bg-primary/80 border-primary/30 border-primary/80 border-primary border-secondary text-secondary bg-accent text-secondary text-primary-content bg-red-500 text-xs bg-gray-100 bg-gray-100 text-gray-900 mt-[0rem] mt-[3rem] mt-[6rem] mt-[9rem] mt-[12rem] mt-[15rem] mt-[18rem] mt-[21rem] mt-[24rem] mt-[27rem] mt-[30rem]"></div>
+  <div className="bg-primary border-button-active text-button-active  bg-button-active text-button-active-content text-primary-content border-b-primary border-primary/80 border-b-secondary bg-secondary bg-black bg-primary/80 border-primary/30 border-primary/80 border-primary border-secondary text-secondary bg-accent text-secondary text-primary-content bg-red-500 text-xs bg-gray-100 bg-gray-100 text-gray-900 mt-[0rem] mt-[3rem] mt-[6rem] mt-[9rem] mt-[12rem] mt-[15rem] mt-[18rem] mt-[21rem] mt-[24rem] mt-[27rem] mt-[30rem]"></div>
 );
