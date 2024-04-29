@@ -19,12 +19,12 @@ export function Summary({
   return (
     <div className="pb-4 mb-4 flex md:flex-row items-center border-b-2 border-b-dark">
       <div className="grow">
-        <Heading1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl uppercase">
+        <Heading1 className="text-xl md:text-2xl uppercase">
           My Collection
         </Heading1>
-        <div className="flex flex-row items-center gap-2 text-base md:text-xl font-medium md:font-bold">
-          <WalletIcon className="text-2xl fill-primary" /> {items} / {maxItems}
-          <BagIcon className="text-2xl fill-primary" /> ${collectionValue}
+        <div className="flex flex-row items-center gap-2 text-base text-lg font-medium md:font-bold">
+          <WalletIcon className="text-xl fill-primary" /> {items} / {maxItems}
+          <BagIcon className="text-xl fill-primary" /> ${collectionValue}
           <span className="grow"></span>
           <CircleButton
             href={`/brands`}
