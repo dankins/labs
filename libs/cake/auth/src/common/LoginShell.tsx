@@ -351,6 +351,7 @@ export function LoginShell({
               className="rounded-full"
               disabled={loading || !isSignInLoaded}
               icon={<LoginFacebookIcon />}
+              size="lg"
             ></GhostButton>
           </form>
           <form action={() => authenticateSocial("oauth_google")}>
@@ -359,6 +360,7 @@ export function LoginShell({
               className="rounded-full"
               disabled={loading || !isSignInLoaded}
               icon={<LoginGoogleIcon />}
+              size="lg"
             ></GhostButton>
           </form>
         </div>
