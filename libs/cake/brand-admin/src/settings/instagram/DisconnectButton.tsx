@@ -1,10 +1,12 @@
 import { brandAdmin } from "@danklabs/cake/services/admin-service";
-import { ActionButton, Button } from "@danklabs/pattern-library/core";
+import { ActionButton, FormState } from "@danklabs/pattern-library/core";
 
 export async function DisconnectButton({ slug }: { slug: string }) {
-  async function action() {
+  async function action(): Promise<FormState> {
     "use server";
-    return brandAdmin.instagram.disconnectInstagram(slug);
+    await brandAdmin.instagram.disconnectInstagram(slug);
+
+    return { status: "success", message: "Disconnected" };
   }
   return <ActionButton action={action}>Disconnect</ActionButton>;
 }

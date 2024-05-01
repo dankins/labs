@@ -190,6 +190,48 @@
       "when": 1712858494589,
       "tag": "0026_loud_toad",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1714496856102,
+      "tag": "0027_wakeful_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "5",
+      "when": 1714511475132,
+      "tag": "0028_purple_champions",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "5",
+      "when": 1714511686395,
+      "tag": "0029_careful_forge",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1714571229022,
+      "tag": "0030_superb_secret_warriors",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "5",
+      "when": 1714581785429,
+      "tag": "0031_gifted_corsair",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1714588056863,
+      "tag": "0032_tearful_queen_noir",
+      "breakpoints": true
     }
   ]
 }

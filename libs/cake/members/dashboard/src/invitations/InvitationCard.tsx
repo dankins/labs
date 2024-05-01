@@ -102,7 +102,7 @@ function AcceptedInvitation({ invitation }: { invitation: MemberInvitation }) {
         {invitation.recipientName}
       </Paragraph3>
       <Caption1 className="uppercase text-secondary">
-        Joined {dayjs(invitation.expiration).format("LL")}
+        Joined {dayjs(invitation.accepted).format("LL")}
       </Caption1>
     </div>
   );

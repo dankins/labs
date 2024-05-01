@@ -4,6 +4,7 @@ import { superadmin } from "../../super-admin";
 import { db, members } from "@danklabs/cake/db";
 import { eq } from "drizzle-orm";
 import { Member, MemberCollection } from "./types";
+import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 
 async function fn(iam: string): Promise<Member> {
   const iamMember = await clerkClient.users.getUser(iam);
@@ -69,6 +70,8 @@ async function fn(iam: string): Promise<Member> {
   return {
     id,
     iam: iamMember.id,
+    profile: dbMember.profile || undefined,
+    username: dbMember.profile?.username || undefined,
     firstName: iamMember.firstName,
     lastName: iamMember.lastName,
     stripeCustomerId: dbMember.stripeCustomerId || undefined,
@@ -100,6 +103,7 @@ function getDbUser(iam: string) {
           brand: true,
         },
       },
+      profile: true,
       passport: {
         with: {
           passes: {

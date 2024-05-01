@@ -1,9 +1,10 @@
 import { Suspense, useState } from "react";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 import { ProfileToggle } from "./ProfileToggle";
 import { updateProfileAction } from "./actions";
 import { Heading4 } from "@danklabs/pattern-library/core";
+import { members } from "@danklabs/cake/services/admin-service";
 
 export function ProfilePage() {
   return (
@@ -18,19 +19,20 @@ function Loading() {
 }
 
 export async function Component() {
-  const user = await currentUser();
+  const { userId: iam } = auth().protect();
+  const member = await members.member.get(iam);
 
-  if (!user) {
-    throw new Error("user not available");
+  if (!member) {
+    throw new Error("member not available");
   }
 
   return (
-    <div className="max-w-[764px]">
+    <div className="max-w-[764px] flex flex-col gap-6">
       <div>
         <div>
           <Heading4>Member Profile</Heading4>
           <h3 className="text-primary/50 text-lg font-normal">
-            {user.emailAddresses[0].emailAddress}
+            {member.email}
           </h3>
           <p className="text-base font-normal">
             Manage your personal settings associated to your Cake account.
@@ -38,10 +40,10 @@ export async function Component() {
         </div>
         <ProfileToggle
           profile={{
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstName: member.firstName,
+            lastName: member.lastName,
             phone: null,
-            email: user.emailAddresses[0].emailAddress,
+            email: member.email,
           }}
           action={updateProfileAction}
         />

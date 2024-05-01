@@ -1,27 +1,29 @@
 import { getMember } from "./getMember";
-import { cachedGetById } from "./getByID";
+import { getById } from "./getByID";
 import { getBySubscriptionId } from "./getBySubscriptionId";
 import { clearCache } from "./clearCache";
 import { activateMembership } from "./activateMembership";
 import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { update } from "./update";
-import { updateProfile } from "./updateProfile";
 import { claimPass } from "./claimPass";
 import { getOrCreateByEmail } from "./getOrCreateByEmail";
 import { getOrCreateByIAM } from "./getOrCreateByIAM";
 
 import { favorites } from "./favorites";
 import { invitations } from "./invitations";
+import { getByUsername } from "./getByUsername";
+import { updateProfile } from "./updateProfile";
 
 export const member = {
   activateMembership,
   get: getMember,
-  getById: cachedGetById,
+  getById,
   getBySubscriptionId,
+  getByUsername,
   clearCache,
   create,
   update,
-  updateProfile,
+  updateProfile: updateProfile,
   claimPass,
   getOrCreateByEmail,
   getOrCreateByIAM,

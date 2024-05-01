@@ -31,6 +31,9 @@
       "@danklabs/cake/members/brands": [
         "libs/cake/members/brands/src/index.ts"
       ],
+      "@danklabs/cake/members/community": [
+        "libs/cake/members/community/src/index.ts"
+      ],
       "@danklabs/cake/members/content": [
         "libs/cake/members/content/src/index.ts"
       ],

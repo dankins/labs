@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { relations } from "drizzle-orm";
 import {
   pgTable,
@@ -9,6 +10,8 @@ import {
   pgEnum,
   numeric,
   jsonb,
+  unique,
+  interval,
 } from "drizzle-orm/pg-core";
 
 export const membershipStatuses = pgEnum("membership_statuses", [
@@ -52,6 +55,7 @@ export const invitations = pgTable("invitations", {
   maxRedemptions: integer("max_redemptions").notNull(),
   code: text("code").unique(),
   expiration: timestamp("expiration"),
+  accepted: timestamp("accepted"),
   coupon: text("coupon"),
   revshare: numeric("revshare"),
   invitationsGranted: integer("invitations_granted"),
@@ -59,6 +63,40 @@ export const invitations = pgTable("invitations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const profileParentType = pgEnum("profile_types", ["member", "brand"]);
+
+export const profiles = pgTable("profiles", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  parentType: profileParentType("parent_type").notNull(),
+  parentId: uuid("parent_id").unique().notNull(),
+  username: text("username").unique().notNull(),
+  bio: text("bio"),
+  avatar: text("avatar"),
+  cover: text("cover"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const connections = pgTable(
+  "connections",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    followerId: uuid("follower_id")
+      .references(() => profiles.id)
+      .notNull(),
+    followsId: uuid("follows_id")
+      .references(() => profiles.id)
+      .notNull(),
+    followerIgnored: boolean("follower_ignored"),
+    reciprocalId: uuid("reciprocal_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    connection: unique().on(t.followerId, t.followsId),
+  })
+);
 
 export type BrandSettings = {
   instagram?:
@@ -116,6 +154,7 @@ export const brandOfferTemplates = pgTable("brand_offer_templates", {
   applyOnPassCreation: boolean("apply_on_pass_creation").notNull(),
   offerType: offerType("offer_type").notNull(),
   offerValue: numeric("offer_value").default("0").notNull(),
+  timeToExpiration: interval("time_to_expiration"),
   name: text("name"),
   description: numeric("description"),
   finePrint: numeric("fine_print"),
@@ -160,6 +199,7 @@ export const offers = pgTable("offers", {
     .notNull(),
   status: offerStatus("status").notNull(),
   orderId: text("order_id"),
+  expiration: timestamp("expiration"),
   redemptionDate: timestamp("redeption_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -205,6 +245,10 @@ export const membersRelations = relations(members, ({ many, one }) => ({
   passport: one(passports, {
     fields: [members.id],
     references: [passports.memberId],
+  }),
+  profile: one(profiles, {
+    fields: [members.id],
+    references: [profiles.parentId],
   }),
 }));
 
@@ -283,6 +327,32 @@ export const favoritesRelations = relations(favorites, ({ one, many }) => ({
   brand: one(brands, {
     fields: [favorites.brandId],
     references: [brands.id],
+  }),
+}));
+
+export const profileRelations = relations(profiles, ({ one, many }) => ({
+  follows: many(connections, { relationName: "follows" }),
+  followers: many(connections, { relationName: "follower" }),
+  member: one(members, {
+    fields: [profiles.parentId],
+    references: [members.id],
+  }),
+  brand: one(brands, {
+    fields: [profiles.parentId],
+    references: [brands.id],
+  }),
+}));
+
+export const connectionsRelations = relations(connections, ({ one }) => ({
+  follower: one(profiles, {
+    fields: [connections.followerId],
+    references: [profiles.id],
+    relationName: "follower",
+  }),
+  follows: one(profiles, {
+    fields: [connections.followsId],
+    references: [profiles.id],
+    relationName: "follows",
   }),
 }));
 

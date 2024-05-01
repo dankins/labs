@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./Button";
 import { ButtonProps } from "./BaseButton";
 import { PrimaryButton } from "./PrimaryButton";
+import { FormState } from "../inputs";
 
-export type ActionButtonProps = { action(): Promise<any> };
+export type ActionButtonProps = { action(): Promise<FormState> };
 export function ActionButton({
   action,
   children,
