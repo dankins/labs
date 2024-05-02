@@ -69,7 +69,8 @@ export async function CollectionItem({
 
   let baseClassnames = classNames(
     `col-start-1 row-start-1 block md:mt-0 flex flex-col justify-center md:justify-start md:col-start-auto md:row-start-auto !md:mt-0 md:gap-4 w-full group`,
-    "transition-all duration-300 ease-in-out"
+    "transition-all duration-300 ease-in-out",
+    "md:max-w-[1024px]"
   );
   let containerClass = classNames(
     baseClassnames,
