@@ -33,7 +33,7 @@ async function Component({
     member.collection.brandSlugs
   );
   return (
-    <div className="flex flex-col md:p-4 md:max-w-[720px] md:flex-wrap xl:w-[720px]">
+    <div className="flex flex-col md:p-4 md:flex-wrap">
       <Summary
         items={member.collection.count}
         maxItems={member.collection.maxCollectionItems}
