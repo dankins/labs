@@ -72,20 +72,17 @@ export async function CollectionItem({
     "transition-all duration-300 ease-in-out",
     "md:max-w-[1024px]"
   );
-  let containerClass = classNames(
-    baseClassnames,
-    margins[idx],
-    "md:mt-0",
-    `z-${idx}`
-  );
-  let expandedClass = classNames("hidden opacity-0");
+  let containerClass = classNames(baseClassnames, margins[idx], "md:mt-0");
+  let expandedClass = classNames("h-0 opacity-0");
   if (isActive) {
     containerClass = classNames(
       baseClassnames,
-      "md:col-start-1 md:row-start-1 md:col-span-3",
-      "z-40"
+      "md:col-start-1 md:row-start- 1 md:col-span-3",
+      "bg-neutral"
     );
-    expandedClass = classNames("opacity-1");
+    expandedClass = classNames(
+      "transition duration-300 delay-300 ease-in-out  opacity-1"
+    );
   }
   if (isOtherActive) {
     containerClass = classNames(baseClassnames, "opacity-0");
