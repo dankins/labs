@@ -33,7 +33,7 @@ export async function MemberDashboard({
           inviteId={searchParams["inviteId"] as string}
         />
       )}
-      <div className="p-4 flex flex-col items-center">
+      <div className="px-4 flex flex-col items-center">
         <div className="container flex flex-col md:flex-row md:justify-center md:items-start md:flex-wrap gap-6">
           <CollectionPanel searchParams={searchParams} />
           <div className="md:mt-[146px] md:w-[350px] flex flex-col md:justify-evenly gap-10">
