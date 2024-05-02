@@ -13,11 +13,11 @@ export async function MemberDashboard({
 }) {
   return (
     <>
-      {searchParams && searchParams["collectionItem"] && (
+      {/* {searchParams && searchParams["collectionItem"] && (
         <CollectionItemInterceptModal
           slug={searchParams["collectionItem"] as string}
         />
-      )}
+      )} */}
       {searchParams &&
         searchParams["action"] &&
         searchParams["action"] === "share-invite" && (
@@ -35,10 +35,10 @@ export async function MemberDashboard({
       )}
       <div className="p-4 flex flex-col items-center">
         <div className="container flex flex-col md:flex-row md:justify-center md:items-start md:flex-wrap gap-6">
-          <CollectionPanel />
+          <CollectionPanel searchParams={searchParams} />
           <div className="md:mt-[146px] md:w-[350px] flex flex-col md:justify-evenly gap-10">
             {/* <RewardsPanel /> */}
-            <InvitationsPanel />
+            {/* <InvitationsPanel /> */}
             {/* <StoriesPanel /> */}
           </div>
         </div>

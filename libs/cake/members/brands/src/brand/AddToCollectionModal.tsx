@@ -51,10 +51,7 @@ export async function AddToCollectionModal({ slug }: { slug: string }) {
     <Modal returnHref="">
       <div className="max-w-[320px] mt-[42px] p-6 flex flex-col text-center items-center justify-center gap-[24px]">
         <div className="flex flex-col ">
-          <span className={`text-[82px] font-selva font-light leading-[82px]`}>
-            <sup className="text-[41px]">$</sup>
-            {cakeCard}
-          </span>
+          <Currency amount={cakeCard} size="xl" />
           <Heading4 className="text-secondary uppercase">cake card</Heading4>
         </div>
         <div>
@@ -62,7 +59,7 @@ export async function AddToCollectionModal({ slug }: { slug: string }) {
             Tasteful.
           </span>
           <p className="text-[16px] font-apris font-light text-dark">
-            Add {brand.cms.name} to your collection to receive a ${cakeCard}{" "}
+            Add {brand.cms?.name} to your collection to receive a ${cakeCard}{" "}
             CAKE card and unlock exclusive brand perks.
           </p>
         </div>

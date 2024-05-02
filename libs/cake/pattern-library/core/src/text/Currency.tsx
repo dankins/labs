@@ -2,21 +2,28 @@ import classNames from "classnames";
 
 export function Currency({
   amount,
-  size,
-  className,
+  size = "xl",
+  className: classNameProp,
 }: {
-  amount: number;
-  size?: "5xl" | string;
+  amount: string | number;
+  size?: "lg" | "xl";
   className?: string;
 }) {
+  const className = classNames(
+    size === "lg" && "text-4xl",
+    size === "xl" && "text-6xl",
+    "font-normal",
+    "font-cursive",
+    classNameProp
+  );
+  const supClassName = classNames(
+    size === "lg" && "text-2xl",
+    size === "xl" && "text-4xl"
+  );
   return (
-    <div
-      className={classNames(
-        "inline-blockfont-light flex flex-row justify-center items-top gap-1 font-selva",
-        className
-      )}
-    >
-      <span className={`text-${size} font-light`}>$ {amount}</span>
-    </div>
+    <span className={className}>
+      <sup className={supClassName}>$</sup>
+      {amount}
+    </span>
   );
 }

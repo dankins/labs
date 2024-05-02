@@ -13,6 +13,10 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
+      serif: ["var(--font-apris)"],
+      sansSerif: ["var(--font-supreme)"],
+      cursive: ["var(--font-selva)"],
+
       apris: ["var(--font-apris)"],
       supreme: ["var(--font-supreme)"],
       selva: ["var(--font-selva)"],

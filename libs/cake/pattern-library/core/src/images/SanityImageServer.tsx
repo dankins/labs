@@ -1,8 +1,5 @@
-import { sanityClient } from "@danklabs/integrations/sanitycms";
-
 import Image from "next/image";
 import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
-import next from "next";
 
 type SanityImageProps = {
   image: SanityImageType;

@@ -21,17 +21,7 @@ export async function Products({ brand }: { brand: NonNullable<Brand> }) {
   return (
     <>
       <div className="flex flex-row items-center">
-        <Heading4 className="grow">
-          Latest styles from {brand.cms.name}
-        </Heading4>
-        <SecondaryButton
-          href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
-          target="_blank"
-          size="sm"
-          icon={<BagIcon />}
-        >
-          <span className="hidden md:block">Visit Store</span>
-        </SecondaryButton>
+        <Heading4 className="grow">Latest styles</Heading4>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-start">
         {brand.cms.products.map((product) => (
