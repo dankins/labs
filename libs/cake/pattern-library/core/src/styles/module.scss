@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
   :root {
     --brand-brown: 58 38 42; // #3A262A
     --brand-beige-500: 228 214 200; // #E4D6C8
