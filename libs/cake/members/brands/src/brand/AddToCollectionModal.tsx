@@ -17,7 +17,7 @@ import { brands } from "@danklabs/cake/services/admin-service";
 export async function AddToCollectionModal({ slug }: { slug: string }) {
   const { userId: iam } = auth().protect();
   const brand = await brands.getBrand(slug);
-  const cakeCard = brand.db.offerTemplates.find(
+  const cakeCard = brand.db.offerTemplates?.find(
     (ot) => ot.applyOnPassCreation && ot.offerType === "voucher"
   )?.offerValue;
 
@@ -30,7 +30,7 @@ export async function AddToCollectionModal({ slug }: { slug: string }) {
               Tasteful.
             </span>
             <p className="text-[16px] font-apris font-light text-dark">
-              Add {brand.cms.name} to your collection to unlock exclusive brand
+              Add {brand.cms?.name} to your collection to unlock exclusive brand
               perks.
             </p>
           </div>

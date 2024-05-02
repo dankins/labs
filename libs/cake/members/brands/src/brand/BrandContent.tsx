@@ -56,13 +56,13 @@ async function Component({ slug }: { slug: string }) {
               className="absolute top-0 left-0 md:static w-full h-full"
               images={[
                 {
-                  image: brand.cms?.passBackgroundDesktop,
+                  image: brand.cms?.passBackgroundDesktop || null,
                   aspectRatio: "ultrawide",
                   mediaQuery: "(min-width: 765px)",
                   width: 2840,
                 },
                 {
-                  image: brand.cms?.passBackground,
+                  image: brand.cms?.passBackground || null,
                   aspectRatio: "portrait",
                   mediaQuery: "(max-width: 765px)",
                 },

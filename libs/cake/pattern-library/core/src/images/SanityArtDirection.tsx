@@ -3,7 +3,7 @@ import { getImageProps } from "next/image";
 import { AspectRatioChoices, SanityImageType, buildImageProps } from "./utils";
 
 export type ImageProps = {
-  image: SanityImageType | null;
+  image: SanityImageType | undefined | null;
   aspectRatio: AspectRatioChoices;
   mediaQuery: string;
   width?: number;

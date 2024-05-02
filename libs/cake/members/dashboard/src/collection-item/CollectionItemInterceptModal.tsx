@@ -51,13 +51,13 @@ export async function Component({ slug }: { slug: string }) {
                   {
                     aspectRatio: "portrait",
                     mediaQuery: "(min-width:  764px)",
-                    image: brand.cms.passBackground,
+                    image: brand.cms?.passBackground,
                   },
                   /* MOBILE */
                   {
                     aspectRatio: "portrait",
                     mediaQuery: "(max-width: 768px)",
-                    image: brand.cms.passBackground,
+                    image: brand.cms?.passBackground,
                   },
                 ]}
                 className="w-screen h-auto"
@@ -104,17 +104,17 @@ export async function Component({ slug }: { slug: string }) {
                   className="invert"
                 />
               )}
-              <Paragraph3>{brand.cms.summary}</Paragraph3>
+              <Paragraph3>{brand.cms?.summary}</Paragraph3>
               <SecondaryButton
                 icon={<RightArrow />}
                 iconPosition="right"
-                href={brand.cms.website?.replace("{DISCOUNT_CODE}", "cake")}
+                href={brand.cms?.website?.replace("{DISCOUNT_CODE}", "cake")}
               >
-                Visit {brand.cms.name}
+                Visit {brand.cms?.name}
               </SecondaryButton>
               <CollectionItemOffers
                 slug={slug}
-                shopLinkTemplate={brand.cms.website || undefined}
+                shopLinkTemplate={brand.cms?.website || undefined}
               />
             </div>
           </div>
