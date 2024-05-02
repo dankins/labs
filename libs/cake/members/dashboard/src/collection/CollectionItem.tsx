@@ -24,6 +24,7 @@ import { FriendsWhoFollow } from "./FriendsWhoFollow";
 import { Products } from "libs/cake/members/brands/src/brand/components/Products";
 
 const margins = [
+  "mt-[0px]",
   "mt-[60px]",
   "mt-[120px]",
   "mt-[180px]",

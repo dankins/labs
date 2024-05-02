@@ -21,19 +21,17 @@ export function Summary({
   isItemActive: boolean;
 }) {
   return (
-    <div className="flex md:flex-row items-center ">
+    <div className="flex md:flex-row items-center mb-2">
       <div
         className={classNames(
           "grow transition duration-300 ease-in-out",
           isItemActive && "opacity-0"
         )}
       >
-        <Heading1 className="text-xl md:text-2xl uppercase">
-          My Collection
-        </Heading1>
-        <div className="flex flex-row items-center gap-2 text-base text-lg font-medium md:font-bold">
-          <WalletIcon className="text-xl fill-primary" /> {items} / {maxItems}
-          <BagIcon className="text-xl fill-primary" /> ${collectionValue}
+        <span className="text-md font-sansSerif uppercase">Collection</span>
+        <div className="flex flex-row items-center gap-2 text-base text-sm font-medium md:font-bold">
+          <WalletIcon className="fill-primary" /> {items} / {maxItems}
+          <BagIcon className="fill-primary" /> ${collectionValue}
         </div>
       </div>
       {isItemActive ? (
