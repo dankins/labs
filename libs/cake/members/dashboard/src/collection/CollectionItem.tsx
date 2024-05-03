@@ -23,6 +23,7 @@ import { CakeCodeDisplay } from "./CakeCodeDisplay";
 import { FriendsWhoFollow } from "./FriendsWhoFollow";
 import { Products } from "libs/cake/members/brands/src/brand/components/Products";
 import { MotionDiv } from "@danklabs/pattern-library/motion";
+import { z } from "zod";
 
 const margins = [
   "mt-[0px]",
@@ -73,8 +74,7 @@ export async function CollectionItem({
   let baseClassnames = classNames(
     `col-start-1 row-start-1 block flex flex-col justify-center md:justify-start md:gap-4 w-full group`,
     "transition-all duration-300 ease-in-out",
-    "md:max-w-[1024px]",
-    isActive ? "z-40" : `z-${idx}`
+    "md:max-w-[1024px]"
   );
   let containerClass = baseClassnames;
 
@@ -82,16 +82,18 @@ export async function CollectionItem({
     base: {
       marginTop: idx * 60,
       transition: { duration: 0.5, marginTop: { duration: 0.5 } },
+      zIndex: idx + 1,
     },
     active: {
       marginTop: 0,
-      transition: { delay: 0.5, duration: 0.2 },
+      transition: { duration: 0.2 },
+      zIndex: 40,
     },
     hidden: {
       scale: 0.8,
       opacity: 0,
       y: idx < (activeIdx || 0) ? -200 : 200,
-      transition: { duration: 0.5 },
+      transition: { duration: 0.4, delay: idx * 0.05 },
       "pointer-events": "none",
     },
   };
