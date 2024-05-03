@@ -32,8 +32,7 @@ export function ShareScreen({
   const defaultMessage = `${recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
 Hurry, the invite expires in 48 hours!
     
-${link}
-    `;
+${link}`;
 
   async function handleSubmit(formData: FormData) {
     const start = new Date().getUTCMilliseconds();
