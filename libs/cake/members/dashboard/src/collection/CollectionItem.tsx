@@ -92,6 +92,7 @@ export async function CollectionItem({
     hidden: {
       scale: 0.8,
       opacity: 0,
+      filter: "blur(10px)",
       y: idx < (activeIdx || 0) ? -200 : 200,
       transition: { duration: 0.4, delay: idx * 0.05 },
       "pointer-events": "none",
