@@ -1,12 +1,12 @@
 import { BagIcon, WalletIcon } from "@danklabs/cake/pattern-library/core";
 import {
   AddIcon,
-  Button,
-  CancelIcon,
   CircleButton,
-  Heading1,
-  PrimaryButton,
+  GhostButton,
+  Heading4,
+  LeftArrow,
 } from "@danklabs/pattern-library/core";
+import { MotionDiv } from "@danklabs/pattern-library/motion";
 import classNames from "classnames";
 
 export function Summary({
@@ -20,31 +20,36 @@ export function Summary({
   collectionValue: number;
   isItemActive: boolean;
 }) {
+  if (isItemActive) {
+    return (
+      <MotionDiv
+        initial={{ opacity: 0, x: 40 }}
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: { delay: 1, duration: 0.3 },
+        }}
+      >
+        <GhostButton href={`/collection`} className="mb-2">
+          <LeftArrow /> <Heading4>Return to collection</Heading4>
+        </GhostButton>
+      </MotionDiv>
+    );
+  }
+
   return (
     <div className="flex md:flex-row items-center mb-2">
-      <div
-        className={classNames(
-          "grow transition duration-300 ease-in-out",
-          isItemActive && "opacity-0"
-        )}
-      >
+      <div className={classNames("grow transition duration-300 ease-in-out")}>
         <span className="text-md font-sansSerif uppercase">Collection</span>
         <div className="flex flex-row items-center gap-2 text-base text-sm font-medium md:font-bold">
           <WalletIcon className="fill-primary" /> {items} / {maxItems}
           <BagIcon className="fill-primary" /> ${collectionValue}
         </div>
       </div>
-      {isItemActive ? (
-        <CircleButton
-          href={`/collection`}
-          icon={<CancelIcon className="text-dark-content" />}
-        />
-      ) : (
-        <CircleButton
-          href={`/brands`}
-          icon={<AddIcon className="text-dark-content" />}
-        />
-      )}
+      <CircleButton
+        href={`/brands`}
+        icon={<AddIcon className="text-dark-content" />}
+      />
     </div>
   );
 }

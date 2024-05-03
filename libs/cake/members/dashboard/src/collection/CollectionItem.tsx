@@ -22,6 +22,7 @@ import Link from "next/link";
 import { CakeCodeDisplay } from "./CakeCodeDisplay";
 import { FriendsWhoFollow } from "./FriendsWhoFollow";
 import { Products } from "libs/cake/members/brands/src/brand/components/Products";
+import { MotionDiv } from "@danklabs/pattern-library/motion";
 
 const margins = [
   "mt-[0px]",
@@ -49,6 +50,7 @@ export async function CollectionItem({
   item,
   isActive,
   isOtherActive,
+  activeIdx,
   member,
   brand,
 }: {
@@ -56,6 +58,7 @@ export async function CollectionItem({
   item: MemberCollectionItem;
   isActive?: boolean;
   isOtherActive?: boolean;
+  activeIdx?: number;
   member: Member;
   brand: Brand;
 }) {
@@ -70,72 +73,86 @@ export async function CollectionItem({
   let baseClassnames = classNames(
     `col-start-1 row-start-1 block flex flex-col justify-center md:justify-start md:gap-4 w-full group`,
     "transition-all duration-300 ease-in-out",
-    "md:max-w-[1024px]"
+    "md:max-w-[1024px]",
+    isActive ? "z-40" : `z-${idx}`
   );
-  let containerClass = classNames(
-    baseClassnames,
-    margins[idx],
-    "md:mt-0 md:row-start-auto md:col-start-auto",
-    `z-${idx}`
-  );
-  let expandedClass = classNames("h-0 opacity-0 md:hidden");
+  let containerClass = baseClassnames;
+
+  const variants = {
+    base: {
+      marginTop: idx * 60,
+      transition: { duration: 0.5, marginTop: { duration: 0.5 } },
+    },
+    active: {
+      marginTop: 0,
+      transition: { delay: 0.5, duration: 0.2 },
+    },
+    hidden: {
+      scale: 0.8,
+      opacity: 0,
+      y: idx < (activeIdx || 0) ? -200 : 200,
+      transition: { duration: 0.5 },
+      "pointer-events": "none",
+    },
+  };
+
+  let state = "base";
   if (isActive) {
-    containerClass = classNames(
-      baseClassnames,
-      "md:col-start-1 md:row-start-1 lg:col-start-1 lg:row-start-1 w-full md:col-span-4",
-      "bg-neutral",
-      "z-40"
-    );
-    expandedClass = classNames(
-      "transition duration-300 delay-300 ease-in-out opacity-1"
-    );
+    state = "active";
+  } else if (isOtherActive) {
+    state = "hidden";
   }
-  if (isOtherActive) {
-    containerClass = classNames(baseClassnames, "opacity-0 ");
-  }
+
   return (
     <div className={containerClass}>
-      <div className="flex flex-col md:flex-row md:gap-4 md:items-stretch">
-        <Link
-          href={`/collection?collectionItem=${slug}`}
-          className={`block rounded-md bg-dark aspect-[3.370/2.125] w-full md:w-full md:h-auto relative border border-[#9D9C9B] transition-transform duration-300 ease-in-out`}
-        >
-          {image && (
-            <SanityImageServer
-              alt={`${slug} background image`}
-              image={image}
-              aspectRatio="wallet"
-              sizes="(max-width: 425px) 425px, 768px"
-              width={768}
-              height={(768 * 3) / 2}
-              className="w-full h-full transition-transform duration-300 ease-in-out object-cover"
-            />
-          )}
-          <div className="w-full h-full absolute top-0 left-0 bg-black/30 hover:drop-shadow-xl  transition-transform duration-300 ease-in-out"></div>
-          <div className="w-full h-full absolute top-0 left-0">
-            <div className="p-4 flex flex-row items-center justify-start text-dark-content h-[60px] md:h-[33%]">
-              {brand.cms?.passLogo && (
-                <SanityImageServer
-                  alt={`Logo for ${brand.cms.name}`}
-                  image={brand.cms.passLogo}
-                  width={750}
-                  height={750}
-                  style={{
-                    height: "100%",
-                    maxWidth: "45%",
-                    objectFit: "contain",
-                    objectPosition: "left center",
-                  }}
-                  className="invert"
-                />
-              )}
-              <div className="grow"></div>
-              <Heading4>${item.value}</Heading4>
+      <MotionDiv variants={variants} initial={"base"} animate={state}>
+        <Link href={`/collection?collectionItem=${slug}`}>
+          <div
+            className={`block rounded-md bg-dark aspect-[3.370/2.125] w-full md:w-full md:h-auto relative border border-[#9D9C9B]`}
+          >
+            {image && (
+              <SanityImageServer
+                alt={`${slug} background image`}
+                image={image}
+                aspectRatio="wallet"
+                sizes="(max-width: 425px) 425px, 768px"
+                width={768}
+                height={(768 * 3) / 2}
+                className="w-full h-full object-cover"
+              />
+            )}
+            <div className="w-full h-full absolute top-0 left-0 bg-black/30 hover:drop-shadow-xl"></div>
+            <div className="w-full h-full absolute top-0 left-0">
+              <div className="p-4 flex flex-row items-center justify-start text-dark-content h-[60px] md:h-[33%]">
+                {brand.cms?.passLogo && (
+                  <SanityImageServer
+                    alt={`Logo for ${brand.cms.name}`}
+                    image={brand.cms.passLogo}
+                    width={750}
+                    height={750}
+                    style={{
+                      height: "100%",
+                      maxWidth: "45%",
+                      objectFit: "contain",
+                      objectPosition: "left center",
+                    }}
+                    className="invert"
+                  />
+                )}
+                <div className="grow"></div>
+                <Heading4>${item.value}</Heading4>
+              </div>
             </div>
           </div>
         </Link>
-        <div className={expandedClass}>
-          <div className="w-full my-4 p-4  flex flex-row gap-4 rounded-md darkSection bg-neutral text-neutral-content ">
+      </MotionDiv>
+      {isActive && (
+        <MotionDiv
+          initial={{ opacity: 0, translateY: 50 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          transition={{ delay: 1 }}
+        >
+          <div className="w-full my-4 p-4  flex flex-row gap-4 rounded-md darkSection bg-neutral text-neutral-content">
             <div className="flex flex-col justify-center items-center p-3 border-r border-r-[#545251]">
               <Currency
                 amount={cakeCard?.offerValue || "-"}
@@ -163,13 +180,11 @@ export async function CollectionItem({
               </PrimaryButton>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={expandedClass}>
-        <CakeCodeDisplay code={cakeCard?.code} />
-        <FriendsWhoFollow slug={slug} />
-        <Products brand={brand} />
-      </div>
+          <CakeCodeDisplay code={cakeCard?.code} />
+          <FriendsWhoFollow slug={slug} />
+          <Products brand={brand} />
+        </MotionDiv>
+      )}
     </div>
   );
 }

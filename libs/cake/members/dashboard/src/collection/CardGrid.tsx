@@ -26,6 +26,9 @@ export function CardGrid({
   let infoPanel: React.ReactNode = <></>;
 
   const selectedItem = searchParams?.["collectionItem"];
+  const activeIdx = searchParams?.["collectionItem"]
+    ? collection.brandSlugs.findIndex((slug) => slug === selectedItem)
+    : undefined;
 
   if (collection.brandSlugs.length === 0) {
     infoPanel = <Helper0 memberFirstName={member.firstName} />;
@@ -52,6 +55,7 @@ export function CardGrid({
           item={collection.itemMap[slug]}
           isActive={slug === selectedItem}
           isOtherActive={!!selectedItem && slug !== selectedItem}
+          activeIdx={activeIdx}
         />
       ))}
       {/* {infoPanel} */}
