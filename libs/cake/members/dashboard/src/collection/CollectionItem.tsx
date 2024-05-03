@@ -157,7 +157,7 @@ export async function CollectionItem({
         <MotionDiv
           initial={{ opacity: 0, translateY: 50 }}
           animate={{ opacity: 1, translateY: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.6 }}
         >
           <div className="w-full my-4 p-4  flex flex-row gap-4 rounded-md darkSection bg-neutral text-neutral-content">
             <div className="flex flex-col justify-center items-center p-3 border-r border-r-[#545251]">
