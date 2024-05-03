@@ -70,11 +70,6 @@ async function Component() {
           ))}
         </div>
       )}
-      <div className="flex flex-row justify-start">
-        <SecondaryButton href={`/account/invites`}>
-          View All Invites
-        </SecondaryButton>
-      </div>
     </div>
   );
 }

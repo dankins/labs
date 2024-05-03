@@ -3,7 +3,6 @@ import {
   Checkbox,
   CopyIcon,
   EmailIcon,
-  FormAction,
   Heading4,
   Paragraph,
   PrimaryButton,
@@ -11,7 +10,7 @@ import {
   TextInput,
 } from "@danklabs/pattern-library/core";
 import { CopyButton, useToast } from "@danklabs/pattern-library/motion";
-import { ShareButton } from "../ShareButton";
+import { ShareButton } from "./ShareButton";
 import { useMemo, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import { isWebShareAvailable } from "@danklabs/utils";

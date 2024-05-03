@@ -1,10 +1,6 @@
-import {
-  Heading1,
-  Heading4,
-  InterceptModal,
-  Paragraph1,
-} from "@danklabs/pattern-library/core";
-import { InvitationsList } from "./InvitationsList";
+import { InvitationsPanel } from "./InvitationsPanel";
+import { CancelInvitationModal } from "./share/CancelInvitationModal";
+import { ShareInvitationModal } from "./share/ShareInvitationModal";
 
 export async function InvitationsPage({
   searchParams,
@@ -13,16 +9,22 @@ export async function InvitationsPage({
 }) {
   return (
     <>
-      <div className="container mb-24">
-        <Heading4>Cake Invitations</Heading4>
-        <Paragraph1>
-          You start with two invitations, make sure you use them wisely and
-          invite others you know will love Cake as much as you do!
-        </Paragraph1>
-        <div className="my-10">
-          <InvitationsList />
-        </div>
-      </div>
+      {searchParams &&
+        searchParams["action"] &&
+        searchParams["action"] === "share-invite" && (
+          <ShareInvitationModal
+            returnHref="/account/invites"
+            inviteId={searchParams["inviteId"] as string}
+            screen={(searchParams["screen"] as string) || "assign"}
+          />
+        )}
+      {searchParams && searchParams["action"] === "cancel-invite" && (
+        <CancelInvitationModal
+          returnHref="/account/invites"
+          inviteId={searchParams["inviteId"] as string}
+        />
+      )}
+      <InvitationsPanel />
     </>
   );
 }
