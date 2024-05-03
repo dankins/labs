@@ -13,21 +13,22 @@ export function Summary({
   items,
   maxItems,
   collectionValue,
-  isItemActive,
+  activeIdx,
 }: {
   items: number;
   maxItems: number;
   collectionValue: number;
-  isItemActive: boolean;
+  activeIdx?: number;
 }) {
-  if (isItemActive) {
+  if (activeIdx !== undefined) {
+    const transitionDuration = (activeIdx || 1) * 0.06;
     return (
       <MotionDiv
-        initial={{ opacity: 0, x: 40 }}
+        initial={{ opacity: 0, x: 25 }}
         animate={{
           opacity: 1,
           x: 0,
-          transition: { delay: 1, duration: 0.3 },
+          transition: { delay: transitionDuration + 0.3, duration: 0.2 },
         }}
       >
         <GhostButton href={`/collection`} className="mb-2">

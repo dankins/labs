@@ -32,18 +32,23 @@ async function Component({
   const memberBrands = await brands.getBrandsBySlug(
     member.collection.brandSlugs
   );
+  const selectedItem = searchParams?.["collectionItem"];
+  const activeIdx = searchParams?.["collectionItem"]
+    ? member.collection.brandSlugs.findIndex((slug) => slug === selectedItem)
+    : undefined;
+
   return (
     <div className="flex flex-col md:p-4 md:flex-wrap">
       <Summary
         items={member.collection.count}
         maxItems={member.collection.maxCollectionItems}
         collectionValue={member.collection.value}
-        isItemActive={!!searchParams?.collectionItem}
+        activeIdx={activeIdx}
       />
       <CardGrid
         member={member}
         memberBrands={memberBrands}
-        searchParams={searchParams}
+        activeIdx={activeIdx}
       />
     </div>
   );

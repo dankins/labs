@@ -78,16 +78,17 @@ export async function CollectionItem({
   );
   let containerClass = baseClassnames;
   const isBehind = idx < (activeIdx || 0);
+  const transitionDuration = (activeIdx || 1) * 0.06;
 
   const variants = {
     base: {
       marginTop: idx * 60,
-      transition: { duration: 0.5, marginTop: { duration: 0.5 } },
+      transition: { duration: transitionDuration },
       zIndex: idx + 1,
     },
     active: {
       marginTop: 0,
-      transition: { duration: 0.5 },
+      transition: { duration: transitionDuration },
       zIndex: 40,
     },
     hidden: {
@@ -157,7 +158,7 @@ export async function CollectionItem({
         <MotionDiv
           initial={{ opacity: 0, translateY: 50 }}
           animate={{ opacity: 1, translateY: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: transitionDuration + 0.2 }}
         >
           <div className="w-full my-4 p-4  flex flex-row gap-4 rounded-md darkSection bg-neutral text-neutral-content">
             <div className="flex flex-col justify-center items-center p-3 border-r border-r-[#545251]">
