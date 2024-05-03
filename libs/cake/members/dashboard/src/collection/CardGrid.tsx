@@ -40,7 +40,7 @@ export function CardGrid({
     <div
       className={classNames(
         "grid grid-cols-1 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 items-start md:gap-4",
-        selectedItem ? "grid-cols-1 grid-rows-1" : undefined
+        selectedItem ? "md:grid-cols-1 md:grid-rows-1" : undefined
       )}
     >
       {collection.brandSlugs.map((slug, idx) => (

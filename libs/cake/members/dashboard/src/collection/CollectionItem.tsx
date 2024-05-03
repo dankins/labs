@@ -68,30 +68,30 @@ export async function CollectionItem({
   }
 
   let baseClassnames = classNames(
-    `col-start-1 row-start-1 block md:mt-0 flex flex-col justify-center md:justify-start md:col-start-auto md:row-start-auto !md:mt-0 md:gap-4 w-full group`,
+    `col-start-1 row-start-1 block flex flex-col justify-center md:justify-start md:gap-4 w-full group`,
     "transition-all duration-300 ease-in-out",
     "md:max-w-[1024px]"
   );
   let containerClass = classNames(
     baseClassnames,
     margins[idx],
-    "md:mt-0",
+    "md:mt-0 md:row-start-auto md:col-start-auto",
     `z-${idx}`
   );
-  let expandedClass = classNames("h-0 opacity-0");
+  let expandedClass = classNames("h-0 opacity-0 md:hidden");
   if (isActive) {
     containerClass = classNames(
       baseClassnames,
-      "md:col-start-1 md:row-start- 1 md:col-span-3",
+      "md:col-start-1 md:row-start-1 lg:col-start-1 lg:row-start-1 w-full md:col-span-4",
       "bg-neutral",
       "z-40"
     );
     expandedClass = classNames(
-      "transition duration-300 delay-300 ease-in-out  opacity-1"
+      "transition duration-300 delay-300 ease-in-out opacity-1"
     );
   }
   if (isOtherActive) {
-    containerClass = classNames(baseClassnames, "opacity-0");
+    containerClass = classNames(baseClassnames, "opacity-0 ");
   }
   return (
     <div className={containerClass}>
