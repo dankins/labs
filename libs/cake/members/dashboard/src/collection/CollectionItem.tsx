@@ -87,7 +87,7 @@ export async function CollectionItem({
     },
     active: {
       marginTop: 0,
-      transition: { duration: 0.2 },
+      transition: { duration: 0.5 },
       zIndex: 40,
     },
     hidden: {
@@ -96,8 +96,8 @@ export async function CollectionItem({
       filter: isBehind ? "blur(10px)" : undefined,
       y: isBehind ? -200 : 200,
       transition: {
-        duration: 0.4,
-        delay: isBehind ? idx * 0.05 : 0,
+        duration: 0.3,
+        delay: isBehind ? idx * (0.1 / (activeIdx || 0.02)) : 0,
       },
       "pointer-events": "none",
     },
