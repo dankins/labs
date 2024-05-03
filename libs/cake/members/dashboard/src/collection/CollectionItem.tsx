@@ -77,6 +77,7 @@ export async function CollectionItem({
     "md:max-w-[1024px]"
   );
   let containerClass = baseClassnames;
+  const isBehind = idx < (activeIdx || 0);
 
   const variants = {
     base: {
@@ -90,11 +91,14 @@ export async function CollectionItem({
       zIndex: 40,
     },
     hidden: {
-      scale: 0.8,
+      scale: isBehind ? 0.8 : undefined,
       opacity: 0,
-      filter: "blur(10px)",
-      y: idx < (activeIdx || 0) ? -200 : 200,
-      transition: { duration: 0.4, delay: idx * 0.05 },
+      filter: isBehind ? "blur(10px)" : undefined,
+      y: isBehind ? -200 : 200,
+      transition: {
+        duration: 0.4,
+        delay: isBehind ? idx * 0.05 : 0,
+      },
       "pointer-events": "none",
     },
   };
