@@ -3,7 +3,6 @@ import {
   Checkbox,
   CopyIcon,
   EmailIcon,
-  FormAction,
   Heading4,
   Paragraph,
   PrimaryButton,
@@ -11,7 +10,7 @@ import {
   TextInput,
 } from "@danklabs/pattern-library/core";
 import { CopyButton, useToast } from "@danklabs/pattern-library/motion";
-import { ShareButton } from "../ShareButton";
+import { ShareButton } from "./ShareButton";
 import { useMemo, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import { isWebShareAvailable } from "@danklabs/utils";
@@ -33,8 +32,7 @@ export function ShareScreen({
   const defaultMessage = `${recipientName}, join me on Cake, an invite only opportunity to gain the benefits and rewards from some of the worlds greatest brands! 
 Hurry, the invite expires in 48 hours!
     
-${link}
-    `;
+${link}`;
 
   async function handleSubmit(formData: FormData) {
     const start = new Date().getUTCMilliseconds();

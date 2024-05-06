@@ -2,18 +2,19 @@ import { RightArrow } from "@danklabs/pattern-library/core";
 import { CollectionItem } from "./CollectionItem";
 import { CakePresentIcon } from "@danklabs/cake/pattern-library/core";
 import Link from "next/link";
-import { Member } from "@danklabs/cake/services/admin-service";
+import { Member, brands } from "@danklabs/cake/services/admin-service";
+import classNames from "classnames";
 
 export type CardGridProps = {
   member: Member;
+  memberBrands: Awaited<ReturnType<typeof brands.getBrandsBySlug>>;
+  activeIdx?: number;
 };
 
-export function CardGrid({ member }: CardGridProps) {
+export function CardGrid({ member, memberBrands, activeIdx }: CardGridProps) {
   const collection = member.collection;
   if (collection.brandSlugs.length === 0) {
     return <Helper0 memberFirstName={member.firstName} />;
-  } else if (collection.brandSlugs.length === 1) {
-  } else if (collection.brandSlugs.length === 2) {
   }
 
   let cardWidth = "w-1/5";
@@ -24,27 +25,28 @@ export function CardGrid({ member }: CardGridProps) {
     infoPanel = <Helper0 memberFirstName={member.firstName} />;
     cardWidth += "w-1/3";
     infoWidth = "w-2/3";
-  } else if (collection.brandSlugs.length === 1) {
-    infoPanel = <Helper1 memberFirstName={member.firstName} />;
-    cardWidth += "w-1/3";
-    infoWidth += "w-2/3";
-  } else if (collection.brandSlugs.length === 2) {
-    cardWidth = "w-1/3";
-    infoWidth += " w-1/3";
-    infoPanel = <Helper2 memberFirstName={member.firstName} />;
   } else {
     cardWidth = "w-1/5";
     infoWidth = ""; // No helper text for more than 3 cards
   }
 
   return (
-    <div className="flex flex-col -space-y-[190px] md:-space-y-0 justify-items-center md:justify-items-start md:gap-4">
+    <div
+      className={classNames(
+        "grid grid-cols-1 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 items-start md:gap-4",
+        activeIdx !== undefined ? "md:grid-cols-1 md:grid-rows-1" : undefined
+      )}
+    >
       {collection.brandSlugs.map((slug, idx) => (
         <CollectionItem
           idx={idx}
           key={slug}
           member={member}
+          brand={memberBrands[slug]!}
           item={collection.itemMap[slug]}
+          isActive={idx === activeIdx}
+          isOtherActive={activeIdx !== undefined && idx !== activeIdx}
+          activeIdx={activeIdx}
         />
       ))}
       {/* {infoPanel} */}
@@ -63,51 +65,6 @@ function Helper0({ memberFirstName }: { memberFirstName: string | null }) {
         <p>
           You haven’t added any brands to your collection! Select up to ten
           brands to build out your collection and reap the rewards and benefits!
-        </p>
-        <Link
-          href="/brands"
-          className="flex flex-row p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content border border-dark-content"
-        >
-          <span className="grow uppercase">View the Brands</span>
-          <RightArrow className="stroke-accent" />
-        </Link>
-      </div>
-    </InfoPanel>
-  );
-}
-
-function Helper1({ memberFirstName }: { memberFirstName: string | null }) {
-  return (
-    <InfoPanel>
-      <div className="flex flex-col gap-6 border-l-[5px] border-accent p-6 max-w-[450px]">
-        <h1 className="uppercase font-bold text-[36px]">
-          {memberFirstName}, it only gets sweeter.
-        </h1>
-        <p>
-          Picking just one of anything can be a difficult decision, luckily you
-          get to choose nine more brands to build out your collection!
-        </p>
-        <Link
-          href="/brands"
-          className="flex flex-row p-3 items-center gap-2 bg-dark uppercase text-xs text-dark-content border border-dark-content"
-        >
-          <span className="grow uppercase">View the Brands</span>
-          <RightArrow className="stroke-accent" />
-        </Link>
-      </div>
-    </InfoPanel>
-  );
-}
-function Helper2({ memberFirstName }: { memberFirstName: string | null }) {
-  return (
-    <InfoPanel>
-      <div className="flex flex-col gap-6 border-l-[5px] border-accent p-6 max-w-[450px]">
-        <h1 className="uppercase font-bold text-[36px]">
-          {memberFirstName}, it only gets sweeter.
-        </h1>
-        <p>
-          Picking just one of anything can be a difficult decision, luckily you
-          get to choose nine more brands to build out your collection!
         </p>
         <Link
           href="/brands"

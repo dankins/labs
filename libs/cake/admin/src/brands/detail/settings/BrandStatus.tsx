@@ -130,6 +130,7 @@ export function ChecklistItem({
 
 function cmsReady(brand: Awaited<ReturnType<typeof brands.getBrand>>): boolean {
   return !!(
+    brand.cms &&
     brand.cms.name &&
     brand.cms.passLogo &&
     brand.cms.passBackground &&

@@ -19,7 +19,7 @@ export function AddToCollectionButton({
   }
   return (
     <PrimaryButton onClick={handleClick} loading={loading}>
-      Continue
+      Yes, Please
     </PrimaryButton>
   );
 }

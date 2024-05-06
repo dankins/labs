@@ -75,16 +75,16 @@ export function FormAction({
       onChange={handleChange}
     >
       {children}
+      <SubmitFormButton cta={cta} formValid={formValid} />
       {state.status === "error" && (
         <Paragraph3 className="text-secondary">{state.message}</Paragraph3>
       )}
-      <SubmitButton cta={cta} formValid={formValid} />
       {state.status === "success" && <Paragraph3>{state.message}</Paragraph3>}
     </form>
   );
 }
 
-function SubmitButton({
+export function SubmitFormButton({
   cta,
   formValid,
 }: {

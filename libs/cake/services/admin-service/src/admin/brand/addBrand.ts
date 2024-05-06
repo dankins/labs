@@ -2,7 +2,7 @@ import { makeSafeQueryRunner, q, sanityImage, Selection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 import { revalidateTag } from "next/cache";
 
-import { brands, db } from "@danklabs/cake/db";
+import { brands, db, profiles } from "@danklabs/cake/db";
 import { sanityWriteClient } from "@danklabs/integrations/sanitycms";
 
 export async function addBrand(slug: string) {
@@ -21,11 +21,25 @@ export async function addBrand(slug: string) {
     console.log("created brand in CMS", result);
   }
 
-  await db.insert(brands).values({
-    slug,
-    cmsId,
-    settings: {},
-    admins: [],
+  const insertedBrand = await db
+    .insert(brands)
+    .values({
+      slug,
+      cmsId,
+      settings: {},
+      admins: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .returning();
+  const brandRecord = insertedBrand[0];
+
+  await db.insert(profiles).values({
+    parentType: "brand",
+    parentId: brandRecord.id,
+    username: slug,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   revalidateTag("get-brands-admin");

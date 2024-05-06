@@ -1,4 +1,4 @@
-import { BrandOfferTemplate, BrandSettings } from "@danklabs/cake/db";
+import { BrandOfferTemplate, BrandSettings, brands } from "@danklabs/cake/db";
 import { SanityImageType } from "@danklabs/cake/pattern-library/core";
 
 export type Brand = {
@@ -9,6 +9,10 @@ export type Brand = {
     status: "active" | "paused" | "draft" | "deactivated";
     settings: BrandSettings;
     offerTemplates?: BrandOfferTemplate[];
+    admins: {
+      email: string;
+      role: "admin";
+    }[];
   };
   cms?: {
     slug: string;

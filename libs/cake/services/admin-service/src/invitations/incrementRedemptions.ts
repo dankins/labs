@@ -9,9 +9,10 @@ export async function incrementRedemptions(invitationId: string) {
   if (!invitation) {
     throw new Error("invitation not found");
   }
+  let accepted = invitation.maxRedemptions === 1 ? new Date() : undefined;
   await db
     .update(invitations)
-    .set({ redemptions: (invitation.redemptions || 0) + 1 })
+    .set({ accepted, redemptions: (invitation.redemptions || 0) + 1 })
     .where(eq(invitations.id, invitationId));
 
   getInvitation.clearCache(invitationId);

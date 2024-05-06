@@ -1,10 +1,13 @@
 "use server";
 
 import { brandAdmin } from "@danklabs/cake/services/admin-service";
+import { FormState } from "@danklabs/pattern-library/core";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function startTikTokAuthorization(slug: string) {
+export async function startTikTokAuthorization(
+  slug: string
+): Promise<FormState> {
   console.log("startTikTokAuthorization", slug);
   const csrfState = Math.random().toString(36).substring(2);
   cookies().set({

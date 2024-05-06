@@ -17,5 +17,9 @@ export function Caption3({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <span className={classNames("c4", className)}>{children}</span>;
+  return (
+    <span className={classNames("uppercase font-sansSerif", className)}>
+      {children}
+    </span>
+  );
 }

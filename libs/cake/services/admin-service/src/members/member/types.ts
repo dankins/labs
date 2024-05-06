@@ -22,6 +22,7 @@ export type MemberCollection = {
 export type Member = {
   id: string;
   iam: string;
+  username?: string;
   firstName: string | null;
   lastName: string | null;
   email: string;
@@ -33,4 +34,8 @@ export type Member = {
   stripeSubscriptionId?: string;
   collection: MemberCollection;
   favorites: string[];
+  profile: {
+    id: string;
+    username: string;
+  };
 };

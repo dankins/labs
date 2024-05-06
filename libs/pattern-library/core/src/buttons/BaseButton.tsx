@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { Children } from "react";
 import { Spinner } from "../icons/Spinner";
 import Link from "next/link";
 
@@ -31,6 +31,7 @@ export type ButtonPropsCommon = {
   size?: "sm" | "md" | "lg";
   uppercase?: boolean;
   align?: "left" | "center" | "right";
+  padding?: string;
 };
 
 export type LinkButtonProps = React.ComponentPropsWithoutRef<typeof Link> &
@@ -59,6 +60,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       uppercase,
       align,
+      padding: paddingInput,
       ...props
     },
     ref
@@ -75,11 +77,15 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       borderClass = hoverClass?.replace("hover:border-", "border-");
       textClass = hoverClass?.replace("hover:text-", "text-")!;
     }
-    let padding = "py-2 px-4";
-    let fontSize = "text-md";
+    let padding = paddingInput || "py-2 px-4";
+    let fontSize = "text-sm";
     if (size === "sm") {
-      fontSize = "text-sm";
-      padding = "py-1 px-2";
+      fontSize = "text-xs";
+      padding = paddingInput || "py-1 px-2";
+    }
+    if (size === "lg") {
+      fontSize = "text-md";
+      padding = paddingInput || "py-1 px-2";
     }
 
     const className = classNames(
@@ -89,7 +95,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textClass,
       borderClass,
       props.fontWeight && `font-${props.fontWeight}`,
-      "rounded",
+      rounded && `rounded-${rounded}`,
       hoverClass,
       activeClass,
       disabledClass,
@@ -100,15 +106,21 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       align && align === "center" ? "justify-center" : "justify-start"
     );
 
+    const inside = (
+      <>
+        {loading ? <Spinner /> : iconPosition === "left" && icon}
+        {children}
+        {icon && iconPosition === "right" && icon}
+      </>
+    );
+
     if (props.href) {
       return (
         <Link
           {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
           className={className}
         >
-          {loading ? <Spinner /> : iconPosition === "left" && icon}
-          <div>{children}</div>
-          {icon && iconPosition === "right" && icon}
+          {inside}
         </Link>
       );
     }
@@ -118,16 +130,12 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...(props as React.ComponentPropsWithoutRef<"button">)}
         className={className}
       >
-        {loading ? <Spinner /> : iconPosition === "left" && icon}
-        <div>{children}</div>
-        {icon && iconPosition === "right" && (
-          <div className="self-end">{icon}</div>
-        )}
+        {inside}
       </button>
     );
   }
 );
 
 const ThrowAway = (
-  <div className="bg-primary text-primary-content border-b-primary border-primary/80 border-b-secondary bg-secondary bg-black bg-primary/80 border-primary/30 border-primary/80 border-primary border-secondary text-secondary bg-accent text-secondary text-primary-content bg-red-500 text-xs bg-gray-100 bg-gray-100 text-gray-900 mt-[0rem] mt-[3rem] mt-[6rem] mt-[9rem] mt-[12rem] mt-[15rem] mt-[18rem] mt-[21rem] mt-[24rem] mt-[27rem] mt-[30rem]"></div>
+  <div className="bg-primary border-button-active text-button-active bg-black/50  bg-button-active text-button-active-content text-primary-content border-b-primary border-primary/80 border-b-secondary bg-secondary bg-black bg-primary/80 border-primary/30 border-primary/80 border-primary border-secondary text-secondary bg-accent text-secondary text-primary-content bg-red-500 text-xs bg-gray-100 bg-gray-100 text-gray-900 mt-[0rem] mt-[3rem] mt-[6rem] mt-[9rem] mt-[12rem] mt-[15rem] mt-[18rem] mt-[21rem] mt-[24rem] mt-[27rem] mt-[30rem]"></div>
 );

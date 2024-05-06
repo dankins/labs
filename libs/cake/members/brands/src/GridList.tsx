@@ -104,7 +104,7 @@ function BrandGrid({
           <SecondaryButton icon={<SortIcon />} />
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-4">
         {brands.map((b) => (
           <GridItem
             key={b.db.id}
@@ -145,7 +145,7 @@ function GridItem({
               image={brand.passBackground}
               height={1080}
               width={1080}
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "100%", width: "100%", objectFit: "cover" }}
               aspectRatio={isFeatured ? "landscape" : "portrait"}
               className="group-hover:scale-[102%]  transition-transform duration-300 ease-in-out"
             />

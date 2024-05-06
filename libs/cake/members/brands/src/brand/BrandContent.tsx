@@ -2,8 +2,6 @@ import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
 
 import {
-  Heading4,
-  MobileNavSpacer,
   Paragraph2,
   SanityArtDirection,
   SanityImageServer,
@@ -13,7 +11,6 @@ import { Brand, brands, members } from "@danklabs/cake/services/admin-service";
 
 import {
   AddIcon,
-  Caption3,
   PrimaryButton,
   RightArrow,
   Spinner,
@@ -59,19 +56,26 @@ async function Component({ slug }: { slug: string }) {
               className="absolute top-0 left-0 md:static w-full h-full"
               images={[
                 {
-                  image: brand.cms?.passBackgroundDesktop,
+                  image: brand.cms?.passBackgroundDesktop || null,
                   aspectRatio: "ultrawide",
                   mediaQuery: "(min-width: 765px)",
                   width: 2840,
                 },
                 {
-                  image: brand.cms?.passBackground,
+                  image: brand.cms?.passBackground || null,
                   aspectRatio: "portrait",
                   mediaQuery: "(max-width: 765px)",
                 },
               ]}
             />
-            <div className="md:hidden absolute top-0 left-0 w-full aspect-[2/3.2] bg-gradient-to-t from-neutral to-neutral/70"></div>
+
+            <div
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(41, 39, 37,1) 0%, rgba(41, 39, 37,1) 5%, rgba(41, 39, 37,0) 100%)",
+              }}
+              className="md:hidden absolute top-0 left-0 w-full aspect-[2/3]"
+            />
             <div className="relative  w-full h-full">
               <div className="p-6 pt-[180px] md:pt-0 lg:mt-[60px] flex flex-col lg:flex-row md:gap-4">
                 <BrandDetails brand={brand} />

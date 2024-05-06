@@ -9,6 +9,7 @@ import {
 } from "@danklabs/cake/events";
 import { invitations } from "../../invitations";
 import { members } from "..";
+import { addConnection } from "../community/addConnection";
 
 export async function activateMembership(
   iam: string,
@@ -50,6 +51,10 @@ export async function activateMembership(
       invitation.campaign?.invitationsGranted ||
       undefined
   );
+  // add profile connections
+  if (invitation.memberId) {
+    await addConnectionToInviter(invitation.memberId, memberRecord.id);
+  }
 
   const memberCached = await members.member.get(iam);
   await trackEvent(
@@ -80,4 +85,23 @@ async function trackEvent(
   }
 
   return trackCheckoutComplete(iam, event);
+}
+
+async function addConnectionToInviter(
+  inviterMemberId: string,
+  newMemberId: string
+) {
+  const inviter = await members.member.getById(inviterMemberId);
+  if (!inviter) {
+    console.error("could not find inviter member", inviterMemberId);
+    return;
+  }
+  const newMember = await members.member.getById(newMemberId);
+  if (!newMember) {
+    console.error("could not find new member", newMemberId);
+    return;
+  }
+
+  await addConnection(inviter.iam, newMember.profile.username);
+  await addConnection(newMember.iam, inviter.profile.username);
 }

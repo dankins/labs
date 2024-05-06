@@ -11,7 +11,7 @@ export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         textColor={props.textColor || "text-neutral-content"}
         border="border-0"
         disabledClass={"disabled:bg-primary/30 disabled:text-white"}
-        activeClass={"border active:bg-secondary active:text-white"}
+        activeClass={"border active:bg-transparent active:text-white"}
         hoverClass="hover:bg-primary/80 hover:text-primary-content"
       >
         {children}

@@ -1,5 +1,3 @@
-import { clerkClient } from "@clerk/nextjs/server";
-import { getByEmail } from "./getByEmail";
 import { Member } from "./types";
 import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
 import { getMember } from "./getMember";

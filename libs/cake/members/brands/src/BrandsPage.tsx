@@ -1,4 +1,3 @@
-import { InterceptModal } from "@danklabs/pattern-library/core";
 import { GridList } from "./GridList";
 import { BrandContentModal } from "./brand/BrandContentModal";
 import { AddToCollectionModal } from "./brand/AddToCollectionModal";

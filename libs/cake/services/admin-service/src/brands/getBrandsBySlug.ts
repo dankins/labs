@@ -4,6 +4,8 @@ import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 import { brands, db } from "@danklabs/cake/db";
+import { Brand } from "./types";
+import { brandSelection } from "./sanityQueries";
 
 export async function fn(slugs: string[]) {
   console.log("calling getBrandsBySlug", { slugs });
@@ -14,22 +16,19 @@ export async function fn(slugs: string[]) {
   const cmsBrands = await getBrandsNoCount({ slugs });
 
   const result: {
-    [key: string]: {
-      db?: (typeof dbBrands)[0];
-      cms?: (typeof cmsBrands)[0];
-    };
+    [key: string]: Brand;
   } = {};
 
   dbBrands.forEach((db, i) => {
     if (!result[db.slug]) {
-      result[db.slug] = {};
+      result[db.slug] = { db };
     }
     result[db.slug].db = db;
 
     const cms = cmsBrands[i];
     if (cms) {
       if (!result[cms.slug]) {
-        result[cms.slug] = {};
+        result[cms.slug] = { db, cms };
       }
       result[cms.slug].cms = cms;
     }
@@ -44,21 +43,6 @@ export async function getBrandsBySlug(slugs: string[]) {
   })(slugs);
 }
 
-export const brandListSelection = {
-  name: q.string().nullable().optional(),
-  slug: q.slug("slug"),
-  logoSquare: sanityImage("logo_square").nullable(),
-  passLogo: sanityImage("pass_logo").nullable(),
-  passBackground: sanityImage("pass_background", {
-    withAsset: ["base", "dimensions", "lqip"],
-    withHotspot: true,
-    withCrop: true,
-  }).nullable(),
-  // https://www.sanity.io/plugins/color-input
-};
-
-export type BrandListSelection = TypeFromSelection<typeof brandListSelection>;
-
 const runQuery = makeSafeQueryRunner(
   (q: string, params: Record<string, number | string | string[]> = {}) =>
     sanityClient.fetch(q, {
@@ -70,17 +54,6 @@ type GetBrandsFilter = {
   status?: string;
   slugs?: string[];
 };
-async function getBrands(filter?: GetBrandsFilter) {
-  const query = q("*", { isArray: false }).filterByType("brand");
-  return runQuery(
-    q("").grab({
-      brands: query.order("name").grab$(brandListSelection),
-      brandCount: q(`count(*[_type == "brand"])`),
-    }),
-    { status: "any" }
-  );
-}
-
 async function getBrandsNoCount(filter?: GetBrandsFilter) {
   let query = q(`*[_type=="brand"]`, { isArray: true });
   if (filter?.slugs) {
@@ -88,5 +61,5 @@ async function getBrandsNoCount(filter?: GetBrandsFilter) {
     query = query.filter("slug.current in $slugs");
   }
 
-  return runQuery(query.grab(brandListSelection), filter);
+  return runQuery(query.grab(brandSelection), filter);
 }

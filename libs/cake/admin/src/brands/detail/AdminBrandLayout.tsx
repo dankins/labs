@@ -34,18 +34,18 @@ async function LogoSectionLoaded({ slug }: { slug: string }) {
 
   return (
     <AdminPageHeader>
-      {brand.cms.passLogo ? (
+      {brand.cms?.passLogo ? (
         <SanityImageServer
           alt="Brand Logo"
           className="my-2"
-          image={brand.cms.passLogo!}
+          image={brand.cms?.passLogo!}
           width={200}
           height={100}
           style={{ height: "100%", width: "auto" }}
         />
       ) : (
         <Heading1 className="text-xl">
-          {brand.cms.name || brand.db.slug}
+          {brand.cms?.name || brand.db.slug}
         </Heading1>
       )}
     </AdminPageHeader>

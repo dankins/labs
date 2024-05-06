@@ -25,11 +25,13 @@ export async function submitEmail(formData: FormData): Promise<void> {
 
   const userAuth = auth();
   if (userAuth.userId) {
-    const user = await members.member.get(userAuth.userId);
-    if (user && user.email.toLowerCase() === data.email.toLowerCase()) {
-      console.log("revoke session", user.email, data.email);
-      await clerkClient.sessions.revokeSession(userAuth.sessionId!);
-    }
+    try {
+      const user = await members.member.get(userAuth.userId);
+      if (user && user.email.toLowerCase() === data.email.toLowerCase()) {
+        console.log("revoke session", user.email, data.email);
+        await clerkClient.sessions.revokeSession(userAuth.sessionId!);
+      }
+    } catch (err) {}
   }
 
   trackInvitationEmailSubmitted(data.email);

@@ -41,8 +41,12 @@ async function Component({
     <div>
       <Heading4>Brand Benefits</Heading4>
       <div className="py-2 px-6">
-        {collectionItem.offers.map((offer) => (
-          <OfferCard offer={offer} shopLinkTemplate={shopLinkTemplate} />
+        {collectionItem.offers.map((offer, idx) => (
+          <OfferCard
+            key={idx}
+            offer={offer}
+            shopLinkTemplate={shopLinkTemplate}
+          />
         ))}
       </div>
     </div>

@@ -4,6 +4,7 @@ import { revalidateTag, unstable_cache } from "next/cache";
 import { makeSafeQueryRunner, q, sanityImage, TypeFromSelection } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 import { Brand } from "./types";
+import { brandSelection } from "./sanityQueries";
 
 export type GetBrandsSortOptions = "popular" | "asc" | "desc";
 
@@ -83,29 +84,6 @@ export function clearGetBrandsCache() {
   revalidateTag("get-brands-member");
 }
 
-const brandListSelection = {
-  name: q.string().nullable().optional(),
-  slug: q.slug("slug"),
-  logoSquare: sanityImage("logo_square").nullable(),
-  passLogo: sanityImage("pass_logo", {
-    withAsset: ["base", "dimensions"],
-  }).nullable(),
-  passBackground: sanityImage("pass_background", {
-    withAsset: ["base", "dimensions", "lqip"],
-    withHotspot: true,
-    withCrop: true,
-  }).nullable(),
-  passBackgroundDesktop: sanityImage("pass_background_desktop", {
-    withAsset: ["base", "dimensions", "lqip"],
-    withHotspot: true,
-    withCrop: true,
-  }).nullable(),
-  featured: q.string().nullable(),
-  // https://www.sanity.io/plugins/color-input
-};
-
-type BrandListSelection = TypeFromSelection<typeof brandListSelection>;
-
 const runQuery = makeSafeQueryRunner(
   (q: string, params: Record<string, number | string | string[]> = {}) =>
     sanityClient.fetch(q, {
@@ -125,5 +103,5 @@ async function getBrandsNoCount(filter?: GetBrandsFilter) {
     query = query.filter("slug.current in $slugs");
   }
 
-  return runQuery(query.grab(brandListSelection), filter);
+  return runQuery(query.grab(brandSelection), filter);
 }

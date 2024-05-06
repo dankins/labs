@@ -33,7 +33,6 @@ async function fn(iam: string) {
       if (!member) {
         throw new Error("member not found");
       }
-      console.log("result", member);
       return member.invitations;
     });
 }

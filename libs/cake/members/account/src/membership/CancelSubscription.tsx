@@ -1,4 +1,4 @@
-import { ConfirmationButton } from "@danklabs/pattern-library/core";
+import { ConfirmationButton, FormState } from "@danklabs/pattern-library/core";
 import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
 
@@ -9,7 +9,9 @@ export function CancelSubscription({
 }: {
   subscriptionId: string;
 }) {
-  async function cancelSubscriptionAction(subscriptionId: string) {
+  async function cancelSubscriptionAction(
+    subscriptionId: string
+  ): Promise<FormState> {
     "use server";
     const result = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: true,
@@ -17,7 +19,7 @@ export function CancelSubscription({
 
     console.log("subscription cancel result", result);
     revalidatePath("/account/membership");
-    return true;
+    return { status: "success", message: "Subscription cancelled" };
   }
 
   return (

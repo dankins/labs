@@ -12,10 +12,10 @@ export type InputProps = React.ComponentPropsWithoutRef<"input"> & {
 import styles from "./TextInput.module.scss";
 
 const sizeMap = {
-  sm: "text-sm",
-  md: "text-md",
-  lg: "text-lg",
-  xl: "text-xl",
+  sm: "text-[16px]",
+  md: "text-[20px]",
+  lg: "text-[24px]",
+  xl: "text-[30px]",
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
