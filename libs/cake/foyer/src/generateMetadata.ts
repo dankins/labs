@@ -1,5 +1,7 @@
 import { invitations } from "@danklabs/cake/services/admin-service";
 import { Metadata } from "next";
+import { URLSearchParams } from "url";
+import { decodeI } from "./util/decodeI";
 
 const defaultMetadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
@@ -10,29 +12,24 @@ const defaultMetadata = {
   },
 };
 
-export async function generateMetadata(inviteCode?: string): Promise<Metadata> {
-  if (!inviteCode) {
+export async function generateMetadata(i?: string): Promise<Metadata> {
+  if (!i) {
     return defaultMetadata;
   }
+
   try {
-    const invite = await invitations.getByCode.cached(inviteCode);
+    const [code, personalCode] = decodeI(i as string);
+    const invite = await invitations.getByCode.cached(code);
     if (!invite) {
-      return {
-        metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
-        title: `Cake Invite`,
-        description: "Join Me on Cake!",
-        openGraph: {
-          images: [`/invitation/opengraph-image.png`],
-        },
-      };
+      return defaultMetadata;
     }
 
     return {
       metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
-      title: `Cake Invitation`,
+      title: `Velvet Rope`,
       description: `${invite.recipientName}, join me on Cake!`,
       openGraph: {
-        images: [`/invitation/opengraph-image.png?code=${inviteCode}`],
+        images: [`/invitation/opengraph-image.png?i=${i}`],
       },
     };
   } catch (err) {

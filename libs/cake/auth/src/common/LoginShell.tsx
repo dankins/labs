@@ -13,7 +13,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { validateFormData } from "@danklabs/utils";
-import { z } from "zod";
 import { ValidateCode } from "./ValidateCode";
 import { AlreadyLoggedIn } from "./AlreadyLoggedIn";
 import { zfd } from "zod-form-data";
