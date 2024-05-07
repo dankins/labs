@@ -20,7 +20,7 @@ export default function Page() {
           className={classNames("flex flex-col items-center gap-6 container")}
         >
           <div className="max-w-[570px] w-full">
-            <LogoLarge className="w-full" />
+            <LogoLarge className="w-full fill-dark" />
           </div>
           <Heading3>Shopping is about to get sweeter.</Heading3>
           <div className="mt-[40px]">

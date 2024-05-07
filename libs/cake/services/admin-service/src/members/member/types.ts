@@ -1,6 +1,6 @@
 export type MemberCollectionItemOffer = {
   name?: string;
-  offerType: "voucher";
+  offerType: "voucher" | "event";
   offerValue: number;
   status: "new" | "redeemed" | "archived";
   redemptionDate?: Date;

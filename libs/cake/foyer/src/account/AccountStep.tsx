@@ -62,7 +62,7 @@ type ContactMethodState = {
 
 type State = NameState | AddressState | CreateAccountState | ContactMethodState;
 
-export function AccountStep({ email }: { email: string }) {
+export function AccountStep({ email }: { email?: string }) {
   const { isSignedIn, isLoaded } = useAuth();
   const auth = useClerk();
   const router = useRouter();

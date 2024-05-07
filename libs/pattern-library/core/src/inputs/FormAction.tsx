@@ -3,12 +3,13 @@
 import { Paragraph3, PrimaryButton } from "@danklabs/pattern-library/core";
 import { form } from "@segment/analytics-next/dist/types/core/auto-track";
 import classNames from "classnames";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 export type FormState =
   | { status: "start" }
-  | { status: "success"; message?: string }
+  | { status: "success"; message?: string; redirect?: string }
   | {
       status: "error";
       fieldErrors?: { [name: string]: { message: string } };
@@ -35,6 +36,7 @@ export function FormAction({
   const [formValid, setFormValid] = useState(false);
   const [state, formAction] = useFormState(handler, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   async function handler(
     previousState: FormState,
@@ -44,6 +46,9 @@ export function FormAction({
 
     if (result.status === "success" && formRef && formRef.current) {
       formRef.current.reset();
+      if (result.redirect) {
+        router.push(result.redirect);
+      }
     }
     return result;
   }

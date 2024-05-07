@@ -9,6 +9,7 @@ import { brandSelection } from "./sanityQueries";
 
 export async function fn(slugs: string[]) {
   console.log("calling getBrandsBySlug", { slugs });
+  if (slugs.length === 0) return {};
   const dbBrands = await db.query.brands.findMany({
     where: inArray(brands.slug, slugs),
   });

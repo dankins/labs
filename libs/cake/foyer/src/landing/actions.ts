@@ -35,40 +35,40 @@ export async function submitEmail(formData: FormData): Promise<void> {
   }
 
   trackInvitationEmailSubmitted(data.email);
-  redirect(`/invitation?step=account`);
+  return redirect(`/invitation?step=account`);
 }
 
-export async function submitInviteCode(
-  formData: FormData
-): Promise<"valid" | "invalid" | "expired"> {
-  "use server";
-  console.log("submit invite code");
-  const data = validateFormData(formData, z.object({ code: z.string() }));
-  const invitation = await db.query.invitations.findFirst({
-    where: eq(invitations.code, data.code),
-  });
+// export async function submitInviteCode(
+//   formData: FormData
+// ): Promise<"valid" | "invalid" | "expired"> {
+//   "use server";
+//   console.log("submit invite code");
+//   const data = validateFormData(formData, z.object({ code: z.string() }));
+//   const invitation = await db.query.invitations.findFirst({
+//     where: eq(invitations.code, data.code),
+//   });
 
-  if (!invitation) {
-    redirect(`/invitation?code=${data.code}&error=invalid`);
-    return "invalid";
-  }
-  if (dayjs(invitation.expiration).isBefore(dayjs())) {
-    redirect(`/invitation?code=${data.code}&error=expired`);
-    return "expired";
-  }
+//   if (!invitation) {
+//     redirect(`/invitation?code=${data.code}&error=invalid`);
+//     return "invalid";
+//   }
+//   if (dayjs(invitation.expiration).isBefore(dayjs())) {
+//     redirect(`/invitation?code=${data.code}&error=expired`);
+//     return "expired";
+//   }
 
-  const maybeCart = getCartIfAvailable();
-  if (maybeCart) {
-    const cartCookie = maybeCart;
-    // start with a fresh cart if the code is not the same as the one in the cookie
-    if (invitation && invitation.code !== cartCookie.code) {
-      startCookie(invitation.code!);
-    }
-  } else {
-    startCookie(invitation.code!);
-  }
+//   const maybeCart = getCartIfAvailable();
+//   if (maybeCart) {
+//     const cartCookie = maybeCart;
+//     // start with a fresh cart if the code is not the same as the one in the cookie
+//     if (invitation && invitation.code !== cartCookie.code) {
+//       startCookie(invitation.code!);
+//     }
+//   } else {
+//     startCookie(invitation.code!);
+//   }
 
-  trackInvitationCodeSubmitted(data.code);
-  redirect(`/invitation?code=${data.code}&validated=true`);
-  return "valid";
-}
+//   trackInvitationCodeSubmitted(data.code);
+//   redirect(`/invitation?code=${data.code}&validated=true`);
+//   return "valid";
+// }

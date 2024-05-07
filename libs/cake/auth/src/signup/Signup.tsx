@@ -19,7 +19,7 @@ export type SignupProps = {
 };
 export function Signup({
   emailCta = "Create Account",
-  startHeading = <Heading3>Verify My Account</Heading3>,
+  startHeading = <Heading3>Create Account</Heading3>,
   startParagraph = (
     <Paragraph1>
       Enter your email or sign up with your social account to create your Cake

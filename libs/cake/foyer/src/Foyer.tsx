@@ -5,14 +5,17 @@ import { invitations } from "@danklabs/cake/services/admin-service";
 import { ErrorScreen } from "./error/ErrorScreen";
 import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
-import { Landing } from "./landing/Landing";
-import { getCartIfAvailable } from "./cookie";
+import { CartCookie, getCartIfAvailable } from "./cookie";
 import { AccountStep } from "./account/AccountStep";
+import { AuthenticateInvite } from "./landing/AuthenticateInvite";
+import { VerifyOwnership } from "./landing/VerifyOwnership";
+import { decodeI } from "./util/decodeI";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
 const Step = z.enum([
-  "landing",
+  "authenticate-invite",
+  "verify-ownership",
   "welcome",
   // "brand_selection",
   // "summary",
@@ -24,37 +27,16 @@ type Step = z.infer<typeof Step>;
 
 export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
   const cart = getCartIfAvailable();
-  const codeSearchParam =
-    typeof searchParams?.code === "string" ? searchParams.code : undefined;
-  const errorSearchParam =
-    typeof searchParams?.error === "string" ? searchParams.error : undefined;
-  const stepSearchParam =
-    typeof searchParams?.step === "string" ? searchParams.step : undefined;
-  const validatedSearchParam =
-    typeof searchParams?.validated === "string" ? true : undefined;
-  const detailSearchParam =
-    typeof searchParams?.detail === "string" ? searchParams.detail : undefined;
 
-  // No cart yet, so we must go to the landing page
-  if (!cart) {
-    return <Landing code={codeSearchParam} error={errorSearchParam} />;
+  let inviteCode: string | undefined = cart?.code;
+  if (!inviteCode && typeof searchParams?.i === "string") {
+    [inviteCode] = decodeI(searchParams.i);
+  }
+  if (!inviteCode) {
+    return <ErrorScreen error="NO_CODE" />;
   }
 
-  // Landing page
-  if (!stepSearchParam) {
-    return (
-      <Landing
-        code={codeSearchParam || cart.code}
-        error={errorSearchParam}
-        validated={validatedSearchParam}
-        cookieEmail={cart.email}
-      />
-    );
-  }
-
-  const code = cart.code;
-  const invitation = await invitations.getByCode.cached(code);
-
+  const invitation = await invitations.getByCode.cached(inviteCode);
   if (!invitation) {
     return <ErrorScreen error="INVALID_INVITE_CODE" />;
   }
@@ -64,19 +46,20 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
 
   let step: Step;
   try {
-    step = Step.parse(stepSearchParam);
+    step = Step.parse(searchParams?.step || "authenticate-invite");
   } catch (err) {
     return <ErrorScreen error={"INVALID_STATE"} />;
   }
 
   switch (step) {
+    case "authenticate-invite":
+      return <AuthenticateInvite i={searchParams?.i as string} cart={cart} />;
+    case "verify-ownership":
+      return <VerifyOwnership i={searchParams?.i as string} cart={cart} />;
     case "welcome":
       return <Welcome />;
     case "account":
-      if (!cart.email) {
-        return <ErrorScreen error={"INVALID_STATE"} />;
-      }
-      return <AccountStep email={cart.email} />;
+      return <AccountStep />;
     // case "brand_selection":
     //   return <BrandSelection detail={detailSearchParam} />;
     // case "summary":

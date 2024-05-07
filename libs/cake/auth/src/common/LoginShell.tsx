@@ -8,13 +8,15 @@ import {
   Paragraph3,
   PrimaryButton,
   TextInput,
+  UserIcon,
 } from "@danklabs/pattern-library/core";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { validateFormData } from "@danklabs/utils";
 import { z } from "zod";
 import { ValidateCode } from "./ValidateCode";
 import { AlreadyLoggedIn } from "./AlreadyLoggedIn";
+import { zfd } from "zod-form-data";
 
 const EMAIL_ADDRESS_EXISTS = "form_identifier_exists";
 
@@ -62,6 +64,8 @@ export function LoginShell({
   defaultEmail,
   onAuthenticated,
 }: FirstFactorProps) {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [formValid, setFormValid] = useState(false);
   const { isSignedIn } = useAuth();
   const { signIn, isLoaded: isSignInLoaded, setActive } = useSignIn();
   const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
@@ -70,37 +74,65 @@ export function LoginShell({
   const [verifyEmail, setVerifyEmail] = useState(false);
   const [overrideMode, setOverrideMode] = useState<"signin" | "signup">();
 
+  useEffect(() => {
+    // check if form is valid on mount
+    if (formRef && formRef.current) {
+      setFormValid(formRef.current.checkValidity());
+    }
+  }, [formRef]);
+
+  function handleChange() {
+    console.log("form changed", formRef.current?.checkValidity());
+    if (formRef && formRef.current) {
+      const newFormValid = formRef.current.checkValidity();
+      if (newFormValid !== formValid) {
+        setFormValid(newFormValid);
+      }
+    }
+  }
+
   async function handleEmailSubmit(formData: FormData) {
     console.log("starting sign in");
     setError(undefined);
 
-    const data = validateFormData(
-      formData,
-      z.object({
-        email: z.string().email(),
-      })
-    );
-    console.log("sign in email", data);
-    await startAuthentication(data.email);
+    zfd.formData;
+
+    if (mode === "signup") {
+      const data = validateFormData(
+        formData,
+        zfd.formData({
+          email: zfd.text(),
+          firstName: zfd.text(),
+          lastName: zfd.text(),
+        })
+      );
+
+      await startSignUp(data.email, data.firstName, data.lastName);
+    } else {
+      const data = validateFormData(
+        formData,
+        zfd.formData({
+          email: zfd.text(),
+        })
+      );
+      await startSignIn(data.email);
+    }
   }
 
-  async function startAuthentication(
+  async function startSignUp(
     email: string,
-    overrideMode?: "signin" | "signup"
+    firstName: string,
+    lastName: string
   ) {
-    setOverrideMode(overrideMode);
     setLoading(true);
-    const result =
-      mode === "signin" || overrideMode === "signin"
-        ? await signInEmail(email)
-        : await signUpEmail(email);
+    const result = await signUpEmail(email, firstName, lastName);
 
     if (result.status === "email_verification_sent") {
       setVerifyEmail(true);
     } else if (result.status === "error") {
       console.log("authentication error", result.error);
       if (result.error === ERROR_EMAIL_EXISTS) {
-        return startAuthentication(email, "signin");
+        return startSignIn(email);
       } else setError("Error logging in");
     } else if (result.status === "account_not_found") {
       setError("Account not found");
@@ -109,7 +141,27 @@ export function LoginShell({
     setLoading(false);
   }
 
-  async function signUpEmail(email: string): Promise<FirstFactorResult> {
+  async function startSignIn(email: string) {
+    setLoading(true);
+    const result = await signInEmail(email);
+
+    if (result.status === "email_verification_sent") {
+      setVerifyEmail(true);
+    } else if (result.status === "error") {
+      console.log("authentication error", result.error);
+      setError("Error logging in");
+    } else if (result.status === "account_not_found") {
+      setError("Account not found");
+    }
+
+    setLoading(false);
+  }
+
+  async function signUpEmail(
+    email: string,
+    firstName: string,
+    lastName: string
+  ): Promise<FirstFactorResult> {
     if (!isSignUpLoaded) {
       throw new Error("signIn not loaded");
     }
@@ -117,6 +169,8 @@ export function LoginShell({
     try {
       const signUpResult = await signUp.create({
         emailAddress: email,
+        firstName,
+        lastName,
       });
 
       if (signUpResult.status === "complete") {
@@ -313,8 +367,29 @@ export function LoginShell({
         {startHeading}
         {startParagraph}
       </div>
-      <form action={handleEmailSubmit}>
+      <form action={handleEmailSubmit} ref={formRef} onChange={handleChange}>
+        {mode === "signup" && (
+          <div className="flex flex-row gap-2 mb-4">
+            <TextInput
+              icon={<UserIcon />}
+              name={"firstName"}
+              label="First Name"
+              placeholder="First Name"
+              disabled={loading}
+              required
+            />
+            <TextInput
+              icon={<UserIcon />}
+              name={"lastName"}
+              label="Last name"
+              placeholder="Last Name"
+              disabled={loading}
+              required
+            />
+          </div>
+        )}
         <TextInput
+          type="email"
           icon={<EmailIcon />}
           name={"email"}
           label="Email"
@@ -330,7 +405,7 @@ export function LoginShell({
           <PrimaryButton
             className="min-w-[200px]"
             type="submit"
-            disabled={loading || !isSignInLoaded}
+            disabled={loading || !isSignInLoaded || !formValid}
             loading={loading}
             align="center"
           >

@@ -144,7 +144,7 @@ export const brands = pgTable("brands", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const offerType = pgEnum("offer_types", ["voucher"]);
+export const offerType = pgEnum("offer_types", ["voucher", "event"]);
 
 export const brandOfferTemplates = pgTable("brand_offer_templates", {
   id: uuid("id").primaryKey().defaultRandom(),

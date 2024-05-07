@@ -4,6 +4,8 @@ import { v4 as uuid } from "uuid";
 const CART_COOKIE_NAME = "invitation_cart";
 export type CartCookie = {
   id: string;
+  accessCode: string;
+  sponsor: string;
   code: string;
   email?: string;
 };
@@ -22,10 +24,12 @@ function getCart(): CartCookie {
   return JSON.parse(cookieStore.get(CART_COOKIE_NAME)?.value!);
 }
 
-export function startCookie(code: string) {
+export function startCookie(code: string, accessCode: string, sponsor: string) {
   setCart({
     id: uuid(),
     code,
+    accessCode,
+    sponsor,
   });
 }
 
