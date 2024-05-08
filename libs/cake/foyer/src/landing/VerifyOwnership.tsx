@@ -8,7 +8,7 @@ import {
 import { verifyOwnershipAction } from "../actions";
 import { FoyerContainer } from "../FoyerContainer";
 import { LogoIcon, LogoLarge } from "@danklabs/cake/pattern-library/core";
-import { CartCookie } from "../cookie";
+import { CartCookie } from "@danklabs/cake/payments";
 
 export async function VerifyOwnership({
   i,
@@ -18,7 +18,7 @@ export async function VerifyOwnership({
   cart?: CartCookie;
 }) {
   return (
-    <FoyerContainer dark>
+    <FoyerContainer dark displayLogo={false}>
       <FormAction
         cta="Authenticate"
         className="flex flex-col gap-4 items-center justify-center"
@@ -31,7 +31,7 @@ export async function VerifyOwnership({
           icon={<LockIcon className="fill-white" />}
           inputSize="lg"
           placeholder="Sponsor first name"
-          defaultValue={cart?.sponsor}
+          defaultValue={!i ? cart?.sponsor : undefined}
           required
         />
       </FormAction>

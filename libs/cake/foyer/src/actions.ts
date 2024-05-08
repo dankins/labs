@@ -1,11 +1,16 @@
 "use server";
 import { zfd } from "zod-form-data";
 
-import { FormState } from "@danklabs/pattern-library/core";
-import { validateFormData } from "@danklabs/utils";
-import { redirect } from "next/navigation";
-import { getCartIfAvailable, startCookie } from "./cookie";
+import {
+  FormState,
+  validateFormData,
+  validateFormHelper,
+} from "@danklabs/utils";
+import { getCartIfAvailable, startCookie } from "@danklabs/cake/payments";
 import { decodeI } from "./util/decodeI";
+import { auth, clerkClient } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export async function submitPersonalAccessCodeAction(
   i: string | undefined,
@@ -30,9 +35,9 @@ export async function submitPersonalAccessCodeAction(
     return { status: "error", message: "Could not locate invite" };
   }
 
-  let inviteCode = cart?.code;
-  let requiredCode = cart?.accessCode;
-  let sponsor = cart?.sponsor;
+  let inviteCode = !i ? cart?.code : undefined;
+  let requiredCode = !i ? cart?.accessCode : undefined;
+  let sponsor = !i ? cart?.sponsor : undefined;
   if (!inviteCode || !requiredCode || !sponsor) {
     if (!i) {
       return { status: "error", message: "Could not locate invite" };
@@ -75,6 +80,7 @@ export async function verifyOwnershipAction(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const userAuth = auth();
   const cart = getCartIfAvailable();
   let sponsorInput: string | undefined = undefined;
   try {
@@ -93,9 +99,9 @@ export async function verifyOwnershipAction(
     return { status: "error", message: "Could not locate invite" };
   }
 
-  let inviteCode = cart?.code;
-  let requiredCode = cart?.accessCode;
-  let sponsor = cart?.sponsor;
+  let inviteCode = !i ? cart?.code : undefined;
+  let requiredCode = !i ? cart?.accessCode : undefined;
+  let sponsor = !i ? cart?.sponsor : undefined;
   if (!inviteCode || !requiredCode || !sponsor) {
     if (!i) {
       return { status: "error", message: "Could not locate invite" };
@@ -110,6 +116,11 @@ export async function verifyOwnershipAction(
     return { status: "error", message: "Invalid Sponsor" };
   }
 
+  if (userAuth.sessionId) {
+    await clerkClient.sessions.revokeSession(userAuth.sessionId!);
+    revalidatePath("/invitation");
+    revalidatePath("/invitation?step=account");
+  }
   startCookie(inviteCode, requiredCode, sponsor);
   if (i) {
     return {
@@ -122,4 +133,83 @@ export async function verifyOwnershipAction(
       redirect: `/invitation?step=welcome`,
     };
   }
+}
+
+export async function updateAddressAction(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { userId: iam } = auth().protect();
+  const [data, error] = validateFormHelper(
+    formData,
+    zfd.formData({
+      address: zfd.text(),
+      address2: zfd.text(z.string().optional()),
+      city: zfd.text(),
+      state: zfd.text(),
+      postalCode: zfd.text(),
+      countryCode: zfd.text(),
+    })
+  );
+  if (error) {
+    console.log("error validating input!", error);
+    return error;
+  }
+
+  try {
+    console.log("updating address", iam);
+    await clerkClient.users.updateUserMetadata(iam, {
+      privateMetadata: {
+        address: data,
+      },
+    });
+    console.log("updating address success", iam);
+  } catch (err) {
+    console.error("error updating clerk metadata address", err);
+    return { status: "error", message: "Error updating address" };
+  }
+
+  return {
+    status: "success",
+    message: "Success!",
+    redirect: "/invitation?step=contact",
+  };
+}
+
+export async function updatePhoneAction(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { userId: iam } = auth().protect();
+  const [data, error] = validateFormHelper(
+    formData,
+    zfd.formData({
+      phone: zfd.text(),
+      consent: zfd.checkbox(),
+    })
+  );
+  if (error) {
+    console.log("error validating input!", error);
+    return error;
+  }
+
+  try {
+    console.log("updating address", iam);
+    await clerkClient.phoneNumbers.createPhoneNumber({
+      userId: iam,
+      phoneNumber: data.phone,
+      primary: true,
+      verified: false,
+    });
+    console.log("updating address success", iam);
+  } catch (err) {
+    console.error("error updating clerk metadata address", err);
+    return { status: "error", message: "Error updating address" };
+  }
+
+  return {
+    status: "success",
+    message: "Success!",
+    redirect: "/invitation?step=checkout",
+  };
 }

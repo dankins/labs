@@ -1,5 +1,4 @@
 import { auth } from "@clerk/nextjs/server";
-import { Invitation } from "@danklabs/cake/db";
 import { Checkout } from "@danklabs/cake/payments";
 import { members, stripe } from "@danklabs/cake/services/admin-service";
 import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";

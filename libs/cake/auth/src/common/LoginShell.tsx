@@ -131,6 +131,7 @@ export function LoginShell({
     } else if (result.status === "error") {
       console.log("authentication error", result.error);
       if (result.error === ERROR_EMAIL_EXISTS) {
+        setOverrideMode("signin");
         return startSignIn(email);
       } else setError("Error logging in");
     } else if (result.status === "account_not_found") {

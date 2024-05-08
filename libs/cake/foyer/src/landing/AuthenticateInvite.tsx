@@ -9,9 +9,8 @@ import {
 } from "@danklabs/pattern-library/core";
 import { submitPersonalAccessCodeAction } from "../actions";
 import { FoyerContainer } from "../FoyerContainer";
-import Image from "next/image";
 import { LogoIcon, LogoLarge } from "@danklabs/cake/pattern-library/core";
-import { CartCookie } from "../cookie";
+import { CartCookie } from "@danklabs/cake/payments";
 
 export async function AuthenticateInvite({
   i,
@@ -21,7 +20,7 @@ export async function AuthenticateInvite({
   cart?: CartCookie;
 }) {
   return (
-    <FoyerContainer dark>
+    <FoyerContainer dark displayLogo={false}>
       <FormAction
         cta="Authenticate"
         className="flex flex-col gap-4 items-center justify-center"
@@ -34,7 +33,7 @@ export async function AuthenticateInvite({
           icon={<LockIcon className="fill-white" />}
           inputSize="lg"
           placeholder="Personal Access Code"
-          defaultValue={cart?.accessCode}
+          defaultValue={!i ? cart?.accessCode : undefined}
           required
         />
       </FormAction>

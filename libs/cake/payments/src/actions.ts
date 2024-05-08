@@ -10,6 +10,7 @@ import { SubscriptionReturnType } from "./types";
 import { v4 as uuid } from "uuid";
 import { members } from "@danklabs/cake/services/admin-service";
 import dayjs from "dayjs";
+import { deleteCookie } from "./cookie";
 
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
@@ -127,6 +128,7 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
       renewalDate
     );
     console.log("updated user membership status");
+    deleteCookie();
     return { status: "complete" };
   }
 

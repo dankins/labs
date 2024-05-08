@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ButtonProps } from "./BaseButton";
 import { PrimaryButton } from "./PrimaryButton";
-import { FormState } from "../inputs";
+import { FormState } from "@danklabs/utils";
 
 export type ActionButtonProps = { action(): Promise<FormState> };
 export function ActionButton({

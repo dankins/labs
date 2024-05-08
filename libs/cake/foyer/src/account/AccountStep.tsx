@@ -68,7 +68,7 @@ export function AccountStep({ email }: { email?: string }) {
   const router = useRouter();
 
   function handleAccountCreated() {
-    router.push("/invitation?step=checkout");
+    router.push("/invitation?step=address");
   }
 
   return (
@@ -79,7 +79,7 @@ export function AccountStep({ email }: { email?: string }) {
             <Signup
               onSignUpSuccess={handleAccountCreated}
               alreadyLoggedInButton={
-                <PrimaryButton href={`/invitation?step=checkout`}>
+                <PrimaryButton href={`/invitation?step=address`}>
                   Continue
                 </PrimaryButton>
               }

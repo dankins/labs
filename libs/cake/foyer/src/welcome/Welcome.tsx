@@ -4,12 +4,13 @@ import { ValueProp2 } from "./ValueProp2";
 import { ValueProp3 } from "./ValueProp3";
 import { WelcomePanel } from "./WelcomePanel";
 import { FoyerContainer } from "../FoyerContainer";
-import { PrimaryButton } from "@danklabs/pattern-library/core";
+import { Heading1, PrimaryButton } from "@danklabs/pattern-library/core";
 
 export async function Welcome() {
   return (
     <FoyerContainer>
-      <PrimaryButton href={`/invitation?step=checkout`}>Continue</PrimaryButton>
+      <Heading1>Welcome to the world of CAKE</Heading1>
+      <PrimaryButton href={`/invitation?step=account`}>Continue</PrimaryButton>
     </FoyerContainer>
   );
 }

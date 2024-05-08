@@ -1,20 +1,13 @@
 "use client";
 
 import { Paragraph3, PrimaryButton } from "@danklabs/pattern-library/core";
-import { form } from "@segment/analytics-next/dist/types/core/auto-track";
+import { FormState } from "@danklabs/utils";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
-export type FormState =
-  | { status: "start" }
-  | { status: "success"; message?: string; redirect?: string }
-  | {
-      status: "error";
-      fieldErrors?: { [name: string]: { message: string } };
-      message: string;
-    };
+export type { FormState } from "@danklabs/utils";
 
 const initialState: FormState = {
   status: "start",

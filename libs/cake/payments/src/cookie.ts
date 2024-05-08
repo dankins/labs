@@ -47,5 +47,9 @@ export function setAccountData() {}
 
 function setCart(cart: CartCookie) {
   const cookieStore = cookies();
-  cookieStore.set(CART_COOKIE_NAME, JSON.stringify(cart));
+  cookieStore.set(CART_COOKIE_NAME, JSON.stringify(cart), { httpOnly: true });
+}
+export function deleteCookie() {
+  const cookieStore = cookies();
+  cookieStore.delete(CART_COOKIE_NAME);
 }
