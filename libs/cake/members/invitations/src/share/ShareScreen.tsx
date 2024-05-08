@@ -44,14 +44,12 @@ Personal Access Code: ${accessCode}
 This invite is for you only and expires in 72 hours.
   `;
 
-  function copyText() {
+  function copyText(includeLink: boolean = true) {
     let personalMessage: string | undefined = ref.current?.value || undefined;
     if (personalMessage) {
       return `${personalMessage}
 
-${accessInfo}
-
-${link}`;
+${accessInfo}${includeLink ? "\n\n" + link : ""}`;
     }
     return accessInfo;
   }
@@ -120,7 +118,7 @@ ${link}`;
             <ShareButton
               title={"Join me on Cake!"}
               url={link}
-              text={copyText}
+              text={() => copyText(false)}
             />
           ) : (
             <CopyButton
