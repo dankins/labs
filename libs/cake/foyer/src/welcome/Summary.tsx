@@ -1,9 +1,14 @@
-import { Heading1, PrimaryButton } from "@danklabs/pattern-library/core";
-import { FoyerContainer } from "../FoyerContainer";
+import {
+  ArrowDownIcon,
+  CircleButton,
+  Heading1,
+  Heading3,
+  PrimaryButton,
+} from "@danklabs/pattern-library/core";
 
-export async function SummaryStep() {
+export function Summary() {
   return (
-    <FoyerContainer>
+    <div>
       <Heading1>Summary</Heading1>
 
       <p>Membership Term</p>
@@ -11,6 +16,6 @@ export async function SummaryStep() {
       <p>price / year</p>
       <p>Invite expires in 72 hours</p>
       <PrimaryButton href={`/invitation?step=checkout`}>Checkout</PrimaryButton>
-    </FoyerContainer>
+    </div>
   );
 }

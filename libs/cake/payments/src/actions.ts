@@ -1,16 +1,14 @@
 "use server";
 import z from "zod";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import {
-  AddressParam,
-  StripeAddressElementChangeEvent,
-} from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { SubscriptionReturnType } from "./types";
 import { v4 as uuid } from "uuid";
-import { members } from "@danklabs/cake/services/admin-service";
+import { invitations, members } from "@danklabs/cake/services/admin-service";
 import dayjs from "dayjs";
-import { deleteCookie } from "./cookie";
+import { deleteCookie, cookieSetName, getCartIfAvailable } from "./cookie";
+import { validateFormData } from "@danklabs/utils";
+import { zfd } from "zod-form-data";
+import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
 
 const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
@@ -112,8 +110,8 @@ export async function getCustomer(customerId: string) {
 export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   status: "incomplete" | "pending" | "complete";
 }> {
-  const userAuth = auth();
-  if (!userAuth.userId) {
+  const cart = getCartIfAvailable();
+  if (!cart) {
     return { status: "incomplete" };
   }
 
@@ -122,8 +120,33 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
 
   if (sub.status === "active") {
     const renewalDate = dayjs.unix(sub.current_period_end).toDate();
+    const email = cart.email;
+    if (!email) {
+      console.error("cart does not have email");
+      return { status: "incomplete" };
+    }
+    const invitationId = sub.metadata.invitationId;
+    const invitation = await invitations.getInvitation.cached(invitationId);
+    if (!invitation) {
+      console.error("could not locate invitation");
+      return { status: "incomplete" };
+    }
+
+    const member = await members.member.getOrCreateByEmail(
+      email,
+      {
+        invitationId: invitation.id,
+        maxCollectionItems:
+          invitation.collectionItemsGranted ||
+          invitation.collectionItemsGranted ||
+          DEFAULT_MAX_COLLECTION_ITEMS,
+      },
+      cart.firstName,
+      cart.lastName
+    );
+
     await members.member.activateMembership(
-      userAuth.userId,
+      member.iam,
       subscriptionId,
       renewalDate
     );
@@ -133,4 +156,18 @@ export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   }
 
   return { status: "pending" };
+}
+
+export async function setName(formData: FormData) {
+  const data = validateFormData(
+    formData,
+    z.object({ email: zfd.text(), firstName: zfd.text(), lastName: zfd.text() })
+  );
+  const isEmailTaken = await members.member.emailAddressExists(data.email);
+
+  if (isEmailTaken) {
+    throw new Error("email already exists");
+  }
+
+  cookieSetName(data.email, data.firstName, data.lastName);
 }

@@ -2,6 +2,7 @@ import slugify from "slugify";
 import { InvitationCampaign, db, invitationCampaigns } from "@danklabs/cake/db";
 import { clearCampaignInvitesListCache } from "./clearCampaignInvitesListCache";
 import { members } from "../../members";
+import { DEFAULT_MAX_COLLECTION_ITEMS } from "../../members/member/create";
 
 export async function createCampaign(
   input: Omit<
@@ -18,7 +19,9 @@ export async function createCampaign(
     updatedAt: new Date(),
   };
   if (memberEmail) {
-    const member = await members.member.getOrCreateByEmail(memberEmail);
+    const member = await members.member.getOrCreateByEmail(memberEmail, {
+      maxCollectionItems: DEFAULT_MAX_COLLECTION_ITEMS,
+    });
     record.memberId = member.id;
   }
 

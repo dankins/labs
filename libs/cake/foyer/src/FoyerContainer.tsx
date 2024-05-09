@@ -1,4 +1,4 @@
-import { LogoIcon } from "@danklabs/cake/pattern-library/core";
+import { LogoIcon, SecondaryButton } from "@danklabs/cake/pattern-library/core";
 import classNames from "classnames";
 import React from "react";
 
@@ -13,11 +13,24 @@ export function FoyerContainer({
 }) {
   const className = classNames(
     "w-full h-full min-h-screen p-6 flex flex-col items-center",
-    dark && "darkSection bg-[#3A262A] text-neutral-content"
+    dark && "darkSection bg-neutral text-neutral-content"
   );
   return (
     <div className={className}>
-      {displayLogo && <LogoIcon className="w-[100px] h-[28px] self-start" />}
+      {displayLogo && (
+        <div className="w-full mb-6 flex flex-row items-center">
+          <LogoIcon className="w-[100px] h-[28px] self-start" />
+          <span className="grow"></span>
+          <SecondaryButton
+            size="sm"
+            background="white"
+            className="self-end"
+            href="/invitation?step=checkout"
+          >
+            Accept Invite
+          </SecondaryButton>
+        </div>
+      )}
       <div className="container max-w-[450px] flex flex-col items-center">
         {children}
       </div>

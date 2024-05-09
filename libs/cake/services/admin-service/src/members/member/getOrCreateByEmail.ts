@@ -1,9 +1,14 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { getByEmail } from "./getByEmail";
 import { Member } from "./types";
-import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
+import { create } from "./create";
 
-export async function getOrCreateByEmail(email: string): Promise<Member> {
+export async function getOrCreateByEmail(
+  email: string,
+  data: Parameters<typeof create>[1],
+  firstName?: string,
+  lastName?: string
+): Promise<Member> {
   try {
     const member = await getByEmail(email);
     return member;
@@ -11,10 +16,10 @@ export async function getOrCreateByEmail(email: string): Promise<Member> {
     if (err.message === "member not found") {
       const newUser = await clerkClient.users.createUser({
         emailAddress: [email],
+        firstName,
+        lastName,
       });
-      await create(newUser.id, {
-        maxCollectionItems: DEFAULT_MAX_COLLECTION_ITEMS,
-      });
+      await create(newUser.id, data);
       return getByEmail(email);
     }
     throw err;

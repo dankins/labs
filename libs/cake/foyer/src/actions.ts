@@ -122,17 +122,10 @@ export async function verifyOwnershipAction(
     revalidatePath("/invitation?step=account");
   }
   startCookie(inviteCode, requiredCode, sponsor);
-  if (i) {
-    return {
-      status: "success",
-      redirect: `/invitation?i=${encodeURIComponent(i)}&step=welcome`,
-    };
-  } else {
-    return {
-      status: "success",
-      redirect: `/invitation?step=welcome`,
-    };
-  }
+  return {
+    status: "success",
+    redirect: `/invitation?step=welcome`,
+  };
 }
 
 export async function updateAddressAction(

@@ -3,16 +3,15 @@ import dayjs from "dayjs";
 
 import { invitations } from "@danklabs/cake/services/admin-service";
 import { ErrorScreen } from "./error/ErrorScreen";
-import { Welcome } from "./welcome/Welcome";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { getCartIfAvailable } from "@danklabs/cake/payments";
 import { AccountStep } from "./account/AccountStep";
 import { AuthenticateInvite } from "./landing/AuthenticateInvite";
 import { VerifyOwnership } from "./landing/VerifyOwnership";
 import { decodeI } from "./util/decodeI";
-import { SummaryStep } from "./summary/SummaryStep";
 import { AddressStep } from "./account/AddressStep";
 import { ContactStep } from "./account/ContactStep";
+import { WelcomeStep } from "./welcome/WelcomeStep";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -20,6 +19,7 @@ const Step = z.enum([
   "authenticate-invite",
   "verify-ownership",
   "welcome",
+  "perks",
   "summary",
   "account",
   "address",
@@ -61,19 +61,7 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
     case "verify-ownership":
       return <VerifyOwnership i={searchParams?.i as string} cart={cart} />;
     case "welcome":
-      return <Welcome />;
-    case "account":
-      return <AccountStep />;
-    case "address":
-      return <AddressStep />;
-    case "contact":
-      return <ContactStep />;
-    case "summary":
-      return <SummaryStep />;
-    // case "brand_selection":
-    //   return <BrandSelection detail={detailSearchParam} />;
-    // case "summary":
-    //   return <Summary />;
+      return <WelcomeStep />;
     case "checkout":
       return (
         <MembershipCheckout
@@ -81,6 +69,16 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
           searchParams={searchParams || {}}
         />
       );
+    case "account":
+      return <AccountStep />;
+    case "address":
+      return <AddressStep />;
+    case "contact":
+      return <ContactStep />;
+    // case "brand_selection":
+    //   return <BrandSelection detail={detailSearchParam} />;
+    // case "summary":
+    //   return <Summary />;
     default:
       return <ErrorScreen error={"INVALID_STATE"} />;
   }

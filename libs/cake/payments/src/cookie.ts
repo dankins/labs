@@ -8,6 +8,8 @@ export type CartCookie = {
   sponsor: string;
   code: string;
   email?: string;
+  firstName?: string;
+  lastName?: string;
 };
 
 export function cartExists(): boolean {
@@ -19,9 +21,13 @@ export function cartExists(): boolean {
   return false;
 }
 
-function getCart(): CartCookie {
-  const cookieStore = cookies();
-  return JSON.parse(cookieStore.get(CART_COOKIE_NAME)?.value!);
+export function getCart(): CartCookie {
+  try {
+    const cookieStore = cookies();
+    return JSON.parse(cookieStore.get(CART_COOKIE_NAME)?.value!);
+  } catch (err) {
+    throw new Error("Invalid cart");
+  }
 }
 
 export function startCookie(code: string, accessCode: string, sponsor: string) {
@@ -33,9 +39,15 @@ export function startCookie(code: string, accessCode: string, sponsor: string) {
   });
 }
 
-export function setEmail(email: string) {
+export function cookieSetName(
+  email: string,
+  firstName: string,
+  lastName: string
+) {
   const cart = getCart();
   cart.email = email;
+  cart.firstName = firstName;
+  cart.lastName = lastName;
   setCart(cart);
 }
 

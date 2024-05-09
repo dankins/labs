@@ -5,12 +5,14 @@ export function Text({
   size = "sm",
   weight = "regular",
   face = "serif",
+  uppercase,
   className: classNameProp,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   size?: "sm";
   weight?: "regular";
   face?: "sans" | "serif";
+  uppercase?: boolean;
   className?: string;
 }) {
   const className = classNames(
@@ -19,6 +21,7 @@ export function Text({
     weight === "regular" && "font-normal",
     face === "sans" && "font-sans",
     face === "serif" && "font-serif",
+    uppercase && "uppercase",
     classNameProp
   );
 

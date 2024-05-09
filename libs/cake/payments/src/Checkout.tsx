@@ -95,7 +95,7 @@ function Summary({ totalPrice }: { totalPrice: number }) {
   return (
     <div className="flex flex-row gap-3 border border-[#E4D6C8] p-3">
       <div className="p-3 h-12 w-12 rounded-full bg-dark ">
-        <LogoMark className="h-6 w-6" />
+        <LogoMark className="fill-white h-6 w-6" />
       </div>
       <div className="flex flex-col grow">
         <div className="uppercase font-supreme text-xl">Cake Membership</div>
