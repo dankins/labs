@@ -1,5 +1,3 @@
-"use client";
-
 import { LoginShell } from "../common/LoginShell";
 import { Heading3, Paragraph1 } from "@danklabs/pattern-library/core";
 
@@ -14,8 +12,9 @@ export type SignupProps = {
   alreadyLoggedInButton?: React.ReactNode;
   socialRedirectUrl: string;
   defaultEmail?: string;
-
-  onSignUpSuccess?(): void;
+  firstName?: string;
+  lastName?: string;
+  newUserData?: any;
 };
 export function Signup({
   emailCta = "Create Account",
@@ -33,18 +32,18 @@ export function Signup({
   verifyCodeParagraph,
   socialRedirectUrl,
   defaultEmail,
-  onSignUpSuccess,
+  firstName,
+  lastName,
 }: SignupProps) {
-  function handleAuthenticated() {
-    console.log("onValidateCodeSuccess");
-    onSignUpSuccess && onSignUpSuccess();
-  }
+  // function handleAuthenticated() {
+  //   console.log("onValidateCodeSuccess");
+  //   onSignUpSuccess && onSignUpSuccess();
+  // }
 
   return (
     <LoginShell
       mode="signup"
       emailCta={emailCta}
-      onAuthenticated={handleAuthenticated}
       startHeading={startHeading}
       startParagraph={startParagraph}
       verifyCodeHeading={verifyCodeHeading}
@@ -52,6 +51,8 @@ export function Signup({
       alreadyLoggedInButton={alreadyLoggedInButton}
       socialRedirectUrl={socialRedirectUrl}
       defaultEmail={defaultEmail}
+      firstName={firstName}
+      lastName={lastName}
     />
   );
 }

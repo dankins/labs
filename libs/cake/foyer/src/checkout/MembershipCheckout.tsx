@@ -26,7 +26,7 @@ export async function MembershipCheckout({
   const coupon = invitation.coupon || invitation.campaign?.coupon || undefined;
 
   return (
-    <FoyerContainer displayLogo={false}>
+    <FoyerContainer displayLogo={true} checkoutShortcut={false}>
       <div className="mt-[20px] w-full max-w-[500px]">
         <Checkout
           searchParams={searchParams}
@@ -34,6 +34,7 @@ export async function MembershipCheckout({
           stripeCustomerId={customerId}
           metadata={subscriptionMetadata}
           couponId={coupon}
+          returnUrl="/invitation?step=account"
         />
       </div>
     </FoyerContainer>

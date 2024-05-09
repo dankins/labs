@@ -16,6 +16,7 @@ export type CheckoutProps = {
   couponId?: string;
   metadata?: any;
   searchParams: { [key: string]: string | string[] | undefined };
+  returnUrl: string;
 };
 
 export async function Checkout(props: CheckoutProps) {
@@ -36,6 +37,7 @@ export async function Component({
   couponId,
   metadata,
   stripeCustomerId,
+  returnUrl,
 }: CheckoutProps) {
   const result = await createSubscription(
     priceId,
@@ -43,13 +45,6 @@ export async function Component({
     metadata,
     stripeCustomerId
   );
-
-  if (
-    searchParams["redirect_status"] &&
-    searchParams["redirect_status"] === "succeeded"
-  ) {
-    return <Success checkSubscriptionStatus={checkSubscriptionStatus} />;
-  }
 
   console.log("render checkout", result);
 
@@ -85,6 +80,7 @@ export async function Component({
           clientSecret={result.clientSecret}
           stripeCustomerId={stripeCustomerId}
           subscriptionId={result.subscriptionId}
+          returnUrl={returnUrl}
         />
       </div>
     </>

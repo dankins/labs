@@ -1,3 +1,5 @@
+"use client";
+
 import {
   EmailIcon,
   GhostButton,
@@ -41,7 +43,12 @@ export type FirstFactorProps = {
   alreadyLoggedInButton?: React.ReactNode;
   socialRedirectUrl?: string;
   defaultEmail?: string;
-  onAuthenticated(): void;
+  onAuthenticated?(
+    mode: "already-authenticated" | "signup" | "signin",
+    iam: string
+  ): void;
+  firstName?: string;
+  lastName?: string;
 };
 
 export function LoginShell({
@@ -61,17 +68,26 @@ export function LoginShell({
   alreadyLoggedInButton,
   socialRedirectUrl,
   defaultEmail,
+  firstName,
+  lastName,
   onAuthenticated,
 }: FirstFactorProps) {
+  const [started, setStarted] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const [formValid, setFormValid] = useState(false);
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, userId } = useAuth();
   const { signIn, isLoaded: isSignInLoaded, setActive } = useSignIn();
   const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [verifyEmail, setVerifyEmail] = useState(false);
   const [overrideMode, setOverrideMode] = useState<"signin" | "signup">();
+
+  useEffect(() => {
+    if (!started && isSignedIn) {
+      onAuthenticated && onAuthenticated("already-authenticated", userId);
+    }
+  }, [started, isSignedIn]);
 
   useEffect(() => {
     // check if form is valid on mount
@@ -93,6 +109,7 @@ export function LoginShell({
   async function handleEmailSubmit(formData: FormData) {
     console.log("starting sign in");
     setError(undefined);
+    setStarted(true);
 
     zfd.formData;
 
@@ -101,12 +118,10 @@ export function LoginShell({
         formData,
         zfd.formData({
           email: zfd.text(),
-          firstName: zfd.text(),
-          lastName: zfd.text(),
         })
       );
 
-      await startSignUp(data.email, data.firstName, data.lastName);
+      await startSignUp(data.email, firstName, lastName);
     } else {
       const data = validateFormData(
         formData,
@@ -120,8 +135,8 @@ export function LoginShell({
 
   async function startSignUp(
     email: string,
-    firstName: string,
-    lastName: string
+    firstName?: string,
+    lastName?: string
   ) {
     setLoading(true);
     const result = await signUpEmail(email, firstName, lastName);
@@ -159,8 +174,8 @@ export function LoginShell({
 
   async function signUpEmail(
     email: string,
-    firstName: string,
-    lastName: string
+    firstName?: string,
+    lastName?: string
   ): Promise<FirstFactorResult> {
     if (!isSignUpLoaded) {
       throw new Error("signIn not loaded");
@@ -309,8 +324,6 @@ export function LoginShell({
       } else {
         await handleSignUpVerifyEmail(code);
       }
-
-      onAuthenticated();
     } catch (err) {
       console.error(err);
       setError("Invalid code - please double check and try again.");
@@ -329,7 +342,7 @@ export function LoginShell({
     });
     console.log("status", result.status, result);
     await setActive({ session: result.createdSessionId });
-    onAuthenticated();
+    onAuthenticated && onAuthenticated("signup", result.id!);
   }
   async function handleSignInFirstFactor(code: string) {
     if (!signIn || !setActive) {
@@ -342,7 +355,7 @@ export function LoginShell({
     });
     console.log("status", result.status, result);
     await setActive({ session: result.createdSessionId });
-    onAuthenticated();
+    onAuthenticated && onAuthenticated("signin", result.id!);
   }
 
   if (isSignedIn && !loading) {
@@ -368,7 +381,7 @@ export function LoginShell({
         {startParagraph}
       </div>
       <form action={handleEmailSubmit} ref={formRef} onChange={handleChange}>
-        {mode === "signup" && (
+        {/* {mode === "signup" && (
           <div className="flex flex-row gap-2 mb-4">
             <TextInput
               icon={<UserIcon />}
@@ -387,7 +400,7 @@ export function LoginShell({
               required
             />
           </div>
-        )}
+        )} */}
         <TextInput
           type="email"
           icon={<EmailIcon />}

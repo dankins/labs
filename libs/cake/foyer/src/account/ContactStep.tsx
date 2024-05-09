@@ -7,6 +7,7 @@ import {
   Text,
   TextArea,
   PhoneIcon,
+  SecondaryButton,
 } from "@danklabs/pattern-library/core";
 import { FoyerContainer } from "../FoyerContainer";
 import { updatePhoneAction } from "../actions";
@@ -42,6 +43,7 @@ export async function ContactStep() {
         />
         <div className="mb-4"></div>
       </FormAction>
+      <SecondaryButton href={`/collection`}>Maybe Later </SecondaryButton>
     </FoyerContainer>
   );
 }

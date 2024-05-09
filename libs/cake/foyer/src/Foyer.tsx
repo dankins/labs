@@ -12,19 +12,18 @@ import { decodeI } from "./util/decodeI";
 import { AddressStep } from "./account/AddressStep";
 import { ContactStep } from "./account/ContactStep";
 import { WelcomeStep } from "./welcome/WelcomeStep";
-
-type SearchParams = { [key: string]: string | string[] | undefined };
+import { SearchParams } from "@danklabs/utils";
+import { ProfileStep } from "./account/ProfileStep";
 
 const Step = z.enum([
   "authenticate-invite",
   "verify-ownership",
   "welcome",
-  "perks",
-  "summary",
+  "checkout",
   "account",
+  "profile",
   "address",
   "contact",
-  "checkout",
   "error",
 ]);
 type Step = z.infer<typeof Step>;
@@ -70,15 +69,13 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
         />
       );
     case "account":
-      return <AccountStep />;
+      return <AccountStep searchParams={searchParams} />;
+    case "profile":
+      return <ProfileStep />;
     case "address":
       return <AddressStep />;
     case "contact":
       return <ContactStep />;
-    // case "brand_selection":
-    //   return <BrandSelection detail={detailSearchParam} />;
-    // case "summary":
-    //   return <Summary />;
     default:
       return <ErrorScreen error={"INVALID_STATE"} />;
   }

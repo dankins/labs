@@ -15,9 +15,6 @@ async function fn(iam: string): Promise<Member> {
   if (!dbMember) {
     throw new Error("member not found");
   }
-  if (!dbMember) {
-    throw new Error("invalid state");
-  }
 
   const collection: MemberCollection = {
     brandSlugs: [],

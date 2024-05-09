@@ -11,3 +11,5 @@ export type FormSuccess = {
 };
 
 export type FormState = { status: "start" } | FormSuccess | FormError;
+
+export type SearchParams = { [key: string]: string | string[] | undefined };

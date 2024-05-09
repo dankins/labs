@@ -11,6 +11,16 @@ import { decodeI } from "./util/decodeI";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { cookies } from "next/headers";
+import {
+  invitations,
+  members,
+  stripe,
+} from "@danklabs/cake/services/admin-service";
+import { redirect } from "next/navigation";
+import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
+import Stripe from "stripe";
+import dayjs from "dayjs";
 
 export async function submitPersonalAccessCodeAction(
   i: string | undefined,
@@ -118,6 +128,7 @@ export async function verifyOwnershipAction(
 
   if (userAuth.sessionId) {
     await clerkClient.sessions.revokeSession(userAuth.sessionId!);
+    cookies().delete("__session");
     revalidatePath("/invitation");
     revalidatePath("/invitation?step=account");
   }
@@ -203,6 +214,63 @@ export async function updatePhoneAction(
   return {
     status: "success",
     message: "Success!",
-    redirect: "/invitation?step=checkout",
+    redirect: "/collection",
   };
+}
+
+export async function onSignupSuccess(
+  mode: "already-authenticated" | "signup" | "signin",
+  iam: string
+) {
+  const cart = getCartIfAvailable();
+  if (!cart) {
+    throw new Error("no cart available");
+  }
+  const customer = await stripe.payments.getCustomer(cart.id);
+  const stripeCustomerId = customer.id;
+
+  const subcription = await stripe.payments.getSubscriptionByCustomerId(
+    customer.id
+  );
+  if (!subcription) {
+    throw new Error("no subscription available");
+  }
+  const stripeSubscriptionId = subcription.id;
+
+  const invitation = await invitations.getByCode.cached(cart.code);
+  if (!invitation) {
+    throw new Error("no invitation available");
+  }
+
+  const newUserData: Parameters<typeof members.member.getOrCreateByIAM>[1] = {
+    invitationId: invitation.id,
+    stripeCustomerId,
+    stripeSubscriptionId,
+    maxCollectionItems:
+      invitation.collectionItemsGranted ||
+      invitation.campaign?.collectionItemsGranted ||
+      DEFAULT_MAX_COLLECTION_ITEMS,
+  };
+
+  const member = await members.member.getOrCreateByIAM(iam, newUserData);
+  if (member.membershipStatus !== "active" && member.stripeSubscriptionId) {
+    const renewal = determineRenewalDate(
+      (subcription.latest_invoice as any).lines.data[0].period.end
+    );
+    await members.member.activateMembership(
+      member.iam,
+      member.stripeSubscriptionId,
+      renewal
+    );
+  }
+  return redirect("/invitation?step=profile");
+}
+
+function determineRenewalDate(periodEndUnix: number): Date {
+  try {
+    return dayjs.unix(periodEndUnix).toDate();
+  } catch (err) {
+    console.error("could not determine renewal date", err);
+    return dayjs().add(1, "year").toDate();
+  }
 }

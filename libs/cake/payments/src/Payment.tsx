@@ -18,19 +18,19 @@ import {
   TextInput,
 } from "@danklabs/pattern-library/core";
 import { setName } from "./actions";
-import { validateFormData } from "@danklabs/utils";
-import { z } from "zod";
 
 export function Payment({
   active,
   stripeCustomerId,
   subscriptionId,
   clientSecret,
+  returnUrl,
 }: {
   active: boolean;
   stripeCustomerId: string;
   subscriptionId: string;
   clientSecret: string;
+  returnUrl: string;
 }) {
   const options = { clientSecret };
 
@@ -47,12 +47,18 @@ export function Payment({
 
   return (
     <StripeProvider key={clientSecret} options={options}>
-      <PaymentForm subscriptionId={subscriptionId} />
+      <PaymentForm returnUrl={returnUrl} subscriptionId={subscriptionId} />
     </StripeProvider>
   );
 }
 
-export function PaymentForm({ subscriptionId }: { subscriptionId: string }) {
+export function PaymentForm({
+  subscriptionId,
+  returnUrl,
+}: {
+  subscriptionId: string;
+  returnUrl: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
   const [error, setError] = useState<string>();
@@ -61,12 +67,12 @@ export function PaymentForm({ subscriptionId }: { subscriptionId: string }) {
   const sp = useSearchParams();
   const formRef = useRef<HTMLFormElement>(null);
 
-  let successURL: URL;
-  if (typeof window !== "undefined" && window.location.href) {
-    successURL = new URL(window.location.href);
-    successURL.searchParams.set("success", "true");
-    successURL.searchParams.set("subscriptionId", subscriptionId);
-  }
+  // let successURL: URL;
+  // if (typeof window !== "undefined" && window.location.href) {
+  //   successURL = new URL(window.location.href);
+  //   successURL.searchParams.set("success", "true");
+  //   successURL.searchParams.set("subscriptionId", subscriptionId);
+  // }
 
   const paymentElementOptions: StripePaymentElementOptions = {
     layout: "tabs",
@@ -92,12 +98,20 @@ export function PaymentForm({ subscriptionId }: { subscriptionId: string }) {
       setError("Email address already exists");
       return;
     }
+    let successURL: string = "";
+    if (typeof window !== "undefined" && window.location.href) {
+      const currentUrl = new URL(window.location.href);
+      successURL = `${currentUrl.origin}${returnUrl}`;
+    }
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: successURL.href,
+        return_url: successURL,
       },
     });
+    if (error) {
+      setError(error.message);
+    }
     setLoading(false);
   }
 
