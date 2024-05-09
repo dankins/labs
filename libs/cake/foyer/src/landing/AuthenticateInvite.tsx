@@ -30,6 +30,7 @@ export async function AuthenticateInvite({
         <Heading3>Authenticate Invite (1/2)</Heading3>
         <TextInput
           name="accessCode"
+          label="Personal Access Code"
           icon={<LockIcon className="fill-white" />}
           inputSize="lg"
           placeholder="Personal Access Code"

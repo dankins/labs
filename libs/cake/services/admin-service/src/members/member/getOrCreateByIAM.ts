@@ -1,5 +1,5 @@
 import { Member } from "./types";
-import { DEFAULT_MAX_COLLECTION_ITEMS, create } from "./create";
+import { create } from "./create";
 import { getMember } from "./getMember";
 
 export async function getOrCreateByIAM(

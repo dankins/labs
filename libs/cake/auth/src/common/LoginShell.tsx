@@ -342,7 +342,7 @@ export function LoginShell({
     });
     console.log("status", result.status, result);
     await setActive({ session: result.createdSessionId });
-    onAuthenticated && onAuthenticated("signup", result.id!);
+    onAuthenticated && onAuthenticated("signup", result.createdUserId!);
   }
   async function handleSignInFirstFactor(code: string) {
     if (!signIn || !setActive) {

@@ -28,6 +28,7 @@ export async function VerifyOwnership({
         <Heading3>Verify Invite Ownership (2/2)</Heading3>
         <TextInput
           name="sponsor"
+          label="Sponsor First Name"
           icon={<LockIcon className="fill-white" />}
           inputSize="lg"
           placeholder="Sponsor first name"

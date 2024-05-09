@@ -38,8 +38,8 @@ export function ShareScreen({
   const link = `${
     process.env.NEXT_PUBLIC_SITE_URL
   }invitation?i=${encodeURIComponent(base64Code)}`;
-  const accessInfo = `Sponsor: ${sponsorName}
-Personal Access Code: ${accessCode}  
+  const accessInfo = `Personal Access Code: ${accessCode}
+Sponsor: ${sponsorName}
 
 This invite is for you only and expires in 72 hours.
   `;

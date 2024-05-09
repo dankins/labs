@@ -26,7 +26,7 @@ export function WelcomeStep() {
   return (
     <FoyerContainer>
       <AnimatePresence>
-        {view === "welcome" && <Welcome onClick={() => setView("perks")} />}
+        {view === "welcome" && <Welcome onClick={() => setView("video")} />}
         {view === "video" && <Video onClick={() => setView("perks")} />}
         {view === "perks" && <Perks onClick={() => setView("cards")} />}
         {view === "cards" && <Cards onClick={() => setView("summary")} />}
