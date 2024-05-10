@@ -27,7 +27,7 @@ export function Summary() {
           brand’s site or store. Available as soon as you join.
         </Text>
         <br />
-        <Text weight="bold">View current brand partners and CAKE Cards</Text>
+        <Text weight="bold">View brand partners and CAKE Cards</Text>
       </div>
       <div>
         <Heading4>Special Access</Heading4>
