@@ -3,10 +3,18 @@ import { makeSafeQueryRunner, q, sanityImage } from "groqd";
 import { sanityClient } from "@danklabs/integrations/sanitycms";
 
 const runQuery = makeSafeQueryRunner(
-  (q: string, params: Record<string, number | string> = {}) =>
-    sanityClient.fetch(q, {
-      ...params,
-    })
+  (q: string, params: Record<string, number | string> = {}, tags) =>
+    sanityClient.fetch(
+      q,
+      {
+        ...params,
+      },
+      {
+        next: {
+          tags,
+        },
+      }
+    )
 );
 
 export async function getPage(slug: string) {
@@ -20,6 +28,14 @@ export async function getPage(slug: string) {
             withHotspot: true,
             withCrop: true,
           }).nullable(),
+          video: q("video")
+            .grab$({
+              asset: q("asset").deref().grab$({
+                playbackId: q.string(),
+                assetId: q.string(),
+              }),
+            })
+            .nullable(),
           content: q("content")
             .filter()
             .select({
@@ -42,7 +58,8 @@ export async function getPage(slug: string) {
             }),
         })
         .slice(0, 0),
-      { slug }
+      { slug },
+      [`sanity-page-${slug}`]
     )
       // return the first result
       .then((d) => d[0])

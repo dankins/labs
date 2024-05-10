@@ -135,7 +135,7 @@ export async function verifyOwnershipAction(
   startCookie(inviteCode, requiredCode, sponsor);
   return {
     status: "success",
-    redirect: `/invitation?step=welcome`,
+    redirect: `/invitation?step=verify-ownership&verified=true`,
   };
 }
 

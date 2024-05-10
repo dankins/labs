@@ -10,7 +10,7 @@ export function Text({
 }: {
   children?: React.ReactNode;
   size?: "sm";
-  weight?: "regular";
+  weight?: "regular" | "bold";
   face?: "sans" | "serif";
   uppercase?: boolean;
   className?: string;
@@ -19,6 +19,7 @@ export function Text({
     "text-base",
     size === "sm" && "text-sm",
     weight === "regular" && "font-normal",
+    weight === "bold" && "font-bold",
     face === "sans" && "font-sans",
     face === "serif" && "font-serif",
     uppercase && "uppercase",

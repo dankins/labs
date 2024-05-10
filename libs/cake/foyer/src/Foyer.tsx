@@ -1,7 +1,7 @@
 import z from "zod";
 import dayjs from "dayjs";
 
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { getPage, invitations } from "@danklabs/cake/services/admin-service";
 import { ErrorScreen } from "./error/ErrorScreen";
 import { MembershipCheckout } from "./checkout/MembershipCheckout";
 import { getCartIfAvailable } from "@danklabs/cake/payments";
@@ -30,6 +30,8 @@ type Step = z.infer<typeof Step>;
 
 export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
   const cart = getCartIfAvailable();
+  // preload page to prevent latency later on
+  getPage("foyer");
 
   let inviteCode: string | undefined = cart?.code;
   if (!inviteCode && typeof searchParams?.i === "string") {
@@ -58,7 +60,13 @@ export async function Foyer({ searchParams }: { searchParams?: SearchParams }) {
     case "authenticate-invite":
       return <AuthenticateInvite i={searchParams?.i as string} cart={cart} />;
     case "verify-ownership":
-      return <VerifyOwnership i={searchParams?.i as string} cart={cart} />;
+      return (
+        <VerifyOwnership
+          i={searchParams?.i as string}
+          cart={cart}
+          verified={searchParams?.verified as string}
+        />
+      );
     case "welcome":
       return <WelcomeStep />;
     case "checkout":

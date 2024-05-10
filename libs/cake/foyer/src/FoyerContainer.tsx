@@ -37,7 +37,7 @@ export function FoyerContainer({
           )}
         </div>
       )}
-      <div className="container max-w-[450px] flex flex-col items-center">
+      <div className="grow container max-w-[450px] flex flex-col items-center">
         {children}
       </div>
     </div>

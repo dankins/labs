@@ -41,6 +41,11 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      title: "Video",
+      name: "video",
+      type: "mux.video",
+    }),
   ],
   preview: {
     select: {
