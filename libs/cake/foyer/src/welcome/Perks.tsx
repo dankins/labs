@@ -10,13 +10,13 @@ export function Perks({ onClick }: { onClick: () => void }) {
   return (
     <div className="flex flex-col items-center gap-6">
       <Heading3>Membership gives you:</Heading3>
-      <Perk delay={0}>Special Access</Perk>
-      <Perk delay={1}>Insider Experiences</Perk>
-      <Perk delay={2}>Cake Cards to spend on your favorite brands</Perk>
+      <Perk delay={2}>Special Access</Perk>
+      <Perk delay={3}>Insider Experiences</Perk>
+      <Perk delay={4}>Cake Cards to spend on your favorite brands</Perk>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 4, duration: 0.5 }}
+        transition={{ delay: 5, duration: 0.5 }}
       >
         <motion.div
           initial={{ scale: 0.9 }}

@@ -1,11 +1,12 @@
 "use client";
 
-import { Paragraph3, PrimaryButton } from "@danklabs/pattern-library/core";
+import { PrimaryButton } from "../buttons";
 import { FormState } from "@danklabs/utils";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { Paragraph3 } from "../text";
 
 export type { FormState } from "@danklabs/utils";
 
