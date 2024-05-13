@@ -15,13 +15,12 @@ export async function shareInviteAction(
   formData: FormData
 ): Promise<FormState> {
   console.log("shareInviteAction", inviteId, previousState, formData);
-  let data: { name: string; showBrandSelections: boolean } | undefined;
+  let data: { name: string } | undefined;
   try {
     data = validateFormData(
       formData,
       zfd.formData({
         name: zfd.text(),
-        showBrandSelections: zfd.checkbox(),
       })
     );
   } catch (err) {
@@ -43,7 +42,7 @@ export async function shareInviteAction(
   }
 
   return redirect(
-    `/collection?action=share-invite&inviteId=${inviteId}&screen=share`
+    `/account/invites?action=share-invite&inviteId=${inviteId}&screen=share`
   );
 }
 

@@ -16,7 +16,8 @@ import {
 } from "@danklabs/pattern-library/core";
 import { emailInviteAction, shareInviteAction } from "../actions";
 import { ShareScreen } from "./ShareScreen";
-import { invitations } from "@danklabs/cake/services/admin-service";
+import { invitations, members } from "@danklabs/cake/services/admin-service";
+import { auth } from "@clerk/nextjs/server";
 export async function ShareInvitationModal({
   returnHref,
   inviteId,
@@ -60,12 +61,6 @@ export async function ShareInvitationModal({
           required
           icon={<UserIcon />}
         />
-        <Checkbox
-          name="showBrandSelections"
-          label="Allow my friends to see my brand selections"
-          helperText="Include your name and brand selections with your invitation to Cake."
-          defaultChecked
-        />
       </FormAction>
     </InterceptModal>
   );
@@ -91,6 +86,9 @@ async function ShareScreenModal({
 }
 
 async function ShareScreenModalComponent({ inviteId }: { inviteId: string }) {
+  const { userId: iam } = auth().protect();
+  const member = await members.member.get(iam);
+
   const invitation = await invitations.getInvitation.cached(inviteId);
   if (!invitation || !invitation.code || !invitation.recipientName) {
     return (
@@ -102,6 +100,7 @@ async function ShareScreenModalComponent({ inviteId }: { inviteId: string }) {
   return (
     <ShareScreen
       inviteCode={invitation.code}
+      sponsorName={member.firstName!}
       recipientName={invitation.recipientName}
       emailInviteAction={emailInviteAction.bind(
         undefined,

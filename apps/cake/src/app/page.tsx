@@ -11,6 +11,27 @@ import {
 
 export default function Page() {
   const { userId: iam } = auth();
+  const isProduction = process.env["IS_PRODUCTION"] === "true";
+
+  let action: React.ReactNode = undefined;
+  if (!isProduction) {
+    action = (
+      <div className="mt-[40px]">
+        {!!iam ? (
+          <PrimaryButton
+            href={`/collection`}
+            icon={<RightArrow />}
+            iconPosition="right"
+          >
+            Continue to Collection
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton href={`/sign-in`}>Member Sign In</PrimaryButton>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <PageView tags={[]} />
@@ -20,22 +41,10 @@ export default function Page() {
           className={classNames("flex flex-col items-center gap-6 container")}
         >
           <div className="max-w-[570px] w-full">
-            <LogoLarge className="w-full" />
+            <LogoLarge className="w-full fill-dark" />
           </div>
           <Heading3>Shopping is about to get sweeter.</Heading3>
-          <div className="mt-[40px]">
-            {!!iam ? (
-              <PrimaryButton
-                href={`/collection`}
-                icon={<RightArrow />}
-                iconPosition="right"
-              >
-                Continue to Collection
-              </PrimaryButton>
-            ) : (
-              <PrimaryButton href={`/sign-in`}>Member Sign In</PrimaryButton>
-            )}
-          </div>
+          {action}
         </div>
       </div>
     </div>

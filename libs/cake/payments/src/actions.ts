@@ -1,17 +1,20 @@
 "use server";
 import z from "zod";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import {
-  AddressParam,
-  StripeAddressElementChangeEvent,
-} from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { SubscriptionReturnType } from "./types";
 import { v4 as uuid } from "uuid";
-import { members } from "@danklabs/cake/services/admin-service";
+import {
+  invitations,
+  members,
+  stripe,
+} from "@danklabs/cake/services/admin-service";
 import dayjs from "dayjs";
+import { deleteCookie, cookieSetName, getCartIfAvailable } from "./cookie";
+import { validateFormData } from "@danklabs/utils";
+import { zfd } from "zod-form-data";
+import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
 
-const stripe = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
+const stripeClient = new Stripe(process.env["STRIPE_SECRET_KEY"]!);
 
 // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements#create-customer
 export async function createSubscription(
@@ -27,18 +30,9 @@ export async function createSubscription(
     customerId,
   });
 
-  const subscriptions = await stripe.subscriptions.list({
-    customer: customerId,
-    expand: ["data.latest_invoice.payment_intent"],
-    // additional filters can be applied if necessary to find the specific subscription
-  });
-
-  let subscription: Stripe.Subscription | undefined;
-  if (subscriptions.data.length > 0) {
-    subscription = subscriptions.data[0];
-    console.log("found subscription", subscription.id);
-  }
-
+  let subscription = await stripe.payments.getSubscriptionByCustomerId(
+    customerId
+  );
   if (!subscription) {
     // Create the subscription. Note we're expanding the Subscription's
     // latest invoice and that invoice's payment_intent
@@ -49,7 +43,7 @@ export async function createSubscription(
       coupon,
       customerId,
     });
-    subscription = await stripe.subscriptions.create(
+    subscription = await stripeClient.subscriptions.create(
       {
         customer: customerId,
         items: [
@@ -104,31 +98,67 @@ export async function createSubscription(
   };
 }
 
-export async function getCustomer(customerId: string) {
-  return stripe.customers.retrieve(customerId);
-}
-
 export async function checkSubscriptionStatus(subscriptionId: string): Promise<{
   status: "incomplete" | "pending" | "complete";
 }> {
-  const userAuth = auth();
-  if (!userAuth.userId) {
+  const cart = getCartIfAvailable();
+  if (!cart) {
     return { status: "incomplete" };
   }
 
   console.log("checking subscription", subscriptionId);
-  const sub = await stripe.subscriptions.retrieve(subscriptionId);
+  const sub = await stripeClient.subscriptions.retrieve(subscriptionId);
 
   if (sub.status === "active") {
     const renewalDate = dayjs.unix(sub.current_period_end).toDate();
+    const email = cart.email;
+    if (!email) {
+      console.error("cart does not have email");
+      return { status: "incomplete" };
+    }
+    const invitationId = sub.metadata.invitationId;
+    const invitation = await invitations.getInvitation.cached(invitationId);
+    if (!invitation) {
+      console.error("could not locate invitation");
+      return { status: "incomplete" };
+    }
+
+    const member = await members.member.getOrCreateByEmail(
+      email,
+      {
+        invitationId: invitation.id,
+        maxCollectionItems:
+          invitation.collectionItemsGranted ||
+          invitation.collectionItemsGranted ||
+          DEFAULT_MAX_COLLECTION_ITEMS,
+      },
+      cart.firstName,
+      cart.lastName
+    );
+
     await members.member.activateMembership(
-      userAuth.userId,
+      member.iam,
       subscriptionId,
       renewalDate
     );
     console.log("updated user membership status");
+    deleteCookie();
     return { status: "complete" };
   }
 
   return { status: "pending" };
+}
+
+export async function setName(formData: FormData) {
+  const data = validateFormData(
+    formData,
+    z.object({ email: zfd.text(), firstName: zfd.text(), lastName: zfd.text() })
+  );
+  const isEmailTaken = await members.member.emailAddressExists(data.email);
+
+  if (isEmailTaken) {
+    throw new Error("email already exists");
+  }
+
+  cookieSetName(data.email, data.firstName, data.lastName);
 }

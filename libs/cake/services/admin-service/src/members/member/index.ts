@@ -13,6 +13,8 @@ import { favorites } from "./favorites";
 import { invitations } from "./invitations";
 import { getByUsername } from "./getByUsername";
 import { updateProfile } from "./updateProfile";
+import { getByEmail } from "./getByEmail";
+import { emailAddressExists } from "./emailAddressExists";
 
 export const member = {
   activateMembership,
@@ -20,6 +22,8 @@ export const member = {
   getById,
   getBySubscriptionId,
   getByUsername,
+  getByEmail,
+  emailAddressExists,
   clearCache,
   create,
   update,

@@ -14,9 +14,7 @@ export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const metadata = await foyerGenerateMetadata(
-    (searchParams["code"] as string) || undefined
-  );
+  const metadata = await foyerGenerateMetadata(searchParams?.i as string);
   return metadata;
 }
 

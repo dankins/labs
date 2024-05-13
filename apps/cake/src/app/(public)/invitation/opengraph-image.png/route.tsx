@@ -5,9 +5,7 @@ import { generateOpenGraphImage } from "@danklabs/cake/foyer";
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const imageResponse = await generateOpenGraphImage(
-      searchParams.get("code") || undefined
-    );
+    const imageResponse = await generateOpenGraphImage(searchParams);
     return imageResponse;
   } catch (e: any) {
     console.log(`${e.message}`);

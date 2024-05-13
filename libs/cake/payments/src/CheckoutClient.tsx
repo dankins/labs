@@ -7,12 +7,14 @@ export type CheckoutProps = {
   stripeCustomerId: string;
   subscriptionId: string;
   clientSecret: string;
+  returnUrl: string;
 };
 
 export function CheckoutClient({
   subscriptionId,
   stripeCustomerId,
   clientSecret,
+  returnUrl,
 }: CheckoutProps) {
   let active = "payment";
 
@@ -33,6 +35,7 @@ export function CheckoutClient({
         clientSecret={clientSecret}
         stripeCustomerId={stripeCustomerId}
         subscriptionId={subscriptionId}
+        returnUrl={returnUrl}
       />
     </StripeProvider>
   );

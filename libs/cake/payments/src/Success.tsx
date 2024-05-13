@@ -20,7 +20,7 @@ export function Success({
       setWorking(true);
       const result = await checkSubscriptionStatus(subscriptionId);
       if (result.status === "complete") {
-        router.push("/collection");
+        router.push("/invitation?step=post-checkout");
       }
       setWorking(false);
     }

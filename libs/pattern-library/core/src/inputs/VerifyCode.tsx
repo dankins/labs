@@ -81,7 +81,9 @@ export function VerifyCode({
         <input
           key={index}
           name={`digit-${index}`}
-          type="tel"
+          type="text"
+          inputMode="numeric"
+          autoComplete="one-time-code"
           value={code}
           onChange={(e) => handleOnInputChange(e, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}

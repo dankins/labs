@@ -1,2 +1,2 @@
 export * from "./signin/SignInPage";
-export * from "./signup/Signup";
+export * from "./common/LoginShell";

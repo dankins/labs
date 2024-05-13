@@ -57,7 +57,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {helperText && (
-          <p className="mt-2 text-xs text-gray-400">{helperText}</p>
+          <p className="mt-2 text-xs text-gray-500">{helperText}</p>
         )}
       </div>
     );

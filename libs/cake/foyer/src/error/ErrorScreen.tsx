@@ -22,5 +22,12 @@ export function ErrorScreen({ error }: { error?: string }) {
       </Container>
     );
   }
+  if (error === "NO_CODE") {
+    return (
+      <Container>
+        <h1>No invite code provided</h1>
+      </Container>
+    );
+  }
   return <Container>error</Container>;
 }

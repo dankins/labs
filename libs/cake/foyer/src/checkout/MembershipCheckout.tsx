@@ -1,8 +1,5 @@
-import { auth } from "@clerk/nextjs/server";
-import { Invitation } from "@danklabs/cake/db";
-import { Checkout } from "@danklabs/cake/payments";
-import { members, stripe } from "@danklabs/cake/services/admin-service";
-import { DEFAULT_MAX_COLLECTION_ITEMS } from "libs/cake/services/admin-service/src/members/member/create";
+import { Checkout, getCart } from "@danklabs/cake/payments";
+import { stripe } from "@danklabs/cake/services/admin-service";
 import { FoyerContainer } from "../FoyerContainer";
 import { invitations } from "@danklabs/cake/services/admin-service";
 
@@ -17,47 +14,27 @@ export async function MembershipCheckout({
   >;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { userId } = auth().protect();
-  const user = await members.member.getOrCreateByIAM(userId, {
-    invitationId: invitation.id,
-    maxCollectionItems:
-      invitation.collectionItemsGranted ||
-      invitation.collectionItemsGranted ||
-      DEFAULT_MAX_COLLECTION_ITEMS,
-  });
-
-  if (user.membershipStatus === "active" && !searchParams["redirect_status"]) {
-    return <div>You already have an active membership!</div>;
-  }
-
-  const subscriptionMetadata = {
-    invitationId: invitation.id,
-    userId: userId,
-  };
-
-  let stripeCustomerId = user.stripeCustomerId;
-  if (!stripeCustomerId) {
-    stripeCustomerId = await stripe.payments.createCustomer(
-      userId,
-      invitation.id
-    );
-  }
-
-  if (!stripeCustomerId) {
+  let cart = getCart();
+  if (!cart) {
     throw new Error("invalid state");
   }
+  const customerId = await stripe.payments.getOrCreateCustomer(cart.id);
+  const subscriptionMetadata = {
+    invitationId: invitation.id,
+  };
 
   const coupon = invitation.coupon || invitation.campaign?.coupon || undefined;
 
   return (
-    <FoyerContainer>
+    <FoyerContainer displayLogo={true} checkoutShortcut={false}>
       <div className="mt-[20px] w-full max-w-[500px]">
         <Checkout
           searchParams={searchParams}
           priceId={CAKE_MEMBERSHIP_PRICE_ID}
-          stripeCustomerId={stripeCustomerId}
+          stripeCustomerId={customerId}
           metadata={subscriptionMetadata}
           couponId={coupon}
+          returnUrl="/invitation?step=account"
         />
       </div>
     </FoyerContainer>

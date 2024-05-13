@@ -20,7 +20,7 @@ export function AppHeader({
         <div className={styles.navContainer}>
           {/** LOGO */}
           <Link href="/collection" className={styles.logo}>
-            <LogoIcon />
+            <LogoIcon className="fill-black" />
           </Link>
           {/** Hamburger */}
           <label className={styles.hamburger} htmlFor="side-menu">

@@ -37,7 +37,7 @@ async function LogoSectionLoaded({ slug }: { slug: string }) {
       {brand.cms?.passLogo ? (
         <SanityImageServer
           alt="Brand Logo"
-          className="my-2"
+          className="my-2 invert"
           image={brand.cms?.passLogo!}
           width={200}
           height={100}
