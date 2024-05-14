@@ -233,3 +233,43 @@ const shopifyCheckoutCompleteSchema = z.object({
     })
     .optional(),
 });
+
+type CheckoutCompleteSchemaType = {
+  id: string;
+  name: string;
+  timestamp: string;
+  data: {
+    checkout: {
+      discountApplications: {
+        title: string;
+        type: string;
+        value: {
+          amount: number;
+          currencyCode: string;
+        };
+      }[];
+      lineItems: {
+        id: string;
+        quantity: number;
+        title: string;
+        variant: {
+          id: string;
+          image: any;
+          price: {
+            amount: number;
+            currencyCode: string;
+          };
+          product: {
+            id: string;
+            title: string;
+            vendor: string;
+            type: string;
+            untranslatedTitle: string;
+            url: string;
+          };
+          untranslatedTitle: string;
+        };
+      }[];
+    };
+  };
+};

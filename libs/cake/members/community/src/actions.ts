@@ -56,3 +56,10 @@ export async function removeConnectionAction(
     return { status: "error", message: "error adding connection" };
   }
 }
+
+export async function updateAvatarAction(
+  prevState: FormState,
+  input: string
+): Promise<FormState> {
+  return { status: "error", message: "not implemented" };
+}
