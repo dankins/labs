@@ -1,1 +1,0 @@
-ALTER TABLE "members" ADD COLUMN "stripe_customer_id" text;
